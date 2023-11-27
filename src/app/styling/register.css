@@ -1,0 +1,20 @@
+#demo-row-radio-buttons-group-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.radio-wrapper {
+    border: 1px solid rgb(197, 197, 197);
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.radios-group-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

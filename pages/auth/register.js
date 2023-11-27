@@ -1,15 +1,19 @@
 import React, { useCallback, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
+
+import "@/app/styling/register.css";
+
 import {
-  Alert,
   Box,
   Button,
-  FormHelperText,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
   Link,
+  Radio,
+  RadioGroup,
   Stack,
-  Tab,
-  Tabs,
   TextField,
   Typography,
 } from "@mui/material";
@@ -17,37 +21,60 @@ import {
 const Login = () => {
   const router = useRouter();
 
-  const [method, setMethod] = useState("email");
-
-  const handleMethodChange = useCallback((event, value) => {
-    setMethod(value);
-  }, []);
-
-  const [emailInputs, setEmailInputs] = useState({
+  const [regsiterInfo, setRegisterInfo] = useState({
+    namesurname: null,
+    companyname: null,
+    phoneNumber: null,
     emailAddress: null,
     password: null,
+    companyType: null,
   });
 
-  const [phoneInputs, setPhoneInputs] = useState({
-    phoneNumber: null,
-    password: null,
+  const [textFieldProps, setTextFieldProps] = useState({
+    namesurnameError: false,
+    companynameError: false,
+    phoneNumberError: false,
+    emailAddressError: false,
+    passwordError: false,
+    companyTypeError: false,
   });
 
-  const loginByEmail = () => {
-    if (emailInputs.emailAddress === null || emailInputs.password === null) {
-      window.alert("Fill all the forms");
-    } else {
-      localStorage.setItem("authenticated", true);
-      router.push("/");
-    }
-  };
+  const handleRegister = () => {
+    const isEmpty = (value) => value === null || value === "";
 
-  const loginByPhoneNumber = () => {
-    if (phoneInputs.phoneNumber === null || phoneInputs.password === null) {
+    if (Object.values(regsiterInfo).some((value) => isEmpty(value))) {
       window.alert("Fill all the forms");
     } else {
-      localStorage.setItem("authenticated", true);
-      router.push("/");
+      if (regsiterInfo.namesurname.length < 3) {
+        setTextFieldProps({ ...textFieldProps, namesurnameError: true });
+      } else if (regsiterInfo.companyname.length < 3) {
+        setTextFieldProps({ ...textFieldProps, companynameError: true });
+      } else if (
+        regsiterInfo.phoneNumber.length < 12 ||
+        !regsiterInfo.phoneNumber.includes("+383")
+      ) {
+        setTextFieldProps({ ...textFieldProps, phoneNumberError: true });
+      } else if (
+        !regsiterInfo.emailAddress.includes("@") ||
+        !regsiterInfo.emailAddress.includes(".")
+      ) {
+        setTextFieldProps({ ...textFieldProps, emailAddressError: true });
+      } else if (regsiterInfo.password.length < 8) {
+        setTextFieldProps({ ...textFieldProps, passwordError: true });
+      } else {
+        localStorage.setItem("authenticated", true);
+        console.log(regsiterInfo);
+        setTextFieldProps({
+          ...textFieldProps,
+          namesurnameError: false,
+          companynameError: false,
+          phoneNumberError: false,
+          emailAddressError: false,
+          passwordError: false,
+          companyTypeError: false,
+        });
+        // router.push("/");
+      }
     }
   };
 
@@ -86,34 +113,52 @@ const Login = () => {
             <Stack spacing={3}>
               <TextField
                 fullWidth
+                error={textFieldProps.namesurnameError}
+                helperText={
+                  textFieldProps.namesurnameError
+                    ? "Shenoni një emër të duhur"
+                    : null
+                }
                 autoComplete="off"
                 size="small"
                 label="Emri dhe Mbiemri"
                 name="name"
                 type="text"
                 onChange={(e) =>
-                  setEmailInputs({
-                    ...emailInputs,
-                    emailAddress: e.target.value,
+                  setRegisterInfo({
+                    ...regsiterInfo,
+                    namesurname: e.target.value,
                   })
                 }
               />
               <TextField
                 fullWidth
+                error={textFieldProps.companynameError}
+                helperText={
+                  textFieldProps.companynameError
+                    ? "Shenoni një emër të duhur"
+                    : null
+                }
                 autoComplete="off"
                 size="small"
                 label="Emri Dyqanit/Kompanisë"
                 name="companyname"
                 type="text"
                 onChange={(e) =>
-                  setEmailInputs({
-                    ...emailInputs,
-                    password: e.target.value,
+                  setRegisterInfo({
+                    ...regsiterInfo,
+                    companyname: e.target.value,
                   })
                 }
               />
               <TextField
                 fullWidth
+                error={textFieldProps.phoneNumberError}
+                helperText={
+                  textFieldProps.phoneNumberError
+                    ? "Shenoni numrin e telefonit sipas formës +38344123123"
+                    : null
+                }
                 autoComplete="off"
                 label="Numri Telefonit"
                 name="phone-number"
@@ -123,40 +168,86 @@ const Login = () => {
                   inputMode: "tel",
                 }}
                 onChange={(e) =>
-                  setLoginInfo({
-                    ...loginInfo,
+                  setRegisterInfo({
+                    ...regsiterInfo,
                     phoneNumber: e.target.value,
                   })
                 }
               />
               <TextField
                 fullWidth
+                error={textFieldProps.emailAddressError}
+                helperText={
+                  textFieldProps.emailAddressError
+                    ? "Shënoni një email-address të duhur"
+                    : null
+                }
                 autoComplete="off"
                 size="small"
                 label="Email"
                 name="email"
                 type="email"
                 onChange={(e) =>
-                  setEmailInputs({
-                    ...emailInputs,
-                    password: e.target.value,
+                  setRegisterInfo({
+                    ...regsiterInfo,
+                    emailAddress: e.target.value,
                   })
                 }
               />
               <TextField
                 fullWidth
+                error={textFieldProps.passwordError}
+                helperText={
+                  textFieldProps.passwordError
+                    ? "Fjalëkalimi duhet të përmbajë së paku 8 karaktere"
+                    : null
+                }
                 autoComplete="off"
                 size="small"
-                label="Password"
+                label="Fjalëkalimi"
                 name="password"
                 type="password"
                 onChange={(e) =>
-                  setEmailInputs({
-                    ...emailInputs,
+                  setRegisterInfo({
+                    ...regsiterInfo,
                     password: e.target.value,
                   })
                 }
               />
+              <FormControl className="radio-wrapper">
+                <FormLabel id="demo-row-radio-buttons-group-label">
+                  Lloji i Kompanisë
+                </FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  className="radios-group-container"
+                >
+                  <FormControlLabel
+                    value="pranues"
+                    control={<Radio />}
+                    label="Pranues"
+                    onChange={(e) =>
+                      setRegisterInfo({
+                        ...regsiterInfo,
+                        companyType: e.target.value,
+                      })
+                    }
+                  />
+                  <FormControlLabel
+                    value="distributor"
+                    control={<Radio />}
+                    label="Distributor"
+                    onChange={(e) =>
+                      setRegisterInfo({
+                        ...regsiterInfo,
+                        companyType: e.target.value,
+                      })
+                    }
+                  />
+                </RadioGroup>
+              </FormControl>
             </Stack>
             <Button
               fullWidth
@@ -164,9 +255,9 @@ const Login = () => {
               sx={{ mt: 3 }}
               type="submit"
               variant="contained"
-              onClick={loginByEmail}
+              onClick={handleRegister}
             >
-              Kyçu
+              Regjistrohu
             </Button>
           </div>
         </Box>

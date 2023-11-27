@@ -8,10 +8,10 @@ const AuthenticatorChecker = ({ children }) => {
     const authenticated = localStorage.getItem("authenticated");
     if (!authenticated) {
       router.push("/auth/login");
+    } else {
+      return <>{children}</>;
     }
   }
-
-  return <>{children}</>;
 };
 
 export default AuthenticatorChecker;

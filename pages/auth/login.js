@@ -100,7 +100,7 @@ const Login = () => {
               />
               <FormControl sx={{ m: 1 }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">
-                  Password
+                  Fjalëkalimi
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
@@ -121,9 +121,6 @@ const Login = () => {
                 />
               </FormControl>
             </Stack>
-            <FormHelperText>
-              Forma e numrit të telefonit : +38344222000
-            </FormHelperText>
             <Button
               fullWidth
               size="large"
