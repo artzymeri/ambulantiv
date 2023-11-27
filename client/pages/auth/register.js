@@ -1,8 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
-
-import "@/app/styling/register.css";
+import axios from "axios";
 
 import {
   Box,
@@ -62,8 +61,7 @@ const Login = () => {
       } else if (regsiterInfo.password.length < 8) {
         setTextFieldProps({ ...textFieldProps, passwordError: true });
       } else {
-        localStorage.setItem("authenticated", true);
-        console.log(regsiterInfo);
+        axios.post('http://localhost:8080/requestregister', regsiterInfo).then((res)=> console.log(res.data))
         setTextFieldProps({
           ...textFieldProps,
           namesurnameError: false,
@@ -73,7 +71,6 @@ const Login = () => {
           passwordError: false,
           companyTypeError: false,
         });
-        // router.push("/");
       }
     }
   };
