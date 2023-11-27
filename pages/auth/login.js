@@ -2,11 +2,9 @@ import React, { useCallback, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 import {
-  Alert,
   Box,
   Button,
   FormControl,
-  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -36,13 +34,26 @@ const Login = () => {
     password: null,
   });
 
+  const [textFieldProps, setTextFieldProps] = useState({
+    phoneNumberError: false,
+    passwordError: false
+  })
+
   const login = () => {
-    if (loginInfo.phoneNumber === null || loginInfo.password === null) {
+    if (loginInfo.phoneNumber === null || loginInfo.password === null || loginInfo.phoneNumber === '' || loginInfo.password === '') {
       window.alert("Fill all the forms");
     } else {
-      localStorage.setItem("authenticated", true);
-      router.push("/");
-    }
+      if (loginInfo.phoneNumber.length < 12 || !loginInfo.phoneNumber.includes('+383')){
+        setTextFieldProps({...textFieldProps, phoneNumberError: true})
+      } else if (loginInfo.password.length < 8) {
+        setTextFieldProps({...textFieldProps, passwordError: true})
+      }
+      else {
+        localStorage.setItem("authenticated", true);
+        router.push("/");
+      }
+    } 
+    
   };
 
   return (
@@ -84,6 +95,12 @@ const Login = () => {
             <Stack spacing={3}>
               <TextField
                 fullWidth
+                error={textFieldProps.phoneNumberError}
+                helperText={
+                  textFieldProps.phoneNumberError
+                    ? "Shenoni numrin e telefonit sipas formës +38344123123"
+                    : null
+                }
                 autoComplete="off"
                 label="Numri Telefonit"
                 name="phone-number"
@@ -104,7 +121,14 @@ const Login = () => {
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
+                  error={textFieldProps.passwordError}
+                  helperText={
+                  textFieldProps.passwordError
+                    ? "Fjalëkalimi duhet të jetë së paku 8 karaktere"
+                    : null
+                  }
                   type={showPassword ? "text" : "password"}
+                  onChange={(e)=> setLoginInfo({...loginInfo, password: e.target.value})}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
