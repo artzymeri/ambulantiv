@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import AuthenticatorChecker from "@/app/components/AuthenticatorCheckerHOC";
+import AuthenticatorChecker from "@/AuthenticatorChecker";
 
 const Home = () => {
   const router = useRouter();
