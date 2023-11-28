@@ -25,6 +25,12 @@ const Login = () => {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      login();
+    }
+  };
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -114,6 +120,7 @@ const Login = () => {
                     phoneNumber: e.target.value,
                   })
                 }
+                onKeyPress={handleKeyPress}
               />
               <FormControl sx={{ m: 1 }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">
@@ -129,6 +136,7 @@ const Login = () => {
                   }
                   type={showPassword ? "text" : "password"}
                   onChange={(e)=> setLoginInfo({...loginInfo, password: e.target.value})}
+                  onKeyPress={handleKeyPress}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
