@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 
-const Admin = () => {
+const AdminUI = () => {
+  const router = useRouter();
+
   const [userRequests, setUserRequests] = useState([]);
 
   const [refreshRate, setRefreshRate] = useState(1);
@@ -41,6 +44,11 @@ const Admin = () => {
       });
   };
 
+  const logout = () => {
+    localStorage.removeItem("adminToken");
+    router.push("/auth/login");
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
       {userRequests.map((user) => {
@@ -55,8 +63,9 @@ const Admin = () => {
           </div>
         );
       })}
+      <button onClick={logout}>logout</button>
     </div>
   );
 };
 
-export default Admin;
+export default AdminUI;

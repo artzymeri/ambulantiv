@@ -10,13 +10,15 @@ import {
   InputLabel,
   Link,
   OutlinedInput,
+  Snackbar,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-
+import MuiAlert from "@mui/material/Alert";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import axios from "axios";
 
 const Login = () => {
   const router = useRouter();
@@ -24,6 +26,16 @@ const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarData, setSnackbarData] = useState({ title: "", message: "" });
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -42,28 +54,87 @@ const Login = () => {
 
   const [textFieldProps, setTextFieldProps] = useState({
     phoneNumberError: false,
-    passwordError: false
-  })
+    passwordError: false,
+  });
 
   const login = () => {
-    if (loginInfo.phoneNumber === null || loginInfo.password === null || loginInfo.phoneNumber === '' || loginInfo.password === '') {
+    if (
+      loginInfo.phoneNumber === null ||
+      loginInfo.password === null ||
+      loginInfo.phoneNumber === "" ||
+      loginInfo.password === ""
+    ) {
       window.alert("Fill all the forms");
     } else {
-      if (loginInfo.phoneNumber.length < 12 || !loginInfo.phoneNumber.includes('+383')){
-        setTextFieldProps({...textFieldProps, phoneNumberError: true})
+      if (
+        loginInfo.phoneNumber.length < 12 ||
+        !loginInfo.phoneNumber.includes("+383")
+      ) {
+        setTextFieldProps({ ...textFieldProps, phoneNumberError: true });
       } else if (loginInfo.password.length < 8) {
-        setTextFieldProps({...textFieldProps, passwordError: true})
+        setTextFieldProps({ ...textFieldProps, passwordError: true });
+      } else {
+        axios
+          .post("http://localhost:8080/login", {
+            phoneNumber: loginInfo.phoneNumber,
+            password: loginInfo.password,
+          })
+          .then((res) => {
+            const {
+              title,
+              message,
+              adminToken,
+              distributorAdminToken,
+              distributorUserToken,
+              phoneNumberOfUser,
+              companyLogo,
+              namesurname,
+              emailAddressOfUser,
+              companyType,
+              userId,
+            } = res.data;
+            setSnackbarData({
+              title: title,
+              message: message,
+            });
+            if (adminToken) {
+              localStorage.setItem("adminToken", adminToken);
+              router.push("/");
+            } else if (distributorAdminToken) {
+              localStorage.setItem(
+                "distributorAdminToken",
+                distributorAdminToken
+              );
+              router.push("/");
+            } else if (distributorUserToken) {
+              localStorage.setItem(
+                "distributorUserToken",
+                distributorUserToken
+              );
+              router.push("/");
+            }
+            setSnackbarOpen(true);
+            console.log(res);
+          });
       }
-      else {
-        localStorage.setItem("authenticated", true);
-        router.push("/");
-      }
-    } 
-    
+    }
   };
 
   return (
     <>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          severity={snackbarData.title.toLowerCase()}
+        >
+          {snackbarData.message}
+        </MuiAlert>
+      </Snackbar>
       <Head>
         <title>Kyçu</title>
       </Head>
@@ -130,12 +201,14 @@ const Login = () => {
                   id="outlined-adornment-password"
                   error={textFieldProps.passwordError}
                   helperText={
-                  textFieldProps.passwordError
-                    ? "Fjalëkalimi duhet të jetë së paku 8 karaktere"
-                    : null
+                    textFieldProps.passwordError
+                      ? "Fjalëkalimi duhet të jetë së paku 8 karaktere"
+                      : null
                   }
                   type={showPassword ? "text" : "password"}
-                  onChange={(e)=> setLoginInfo({...loginInfo, password: e.target.value})}
+                  onChange={(e) =>
+                    setLoginInfo({ ...loginInfo, password: e.target.value })
+                  }
                   onKeyPress={handleKeyPress}
                   endAdornment={
                     <InputAdornment position="end">

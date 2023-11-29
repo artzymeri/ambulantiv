@@ -1,19 +1,25 @@
-import React from "react";
-import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 import AuthenticatorChecker from "@/components/AuthenticatorChecker";
+import AdminUI from "@/components/AdminHomeUI";
+import DistributorAdminHomeUI from "@/components/DistributorAdminHomeUI";
 
 const Home = () => {
-  const router = useRouter();
+  const adminToken =
+    typeof window !== "undefined" ? localStorage.getItem("adminToken") : null;
 
-  const logout = () => {
-    localStorage.removeItem("authenticated", false);
-    router.push("/auth/login");
-  };
+  const distributorAdminToken =
+    typeof window !== "undefined"
+      ? localStorage.getItem("distributorAdminToken")
+      : null;
+
+  console.log(adminToken);
 
   return (
     <AuthenticatorChecker>
-      <h1>Welcome Home</h1>
-      <button onClick={logout}>logout</button>
+      {adminToken && adminToken !== null ? <AdminUI /> : null}
+      {distributorAdminToken && distributorAdminToken !== null ? (
+        <DistributorAdminHomeUI />
+      ) : null}
     </AuthenticatorChecker>
   );
 };

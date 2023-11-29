@@ -129,21 +129,21 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const { loginInfo } = req.body;
-
-  const sqlSelect =
-    "SELECT namesurname, companyname, phoneNumber, emailAddress, password, companyType, role FROM users_table WHERE phoneNumber = ?";
-  db.query(sqlSelect, [loginInfo.phoneNumber], (error, results) => {
+  const { phoneNumber, password } = req.body;
+  const sqlSelect = "SELECT * FROM users_table WHERE phoneNumber=(?)";
+  db.query(sqlSelect, [phoneNumber], (error, results) => {
     if (error) {
       console.error("Database query error:", error);
       res.status(500).json({ message: "An error occurred" });
     }
-
     if (
       results.length === 0 ||
       !bcrypt.compareSync(password, results[0].password)
     ) {
-      res.json({ message: "Invalid credentials" });
+      res.json({
+        title: "error",
+        message: "Numri apo fjalëkalimi është gabim",
+      });
     } else {
       const userId = results[0].id;
       const phoneNumberOfUser = results[0].phoneNumber;
@@ -158,14 +158,20 @@ app.post("/login", (req, res) => {
           secretKey,
           { expiresIn: "1h" }
         );
-        res.json({ adminToken });
+        res.json({
+          title: "success",
+          message: "Kyçja si superme admin u bë me sukses",
+          adminToken,
+        });
       } else if (results[0].role === "distributorAdmin") {
         const distributorAdminToken = jwt.sign(
-          { phoneNumber: loginInfo.phoneNumber, role: "distributor" },
+          { phoneNumber: phoneNumber },
           secretKey,
           { expiresIn: "1h" }
         );
         res.json({
+          title: "success",
+          message: "Kyçja u bë me sukses",
           distributorAdminToken,
           phoneNumberOfUser,
           companyLogo,
@@ -176,7 +182,7 @@ app.post("/login", (req, res) => {
         });
       } else if (results[0].role === "distributorUser") {
         const distributorUserToken = jwt.sign(
-          { phoneNumber: loginInfo.phoneNumber, role: "distributor" },
+          { phoneNumber: phoneNumber, role: "distributor" },
           secretKey,
           { expiresIn: "1h" }
         );

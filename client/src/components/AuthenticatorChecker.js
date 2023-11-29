@@ -4,12 +4,22 @@ const AuthenticatorChecker = ({ children }) => {
   const router = useRouter();
 
   if (typeof window !== "undefined") {
-    const authenticated = localStorage.getItem("authenticated");
+    const authenticatedAdmin = localStorage.getItem("adminToken");
+    const authenticatedDistributorAdmin = localStorage.getItem(
+      "distributorAdminToken"
+    );
+    const authenticatedDistributorUser = localStorage.getItem(
+      "distributorUserToken"
+    );
 
-    if (!authenticated) {
-      router.push("/auth/login");
-    } else {
+    if (
+      authenticatedAdmin ||
+      authenticatedDistributorAdmin ||
+      authenticatedDistributorUser
+    ) {
       return <>{children}</>;
+    } else {
+      router.push("/auth/login");
     }
   }
 };
