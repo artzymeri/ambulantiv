@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-
 import {
   Box,
   Button,
@@ -23,6 +22,7 @@ import {
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import "@/styling/global.css";
 
 const Login = () => {
   const router = useRouter();
@@ -73,7 +73,11 @@ const Login = () => {
     const isEmpty = (value) => value === null || value === "";
 
     if (Object.values(regsiterInfo).some((value) => isEmpty(value))) {
-      window.alert("Fill all the forms");
+      setSnackbarData({
+        title: "error",
+        message: "Ju lutem mbushni të dhënat",
+      });
+      setSnackbarOpen(true);
     } else {
       if (regsiterInfo.namesurname.length < 3) {
         setTextFieldProps({ ...textFieldProps, namesurnameError: true });
@@ -81,7 +85,8 @@ const Login = () => {
         setTextFieldProps({ ...textFieldProps, companynameError: true });
       } else if (
         regsiterInfo.phoneNumber.length < 12 ||
-        !regsiterInfo.phoneNumber.includes("+383")
+        !regsiterInfo.phoneNumber.includes("+383") ||
+        regsiterInfo.phoneNumber.length > 12
       ) {
         setTextFieldProps({ ...textFieldProps, phoneNumberError: true });
       } else if (
@@ -163,13 +168,18 @@ const Login = () => {
               <Typography variant="h4">Regjistrohu</Typography>
               <Typography color="text.secondary" variant="body2">
                 Posedoni llogari?{" "}
-                <Link href="/auth/login" underline="hover" variant="subtitle2">
+                <Link
+                  href="/auth/login"
+                  variant="subtitle2"
+                  className="register-login-button-link"
+                >
                   Kyçu
                 </Link>
               </Typography>
             </Stack>
             <Stack spacing={3}>
               <TextField
+                className="shadow-one b-5"
                 fullWidth
                 error={textFieldProps.namesurnameError}
                 helperText={
@@ -192,6 +202,7 @@ const Login = () => {
                 }
               />
               <TextField
+                className="shadow-one b-5"
                 fullWidth
                 error={textFieldProps.companynameError}
                 helperText={
@@ -214,6 +225,7 @@ const Login = () => {
                 onKeyPress={handleKeyPress}
               />
               <TextField
+                className="shadow-one b-5"
                 fullWidth
                 error={textFieldProps.phoneNumberError}
                 helperText={
@@ -239,6 +251,7 @@ const Login = () => {
                 onKeyPress={handleKeyPress}
               />
               <TextField
+                className="shadow-one b-5"
                 fullWidth
                 error={textFieldProps.emailAddressError}
                 helperText={
@@ -263,11 +276,12 @@ const Login = () => {
               <FormControl sx={{ m: 1 }} variant="outlined">
                 <InputLabel
                   htmlFor="outlined-adornment-password"
-                  sx={{ top: "-6px" }}
+                  sx={{ top: "-7px" }}
                 >
                   Fjalëkalimi
                 </InputLabel>
                 <OutlinedInput
+                  className="shadow-one b-5"
                   id="outlined-adornment-password"
                   size="small"
                   error={textFieldProps.passwordError}
@@ -300,7 +314,7 @@ const Login = () => {
                   label="Password"
                 />
               </FormControl>
-              <FormControl className="radio-wrapper">
+              <FormControl className="radio-wrapper shadow-one b-5 p-10 p-l-13 border-gray">
                 <FormLabel id="demo-row-radio-buttons-group-label">
                   Lloji i Kompanisë
                 </FormLabel>
@@ -308,7 +322,6 @@ const Login = () => {
                   row
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="row-radio-buttons-group"
-                  className="radios-group-container"
                 >
                   <FormControlLabel
                     value="pranues"
@@ -338,6 +351,7 @@ const Login = () => {
               </FormControl>
             </Stack>
             <Button
+              className="shadow-one"
               fullWidth
               size="large"
               sx={{ mt: 3 }}

@@ -19,6 +19,7 @@ import MuiAlert from "@mui/material/Alert";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
+import "@/styling/global.css";
 
 const Login = () => {
   const router = useRouter();
@@ -64,11 +65,16 @@ const Login = () => {
       loginInfo.phoneNumber === "" ||
       loginInfo.password === ""
     ) {
-      window.alert("Fill all the forms");
+      setSnackbarData({
+        title: "error",
+        message: "Ju lutem mbushni të dhënat",
+      });
+      setSnackbarOpen(true);
     } else {
       if (
         loginInfo.phoneNumber.length < 12 ||
-        !loginInfo.phoneNumber.includes("+383")
+        !loginInfo.phoneNumber.includes("+383") ||
+        loginInfo.phoneNumber.length > 12
       ) {
         setTextFieldProps({ ...textFieldProps, phoneNumberError: true });
       } else if (loginInfo.password.length < 8) {
@@ -84,8 +90,8 @@ const Login = () => {
               title,
               message,
               adminToken,
-              distributorAdminToken,
-              distributorUserToken,
+              distributorToken,
+              pranuesToken,
               phoneNumberOfUser,
               companyLogo,
               namesurname,
@@ -100,21 +106,14 @@ const Login = () => {
             if (adminToken) {
               localStorage.setItem("adminToken", adminToken);
               router.push("/");
-            } else if (distributorAdminToken) {
-              localStorage.setItem(
-                "distributorAdminToken",
-                distributorAdminToken
-              );
+            } else if (distributorToken) {
+              localStorage.setItem("distributorToken", distributorToken);
               router.push("/");
-            } else if (distributorUserToken) {
-              localStorage.setItem(
-                "distributorUserToken",
-                distributorUserToken
-              );
+            } else if (pranuesToken) {
+              localStorage.setItem("pranuesToken", pranuesToken);
               router.push("/");
             }
             setSnackbarOpen(true);
-            console.log(res);
           });
       }
     }
@@ -164,6 +163,7 @@ const Login = () => {
                   href="/auth/register"
                   underline="hover"
                   variant="subtitle2"
+                  className="register-login-button-link"
                 >
                   Regjistrohu
                 </Link>
@@ -171,7 +171,9 @@ const Login = () => {
             </Stack>
             <Stack spacing={3}>
               <TextField
+                className="shadow-one b-5"
                 fullWidth
+                size="small"
                 error={textFieldProps.phoneNumberError}
                 helperText={
                   textFieldProps.phoneNumberError
@@ -194,10 +196,15 @@ const Login = () => {
                 onKeyPress={handleKeyPress}
               />
               <FormControl sx={{ m: 1 }} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">
+                <InputLabel
+                  htmlFor="outlined-adornment-password"
+                  sx={{ top: "-7px" }}
+                >
                   Fjalëkalimi
                 </InputLabel>
                 <OutlinedInput
+                  size="small"
+                  className="shadow-one b-5"
                   id="outlined-adornment-password"
                   error={textFieldProps.passwordError}
                   helperText={
@@ -227,6 +234,7 @@ const Login = () => {
               </FormControl>
             </Stack>
             <Button
+              className="shadow-one"
               fullWidth
               size="large"
               sx={{ mt: 3 }}

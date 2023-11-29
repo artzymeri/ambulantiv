@@ -1,25 +1,28 @@
 import React, { useEffect } from "react";
 import AuthenticatorChecker from "@/components/AuthenticatorChecker";
 import AdminUI from "@/components/AdminHomeUI";
-import DistributorAdminHomeUI from "@/components/DistributorAdminHomeUI";
+import DistributorHomeUI from "@/components/DistributorHomeUI";
+import PranuesHomeUI from "@/components/PranuesHomeUI";
 
 const Home = () => {
   const adminToken =
     typeof window !== "undefined" ? localStorage.getItem("adminToken") : null;
 
-  const distributorAdminToken =
+  const distributorToken =
     typeof window !== "undefined"
-      ? localStorage.getItem("distributorAdminToken")
+      ? localStorage.getItem("distributorToken")
       : null;
 
-  console.log(adminToken);
+  const pranuesToken =
+    typeof window !== "undefined" ? localStorage.getItem("pranuesToken") : null;
 
   return (
     <AuthenticatorChecker>
       {adminToken && adminToken !== null ? <AdminUI /> : null}
-      {distributorAdminToken && distributorAdminToken !== null ? (
-        <DistributorAdminHomeUI />
+      {distributorToken && distributorToken !== null ? (
+        <DistributorHomeUI />
       ) : null}
+      {pranuesToken && pranuesToken !== null ? <PranuesHomeUI /> : null}
     </AuthenticatorChecker>
   );
 };

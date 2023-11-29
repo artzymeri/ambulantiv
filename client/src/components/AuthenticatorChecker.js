@@ -5,17 +5,13 @@ const AuthenticatorChecker = ({ children }) => {
 
   if (typeof window !== "undefined") {
     const authenticatedAdmin = localStorage.getItem("adminToken");
-    const authenticatedDistributorAdmin = localStorage.getItem(
-      "distributorAdminToken"
-    );
-    const authenticatedDistributorUser = localStorage.getItem(
-      "distributorUserToken"
-    );
+    const authenticatedDistributor = localStorage.getItem("distributorToken");
+    const authenticatedPranues = localStorage.getItem("pranuesToken");
 
     if (
       authenticatedAdmin ||
-      authenticatedDistributorAdmin ||
-      authenticatedDistributorUser
+      authenticatedDistributor ||
+      authenticatedPranues
     ) {
       return <>{children}</>;
     } else {

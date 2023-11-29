@@ -1,0 +1,32 @@
+.shadow-one {
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.p-l-13 {
+  padding-left: 13px;
+}
+
+.b-5 {
+  border-radius: 5px;
+}
+
+.border-gray {
+  border: 1px solid lightgray;
+}
+
+.register-login-button-link {
+  padding: 5px 10px;
+  background-color: #1976d2;
+  border-radius: 5px;
+  color: white;
+  margin-left: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.register-login-button-link:hover {
+  text-decoration: none;
+}

@@ -163,8 +163,8 @@ app.post("/login", (req, res) => {
           message: "Kyçja si superme admin u bë me sukses",
           adminToken,
         });
-      } else if (results[0].role === "distributorAdmin") {
-        const distributorAdminToken = jwt.sign(
+      } else if (results[0].companyType === "distributor") {
+        const distributorToken = jwt.sign(
           { phoneNumber: phoneNumber },
           secretKey,
           { expiresIn: "1h" }
@@ -172,7 +172,7 @@ app.post("/login", (req, res) => {
         res.json({
           title: "success",
           message: "Kyçja u bë me sukses",
-          distributorAdminToken,
+          distributorToken,
           phoneNumberOfUser,
           companyLogo,
           namesurname,
@@ -180,14 +180,16 @@ app.post("/login", (req, res) => {
           companyType,
           userId,
         });
-      } else if (results[0].role === "distributorUser") {
-        const distributorUserToken = jwt.sign(
-          { phoneNumber: phoneNumber, role: "distributor" },
+      } else if (results[0].companyType === "pranues") {
+        const pranuesToken = jwt.sign(
+          { phoneNumber: phoneNumber, role: "pranues" },
           secretKey,
           { expiresIn: "1h" }
         );
         res.json({
-          distributorUserToken,
+          title: "success",
+          message: "Kyçja u bë me sukses",
+          pranuesToken,
           phoneNumberOfUser,
           companyLogo,
           namesurname,
