@@ -1,0 +1,80 @@
+.table-parent {
+  height: 100%;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  overflow: auto;
+  gap: 10px;
+  position: relative;
+}
+
+.table-header {
+  height: 50px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  min-width: fit-content;
+  width: 100%;
+}
+
+.table-header div {
+  display: flex;
+  width: 200px;
+  font-size: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.table-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.table-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 50px;
+  flex-shrink: 0;
+  background-color: rgba(211, 211, 211, 0.5);
+  min-width: fit-content;
+  width: 100%;
+  padding-left: 10px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+.table-row div {
+  width: 200px;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.table-row-buttons {
+  width: 200px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.table-row-buttons button {
+  padding: 2px 15px;
+  background-color: rgba(211, 211, 211, 0.5);
+  border: 0px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
