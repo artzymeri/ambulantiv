@@ -1,7 +1,29 @@
 import React from "react";
 import "@/styling/adminsidebar.css";
+import "@/styling/global.css";
+import { LogoutOutlined } from "@mui/icons-material";
+import { useRouter } from "next/router";
 
 const AdminSideBar = () => {
+  const router = useRouter();
+
+  const isActive = (path) => {
+    return router.pathname === path ? "active-option" : "";
+  };
+
+  const goToPath = (path) => {
+    router.push(path);
+  };
+
+  const handleClick = (path) => () => {
+    goToPath(path);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("adminToken");
+    router.push("/auth/login");
+  };
+
   const sidebarOptions = [
     {
       id: 1,
@@ -17,19 +39,36 @@ const AdminSideBar = () => {
 
   return (
     <>
-      <div className="sidebar-wide shadow-one">
+      <div className="sidebar-wide">
         <h3 className="sidebar-wide-title">Admin Panel</h3>
         <div className="horizontal-line"></div>
         <div className="sidebar-wide-navbuttons">
-          {sidebarOptions.map((option) => {
-            if (option.displayName == "Llogaritë e regjistruara") {
-              return <h5 className="active-option">{option.displayName}</h5>;
-            } else {
-              return <h5>{option.displayName}</h5>;
-            }
-          })}
+          {sidebarOptions.map((option) => (
+            <h5
+              onClick={handleClick(option.pathOnClick)}
+              className={isActive(option.pathOnClick)}
+            >
+              {option.displayName}
+            </h5>
+          ))}
         </div>
-        <button className="sidebar-wide-logout">SHKYÇU</button>
+        <button className="sidebar-wide-logout" onClick={logout}>
+          <LogoutOutlined /> SHKYÇU
+        </button>
+      </div>
+      <div className="sidebar-narrow">
+        <h3 className="sidebar-narrow-title">Admin Panel</h3>
+        <div className="horizontal-line"></div>
+        <div className="sidebar-narrow-navbuttons">
+          {sidebarOptions.map((option) => (
+            <h5 className={isActive(option.pathOnClick)}>
+              {option.displayName}
+            </h5>
+          ))}
+        </div>
+        <button className="sidebar-narrow-logout" onClick={logout}>
+          <LogoutOutlined /> SHKYÇU
+        </button>
       </div>
     </>
   );
