@@ -33,6 +33,17 @@ app.get("/registerrequests", (req, res) => {
   });
 });
 
+app.get("/getusers", (req, res) => {
+  const sqlSelect = "SELECT * FROM users_table";
+  db.query(sqlSelect, (error, result) => {
+    if (error) {
+      console.log(error);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 app.delete("/deleteregisterrequest/:requestId", (req, res) => {
   sqlDelete = "DELETE FROM users_request_table WHERE id = ?";
   const { requestId } = req.params;

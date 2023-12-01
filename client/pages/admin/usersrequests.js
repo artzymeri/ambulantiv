@@ -11,11 +11,14 @@ const UsersRequests = () => {
 
   const [userRequestsData, setUserRequestsData] = useState([]);
 
+  const [loading, setLoading] = useState(true);
+
   const [refreshRate, setRefreshRate] = useState(1);
 
   useEffect(() => {
     axios.get("http://localhost:8080/registerrequests").then((res) => {
       setUserRequestsData(res.data);
+      setLoading(false);
     });
   }, [refreshRate]);
 
@@ -77,38 +80,47 @@ const UsersRequests = () => {
 
   const rows = userRequestsData;
 
+  const [searchInput, setSearchInput] = useState("");
+
   return (
     <AuthenticatorChecker>
       <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
         <AdminSideBar />
-        <div
-          style={{
-            display: "flex",
-            padding: "30px",
-            flexDirection: "column",
-            gap: "15px",
-            width: "calc(100vw - 300px)",
-          }}
-        >
-          <input
-            type="text"
-            placeholder="Kërko Llogaritë"
+        {loading ? (
+          <div className="loader-parent">
+            <span class="loader"></span>
+          </div>
+        ) : (
+          <div
             style={{
-              width: "100%",
-              height: "50px",
-              borderRadius: "15px",
-              border: "1px solid black",
-              paddingLeft: "15px",
+              display: "flex",
+              padding: "30px",
+              flexDirection: "column",
+              gap: "15px",
+              width: "calc(100vw - 300px)",
             }}
-            className="shadow-one"
-          />
-          <TableComponent
-            columns={columns}
-            rows={rows}
-            approveRequest={approveRequest}
-            deleteRequest={deleteRequest}
-          />
-        </div>
+          >
+            <input
+              type="text"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              placeholder="Kërko Llogaritë"
+              style={{
+                width: "100%",
+                height: "50px",
+                borderRadius: "15px",
+                border: "1px solid black",
+                paddingLeft: "15px",
+              }}
+              className="shadow-one"
+            />
+            <TableComponent
+              columns={columns}
+              rows={rows}
+              searchInput={searchInput}
+            />
+          </div>
+        )}
       </div>
     </AuthenticatorChecker>
   );

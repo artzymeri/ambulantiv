@@ -51,6 +51,11 @@
   width: 100%;
   padding-left: 10px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.table-row:hover {
+  background-color: rgba(211, 211, 211, 0.7);
 }
 
 .table-row div {
@@ -71,10 +76,15 @@
 }
 
 .table-row-buttons button {
-  padding: 2px 15px;
-  background-color: rgba(211, 211, 211, 0.5);
+  padding: 5px 15px;
+  background-color: black;
+  color: white;
   border: 0px solid transparent;
-  border-radius: 5px;
+  border-radius: 2px;
   cursor: pointer;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+.table-row-buttons button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }

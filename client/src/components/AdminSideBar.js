@@ -1,7 +1,7 @@
 import React from "react";
 import "@/styling/adminsidebar.css";
 import "@/styling/global.css";
-import { LogoutOutlined } from "@mui/icons-material";
+import { LogoutOutlined, MenuIcon, MenuOutlined } from "@mui/icons-material";
 import { useRouter } from "next/router";
 
 const AdminSideBar = () => {
@@ -57,6 +57,7 @@ const AdminSideBar = () => {
         </button>
       </div>
       <div className="sidebar-narrow">
+        <MenuOutlined />
         <h3 className="sidebar-narrow-title">Admin Panel</h3>
         <div className="horizontal-line"></div>
         <div className="sidebar-narrow-navbuttons">
