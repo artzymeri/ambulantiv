@@ -8,6 +8,7 @@
   overflow: auto;
   gap: 10px;
   position: relative;
+  flex-shrink: 1;
 }
 
 .table-header {

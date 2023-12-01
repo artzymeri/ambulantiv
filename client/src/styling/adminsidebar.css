@@ -104,16 +104,3 @@
   background-color: whitesmoke;
   transform: translate(-50%, -50%);
 }
-
-.sidebar-narrow {
-  display: none;
-}
-
-@media (max-width: 900px) {
-  .sidebar-wide {
-    display: none;
-  }
-  .sidebar-narrow {
-    display: flex;
-  }
-}

@@ -56,21 +56,6 @@ const AdminSideBar = () => {
           <LogoutOutlined /> SHKYÇU
         </button>
       </div>
-      <div className="sidebar-narrow">
-        <MenuOutlined />
-        <h3 className="sidebar-narrow-title">Admin Panel</h3>
-        <div className="horizontal-line"></div>
-        <div className="sidebar-narrow-navbuttons">
-          {sidebarOptions.map((option) => (
-            <h5 className={isActive(option.pathOnClick)}>
-              {option.displayName}
-            </h5>
-          ))}
-        </div>
-        <button className="sidebar-narrow-logout" onClick={logout}>
-          <LogoutOutlined /> SHKYÇU
-        </button>
-      </div>
     </>
   );
 };

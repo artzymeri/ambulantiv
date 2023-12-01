@@ -97,7 +97,8 @@ const UsersRequests = () => {
               padding: "30px",
               flexDirection: "column",
               gap: "15px",
-              width: "calc(100vw - 300px)",
+              flexGrow: 1,
+              overflowX: 'clip'
             }}
           >
             <input
