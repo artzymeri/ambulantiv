@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -27,7 +27,13 @@ import "@/styling/global.css";
 const Login = () => {
   const router = useRouter();
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -129,242 +135,244 @@ const Login = () => {
   };
 
   return (
-    <>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-      >
-        <MuiAlert
-          elevation={6}
-          variant="filled"
-          severity={snackbarData.title.toLowerCase()}
+    isClient && (
+      <>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleSnackbarClose}
         >
-          {snackbarData.message}
-        </MuiAlert>
-      </Snackbar>
-      <Head>
-        <title>Regjistrohu</title>
-      </Head>
-      <Box
-        sx={{
-          backgroundColor: "background.paper",
-          flex: "1 1 auto",
-          alignItems: "center",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            severity={snackbarData.title.toLowerCase()}
+          >
+            {snackbarData.message}
+          </MuiAlert>
+        </Snackbar>
+        <Head>
+          <title>Regjistrohu</title>
+        </Head>
         <Box
           sx={{
-            maxWidth: 550,
-            px: 3,
-            py: "100px",
-            width: "100%",
+            backgroundColor: "background.paper",
+            flex: "1 1 auto",
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
-          <div>
-            <Stack spacing={1} sx={{ mb: 3 }}>
-              <Typography variant="h4">Regjistrohu</Typography>
-              <Typography color="text.secondary" variant="body2">
-                Posedoni llogari?{" "}
-                <Link
-                  href="/auth/login"
-                  variant="subtitle2"
-                  className="register-login-button-link"
-                >
-                  Kyçu
-                </Link>
-              </Typography>
-            </Stack>
-            <Stack spacing={3}>
-              <TextField
-                className="shadow-one b-5"
-                fullWidth
-                error={textFieldProps.namesurnameError}
-                helperText={
-                  textFieldProps.namesurnameError
-                    ? "Shenoni një emër të duhur"
-                    : null
-                }
-                autoComplete="off"
-                size="small"
-                label="Emri dhe Mbiemri"
-                name="name"
-                type="text"
-                onKeyPress={handleKeyPress}
-                value={regsiterInfo.namesurname}
-                onChange={(e) =>
-                  setRegisterInfo({
-                    ...regsiterInfo,
-                    namesurname: e.target.value,
-                  })
-                }
-              />
-              <TextField
-                className="shadow-one b-5"
-                fullWidth
-                error={textFieldProps.companynameError}
-                helperText={
-                  textFieldProps.companynameError
-                    ? "Shenoni një emër të duhur"
-                    : null
-                }
-                autoComplete="off"
-                size="small"
-                label="Emri Dyqanit/Kompanisë"
-                name="companyname"
-                type="text"
-                value={regsiterInfo.companyname}
-                onChange={(e) =>
-                  setRegisterInfo({
-                    ...regsiterInfo,
-                    companyname: e.target.value,
-                  })
-                }
-                onKeyPress={handleKeyPress}
-              />
-              <TextField
-                className="shadow-one b-5"
-                fullWidth
-                error={textFieldProps.phoneNumberError}
-                helperText={
-                  textFieldProps.phoneNumberError
-                    ? "Shenoni numrin e telefonit sipas formës +38344123123"
-                    : null
-                }
-                autoComplete="off"
-                label="Numri Telefonit"
-                name="phone-number"
-                type="tel"
-                size="small"
-                inputProps={{
-                  inputMode: "tel",
-                }}
-                value={regsiterInfo.phoneNumber}
-                onChange={(e) =>
-                  setRegisterInfo({
-                    ...regsiterInfo,
-                    phoneNumber: e.target.value,
-                  })
-                }
-                onKeyPress={handleKeyPress}
-              />
-              <TextField
-                className="shadow-one b-5"
-                fullWidth
-                error={textFieldProps.emailAddressError}
-                helperText={
-                  textFieldProps.emailAddressError
-                    ? "Shënoni një email-address të duhur"
-                    : null
-                }
-                autoComplete="off"
-                size="small"
-                label="Email"
-                name="email"
-                type="email"
-                value={regsiterInfo.emailAddress}
-                onChange={(e) =>
-                  setRegisterInfo({
-                    ...regsiterInfo,
-                    emailAddress: e.target.value,
-                  })
-                }
-                onKeyPress={handleKeyPress}
-              />
-              <FormControl sx={{ m: 1 }} variant="outlined">
-                <InputLabel
-                  htmlFor="outlined-adornment-password"
-                  sx={{ top: "-7px" }}
-                >
-                  Fjalëkalimi
-                </InputLabel>
-                <OutlinedInput
+          <Box
+            sx={{
+              maxWidth: 550,
+              px: 3,
+              py: "100px",
+              width: "100%",
+            }}
+          >
+            <div>
+              <Stack spacing={1} sx={{ mb: 3 }}>
+                <Typography variant="h4">Regjistrohu</Typography>
+                <Typography color="text.secondary" variant="body2">
+                  Posedoni llogari?{" "}
+                  <Link
+                    href="/auth/login"
+                    variant="subtitle2"
+                    className="register-login-button-link"
+                  >
+                    Kyçu
+                  </Link>
+                </Typography>
+              </Stack>
+              <Stack spacing={3}>
+                <TextField
                   className="shadow-one b-5"
-                  id="outlined-adornment-password"
-                  size="small"
-                  error={textFieldProps.passwordError}
+                  fullWidth
+                  error={textFieldProps.namesurnameError}
                   helperText={
-                    textFieldProps.passwordError
-                      ? "Fjalëkalimi duhet të jetë së paku 8 karaktere"
+                    textFieldProps.namesurnameError
+                      ? "Shenoni një emër të duhur"
                       : null
                   }
-                  type={showPassword ? "text" : "password"}
-                  value={regsiterInfo.password}
+                  autoComplete="off"
+                  size="small"
+                  label="Emri dhe Mbiemri"
+                  name="name"
+                  type="text"
+                  onKeyPress={handleKeyPress}
+                  value={regsiterInfo.namesurname}
                   onChange={(e) =>
                     setRegisterInfo({
                       ...regsiterInfo,
-                      password: e.target.value,
+                      namesurname: e.target.value,
+                    })
+                  }
+                />
+                <TextField
+                  className="shadow-one b-5"
+                  fullWidth
+                  error={textFieldProps.companynameError}
+                  helperText={
+                    textFieldProps.companynameError
+                      ? "Shenoni një emër të duhur"
+                      : null
+                  }
+                  autoComplete="off"
+                  size="small"
+                  label="Emri Dyqanit/Kompanisë"
+                  name="companyname"
+                  type="text"
+                  value={regsiterInfo.companyname}
+                  onChange={(e) =>
+                    setRegisterInfo({
+                      ...regsiterInfo,
+                      companyname: e.target.value,
                     })
                   }
                   onKeyPress={handleKeyPress}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  label="Password"
                 />
-              </FormControl>
-              <FormControl className="radio-wrapper shadow-one b-5 p-10 p-l-13 border-gray">
-                <FormLabel id="demo-row-radio-buttons-group-label">
-                  Lloji i Kompanisë
-                </FormLabel>
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="row-radio-buttons-group"
-                >
-                  <FormControlLabel
-                    value="pranues"
-                    control={<Radio />}
-                    label="Pranues"
+                <TextField
+                  className="shadow-one b-5"
+                  fullWidth
+                  error={textFieldProps.phoneNumberError}
+                  helperText={
+                    textFieldProps.phoneNumberError
+                      ? "Shenoni numrin e telefonit sipas formës +38344123123"
+                      : null
+                  }
+                  autoComplete="off"
+                  label="Numri Telefonit"
+                  name="phone-number"
+                  type="tel"
+                  size="small"
+                  inputProps={{
+                    inputMode: "tel",
+                  }}
+                  value={regsiterInfo.phoneNumber}
+                  onChange={(e) =>
+                    setRegisterInfo({
+                      ...regsiterInfo,
+                      phoneNumber: e.target.value,
+                    })
+                  }
+                  onKeyPress={handleKeyPress}
+                />
+                <TextField
+                  className="shadow-one b-5"
+                  fullWidth
+                  error={textFieldProps.emailAddressError}
+                  helperText={
+                    textFieldProps.emailAddressError
+                      ? "Shënoni një email-address të duhur"
+                      : null
+                  }
+                  autoComplete="off"
+                  size="small"
+                  label="Email"
+                  name="email"
+                  type="email"
+                  value={regsiterInfo.emailAddress}
+                  onChange={(e) =>
+                    setRegisterInfo({
+                      ...regsiterInfo,
+                      emailAddress: e.target.value,
+                    })
+                  }
+                  onKeyPress={handleKeyPress}
+                />
+                <FormControl sx={{ m: 1 }} variant="outlined">
+                  <InputLabel
+                    htmlFor="outlined-adornment-password"
+                    sx={{ top: "-7px" }}
+                  >
+                    Fjalëkalimi
+                  </InputLabel>
+                  <OutlinedInput
+                    className="shadow-one b-5"
+                    id="outlined-adornment-password"
+                    size="small"
+                    error={textFieldProps.passwordError}
+                    helperText={
+                      textFieldProps.passwordError
+                        ? "Fjalëkalimi duhet të jetë së paku 8 karaktere"
+                        : null
+                    }
+                    type={showPassword ? "text" : "password"}
+                    value={regsiterInfo.password}
                     onChange={(e) =>
                       setRegisterInfo({
                         ...regsiterInfo,
-                        companyType: e.target.value,
+                        password: e.target.value,
                       })
                     }
                     onKeyPress={handleKeyPress}
-                  />
-                  <FormControlLabel
-                    value="distributor"
-                    control={<Radio />}
-                    label="Distributor"
-                    onChange={(e) =>
-                      setRegisterInfo({
-                        ...regsiterInfo,
-                        companyType: e.target.value,
-                      })
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
                     }
-                    onKeyPress={handleKeyPress}
+                    label="Password"
                   />
-                </RadioGroup>
-              </FormControl>
-            </Stack>
-            <Button
-              className="shadow-one"
-              fullWidth
-              size="large"
-              sx={{ mt: 3 }}
-              type="submit"
-              variant="contained"
-              onClick={handleRegister}
-            >
-              Regjistrohu
-            </Button>
-          </div>
+                </FormControl>
+                <FormControl className="radio-wrapper shadow-one b-5 p-10 p-l-13 border-gray">
+                  <FormLabel id="demo-row-radio-buttons-group-label">
+                    Lloji i Kompanisë
+                  </FormLabel>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="pranues"
+                      control={<Radio />}
+                      label="Pranues"
+                      onChange={(e) =>
+                        setRegisterInfo({
+                          ...regsiterInfo,
+                          companyType: e.target.value,
+                        })
+                      }
+                      onKeyPress={handleKeyPress}
+                    />
+                    <FormControlLabel
+                      value="distributor"
+                      control={<Radio />}
+                      label="Distributor"
+                      onChange={(e) =>
+                        setRegisterInfo({
+                          ...regsiterInfo,
+                          companyType: e.target.value,
+                        })
+                      }
+                      onKeyPress={handleKeyPress}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Stack>
+              <Button
+                className="shadow-one"
+                fullWidth
+                size="large"
+                sx={{ mt: 3 }}
+                type="submit"
+                variant="contained"
+                onClick={handleRegister}
+              >
+                Regjistrohu
+              </Button>
+            </div>
+          </Box>
         </Box>
-      </Box>
-    </>
+      </>
+    )
   );
 };
 

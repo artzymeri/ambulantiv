@@ -13,6 +13,8 @@ const UsersRequests = () => {
 
   const [userRequestsData, setUserRequestsData] = useState([]);
 
+  const [isClient, setIsClient] = useState(false);
+
   const [loading, setLoading] = useState(true);
 
   const [refreshRate, setRefreshRate] = useState(1);
@@ -21,6 +23,7 @@ const UsersRequests = () => {
     axios.get("http://localhost:8080/getrequests").then((res) => {
       setUserRequestsData(res.data);
       setLoading(false);
+      setIsClient(true);
     });
   }, [refreshRate]);
 
@@ -95,56 +98,58 @@ const UsersRequests = () => {
   };
 
   return (
-    <AuthenticatorChecker>
-      <AdminChecker>
-        <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
-          <AdminSideBar display={display} closeSidebar={closeSidebar} />
-          {loading ? (
-            <div className="loader-parent">
-              <span class="loader"></span>
-            </div>
-          ) : (
-            <div
-              style={{
-                display: "flex",
-                padding: "30px",
-                flexDirection: "column",
-                gap: "15px",
-                flexGrow: 1,
-                overflowX: "clip",
-              }}
-            >
-              <input
-                type="text"
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="Kërko Llogaritë"
+    isClient && (
+      <AuthenticatorChecker>
+        <AdminChecker>
+          <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+            <AdminSideBar display={display} closeSidebar={closeSidebar} />
+            {loading ? (
+              <div className="loader-parent">
+                <span class="loader"></span>
+              </div>
+            ) : (
+              <div
                 style={{
-                  width: "100%",
-                  height: "50px",
-                  borderRadius: "25px",
-                  border: "1px solid black",
-                  paddingLeft: "15px",
+                  display: "flex",
+                  padding: "30px",
+                  flexDirection: "column",
+                  gap: "15px",
+                  flexGrow: 1,
+                  overflowX: "clip",
                 }}
-                className="shadow-one"
-              />
-              <TableComponent
-                columns={columns}
-                rows={rows}
-                searchInput={searchInput}
-                buttonsActive={true}
-              />
-              <button
-                className="sidebar-trigger-button shadow-one"
-                onClick={openSidebar}
               >
-                <Menu style={{ color: "white" }} />
-              </button>
-            </div>
-          )}
-        </div>
-      </AdminChecker>
-    </AuthenticatorChecker>
+                <input
+                  type="text"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  placeholder="Kërko Llogaritë"
+                  style={{
+                    width: "100%",
+                    height: "50px",
+                    borderRadius: "25px",
+                    border: "1px solid black",
+                    paddingLeft: "15px",
+                  }}
+                  className="shadow-one"
+                />
+                <TableComponent
+                  columns={columns}
+                  rows={rows}
+                  searchInput={searchInput}
+                  buttonsActive={true}
+                />
+                <button
+                  className="sidebar-trigger-button shadow-one"
+                  onClick={openSidebar}
+                >
+                  <Menu style={{ color: "white" }} />
+                </button>
+              </div>
+            )}
+          </div>
+        </AdminChecker>
+      </AuthenticatorChecker>
+    )
   );
 };
 
