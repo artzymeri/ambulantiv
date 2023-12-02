@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import AdminSideBar from "@/components/AdminSideBar";
 import "@/styling/global.css";
+import "@/styling/adminsidebar.css";
 import AuthenticatorChecker from "@/components/AuthenticatorChecker";
 import TableComponent from "@/components/TableComponent";
 import axios from "axios";
+import { Menu, MenuBookOutlined } from "@mui/icons-material";
 
 const RegisteredUsers = () => {
   const [usersData, setUsersData] = useState([]);
@@ -46,10 +48,20 @@ const RegisteredUsers = () => {
 
   const [searchInput, setSearchInput] = useState("");
 
+  const [display, setDisplay] = useState("none");
+
+  const openSidebar = () => {
+    setDisplay("flex");
+  };
+
+  const closeSidebar = () => {
+    setDisplay("none");
+  };
+
   return (
     <AuthenticatorChecker>
       <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
-        <AdminSideBar />
+        <AdminSideBar display={display} closeSidebar={closeSidebar} />
         {loading ? (
           <div className="loader-parent">
             <span class="loader"></span>
@@ -62,7 +74,7 @@ const RegisteredUsers = () => {
               flexDirection: "column",
               gap: "15px",
               flexGrow: 1,
-              overflowX: 'clip'
+              overflowX: "clip",
             }}
           >
             <input
@@ -73,7 +85,7 @@ const RegisteredUsers = () => {
               style={{
                 width: "100%",
                 height: "50px",
-                borderRadius: "15px",
+                borderRadius: "25px",
                 border: "1px solid black",
                 paddingLeft: "15px",
               }}
@@ -84,6 +96,12 @@ const RegisteredUsers = () => {
               rows={rows}
               searchInput={searchInput}
             />
+            <button
+              className="sidebar-trigger-button shadow-one"
+              onClick={openSidebar}
+            >
+              <Menu style={{ color: "white" }} />
+            </button>
           </div>
         )}
       </div>

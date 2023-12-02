@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import "@/styling/adminsidebar.css";
 import "@/styling/global.css";
-import { LogoutOutlined, MenuIcon, MenuOutlined } from "@mui/icons-material";
+import {
+  CloseFullscreen,
+  LogoutOutlined,
+  MenuIcon,
+  MenuOutlined,
+} from "@mui/icons-material";
 import { useRouter } from "next/router";
 
-const AdminSideBar = () => {
+const AdminSideBar = (props) => {
   const router = useRouter();
+
+  const { display, closeSidebar } = props;
 
   const isActive = (path) => {
     return router.pathname === path ? "active-option" : "";
@@ -53,6 +60,32 @@ const AdminSideBar = () => {
           ))}
         </div>
         <button className="sidebar-wide-logout" onClick={logout}>
+          <LogoutOutlined /> SHKYÇU
+        </button>
+      </div>
+      <div className="sidebar-fullscreen" style={{ display: display }}>
+        <CloseFullscreen
+          onClick={closeSidebar}
+          style={{
+            color: "white",
+            position: "absolute",
+            right: "20px",
+            top: "20px",
+          }}
+        />
+        <h3 className="sidebar-fullscreen-title">Admin Panel</h3>
+        <div className="horizontal-line"></div>
+        <div className="sidebar-fullscreen-navbuttons">
+          {sidebarOptions.map((option) => (
+            <h5
+              onClick={handleClick(option.pathOnClick)}
+              className={isActive(option.pathOnClick)}
+            >
+              {option.displayName}
+            </h5>
+          ))}
+        </div>
+        <button className="sidebar-fullscreen-logout" onClick={logout}>
           <LogoutOutlined /> SHKYÇU
         </button>
       </div>

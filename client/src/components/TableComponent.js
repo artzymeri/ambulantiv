@@ -27,8 +27,6 @@ const TableComponent = (props) => {
     return filteredBySearch;
   }, [searchInput]);
 
-  console.log(rows);
-
   return (
     <div className="table-parent shadow-one">
       <div className="table-header">
