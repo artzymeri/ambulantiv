@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import AdminSideBar from "@/components/AdminSideBar";
 import "@/styling/global.css";
 import "@/styling/adminsidebar.css";
-import AuthenticatorChecker from "@/components/AuthenticatorChecker";
+import AuthenticatorAdminChecker from "@/components/AuthenticatorAdminChecker";
 import TableComponent from "@/components/TableComponent";
 import axios from "axios";
 import { Menu, MenuBookOutlined } from "@mui/icons-material";
+import { useRouter } from "next/router";
 
 const RegisteredUsers = () => {
   const [usersData, setUsersData] = useState([]);
@@ -59,7 +60,7 @@ const RegisteredUsers = () => {
   };
 
   return (
-    <AuthenticatorChecker>
+    <AuthenticatorAdminChecker>
       <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
         <AdminSideBar display={display} closeSidebar={closeSidebar} />
         {loading ? (
@@ -105,7 +106,7 @@ const RegisteredUsers = () => {
           </div>
         )}
       </div>
-    </AuthenticatorChecker>
+    </AuthenticatorAdminChecker>
   );
 };
 

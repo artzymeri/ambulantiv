@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import AuthenticatorChecker from "@/components/AuthenticatorChecker";
+import AuthenticatorChecker from "@/components/AuthenticatorAdminChecker";
 import DistributorHomeUI from "@/components/DistributorHomeUI";
 import PranuesHomeUI from "@/components/PranuesHomeUI";
 import { useRouter } from "next/router";
