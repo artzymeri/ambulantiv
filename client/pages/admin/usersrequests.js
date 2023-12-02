@@ -18,7 +18,7 @@ const UsersRequests = () => {
   const [refreshRate, setRefreshRate] = useState(1);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/registerrequests").then((res) => {
+    axios.get("http://localhost:8080/getrequests").then((res) => {
       setUserRequestsData(res.data);
       setLoading(false);
     });
@@ -37,7 +37,7 @@ const UsersRequests = () => {
     axios
       .delete(`http://localhost:8080/deleteregisterrequest/${user.id}`)
       .then(() => {
-        axios.get("http://localhost:8080/registerrequests").then((res) => {
+        axios.get("http://localhost:8080/getrequests").then((res) => {
           setUserRequestsData(res.data);
         });
       });
@@ -47,7 +47,7 @@ const UsersRequests = () => {
     axios
       .delete(`http://localhost:8080/deleteregisterrequest/${user.id}`)
       .then(() => {
-        axios.get("http://localhost:8080/registerrequests").then((res) => {
+        axios.get("http://localhost:8080/getrequests").then((res) => {
           setUserRequestsData(res.data);
         });
       });
