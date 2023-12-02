@@ -20,6 +20,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 import "@/styling/global.css";
+import LoginChecker from "@/components/LoginChecker";
 
 const Login = () => {
   const router = useRouter();
@@ -120,7 +121,7 @@ const Login = () => {
   };
 
   return (
-    <>
+    <LoginChecker>
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
@@ -247,7 +248,7 @@ const Login = () => {
           </div>
         </Box>
       </Box>
-    </>
+    </LoginChecker>
   );
 };
 

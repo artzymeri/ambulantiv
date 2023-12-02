@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import AuthenticatorChecker from "@/components/AuthenticatorAdminChecker";
-import DistributorHomeUI from "@/components/DistributorHomeUI";
-import PranuesHomeUI from "@/components/PranuesHomeUI";
+import AuthenticatorChecker from "@/components/AuthenticatorChecker";
 import { useRouter } from "next/router";
 import "@/styling/global.css";
 
@@ -21,16 +19,13 @@ const Home = () => {
 
   if (adminToken && adminToken !== null) {
     router.push("/admin/registeredusers");
+  } else if (distributorToken && distributorToken !== null) {
+    router.push("/distributor/home");
+  } else if (pranuesToken && pranuesToken !== null) {
+    router.push("/pranues/home");
   }
 
-  return (
-    <AuthenticatorChecker>
-      {distributorToken && distributorToken !== null ? (
-        <DistributorHomeUI />
-      ) : null}
-      {pranuesToken && pranuesToken !== null ? <PranuesHomeUI /> : null}
-    </AuthenticatorChecker>
-  );
+  return <AuthenticatorChecker></AuthenticatorChecker>;
 };
 
 export default Home;

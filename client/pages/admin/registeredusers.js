@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import AdminSideBar from "@/components/AdminSideBar";
 import "@/styling/global.css";
 import "@/styling/adminsidebar.css";
-import AuthenticatorAdminChecker from "@/components/AuthenticatorAdminChecker";
+import AuthenticatorChecker from "@/components/AuthenticatorChecker";
 import TableComponent from "@/components/TableComponent";
 import axios from "axios";
 import { Menu, MenuBookOutlined } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import AdminChecker from "@/components/AdminChecker";
 
 const RegisteredUsers = () => {
   const [usersData, setUsersData] = useState([]);
@@ -60,53 +61,55 @@ const RegisteredUsers = () => {
   };
 
   return (
-    <AuthenticatorAdminChecker>
-      <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
-        <AdminSideBar display={display} closeSidebar={closeSidebar} />
-        {loading ? (
-          <div className="loader-parent">
-            <span class="loader"></span>
-          </div>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              padding: "30px",
-              flexDirection: "column",
-              gap: "15px",
-              flexGrow: 1,
-              overflowX: "clip",
-            }}
-          >
-            <input
-              type="text"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Kërko Llogaritë"
+    <AuthenticatorChecker>
+      <AdminChecker>
+        <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+          <AdminSideBar display={display} closeSidebar={closeSidebar} />
+          {loading ? (
+            <div className="loader-parent">
+              <span class="loader"></span>
+            </div>
+          ) : (
+            <div
               style={{
-                width: "100%",
-                height: "50px",
-                borderRadius: "25px",
-                border: "1px solid black",
-                paddingLeft: "15px",
+                display: "flex",
+                padding: "30px",
+                flexDirection: "column",
+                gap: "15px",
+                flexGrow: 1,
+                overflowX: "clip",
               }}
-              className="shadow-one"
-            />
-            <TableComponent
-              columns={columns}
-              rows={rows}
-              searchInput={searchInput}
-            />
-            <button
-              className="sidebar-trigger-button shadow-one"
-              onClick={openSidebar}
             >
-              <Menu style={{ color: "white" }} />
-            </button>
-          </div>
-        )}
-      </div>
-    </AuthenticatorAdminChecker>
+              <input
+                type="text"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="Kërko Llogaritë"
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  borderRadius: "25px",
+                  border: "1px solid black",
+                  paddingLeft: "15px",
+                }}
+                className="shadow-one"
+              />
+              <TableComponent
+                columns={columns}
+                rows={rows}
+                searchInput={searchInput}
+              />
+              <button
+                className="sidebar-trigger-button shadow-one"
+                onClick={openSidebar}
+              >
+                <Menu style={{ color: "white" }} />
+              </button>
+            </div>
+          )}
+        </div>
+      </AdminChecker>
+    </AuthenticatorChecker>
   );
 };
 
