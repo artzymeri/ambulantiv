@@ -23,8 +23,8 @@ const UsersRequests = () => {
     axios.get("http://localhost:8080/getrequests").then((res) => {
       setUserRequestsData(res.data);
       setLoading(false);
-      setIsClient(true);
     });
+    setIsClient(true);
   }, [refreshRate]);
 
   const approveRequest = (user) => {
@@ -50,9 +50,14 @@ const UsersRequests = () => {
     axios
       .delete(`http://localhost:8080/deleteregisterrequest/${user.id}`)
       .then(() => {
+        setLoading(true);
         axios.get("http://localhost:8080/getrequests").then((res) => {
           setUserRequestsData(res.data);
+          console.log("aaa");
         });
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 

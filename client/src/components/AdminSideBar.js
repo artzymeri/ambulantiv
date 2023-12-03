@@ -52,6 +52,7 @@ const AdminSideBar = (props) => {
         <div className="sidebar-wide-navbuttons">
           {sidebarOptions.map((option) => (
             <h5
+              key={option.id}
               onClick={handleClick(option.pathOnClick)}
               className={isActive(option.pathOnClick)}
             >
@@ -78,6 +79,7 @@ const AdminSideBar = (props) => {
         <div className="sidebar-fullscreen-navbuttons">
           {sidebarOptions.map((option) => (
             <h5
+              key={option.id}
               onClick={handleClick(option.pathOnClick)}
               className={isActive(option.pathOnClick)}
             >

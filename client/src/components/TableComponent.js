@@ -25,19 +25,19 @@ const TableComponent = (props) => {
     });
 
     return filteredBySearch;
-  }, [searchInput]);
+  }, [searchInput, rows]);
 
   return (
     <div className="table-parent shadow-one">
       <div className="table-header">
         {columns.map((column) => {
-          return <div>{column.name}</div>;
+          return <div id={column.id}>{column.name}</div>;
         })}
       </div>
       <div className="table-content">
         {filteredRows.map((row) => {
           return (
-            <div className="table-row">
+            <div key={row.id} className="table-row">
               <div>{row.namesurname}</div>
               <div>{row.companyname}</div>
               <div>{row.phoneNumber}</div>
