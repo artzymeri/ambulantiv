@@ -47,7 +47,25 @@ const RegisteredUsers = () => {
       id: 5,
       name: "Lloji i Kompanisë",
     },
+    {
+      id: 6,
+      name: "Butoni",
+    },
   ];
+
+  const deleteUser = (user) => {
+    axios
+      .delete(`http://localhost:8080/deleteuser/${user.id}`)
+      .then(() => {
+        setLoading(true);
+        axios.get("http://localhost:8080/getusers").then((res) => {
+          setUsersData(res.data);
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const rows = usersData;
 
@@ -102,6 +120,7 @@ const RegisteredUsers = () => {
                   columns={columns}
                   rows={rows}
                   searchInput={searchInput}
+                  deleteUser={deleteUser}
                 />
                 <button
                   className="sidebar-trigger-button shadow-one"

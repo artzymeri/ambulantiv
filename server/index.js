@@ -66,6 +66,31 @@ app.delete("/deleteregisterrequest/:requestId", async (req, res) => {
   }
 });
 
+app.delete("/deleteuser/:requestId", async (req, res) => {
+  try {
+    const { requestId } = req.params;
+
+    const deletedRequest = await users_table.destroy({
+      where: { id: requestId },
+    });
+
+    if (!deletedRequest) {
+      return res.status(404).json({
+        title: "error",
+        message: "Kërkesa për regjistrim nuk u gjet",
+      });
+    }
+
+    res.json({
+      title: "success",
+      message: "Kërkesa për regjistrim u fshi me sukses!",
+    });
+  } catch (error) {
+    console.error("Database query error:", error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
 app.post("/requestregister", async (req, res) => {
   try {
     const {

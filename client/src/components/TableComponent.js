@@ -3,7 +3,14 @@ import "@/styling/global.css";
 import "@/styling/tablecomponent.css";
 
 const TableComponent = (props) => {
-  const { columns, rows, approveRequest, deleteRequest, searchInput } = props;
+  const {
+    columns,
+    rows,
+    approveRequest,
+    deleteRequest,
+    deleteUser,
+    searchInput,
+  } = props;
 
   function convertToPascalCase(str) {
     return str.replace(/\w\S*/g, function (txt) {
@@ -48,7 +55,11 @@ const TableComponent = (props) => {
                   <button onClick={() => approveRequest(row)}>Aprovo</button>
                   <button onClick={() => deleteRequest(row)}>Fshij</button>
                 </div>
-              ) : null}
+              ) : (
+                <div className="table-row-buttons">
+                  <button onClick={() => deleteUser(row)}>Fshij</button>
+                </div>
+              )}
             </div>
           );
         })}

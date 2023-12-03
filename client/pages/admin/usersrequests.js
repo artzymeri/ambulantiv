@@ -53,7 +53,6 @@ const UsersRequests = () => {
         setLoading(true);
         axios.get("http://localhost:8080/getrequests").then((res) => {
           setUserRequestsData(res.data);
-          console.log("aaa");
         });
       })
       .finally(() => {
