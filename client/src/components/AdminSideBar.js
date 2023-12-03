@@ -42,6 +42,17 @@ const AdminSideBar = (props) => {
       displayName: "Kërkesat për regjistrim",
       pathOnClick: "/admin/usersrequests",
     },
+    {
+      id: 3,
+      displayName: "Lista e Produkteve",
+      pathOnClick: "/admin/listedproducts",
+    },
+
+    {
+      id: 4,
+      displayName: "Shto Produkt",
+      pathOnClick: "/admin/addproduct",
+    },
   ];
 
   return (

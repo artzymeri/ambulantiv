@@ -1,5 +1,6 @@
 import AuthenticatorChecker from "@/components/AuthenticatorChecker";
 import PranuesChecker from "@/components/PranuesChecker";
+import PranuesSideBar from "@/components/PranuesSideBar";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -12,8 +13,7 @@ const PranuesHome = () => {
   return (
     <AuthenticatorChecker>
       <PranuesChecker>
-        <h1>PranuesHome</h1>
-        <button onClick={logout}>logout</button>
+        <PranuesSideBar />
       </PranuesChecker>
     </AuthenticatorChecker>
   );

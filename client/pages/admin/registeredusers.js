@@ -14,8 +14,6 @@ const RegisteredUsers = () => {
 
   const [isClient, setIsClient] = useState(false);
 
-  const [refreshRate, setRefreshRate] = useState(1);
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,7 +22,7 @@ const RegisteredUsers = () => {
       setLoading(false);
     });
     setIsClient(true);
-  }, [refreshRate]);
+  }, []);
 
   const columns = [
     {

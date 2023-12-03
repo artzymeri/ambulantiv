@@ -6,7 +6,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const { users_table, users_requests_table } = require("./models");
+const {
+  users_table,
+  users_requests_table,
+  listed_products,
+} = require("./models");
 
 const secretKey = process.env.SECRET_KEY;
 
@@ -18,6 +22,17 @@ app.use(bodyParser.json());
 const db = require("./models");
 
 const port = 8080;
+
+app.get("/getlistedproducts", async (req, res) => {
+  try {
+    const listedProducts = await listed_products.findAll();
+
+    res.json(listedProducts);
+  } catch (error) {
+    console.error("Database query error:", error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
 
 app.get("/getrequests", async (req, res) => {
   try {

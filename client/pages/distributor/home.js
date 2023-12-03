@@ -1,5 +1,6 @@
 import AuthenticatorChecker from "@/components/AuthenticatorChecker";
 import DistributorChecker from "@/components/DistributorChecker";
+import DistributorSideBar from "@/components/DistributorSideBar";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -12,8 +13,7 @@ const DistributorHome = () => {
   return (
     <AuthenticatorChecker>
       <DistributorChecker>
-        <h1>DistributorHome</h1>
-        <button onClick={logout}>logout</button>
+        <DistributorSideBar />
       </DistributorChecker>
     </AuthenticatorChecker>
   );

@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import "@/styling/adminsidebar.css";
 import "@/styling/global.css";
-import {
-  CloseFullscreen,
-  LogoutOutlined,
-  MenuIcon,
-  MenuOutlined,
-} from "@mui/icons-material";
+import { CloseFullscreen, LogoutOutlined } from "@mui/icons-material";
 import { useRouter } from "next/router";
 
 const PranuesSideBar = (props) => {

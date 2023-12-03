@@ -27,7 +27,11 @@ const TableComponent = (props) => {
         row.companyname.includes(loweredSearchInput) ||
         row.phoneNumber.includes(loweredSearchInput) ||
         row.emailAddress.includes(loweredSearchInput) ||
-        row.companyType.includes(loweredSearchInput)
+        row.companyType.includes(loweredSearchInput) ||
+        row.name.includes(loweredSearchInput) ||
+        row.price.includes(loweredSearchInput) ||
+        row.weight.includes(loweredSearchInput) ||
+        row.distributor.includes(loweredSearchInput)
       );
     });
 

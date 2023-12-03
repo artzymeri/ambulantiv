@@ -8,84 +8,47 @@ import TableComponent from "@/components/TableComponent";
 import { Menu } from "@mui/icons-material";
 import AdminChecker from "@/components/AdminChecker";
 
-const UsersRequests = () => {
+const ListedProducts = () => {
   const router = useRouter();
-
-  const [userRequestsData, setUserRequestsData] = useState([]);
-
-  const [isClient, setIsClient] = useState(false);
 
   const [loading, setLoading] = useState(true);
 
+  const [listedProductsData, setListedProductsData] = useState([]);
+
   useEffect(() => {
-    axios.get("http://localhost:8080/getrequests").then((res) => {
-      setUserRequestsData(res.data);
+    axios.get("http://localhost:8080/getlistedproducts").then((res) => {
+      setListedProductsData(res.data);
       setLoading(false);
+      setIsClient(true);
     });
-    setIsClient(true);
   }, []);
 
-  const approveRequest = (user) => {
-    axios.post("http://localhost:8080/register", {
-      namesurname: user.namesurname,
-      companyname: user.companyname,
-      phoneNumber: user.phoneNumber,
-      emailAddress: user.emailAddress,
-      password: user.password,
-      companyType: user.companyType,
-    });
-
-    axios
-      .delete(`http://localhost:8080/deleteregisterrequest/${user.id}`)
-      .then(() => {
-        axios.get("http://localhost:8080/getrequests").then((res) => {
-          setUserRequestsData(res.data);
-        });
-      });
-  };
-
-  const deleteRequest = (user) => {
-    axios
-      .delete(`http://localhost:8080/deleteregisterrequest/${user.id}`)
-      .then(() => {
-        setLoading(true);
-        axios.get("http://localhost:8080/getrequests").then((res) => {
-          setUserRequestsData(res.data);
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+  const [isClient, setIsClient] = useState(false);
 
   const columns = [
     {
       id: 1,
-      name: "Emri dhe Mbiemri",
+      name: "Emri i Produktit",
     },
     {
       id: 2,
-      name: "Emri i Kompanisë",
+      name: "Çmimi",
     },
     {
       id: 3,
-      name: "Numri i Telefonit",
+      name: "Pesha",
     },
     {
       id: 4,
-      name: "Email Adresa",
+      name: "Distributori",
     },
     {
       id: 5,
-      name: "Lloji i Kompanisë",
-    },
-    {
-      id: 6,
       name: "Butonat",
     },
   ];
 
-  const rows = userRequestsData;
+  const rows = listedProductsData;
 
   const [searchInput, setSearchInput] = useState("");
 
@@ -138,9 +101,6 @@ const UsersRequests = () => {
                   columns={columns}
                   rows={rows}
                   searchInput={searchInput}
-                  buttonsActive={true}
-                  deleteRequest={deleteRequest}
-                  approveRequest={approveRequest}
                 />
                 <button
                   className="sidebar-trigger-button shadow-one"
@@ -157,4 +117,4 @@ const UsersRequests = () => {
   );
 };
 
-export default UsersRequests;
+export default ListedProducts;
