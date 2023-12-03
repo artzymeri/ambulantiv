@@ -137,6 +137,8 @@ const UsersRequests = () => {
                   rows={rows}
                   searchInput={searchInput}
                   buttonsActive={true}
+                  deleteRequest={deleteRequest}
+                  approveRequest={approveRequest}
                 />
                 <button
                   className="sidebar-trigger-button shadow-one"
