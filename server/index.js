@@ -34,6 +34,28 @@ app.get("/getlistedproducts", async (req, res) => {
   }
 });
 
+app.post("/addnewproduct", async (req, res) => {
+  try {
+    const { name, price, weight, distributor } = req.body.newProduct;
+
+    console.log(name, price, weight, distributor);
+
+    await listed_products.create({
+      name: name,
+      price: price,
+      weight: weight,
+      distributor: distributor,
+    });
+    res.json({
+      title: "success",
+      message: "Produkti u shtua me sukses",
+    });
+  } catch (error) {
+    console.error("Database query error:", error);
+    res.json({ title: "error", message: "Një problem u shkaktua" });
+  }
+});
+
 app.get("/getrequests", async (req, res) => {
   try {
     const registerRequests = await users_requests_table.findAll();

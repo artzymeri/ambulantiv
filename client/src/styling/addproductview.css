@@ -41,10 +41,40 @@
     position: absolute !important;
     width: calc(100% - 40px);
     bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
     padding: 12px 0 !important;
     border-radius: 30px !important;
     left: 20px;
+    white-space: nowrap;
     overflow: hidden !important;
-    text-wrap: nowrap !important;
     text-overflow: ellipsis !important;
+    background-color: black !important;
+}
+
+.file-uploader-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.file-uploader-container p {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    flex-shrink: 1;
+}
+
+.sc-aXZVG,
+.guZdik {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
 }
