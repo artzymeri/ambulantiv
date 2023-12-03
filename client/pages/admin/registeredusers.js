@@ -119,6 +119,7 @@ const RegisteredUsers = () => {
                   rows={rows}
                   searchInput={searchInput}
                   deleteUser={deleteUser}
+                  registeredButtons={true}
                 />
                 <button
                   className="sidebar-trigger-button shadow-one"

@@ -101,6 +101,7 @@ const ListedProducts = () => {
                   columns={columns}
                   rows={rows}
                   searchInput={searchInput}
+                  productButtons={true}
                 />
                 <button
                   className="sidebar-trigger-button shadow-one"

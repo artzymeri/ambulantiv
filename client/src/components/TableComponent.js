@@ -13,7 +13,7 @@ const TableComponent = (props) => {
   } = props;
 
   function convertToPascalCase(str) {
-    return str.replace(/\w\S*/g, function (txt) {
+    return str?.replace(/\w\S*/g, function (txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
@@ -23,15 +23,15 @@ const TableComponent = (props) => {
 
     const filteredBySearch = rows.filter((row) => {
       return (
-        row.namesurname.includes(loweredSearchInput) ||
-        row.companyname.includes(loweredSearchInput) ||
-        row.phoneNumber.includes(loweredSearchInput) ||
-        row.emailAddress.includes(loweredSearchInput) ||
-        row.companyType.includes(loweredSearchInput) ||
-        row.name.includes(loweredSearchInput) ||
-        row.price.includes(loweredSearchInput) ||
-        row.weight.includes(loweredSearchInput) ||
-        row.distributor.includes(loweredSearchInput)
+        row?.namesurname?.includes(loweredSearchInput) ||
+        row?.companyname?.includes(loweredSearchInput) ||
+        row?.phoneNumber?.includes(loweredSearchInput) ||
+        row?.emailAddress?.includes(loweredSearchInput) ||
+        row?.companyType?.includes(loweredSearchInput) ||
+        row?.name?.includes(loweredSearchInput) ||
+        row?.price?.toString().includes(loweredSearchInput) ||
+        row?.weight?.toString().includes(loweredSearchInput) ||
+        row?.distributor?.includes(loweredSearchInput)
       );
     });
 
@@ -49,19 +49,27 @@ const TableComponent = (props) => {
         {filteredRows.map((row) => {
           return (
             <div key={row.id} className="table-row">
-              <div>{row.namesurname}</div>
-              <div>{row.companyname}</div>
-              <div>{row.phoneNumber}</div>
-              <div>{row.emailAddress}</div>
-              <div>{convertToPascalCase(row.companyType)}</div>
-              {props.buttonsActive ? (
+              <div>{row.namesurname || row.name}</div>
+              <div>{row.companyname || row.price}</div>
+              <div>{row.phoneNumber || row.weight}</div>
+              <div>{row.emailAddress || row.distributor}</div>
+              {row.companyType ? (
+                <div>{convertToPascalCase(row.companyType)}</div>
+              ) : null}
+              {props.buttonsActive && (
                 <div className="table-row-buttons">
                   <button onClick={() => approveRequest(row)}>Aprovo</button>
                   <button onClick={() => deleteRequest(row)}>Fshij</button>
                 </div>
-              ) : (
+              )}
+              {props.registeredButtons && (
                 <div className="table-row-buttons">
                   <button onClick={() => deleteUser(row)}>Fshij</button>
+                </div>
+              )}
+              {props.productButtons && (
+                <div className="table-row-buttons">
+                  <button onClick={() => editProduct(row)}>Edito</button>
                 </div>
               )}
             </div>
