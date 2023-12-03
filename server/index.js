@@ -36,15 +36,14 @@ app.get("/getlistedproducts", async (req, res) => {
 
 app.post("/addnewproduct", async (req, res) => {
   try {
-    const { name, price, weight, distributor } = req.body.newProduct;
-
-    console.log(name, price, weight, distributor);
+    const { name, price, weight, distributor, photo } = req.body.newProduct;
 
     await listed_products.create({
       name: name,
       price: price,
       weight: weight,
       distributor: distributor,
+      photo: photo,
     });
     res.json({
       title: "success",
@@ -75,6 +74,22 @@ app.get("/getusers", async (req, res) => {
   } catch (error) {
     console.error("Database query error:", error);
     res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+app.get("/getdistributors", async (req, res) => {
+  try {
+    const distributors = await users_table.findAll({
+      where: { companyType: "distributor" },
+    });
+    if (!distributors) {
+      console.log("No Distributors Available on List");
+    } else {
+      res.send(distributors);
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ title: "error", message: "Error Occurred" });
   }
 });
 

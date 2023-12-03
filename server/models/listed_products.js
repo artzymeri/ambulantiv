@@ -28,6 +28,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    photo: {
+      type: DataTypes.BLOB,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
   });
   return listed_products;
 };

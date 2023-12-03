@@ -11,9 +11,14 @@ import axios from "axios";
 
 const AddProductView = () => {
   const [isClient, setIsClient] = useState(false);
+  const [distributorsData, setDistributorsData] = useState([]);
 
   useEffect(() => {
     setIsClient(true);
+    axios.get("http://localhost:8080/getdistributors").then((res) => {
+      setDistributorsData(res.data);
+      console.log(res.data);
+    });
   }, []);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -31,12 +36,19 @@ const AddProductView = () => {
     price: null,
     weight: null,
     distributor: null,
+    photo: null,
   });
 
   const [file, setFile] = useState(null);
+
+  const fileReader = new FileReader();
+
   const handleFileChange = (file) => {
     setFile(file);
-    console.log(file);
+    fileReader.readAsDataURL(file);
+    fileReader.onload = (e) => {
+      setNewProduct({ ...newProduct, photo: e.target.result });
+    };
   };
 
   const addProductFunction = () => {
@@ -127,9 +139,13 @@ const AddProductView = () => {
                   setNewProduct({ ...newProduct, distributor: e.target.value })
                 }
               >
-                <MenuItem value="Tadim">Tadim</MenuItem>
-                <MenuItem value="Kralin">Kralin</MenuItem>
-                <MenuItem value="Emona">Emona</MenuItem>
+                {distributorsData.map((distributor) => {
+                  return (
+                    <MenuItem value={distributor.companyname}>
+                      {distributor.companyname}
+                    </MenuItem>
+                  );
+                })}
                 <MenuItem value={null}>Asnjë</MenuItem>
               </TextField>
               <div className="file-uploader-container">
