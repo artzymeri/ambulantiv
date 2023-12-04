@@ -111,6 +111,7 @@ const AddProductView = () => {
                 fullWidth
                 autoComplete="off"
                 type="number"
+                value={newProduct.price}
                 onChange={(e) =>
                   setNewProduct({ ...newProduct, price: e.target.value })
                 }
@@ -123,6 +124,7 @@ const AddProductView = () => {
                 type="number"
                 fullWidth
                 autoComplete="off"
+                value={newProduct.weight}
                 onChange={(e) =>
                   setNewProduct({ ...newProduct, weight: e.target.value })
                 }
@@ -135,6 +137,7 @@ const AddProductView = () => {
                 className="shadow-one"
                 fullWidth
                 autoComplete="off"
+                value={newProduct.distributor}
                 onChange={(e) =>
                   setNewProduct({ ...newProduct, distributor: e.target.value })
                 }

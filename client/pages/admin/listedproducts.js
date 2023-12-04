@@ -6,7 +6,20 @@ import AuthenticatorChecker from "@/components/AuthenticatorChecker";
 import axios from "axios";
 import TableComponent from "@/components/TableComponent";
 import { Menu } from "@mui/icons-material";
+import MuiAlert from "@mui/material/Alert";
 import AdminChecker from "@/components/AdminChecker";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Snackbar,
+  useMediaQuery,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import EditProductDialog from "@/components/EditProductDialog";
 
 const ListedProducts = () => {
   const router = useRouter();
@@ -14,6 +27,16 @@ const ListedProducts = () => {
   const [loading, setLoading] = useState(true);
 
   const [listedProductsData, setListedProductsData] = useState([]);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarData, setSnackbarData] = useState({ title: "", message: "" });
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   useEffect(() => {
     axios.get("http://localhost:8080/getlistedproducts").then((res) => {
@@ -62,11 +85,75 @@ const ListedProducts = () => {
     setDisplay("none");
   };
 
+  const deleteProduct = (product) => {
+    axios
+      .post(`http://localhost:8080/deleteproduct/${product.id}`)
+      .then((res) => {
+        const { title, message } = res.data;
+        setSnackbarData({
+          title: title,
+          message: message,
+        });
+        setSnackbarOpen(true);
+        setLoading(true);
+        axios.get("http://localhost:8080/getlistedproducts").then((res) => {
+          setListedProductsData(res.data);
+          setIsClient(true);
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const [editedProduct, setEditedProduct] = useState({
+    name: null,
+    price: null,
+    weight: null,
+    distributor: null,
+    photo: null,
+  });
+
+  const handleOpenDialog = (product) => {
+    setOpenDialog(true);
+    setEditedProduct({
+      name: product.name,
+      price: product.price,
+      weight: product.weight,
+      distributor: product.distributor,
+      photo: product.photo,
+    });
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
     isClient && (
       <AuthenticatorChecker>
         <AdminChecker>
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={6000}
+            onClose={handleSnackbarClose}
+          >
+            <MuiAlert
+              elevation={6}
+              variant="filled"
+              severity={snackbarData.title.toLowerCase()}
+            >
+              {snackbarData.message}
+            </MuiAlert>
+          </Snackbar>
           <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+            <EditProductDialog
+              openDialog={openDialog}
+              editedProductData={editedProduct}
+              handleCloseDialog={handleCloseDialog}
+            />
             <AdminSideBar display={display} closeSidebar={closeSidebar} />
             {loading ? (
               <div className="loader-parent">
@@ -102,6 +189,8 @@ const ListedProducts = () => {
                   rows={rows}
                   searchInput={searchInput}
                   productButtons={true}
+                  deleteProduct={deleteProduct}
+                  handleOpenDialog={handleOpenDialog}
                 />
                 <button
                   className="sidebar-trigger-button shadow-one"

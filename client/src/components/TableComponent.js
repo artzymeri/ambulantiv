@@ -10,6 +10,8 @@ const TableComponent = (props) => {
     deleteRequest,
     deleteUser,
     searchInput,
+    deleteProduct,
+    handleOpenDialog,
   } = props;
 
   function convertToPascalCase(str) {
@@ -69,7 +71,8 @@ const TableComponent = (props) => {
               )}
               {props.productButtons && (
                 <div className="table-row-buttons">
-                  <button onClick={() => editProduct(row)}>Edito</button>
+                  <button onClick={() => handleOpenDialog(row)}>Edito</button>
+                  <button onClick={() => deleteProduct(row)}>Fshij</button>
                 </div>
               )}
             </div>

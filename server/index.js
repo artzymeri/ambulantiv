@@ -55,6 +55,24 @@ app.post("/addnewproduct", async (req, res) => {
   }
 });
 
+app.post("/deleteproduct/:productId", async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    const deletedRequest = await listed_products.destroy({
+      where: { id: productId },
+    });
+
+    if (!deletedRequest) {
+      res.json({ title: "error", message: "Produkti nuk u fshi me sukses" });
+    }
+
+    res.json({ title: "success", message: "Produkti u fshi me sukses" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 app.get("/getrequests", async (req, res) => {
   try {
     const registerRequests = await users_requests_table.findAll();
