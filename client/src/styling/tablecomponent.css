@@ -79,7 +79,7 @@
   gap: 10px;
 }
 
-.table-row-buttons button {
+/* .table-row-buttons button {
   padding: 5px 15px;
   background-color: black;
   color: white;
@@ -91,7 +91,7 @@
 
 .table-row-buttons button:hover {
   background-color: rgba(0, 0, 0, 0.8);
-}
+} */
 
 .no-data-text {
   position: absolute;

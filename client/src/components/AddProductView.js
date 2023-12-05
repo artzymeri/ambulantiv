@@ -58,10 +58,11 @@ const AddProductView = () => {
         const { title, message } = res.data;
         setNewProduct({
           ...newProduct,
-          name: null,
-          price: null,
-          weight: null,
-          distributor: null,
+          name: "",
+          price: "",
+          weight: "",
+          distributor: "",
+          photo: null,
         });
         setSnackbarData({
           title: title,

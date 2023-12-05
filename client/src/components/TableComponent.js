@@ -3,6 +3,7 @@ import "@/styling/global.css";
 import "@/styling/tablecomponent.css";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import styled from "@emotion/styled";
+import { Button } from "@mui/material";
 
 const TableComponent = (props) => {
   const {
@@ -96,10 +97,19 @@ const TableComponent = (props) => {
                   <div>{row.distributor}</div>
                   {props.productButtons && (
                     <div className="table-row-buttons">
-                      <button onClick={() => handleOpenDialog(row)}>
+                      <Button
+                        variant="contained"
+                        onClick={() => handleOpenDialog(row)}
+                      >
                         Edito
-                      </button>
-                      <button onClick={() => deleteProduct(row)}>Fshij</button>
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => deleteProduct(row)}
+                      >
+                        Fshij
+                      </Button>
                     </div>
                   )}
                 </>
@@ -125,9 +135,12 @@ const TableComponent = (props) => {
                   </HtmlTooltip>
                   {props.companyProductButtons && (
                     <div className="table-row-buttons">
-                      <button onClick={() => handleOpenDialog(row)}>
+                      <Button
+                        variant="contained"
+                        onClick={() => handleOpenDialog(row)}
+                      >
                         Edito
-                      </button>
+                      </Button>
                     </div>
                   )}
                 </>
@@ -143,15 +156,30 @@ const TableComponent = (props) => {
                   )}
                   {props.registeredButtons && (
                     <div className="table-row-buttons">
-                      <button onClick={() => deleteUser(row)}>Fshij</button>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => deleteUser(row)}
+                      >
+                        Fshij
+                      </Button>
                     </div>
                   )}
                   {props.requestsButtons && (
                     <div className="table-row-buttons">
-                      <button onClick={() => approveRequest(row)}>
+                      <Button
+                        variant="contained"
+                        onClick={() => approveRequest(row)}
+                      >
                         Aprovo
-                      </button>
-                      <button onClick={() => deleteRequest(row)}>Fshij</button>
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => deleteRequest(row)}
+                      >
+                        Fshij
+                      </Button>
                     </div>
                   )}
                 </>

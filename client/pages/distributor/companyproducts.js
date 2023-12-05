@@ -8,15 +8,18 @@ import React, { useEffect, useState } from "react";
 import { Menu } from "@mui/icons-material";
 import axios from "axios";
 import "@/styling/global.css";
+import EditProductDialog from "@/components/EditProductDialog";
 
 const CompanyListedProducts = () => {
   const [isClient, setIsClient] = useState(false);
 
-  const [companyname, setCompanyName] = useState(null);
-
   const [loading, setLoading] = useState(true);
 
   const [refreshRate, setRefreshRate] = useState(1);
+
+  const refreshListedProductsTable = () => {
+    setRefreshRate(refreshRate + 1);
+  };
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarData, setSnackbarData] = useState({ title: "", message: "" });
@@ -35,7 +38,6 @@ const CompanyListedProducts = () => {
   );
 
   useEffect(() => {
-    setCompanyName(localStorage.getItem("companyname"));
     axios
       .get(
         `http://localhost:8080/getlistedproducts/${localStorage.getItem(
@@ -52,6 +54,16 @@ const CompanyListedProducts = () => {
   const rows = listedCompanyProductsData;
 
   const [display, setDisplay] = useState("none");
+
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const [editedProduct, setEditedProduct] = useState({
+    name: null,
+    price: null,
+    weight: null,
+    distributor: null,
+    photo: null,
+  });
 
   const openSidebar = () => {
     setDisplay("flex");
@@ -117,6 +129,12 @@ const CompanyListedProducts = () => {
             </MuiAlert>
           </Snackbar>
           <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+            <EditProductDialog
+              openDialog={openDialog}
+              editedProductData={editedProduct}
+              handleCloseDialog={handleCloseDialog}
+              refreshListedProductsTable={refreshListedProductsTable}
+            />
             <DistributorSideBar display={display} closeSidebar={closeSidebar} />
             <div
               style={{

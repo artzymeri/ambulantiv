@@ -211,7 +211,12 @@ const EditProductDialog = (props) => {
             </div>
           </DialogContent>
           <DialogActions className="edit-dialog-actions">
-            <Button autoFocus variant="outlined" color='error' onClick={handleCloseDialog}>
+            <Button
+              autoFocus
+              variant="outlined"
+              color="error"
+              onClick={handleCloseDialog}
+            >
               Mbyll
             </Button>
             <Button variant="contained" onClick={handleEditProduct} autoFocus>
