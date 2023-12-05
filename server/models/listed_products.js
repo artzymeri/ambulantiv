@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     price: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     photo: {
-      type: DataTypes.BLOB,
+      type: DataTypes.TEXT("long"),
       allowNull: false,
       validate: {
         notEmpty: true,

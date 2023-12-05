@@ -73,6 +73,25 @@ app.post("/deleteproduct/:productId", async (req, res) => {
   }
 });
 
+app.post("/editproduct/:productId", async (req, res) => {
+  const { productId } = req.params;
+  const { name, price, weight, distributor } = req.body.editedProduct;
+
+  const productToEdit = await listed_products.findByPk(productId);
+
+  if (!productId) {
+    res.json({ title: "error", message: "Produkti nuk ekziston" });
+  }
+
+  productToEdit.name = name;
+  productToEdit.price = price;
+  productToEdit.weight = weight;
+  productToEdit.distributor = distributor;
+
+  await productToEdit.save();
+  res.json({ title: "success", message: "Produkti u editua me sukses" });
+});
+
 app.get("/getrequests", async (req, res) => {
   try {
     const registerRequests = await users_requests_table.findAll();

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import AdminSideBar from "@/components/AdminSideBar";
 import "@/styling/global.css";
 import AuthenticatorChecker from "@/components/AuthenticatorChecker";
@@ -8,22 +7,10 @@ import TableComponent from "@/components/TableComponent";
 import { Menu } from "@mui/icons-material";
 import MuiAlert from "@mui/material/Alert";
 import AdminChecker from "@/components/AdminChecker";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Snackbar,
-  useMediaQuery,
-} from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Snackbar } from "@mui/material";
 import EditProductDialog from "@/components/EditProductDialog";
 
 const ListedProducts = () => {
-  const router = useRouter();
-
   const [loading, setLoading] = useState(true);
 
   const [listedProductsData, setListedProductsData] = useState([]);
@@ -38,13 +25,19 @@ const ListedProducts = () => {
     setSnackbarOpen(false);
   };
 
+  const [refreshRate, setRefreshRate] = useState(1);
+
+  const refreshListedProductsTable = () => {
+    setRefreshRate(refreshRate + 1);
+  };
+
   useEffect(() => {
     axios.get("http://localhost:8080/getlistedproducts").then((res) => {
       setListedProductsData(res.data);
       setLoading(false);
       setIsClient(true);
     });
-  }, []);
+  }, [refreshRate]);
 
   const [isClient, setIsClient] = useState(false);
 
@@ -63,10 +56,14 @@ const ListedProducts = () => {
     },
     {
       id: 4,
-      name: "Distributori",
+      name: "Foto",
     },
     {
       id: 5,
+      name: "Distributori",
+    },
+    {
+      id: 6,
       name: "Butonat",
     },
   ];
@@ -119,6 +116,7 @@ const ListedProducts = () => {
   const handleOpenDialog = (product) => {
     setOpenDialog(true);
     setEditedProduct({
+      id: product.id,
       name: product.name,
       price: product.price,
       weight: product.weight,
@@ -126,6 +124,8 @@ const ListedProducts = () => {
       photo: product.photo,
     });
   };
+
+  console.log(editedProduct);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -153,6 +153,7 @@ const ListedProducts = () => {
               openDialog={openDialog}
               editedProductData={editedProduct}
               handleCloseDialog={handleCloseDialog}
+              refreshListedProductsTable={refreshListedProductsTable}
             />
             <AdminSideBar display={display} closeSidebar={closeSidebar} />
             {loading ? (
@@ -191,6 +192,7 @@ const ListedProducts = () => {
                   productButtons={true}
                   deleteProduct={deleteProduct}
                   handleOpenDialog={handleOpenDialog}
+                  productsList={true}
                 />
                 <button
                   className="sidebar-trigger-button shadow-one"

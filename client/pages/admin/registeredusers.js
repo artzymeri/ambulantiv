@@ -120,6 +120,7 @@ const RegisteredUsers = () => {
                   searchInput={searchInput}
                   deleteUser={deleteUser}
                   registeredButtons={true}
+                  usersList={true}
                 />
                 <button
                   className="sidebar-trigger-button shadow-one"

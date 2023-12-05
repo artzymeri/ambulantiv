@@ -50,9 +50,10 @@
   height: 50px;
   flex-shrink: 0;
   background-color: rgba(211, 211, 211, 0.5);
-  min-width: fit-content;
+  min-width: max-content;
   width: 100%;
   padding-left: 10px;
+  margin-left: 2px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
@@ -90,4 +91,10 @@
 
 .table-row-buttons button:hover {
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+.no-data-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
