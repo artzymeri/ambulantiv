@@ -50,6 +50,7 @@ const EditProductDialog = (props) => {
       price: editedProductData.price,
       weight: editedProductData.weight,
       distributor: editedProductData.distributor,
+      photo: editedProductData.photo,
     });
     axios.get("http://localhost:8080/getdistributors").then((res) => {
       setDistributorsData(res.data);
@@ -62,6 +63,7 @@ const EditProductDialog = (props) => {
     price: null,
     weight: null,
     distributor: null,
+    photo: null,
   });
 
   const [file, setFile] = useState(null);
@@ -208,9 +210,9 @@ const EditProductDialog = (props) => {
               </div>
             </div>
           </DialogContent>
-          <DialogActions>
-            <Button autoFocus onClick={handleCloseDialog}>
-              Disagree
+          <DialogActions className="edit-dialog-actions">
+            <Button autoFocus variant="outlined" color='error' onClick={handleCloseDialog}>
+              Mbyll
             </Button>
             <Button variant="contained" onClick={handleEditProduct} autoFocus>
               Edito

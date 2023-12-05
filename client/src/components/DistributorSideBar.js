@@ -34,20 +34,30 @@ const DistributorSideBar = (props) => {
   const sidebarOptions = [
     {
       id: 1,
-      displayName: "Llogaritë e regjistruara",
-      pathOnClick: "/admin/registeredusers",
+      displayName: "Ballina",
+      pathOnClick: "/distributor/home",
     },
     {
       id: 2,
-      displayName: "Kërkesat për regjistrim",
-      pathOnClick: "/admin/usersrequests",
+      displayName: "Produktet e Listuara",
+      pathOnClick: "/distributor/companyproducts",
+    },
+    {
+      id: 3,
+      displayName: "Klientët tanë",
+      pathOnClick: "/distributor/clients",
+    },
+    {
+      id: 3,
+      displayName: "Porositë",
+      pathOnClick: "/distributor/orders",
     },
   ];
 
   return (
     <>
       <div className="sidebar-distributor-wide">
-        <h3 className="sidebar-distributor-wide-title">Admin Panel</h3>
+        <h3 className="sidebar-distributor-wide-title">Distributor Panel</h3>
         <div className="horizontal-line"></div>
         <div className="sidebar-distributor-wide-navbuttons">
           {sidebarOptions.map((option) => (
@@ -76,7 +86,9 @@ const DistributorSideBar = (props) => {
             top: "20px",
           }}
         />
-        <h3 className="sidebar-distributor-fullscreen-title">Admin Panel</h3>
+        <h3 className="sidebar-distributor-fullscreen-title">
+          Distributor Panel
+        </h3>
         <div className="horizontal-line"></div>
         <div className="sidebar-distributor-fullscreen-navbuttons">
           {sidebarOptions.map((option) => (

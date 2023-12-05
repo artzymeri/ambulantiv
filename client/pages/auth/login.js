@@ -102,10 +102,12 @@ const Login = () => {
               phoneNumberOfUser,
               companyLogo,
               namesurname,
+              companyname,
               emailAddressOfUser,
               companyType,
               userId,
             } = res.data;
+            console.log(res.data);
             setSnackbarData({
               title: title,
               message: message,
@@ -115,9 +117,14 @@ const Login = () => {
               router.push("/");
             } else if (distributorToken) {
               localStorage.setItem("distributorToken", distributorToken);
+              localStorage.setItem("namesurname", namesurname);
+              console.log(companyname);
+              localStorage.setItem("companyname", companyname);
               router.push("/");
             } else if (pranuesToken) {
               localStorage.setItem("pranuesToken", pranuesToken);
+              localStorage.setItem("namesurname", namesurname);
+              localStorage.setItem("companyname", companyname);
               router.push("/");
             }
             setSnackbarOpen(true);

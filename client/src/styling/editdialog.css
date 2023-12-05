@@ -12,3 +12,9 @@
   align-items: center;
   gap: 10px;
 }
+
+.edit-dialog-actions {
+  display: flex;
+  justify-content: space-between !important;
+  width: 100%;
+}

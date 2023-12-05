@@ -56,7 +56,7 @@ const ListedProducts = () => {
     },
     {
       id: 4,
-      name: "Foto",
+      name: "Foto e produktit",
     },
     {
       id: 5,
@@ -95,7 +95,6 @@ const ListedProducts = () => {
         setLoading(true);
         axios.get("http://localhost:8080/getlistedproducts").then((res) => {
           setListedProductsData(res.data);
-          setIsClient(true);
         });
       })
       .finally(() => {
@@ -124,8 +123,6 @@ const ListedProducts = () => {
       photo: product.photo,
     });
   };
-
-  console.log(editedProduct);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -175,7 +172,7 @@ const ListedProducts = () => {
                   type="text"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  placeholder="Kërko Llogaritë"
+                  placeholder="Kërko llogaritë"
                   style={{
                     width: "100%",
                     height: "50px",
@@ -193,6 +190,7 @@ const ListedProducts = () => {
                   deleteProduct={deleteProduct}
                   handleOpenDialog={handleOpenDialog}
                   productsList={true}
+                  refreshRate={refreshRate}
                 />
                 <button
                   className="sidebar-trigger-button shadow-one"

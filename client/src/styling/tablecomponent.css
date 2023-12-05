@@ -97,4 +97,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  font-style: italic;
+  color: gray;
+  transform: translate(-50%, -50%);
 }

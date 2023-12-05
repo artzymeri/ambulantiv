@@ -34,6 +34,21 @@ app.get("/getlistedproducts", async (req, res) => {
   }
 });
 
+app.get("/getlistedproducts/:companyname", async (req, res) => {
+  const { companyname } = req.params;
+
+  try {
+    const listedCompanyProducts = await listed_products.findAll({
+      where: { distributor: companyname },
+    });
+
+    res.json(listedCompanyProducts);
+  } catch (error) {
+    console.error("Database query error:", error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
 app.post("/addnewproduct", async (req, res) => {
   try {
     const { name, price, weight, distributor, photo } = req.body.newProduct;
@@ -75,7 +90,7 @@ app.post("/deleteproduct/:productId", async (req, res) => {
 
 app.post("/editproduct/:productId", async (req, res) => {
   const { productId } = req.params;
-  const { name, price, weight, distributor } = req.body.editedProduct;
+  const { name, price, weight, distributor, photo } = req.body.editedProduct;
 
   const productToEdit = await listed_products.findByPk(productId);
 
@@ -87,6 +102,7 @@ app.post("/editproduct/:productId", async (req, res) => {
   productToEdit.price = price;
   productToEdit.weight = weight;
   productToEdit.distributor = distributor;
+  productToEdit.photo = photo;
 
   await productToEdit.save();
   res.json({ title: "success", message: "Produkti u editua me sukses" });
@@ -269,7 +285,14 @@ app.post("/login", async (req, res) => {
       });
     }
 
-    const { id, companyType, namesurname, emailAddress, companyLogo } = user;
+    const {
+      id,
+      companyType,
+      companyname,
+      namesurname,
+      emailAddress,
+      companyLogo,
+    } = user;
 
     if (companyType === "admin") {
       const adminToken = jwt.sign(
@@ -285,6 +308,7 @@ app.post("/login", async (req, res) => {
         adminToken,
         phoneNumberOfUser: user.phoneNumber,
         companyLogo,
+        companyname: user.companyname,
         namesurname,
         emailAddressOfUser: emailAddress,
         companyType,
@@ -307,6 +331,7 @@ app.post("/login", async (req, res) => {
         namesurname,
         emailAddressOfUser: emailAddress,
         companyType,
+        companyname: companyname,
         userId: id,
       });
     } else if (companyType === "pranues") {

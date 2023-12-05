@@ -14,6 +14,7 @@ const TableComponent = (props) => {
     searchInput,
     deleteProduct,
     handleOpenDialog,
+    refreshRate,
   } = props;
 
   function convertToPascalCase(str) {
@@ -40,7 +41,7 @@ const TableComponent = (props) => {
     });
 
     return filteredBySearch;
-  }, [searchInput, rows]);
+  }, [searchInput, rows, refreshRate]);
 
   const HtmlTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -67,8 +68,8 @@ const TableComponent = (props) => {
         })}
       </div>
       <div className="table-content">
-        {!props.productsList && !props.usersList && s!props.requestsList ? (
-          <p className="no-data-text">nuk ka</p>
+        {filteredRows && filteredRows.length == 0 ? (
+          <p className="no-data-text">Nuk ka të dhëna</p>
         ) : null}
         {filteredRows.map((row) => {
           return (
@@ -99,6 +100,34 @@ const TableComponent = (props) => {
                         Edito
                       </button>
                       <button onClick={() => deleteProduct(row)}>Fshij</button>
+                    </div>
+                  )}
+                </>
+              )}
+              {props.companyProductsList && (
+                <>
+                  <div>{row.name}</div>
+                  <div>{row.price}€</div>
+                  <div>{row.weight}g</div>
+                  <HtmlTooltip
+                    title={
+                      <React.Fragment>
+                        <img
+                          src={row.photo}
+                          style={{ height: "250px", width: "auto" }}
+                        />
+                      </React.Fragment>
+                    }
+                  >
+                    <div>
+                      <img src={row.photo} style={{ height: "30px" }} />
+                    </div>
+                  </HtmlTooltip>
+                  {props.companyProductButtons && (
+                    <div className="table-row-buttons">
+                      <button onClick={() => handleOpenDialog(row)}>
+                        Edito
+                      </button>
                     </div>
                   )}
                 </>

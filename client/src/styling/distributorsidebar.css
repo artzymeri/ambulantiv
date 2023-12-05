@@ -1,7 +1,7 @@
 .sidebar-distributor-wide {
   height: 100vh;
   width: 300px;
-  background-color: blue;
+  background-color: rgb(80, 80, 80);
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -109,7 +109,8 @@
   display: none;
   flex-direction: column;
   align-items: center;
-  background-color: black;
+  background-color: rgb(80, 80, 80);
+  backdrop-filter: blur(7px);
   width: 100vw;
   height: 100vh;
   position: absolute;
@@ -188,7 +189,7 @@
   align-items: center;
   height: 50px;
   border-radius: 25px;
-  background-color: black;
+  background-color: rgb(80, 80, 80);
   flex-shrink: 0;
   border: 0px solid transparent;
 }
@@ -201,10 +202,10 @@
 }
 
 @media (max-width: 600px) {
-  .sidebar-wide {
+  .sidebar-distributor-wide {
     display: none;
   }
-  .sidebar-trigger-button {
+  .sidebar-distributor-trigger-button {
     display: flex;
   }
 }

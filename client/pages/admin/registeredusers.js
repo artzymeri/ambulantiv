@@ -104,7 +104,7 @@ const RegisteredUsers = () => {
                   type="text"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  placeholder="Kërko Llogaritë"
+                  placeholder="Kërko llogaritë"
                   style={{
                     width: "100%",
                     height: "50px",
