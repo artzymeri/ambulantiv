@@ -20,7 +20,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 import "@/styling/global.css";
-import LoginChecker from "@/components/LoginChecker";
+import LoginChecker from "@/components/Checkers/LoginChecker";
 
 const Login = () => {
   const router = useRouter();

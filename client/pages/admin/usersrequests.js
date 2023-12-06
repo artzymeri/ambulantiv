@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import AdminSideBar from "@/components/AdminSideBar";
+import AdminSideBar from "@/components/Admin/AdminSideBar";
 import "@/styling/global.css";
-import AuthenticatorChecker from "@/components/AuthenticatorChecker";
+import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
 import axios from "axios";
 import TableComponent from "@/components/TableComponent";
 import { Menu } from "@mui/icons-material";
-import AdminChecker from "@/components/AdminChecker";
+import AdminChecker from "@/components/Checkers/AdminChecker";
 
 const UsersRequests = () => {
   const router = useRouter();

@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import "@/styling/adminsidebar.css";
+import "@/styling/Pranues/pranuessidebar.css";
 import "@/styling/global.css";
-import {
-  CloseFullscreen,
-  LogoutOutlined,
-  MenuIcon,
-  MenuOutlined,
-} from "@mui/icons-material";
+import { CloseFullscreen, LogoutOutlined } from "@mui/icons-material";
 import { useRouter } from "next/router";
 
-const AdminSideBar = (props) => {
+const PranuesSideBar = (props) => {
   const router = useRouter();
 
   const { display, closeSidebar } = props;
@@ -27,43 +22,41 @@ const AdminSideBar = (props) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("adminToken");
+    localStorage.removeItem("pranuesToken");
     router.push("/auth/login");
   };
 
   const sidebarOptions = [
     {
       id: 1,
-      displayName: "Llogaritë e regjistruara",
-      pathOnClick: "/admin/registeredusers",
+      displayName: "Ballina",
+      pathOnClick: "/pranues/home",
     },
     {
       id: 2,
-      displayName: "Kërkesat për regjistrim",
-      pathOnClick: "/admin/usersrequests",
+      displayName: "Produktet",
+      pathOnClick: "/pranues/products",
     },
     {
       id: 3,
-      displayName: "Lista e Produkteve",
-      pathOnClick: "/admin/listedproducts",
+      displayName: "Historiku i porosive",
+      pathOnClick: "/pranues/orders",
     },
-
     {
-      id: 4,
-      displayName: "Shto Produkt",
-      pathOnClick: "/admin/addproduct",
+      id: 3,
+      displayName: "Shporta",
+      pathOnClick: "/pranues/cart",
     },
   ];
 
   return (
     <>
-      <div className="sidebar-wide">
-        <h3 className="sidebar-wide-title">Admin Panel</h3>
+      <div className="sidebar-pranues-wide">
+        <h3 className="sidebar-pranues-wide-title">Pranues Panel</h3>
         <div className="horizontal-line"></div>
-        <div className="sidebar-wide-navbuttons">
+        <div className="sidebar-pranues-wide-navbuttons">
           {sidebarOptions.map((option) => (
             <h5
-              key={option.id}
               onClick={handleClick(option.pathOnClick)}
               className={isActive(option.pathOnClick)}
             >
@@ -71,11 +64,11 @@ const AdminSideBar = (props) => {
             </h5>
           ))}
         </div>
-        <button className="sidebar-wide-logout" onClick={logout}>
+        <button className="sidebar-pranues-wide-logout" onClick={logout}>
           <LogoutOutlined /> SHKYÇU
         </button>
       </div>
-      <div className="sidebar-fullscreen" style={{ display: display }}>
+      <div className="sidebar-pranues-fullscreen" style={{ display: display }}>
         <CloseFullscreen
           onClick={closeSidebar}
           style={{
@@ -85,12 +78,11 @@ const AdminSideBar = (props) => {
             top: "20px",
           }}
         />
-        <h3 className="sidebar-fullscreen-title">Admin Panel</h3>
+        <h3 className="sidebar-pranues-fullscreen-title">Pranues Panel</h3>
         <div className="horizontal-line"></div>
-        <div className="sidebar-fullscreen-navbuttons">
+        <div className="sidebar-pranues-fullscreen-navbuttons">
           {sidebarOptions.map((option) => (
             <h5
-              key={option.id}
               onClick={handleClick(option.pathOnClick)}
               className={isActive(option.pathOnClick)}
             >
@@ -98,7 +90,7 @@ const AdminSideBar = (props) => {
             </h5>
           ))}
         </div>
-        <button className="sidebar-fullscreen-logout" onClick={logout}>
+        <button className="sidebar-pranues-fullscreen-logout" onClick={logout}>
           <LogoutOutlined /> SHKYÇU
         </button>
       </div>
@@ -106,4 +98,4 @@ const AdminSideBar = (props) => {
   );
 };
 
-export default AdminSideBar;
+export default PranuesSideBar;

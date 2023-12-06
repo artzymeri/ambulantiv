@@ -1,6 +1,6 @@
-import AuthenticatorChecker from "@/components/AuthenticatorChecker";
-import DistributorChecker from "@/components/DistributorChecker";
-import DistributorSideBar from "@/components/DistributorSideBar";
+import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
+import DistributorChecker from "@/components/Checkers/DistributorChecker";
+import DistributorSideBar from "@/components/Distributor/DistributorSideBar";
 import TableComponent from "@/components/TableComponent";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";

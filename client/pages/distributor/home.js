@@ -1,7 +1,7 @@
-import AuthenticatorChecker from "@/components/AuthenticatorChecker";
-import DistributorChecker from "@/components/DistributorChecker";
-import DistributorHomeView from "@/components/DistributorHomeView";
-import DistributorSideBar from "@/components/DistributorSideBar";
+import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
+import DistributorChecker from "@/components/Checkers/DistributorChecker";
+import DistributorHomeView from "@/components/Distributor/DistributorHomeView";
+import DistributorSideBar from "@/components/Distributor/DistributorSideBar";
 import { Menu } from "@mui/icons-material";
 import React, { useState } from "react";
 

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import AdminSideBar from "@/components/AdminSideBar";
+import AdminSideBar from "@/components/Admin/AdminSideBar";
 import "@/styling/global.css";
-import "@/styling/adminsidebar.css";
-import AuthenticatorChecker from "@/components/AuthenticatorChecker";
+import "@/styling/Admin/adminsidebar.css";
+import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
 import TableComponent from "@/components/TableComponent";
 import axios from "axios";
-import { Menu, MenuBookOutlined } from "@mui/icons-material";
-import { useRouter } from "next/router";
-import AdminChecker from "@/components/AdminChecker";
+import { Menu } from "@mui/icons-material";
+import AdminChecker from "@/components/Checkers/AdminChecker";
 
 const RegisteredUsers = () => {
   const [usersData, setUsersData] = useState([]);

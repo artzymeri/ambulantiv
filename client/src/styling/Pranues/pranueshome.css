@@ -1,0 +1,54 @@
+.pranues-home-parent {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+    gap: 15px;
+    background-color: whitesmoke;
+}
+
+.pranues-home-latestproducts{
+    width: 100%;
+    min-height: 300px;
+    max-height: 300px;
+    border: 1px solid black;
+    content: '';
+    padding: 15px;
+    background-color: white;
+    display: flex;
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+
+    /* have to fix the scrollbar display */
+}
+
+.pranues-home-latestproducts-child {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-basis: 200px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.pranues-home-latestproducts-child img {
+    width: auto;
+    height: 250px;
+}
+
+/* latest-products have to be border-radius to 10px (25-15=10) */
+
+.pranues-home-child {
+    flex-basis: 300px;
+    min-height: 300px;
+    flex-shrink: 0;
+    flex-grow: 1;
+    border: 1px solid black;
+    content: '';
+}

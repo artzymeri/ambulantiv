@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import AuthenticatorChecker from "@/components/AuthenticatorChecker";
+import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
 import { useRouter } from "next/router";
 import "@/styling/global.css";
 

@@ -1,6 +1,7 @@
-import AuthenticatorChecker from "@/components/AuthenticatorChecker";
-import PranuesChecker from "@/components/PranuesChecker";
-import PranuesSideBar from "@/components/PranuesSideBar";
+import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
+import PranuesChecker from "@/components/Checkers/PranuesChecker";
+import PranuesHomeView from "@/components/Pranues/PranuesHomeView";
+import PranuesSideBar from "@/components/Pranues/PranuesSideBar";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -13,7 +14,20 @@ const PranuesHome = () => {
   return (
     <AuthenticatorChecker>
       <PranuesChecker>
-        <PranuesSideBar />
+        <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+          <PranuesSideBar />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100vh",
+              width: "100%",
+            }}
+          >
+            <PranuesHomeView />
+          </div>
+        </div>
       </PranuesChecker>
     </AuthenticatorChecker>
   );

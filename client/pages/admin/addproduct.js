@@ -1,7 +1,7 @@
 import AddProductView from "@/components/AddProductView";
-import AdminChecker from "@/components/AdminChecker";
-import AdminSideBar from "@/components/AdminSideBar";
-import AuthenticatorChecker from "@/components/AuthenticatorChecker";
+import AdminChecker from "@/components/Checkers/AdminChecker";
+import AdminSideBar from "@/components/Admin/AdminSideBar";
+import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
 import React from "react";
 
 const AddProduct = () => {

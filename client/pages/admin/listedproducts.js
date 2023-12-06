@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import AdminSideBar from "@/components/AdminSideBar";
+import AdminSideBar from "@/components/Admin/AdminSideBar";
 import "@/styling/global.css";
-import AuthenticatorChecker from "@/components/AuthenticatorChecker";
+import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
 import axios from "axios";
 import TableComponent from "@/components/TableComponent";
 import { Menu } from "@mui/icons-material";
 import MuiAlert from "@mui/material/Alert";
-import AdminChecker from "@/components/AdminChecker";
+import AdminChecker from "@/components/Checkers/AdminChecker";
 import { Snackbar } from "@mui/material";
 import EditProductDialog from "@/components/EditProductDialog";
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import AuthenticatorChecker from "./AuthenticatorChecker";
-import AdminChecker from "./AdminChecker";
+import AuthenticatorChecker from "./Checkers/AuthenticatorChecker";
+import AdminChecker from "./Checkers/AdminChecker";
 import "@/styling/addproductview.css";
 import "@/styling/global.css";
 import { Button, MenuItem, TextField, Snackbar } from "@mui/material";
