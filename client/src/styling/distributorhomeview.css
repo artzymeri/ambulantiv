@@ -1,88 +1,61 @@
 .distributor-home-parent {
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding: 20px 15px;
-}
-
-.home-welcome-div {
-    display: flex;
-    width: 100% ;
-    justify-content: center;
-    align-items: center;
-    font-size: 15px;
-    padding: 20px;
-    flex-shrink: 1;
-    text-align: center;
-    background-color: rgb(80,80,80);
-    color: #fff;
-    font-weight: 500;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 30px;
 }
 
 .home-children-products-number {
-    flex-shrink: 1;
-    display: flex;
-    padding: 20px;
-    flex-basis: 450px;
-    box-sizing: border-box;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
-    color: black;
-    position: relative;
+  background-image: url("../images//products-image-one.jpeg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
 }
 
+.home-children-clients {
+  background-image: url("../images/clients-image-one.avif");
 
-
-.home-children-products-number-after{
-    position: absolute;
-    top: 0px;
-    left: 1px;
-    bottom: 0;
-    right: 0;
-    content: '';
-    background-image: url(https://akm-img-a-in.tosshub.com/businesstoday/images/story/202103/hul_products660_090321092848.jpg?size=948:533);
-    border-radius: 5px;
-    border: 1px solid rgb(80,80,80);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
 }
 
-.home-children-products-number-after img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    filter: brightness(0.5) blur(10px);
-    border-radius: 5px;
+.home-children-sale-products {
+  background-image: url("../images/sale-products-image-one.jpeg");
 }
 
-.big {
-    z-index: 1;
-    font-size: 20px;
-    font-weight: 400;
-    text-align: center;
-
+.home-children-orders {
+  background-image: url("../images/orders-image-one.webp");
 }
-
-
 
 .home-children {
-    background-color: rgb(80,80,80);
-    color: #fff;
-    flex-shrink: 1;
-    display: flex;
-    padding: 20px;
-    flex-basis: 250px;
-    box-sizing: border-box;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    font-weight: 400;
+  background-color: rgb(80, 80, 80);
+  display: flex;
+  color: #fff;
+  flex-shrink: 1;
+  display: flex;
+  padding: 20px;
+  flex-basis: 400px;
+  box-sizing: border-box;
+  flex-grow: 1;
+  background-size: cover;
+  background-position: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size: 30px;
+  font-weight: 400;
+  min-height: 350px;
+  cursor: pointer;
+}
+
+.home-children h3 {
+  text-shadow: 0px 0px 15px rgba(33, 33, 33, 0.5);
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "@/styling/adminsidebar.css";
+import "@/styling/pranuessidebar.css";
 import "@/styling/global.css";
 import { CloseFullscreen, LogoutOutlined } from "@mui/icons-material";
 import { useRouter } from "next/router";
@@ -29,22 +29,32 @@ const PranuesSideBar = (props) => {
   const sidebarOptions = [
     {
       id: 1,
-      displayName: "Llogaritë e regjistruara",
-      pathOnClick: "/admin/registeredusers",
+      displayName: "Ballina",
+      pathOnClick: "/pranues/home",
     },
     {
       id: 2,
-      displayName: "Kërkesat për regjistrim",
-      pathOnClick: "/admin/usersrequests",
+      displayName: "Produktet",
+      pathOnClick: "/pranues/products",
+    },
+    {
+      id: 3,
+      displayName: "Historiku i porosive",
+      pathOnClick: "/pranues/orders",
+    },
+    {
+      id: 3,
+      displayName: "Shporta",
+      pathOnClick: "/pranues/cart",
     },
   ];
 
   return (
     <>
-      <div className="sidebar-wide">
-        <h3 className="sidebar-wide-title">Admin Panel</h3>
+      <div className="sidebar-pranues-wide">
+        <h3 className="sidebar-pranues-wide-title">Pranues Panel</h3>
         <div className="horizontal-line"></div>
-        <div className="sidebar-wide-navbuttons">
+        <div className="sidebar-pranues-wide-navbuttons">
           {sidebarOptions.map((option) => (
             <h5
               onClick={handleClick(option.pathOnClick)}
@@ -54,11 +64,11 @@ const PranuesSideBar = (props) => {
             </h5>
           ))}
         </div>
-        <button className="sidebar-wide-logout" onClick={logout}>
+        <button className="sidebar-pranues-wide-logout" onClick={logout}>
           <LogoutOutlined /> SHKYÇU
         </button>
       </div>
-      <div className="sidebar-fullscreen" style={{ display: display }}>
+      <div className="sidebar-pranues-fullscreen" style={{ display: display }}>
         <CloseFullscreen
           onClick={closeSidebar}
           style={{
@@ -68,9 +78,9 @@ const PranuesSideBar = (props) => {
             top: "20px",
           }}
         />
-        <h3 className="sidebar-fullscreen-title">Admin Panel</h3>
+        <h3 className="sidebar-pranues-fullscreen-title">Pranues Panel</h3>
         <div className="horizontal-line"></div>
-        <div className="sidebar-fullscreen-navbuttons">
+        <div className="sidebar-pranues-fullscreen-navbuttons">
           {sidebarOptions.map((option) => (
             <h5
               onClick={handleClick(option.pathOnClick)}
@@ -80,7 +90,7 @@ const PranuesSideBar = (props) => {
             </h5>
           ))}
         </div>
-        <button className="sidebar-fullscreen-logout" onClick={logout}>
+        <button className="sidebar-pranues-fullscreen-logout" onClick={logout}>
           <LogoutOutlined /> SHKYÇU
         </button>
       </div>

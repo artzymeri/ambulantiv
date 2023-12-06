@@ -1,7 +1,7 @@
-.sidebar-distributor-wide {
+.sidebar-pranues-wide {
   height: 100vh;
   width: 300px;
-  background-color: rgb(80, 80, 80);
+  background-color: rgb(130, 30, 30);
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -11,7 +11,7 @@
   flex-shrink: 0;
 }
 
-.sidebar-distributor-wide-title {
+.sidebar-pranues-wide-title {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,7 +36,7 @@
   );
 }
 
-.sidebar-distributor-wide-navbuttons {
+.sidebar-pranues-wide-navbuttons {
   display: flex;
   flex-direction: column;
   margin-top: 30px;
@@ -44,7 +44,7 @@
   gap: 7px;
 }
 
-.sidebar-distributor-wide-navbuttons h5 {
+.sidebar-pranues-wide-navbuttons h5 {
   color: black;
   font-weight: 100;
   font-size: 15px;
@@ -64,7 +64,7 @@
   background-color: rgba(255, 255, 255, 0.4) !important;
 }
 
-.sidebar-distributor-wide-logout {
+.sidebar-pranues-wide-logout {
   position: absolute;
   bottom: 30px;
   transform: translate(0%, -50%);
@@ -84,7 +84,7 @@
   gap: 10px;
 }
 
-.sidebar-distributor-wide-logout:hover {
+.sidebar-pranues-wide-logout:hover {
   background-color: rgba(255, 255, 255, 0.4) !important;
 }
 
@@ -105,7 +105,7 @@
   transform: translate(-50%, -50%);
 }
 
-.sidebar-distributor-fullscreen {
+.sidebar-pranues-fullscreen {
   display: none;
   flex-direction: column;
   align-items: center;
@@ -119,7 +119,7 @@
   transition: 0.2s ease-in-out;
 }
 
-.sidebar-distributor-fullscreen-title {
+.sidebar-pranues-fullscreen-title {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -131,7 +131,7 @@
   font-size: 23px;
 }
 
-.sidebar-distributor-fullscreen-navbuttons {
+.sidebar-pranues-fullscreen-navbuttons {
   display: flex;
   flex-direction: column;
   margin-top: 30px;
@@ -139,7 +139,7 @@
   gap: 7px;
 }
 
-.sidebar-distributor-fullscreen-navbuttons h5 {
+.sidebar-pranues-fullscreen-navbuttons h5 {
   color: black;
   font-weight: 100;
   font-size: 15px;
@@ -155,11 +155,11 @@
   transition: 0.1s ease-in-out;
 }
 
-.sidebar-distributor-fullscreen-navbuttons h5:hover {
+.sidebar-pranues-fullscreen-navbuttons h5:hover {
   background-color: rgba(255, 255, 255, 0.4) !important;
 }
 
-.sidebar-distributor-fullscreen-logout {
+.sidebar-pranues-fullscreen-logout {
   position: absolute;
   bottom: 30px;
   transform: translate(0%, -50%);
@@ -179,11 +179,11 @@
   gap: 10px;
 }
 
-.sidebar-distributor-fullscreen-logout:hover {
+.sidebar-pranues-fullscreen-logout:hover {
   background-color: rgba(255, 255, 255, 0.4) !important;
 }
 
-.sidebar-distributor-trigger-wrapper {
+.sidebar-pranues-trigger-wrapper {
   width: 100%;
   padding: 15px;
   background-color: white;
@@ -193,7 +193,7 @@
   position: relative;
 }
 
-.sidebar-distributor-trigger-wrapper::after {
+.sidebar-pranues-trigger-wrapper::after {
   position: absolute;
   top: -200px;
   left: 0;
@@ -204,7 +204,7 @@
   pointer-events: none;
 }
 
-.sidebar-distributor-trigger-button {
+.sidebar-pranues-trigger-button {
   display: none;
   justify-content: center;
   align-items: center;
@@ -224,10 +224,10 @@
 }
 
 @media (max-width: 600px) {
-  .sidebar-distributor-wide {
+  .sidebar-pranues-wide {
     display: none;
   }
-  .sidebar-distributor-trigger-button {
+  .sidebar-pranues-trigger-button {
     display: flex;
   }
 }

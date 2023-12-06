@@ -34,16 +34,17 @@ const DistributorHome = () => {
               justifyContent: "space-between",
               height: "100vh",
               width: "100%",
-              padding: "30px",
             }}
           >
             <DistributorHomeView />
-            <button
-              className="sidebar-distributor-trigger-button shadow-one"
-              onClick={openSidebar}
-            >
-              <Menu style={{ color: "white" }} />
-            </button>
+            <div className="sidebar-distributor-trigger-wrapper">
+              <button
+                className="sidebar-distributor-trigger-button shadow-one"
+                onClick={openSidebar}
+              >
+                <Menu style={{ color: "white" }} />
+              </button>
+            </div>
           </div>
         </div>
       </DistributorChecker>
