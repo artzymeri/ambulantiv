@@ -50,6 +50,7 @@
   font-size: 15px;
   width: 100%;
   padding: 10px;
+  gap: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,8 +67,7 @@
 
 .sidebar-distributor-wide-logout {
   position: absolute;
-  bottom: 30px;
-  transform: translate(0%, -50%);
+  bottom: 10px;
   width: calc(100% - 20px);
   padding: 10px;
   border-radius: 10px;
@@ -144,6 +144,7 @@
   font-weight: 100;
   font-size: 15px;
   width: 100%;
+  gap: 5px;
   padding: 10px;
   display: flex;
   justify-content: center;
@@ -161,9 +162,8 @@
 
 .sidebar-distributor-fullscreen-logout {
   position: absolute;
-  bottom: 30px;
+  bottom: 10px;
   transform: translate(0%, -50%);
-  width: calc(100% - 20px);
   padding: 10px;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.2);

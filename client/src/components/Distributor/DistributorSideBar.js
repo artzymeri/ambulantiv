@@ -3,9 +3,11 @@ import "@/styling/Distributor/distributorsidebar.css";
 import "@/styling/global.css";
 import {
   CloseFullscreen,
+  Home,
+  List,
+  LocalShipping,
   LogoutOutlined,
-  MenuIcon,
-  MenuOutlined,
+  Person,
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
 
@@ -36,21 +38,25 @@ const DistributorSideBar = (props) => {
       id: 1,
       displayName: "Ballina",
       pathOnClick: "/distributor/home",
+      icon: <Home />
     },
     {
       id: 2,
       displayName: "Produktet e Listuara",
       pathOnClick: "/distributor/companyproducts",
+      icon: <List />
     },
     {
       id: 3,
-      displayName: "Klientët tanë",
+      displayName: "Klientët Tanë",
       pathOnClick: "/distributor/clients",
+      icon: <Person />
     },
     {
       id: 3,
       displayName: "Porositë",
       pathOnClick: "/distributor/orders",
+      icon: <LocalShipping />
     },
   ];
 
@@ -65,6 +71,7 @@ const DistributorSideBar = (props) => {
               onClick={handleClick(option.pathOnClick)}
               className={isActive(option.pathOnClick)}
             >
+              {option.icon}
               {option.displayName}
             </h5>
           ))}
@@ -96,6 +103,7 @@ const DistributorSideBar = (props) => {
               onClick={handleClick(option.pathOnClick)}
               className={isActive(option.pathOnClick)}
             >
+              {option.icon}
               {option.displayName}
             </h5>
           ))}
