@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "@/styling/distributorsidebar.css";
+import "@/styling/Distributor/distributorsidebar.css";
 import "@/styling/global.css";
 import {
   CloseFullscreen,

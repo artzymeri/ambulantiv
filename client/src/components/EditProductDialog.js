@@ -47,6 +47,7 @@ const EditProductDialog = (props) => {
     setEditedProduct({
       id: editedProductData.id,
       name: editedProductData.name,
+      category: editedProductData.category,
       price: editedProductData.price,
       weight: editedProductData.weight,
       distributor: editedProductData.distributor,
@@ -60,6 +61,7 @@ const EditProductDialog = (props) => {
 
   const [editedProduct, setEditedProduct] = useState({
     name: null,
+    category: null,
     price: null,
     weight: null,
     distributor: null,
@@ -96,6 +98,29 @@ const EditProductDialog = (props) => {
     refreshListedProductsTable();
     handleCloseDialog();
   };
+
+  const categories = [
+    {
+      id: 1,
+      name: 'Pije',
+    },
+    {
+      id: 2,
+      name: 'Fruta dhe Perime'
+    },
+    {
+      id: 3,
+      name: 'Ushqimore'
+    },
+    {
+      id: 4,
+      name: 'Shtëpiake'
+    },
+    {
+      id: 5,
+      name: 'Higjenë'
+    }
+  ]
 
   return (
     isClient && (
@@ -137,6 +162,23 @@ const EditProductDialog = (props) => {
                 }
               />
               <TextField
+              id="category"
+              label="Kategoria"
+              variant="outlined"
+              className="shadow-one"
+              fullWidth
+              select
+              autoComplete="off"
+              value={editedProduct.category}
+              onChange={(e)=> setEditedProduct({...editedProduct, category: e.target.value})}
+              >
+                {categories.map((category)=>{
+                  return(
+                    <MenuItem key={category.id} value={category.name}>{category.name}</MenuItem>
+                  )
+                })}
+              </TextField>
+              <TextField
                 id="price"
                 label="Çmimi i Produktit"
                 variant="outlined"
@@ -154,7 +196,6 @@ const EditProductDialog = (props) => {
                 label="Pesha e Produktit"
                 variant="outlined"
                 className="shadow-one"
-                type="number"
                 fullWidth
                 autoComplete="off"
                 value={editedProduct.weight}

@@ -37,7 +37,31 @@ const AddProductView = () => {
     weight: null,
     distributor: null,
     photo: null,
+    category: null,
   });
+
+  const categories = [
+    {
+      id: 1,
+      name: 'Pije',
+    },
+    {
+      id: 2,
+      name: 'Fruta dhe Perime'
+    },
+    {
+      id: 3,
+      name: 'Ushqimore'
+    },
+    {
+      id: 4,
+      name: 'Shtëpiake'
+    },
+    {
+      id: 5,
+      name: 'Higjenë'
+    }
+  ]
 
   const [file, setFile] = useState(null);
 
@@ -63,6 +87,7 @@ const AddProductView = () => {
           weight: "",
           distributor: "",
           photo: null,
+          category: '',
         });
         setSnackbarData({
           title: title,
@@ -105,6 +130,23 @@ const AddProductView = () => {
                 }
               />
               <TextField
+              id="category"
+              label="Kategoria"
+              variant="outlined"
+              className="shadow-one"
+              fullWidth
+              select
+              autoComplete="off"
+              value={newProduct.category}
+              onChange={(e)=> setNewProduct({...newProduct, category: e.target.value})}
+              >
+                {categories.map((category)=>{
+                  return(
+                    <MenuItem key={category.id} value={category.name}>{category.name}</MenuItem>
+                  )
+                })}
+              </TextField>
+              <TextField
                 id="price"
                 label="Çmimi i Produktit"
                 variant="outlined"
@@ -122,7 +164,6 @@ const AddProductView = () => {
                 label="Pesha e Produktit"
                 variant="outlined"
                 className="shadow-one"
-                type="number"
                 fullWidth
                 autoComplete="off"
                 value={newProduct.weight}

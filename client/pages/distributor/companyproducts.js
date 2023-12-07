@@ -96,18 +96,22 @@ const CompanyListedProducts = () => {
     },
     {
       id: 2,
-      name: "Çmimi",
+      name: 'Kategoria',
     },
     {
       id: 3,
-      name: "Pesha",
+      name: "Çmimi",
     },
     {
       id: 4,
+      name: "Pesha",
+    },
+    {
+      id: 5,
       name: "Foto e produktit",
     },
     {
-      id: 6,
+      id: 7,
       name: "Butonat",
     },
   ];

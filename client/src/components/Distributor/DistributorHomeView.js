@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "@/styling/global.css";
-import "@/styling/distributorhomeview.css";
+import "@/styling/Distributor/distributorhomeview.css";
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -43,7 +43,7 @@ const DistributorHomeView = () => {
                   produkt të listuar
                 </h3>
               ) : (
-                <>JU keni{homeData.length} produkte të listuara</>
+                <h3>Ju keni <span style={{ fontSize: '60px'}}>{homeData.length}</span> produkte të listuara</h3>
               )}
             </>
           )}

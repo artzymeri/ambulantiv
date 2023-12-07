@@ -51,10 +51,11 @@ app.get("/getlistedproducts/:companyname", async (req, res) => {
 
 app.post("/addnewproduct", async (req, res) => {
   try {
-    const { name, price, weight, distributor, photo } = req.body.newProduct;
+    const { name, category, price, weight, distributor, photo } = req.body.newProduct;
 
     await listed_products.create({
       name: name,
+      category: category,
       price: price,
       weight: weight,
       distributor: distributor,
@@ -90,7 +91,7 @@ app.post("/deleteproduct/:productId", async (req, res) => {
 
 app.post("/editproduct/:productId", async (req, res) => {
   const { productId } = req.params;
-  const { name, price, weight, distributor, photo } = req.body.editedProduct;
+  const { name, category, price, weight, distributor, photo } = req.body.editedProduct;
 
   const productToEdit = await listed_products.findByPk(productId);
 
@@ -99,6 +100,7 @@ app.post("/editproduct/:productId", async (req, res) => {
   }
 
   productToEdit.name = name;
+  productToEdit.category = category;
   productToEdit.price = price;
   productToEdit.weight = weight;
   productToEdit.distributor = distributor;

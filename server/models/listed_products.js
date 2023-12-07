@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     weight: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -35,6 +35,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    category : {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }
+    }
   });
   return listed_products;
 };

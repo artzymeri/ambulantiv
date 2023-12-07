@@ -78,8 +78,9 @@ const TableComponent = (props) => {
               {props.productsList && (
                 <>
                   <div>{row.name}</div>
+                  <div>{row.category}</div>
                   <div>{row.price}€</div>
-                  <div>{row.weight}g</div>
+                  <div>{row.weight}</div>
                   <HtmlTooltip
                     title={
                       <React.Fragment>
@@ -117,8 +118,9 @@ const TableComponent = (props) => {
               {props.companyProductsList && (
                 <>
                   <div>{row.name}</div>
+                  <div>{row.category}</div>
                   <div>{row.price}€</div>
-                  <div>{row.weight}g</div>
+                  <div>{row.weight}</div>
                   <HtmlTooltip
                     title={
                       <React.Fragment>

@@ -3,6 +3,7 @@ import "@/styling/global.css";
 import "@/styling/Pranues/pranueshome.css";
 import axios from "axios";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ProductCard from "../ProductCard";
 
 const PranuesHomeView = () => {
   const [isClient, setIsClient] = useState(false);
@@ -22,18 +23,7 @@ const PranuesHomeView = () => {
         <div className="pranues-home-latestproducts b-25 shadow-one">
           {productsData.map((product) => {
             return (
-              <div className="pranues-home-latestproducts-child shadow-one">
-                <img src={product.photo} />
-                <div className="pranues-home-latestproducts-child-text">
-                  <div className="pranues-home-latestproducts-child-text-up">
-                    <h4>{product.name}</h4>
-                    <span style={{ fontSize: "25px" }}>{product.price}€</span>
-                  </div>
-                  <button>
-                    Shto në shportë <ShoppingCartIcon sx={{ height: "20px" }} />
-                  </button>
-                </div>
-              </div>
+              <ProductCard product={product} />
             );
           })}
         </div>

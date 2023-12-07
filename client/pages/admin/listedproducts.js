@@ -48,22 +48,26 @@ const ListedProducts = () => {
     },
     {
       id: 2,
-      name: "Çmimi",
+      name: 'Kategoria',
     },
     {
       id: 3,
-      name: "Pesha",
+      name: "Çmimi",
     },
     {
       id: 4,
-      name: "Foto e produktit",
+      name: "Pesha",
     },
     {
       id: 5,
-      name: "Distributori",
+      name: "Foto e produktit",
     },
     {
       id: 6,
+      name: "Distributori",
+    },
+    {
+      id: 7,
       name: "Butonat",
     },
   ];
