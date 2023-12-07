@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "@/styling/Pranues/pranuessidebar.css";
 import "@/styling/global.css";
-import { CloseFullscreen, LogoutOutlined } from "@mui/icons-material";
+import { CloseFullscreen, History, Home, LocalGroceryStore, LogoutOutlined, ShoppingBag } from "@mui/icons-material";
 import { useRouter } from "next/router";
 
 const PranuesSideBar = (props) => {
@@ -31,21 +31,19 @@ const PranuesSideBar = (props) => {
       id: 1,
       displayName: "Ballina",
       pathOnClick: "/pranues/home",
+      icon: <Home />
     },
     {
       id: 2,
       displayName: "Produktet",
       pathOnClick: "/pranues/products",
+      icon: <LocalGroceryStore />
     },
     {
       id: 3,
       displayName: "Historiku i porosive",
       pathOnClick: "/pranues/orders",
-    },
-    {
-      id: 3,
-      displayName: "Shporta",
-      pathOnClick: "/pranues/cart",
+      icon: <History />
     },
   ];
 
@@ -60,6 +58,7 @@ const PranuesSideBar = (props) => {
               onClick={handleClick(option.pathOnClick)}
               className={isActive(option.pathOnClick)}
             >
+              {option.icon}
               {option.displayName}
             </h5>
           ))}

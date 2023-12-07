@@ -59,6 +59,7 @@ const CompanyListedProducts = () => {
 
   const [editedProduct, setEditedProduct] = useState({
     name: null,
+    category: null,
     price: null,
     weight: null,
     distributor: null,
@@ -77,6 +78,7 @@ const CompanyListedProducts = () => {
     setOpenDialog(true);
     setEditedProduct({
       id: product.id,
+      category: product.category,
       name: product.name,
       price: product.price,
       weight: product.weight,

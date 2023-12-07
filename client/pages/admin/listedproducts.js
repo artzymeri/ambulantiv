@@ -110,6 +110,7 @@ const ListedProducts = () => {
 
   const [editedProduct, setEditedProduct] = useState({
     name: null,
+    category: null,
     price: null,
     weight: null,
     distributor: null,
@@ -121,6 +122,7 @@ const ListedProducts = () => {
     setEditedProduct({
       id: product.id,
       name: product.name,
+      category: product.category,
       price: product.price,
       weight: product.weight,
       distributor: product.distributor,

@@ -1,0 +1,10 @@
+.products-wrapper-parent {
+    display: flex;
+    width: 100%;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    padding: 30px;
+    gap: 15px;
+    justify-content: center;
+    overflow-y: auto;
+}

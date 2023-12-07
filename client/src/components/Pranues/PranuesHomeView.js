@@ -21,7 +21,7 @@ const PranuesHomeView = () => {
     isClient && (
       <div className="pranues-home-parent">
         <div className="pranues-home-latestproducts b-25 shadow-one">
-          {productsData.map((product) => {
+          {productsData.slice().reverse().map((product) => {
             return (
               <ProductCard product={product} />
             );
