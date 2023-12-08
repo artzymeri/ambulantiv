@@ -4,7 +4,7 @@ import PranuesSideBar from "@/components/Pranues/PranuesSideBar";
 import ProductsView from "@/components/ProductsView";
 import React from "react";
 
-const Drinks = () => {
+const Fruitsandvegetables = () => {
   return (
     <AuthenticatorChecker>
       <PranuesChecker>
@@ -17,11 +17,11 @@ const Drinks = () => {
           }}
         >
           <PranuesSideBar />
-          <ProductsView drinksProducts={true} />
+          <ProductsView fruitsandvegetablesProducts={true} />
         </div>
       </PranuesChecker>
     </AuthenticatorChecker>
   );
 };
 
-export default Drinks;
+export default Fruitsandvegetables;

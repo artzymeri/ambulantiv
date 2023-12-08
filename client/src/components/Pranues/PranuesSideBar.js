@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import "@/styling/Pranues/pranuessidebar.css";
 import "@/styling/global.css";
-import { CloseFullscreen, History, Home, LocalGroceryStore, LogoutOutlined, ShoppingBag } from "@mui/icons-material";
+import {
+  AccountCircle,
+  CloseFullscreen,
+  History,
+  Home,
+  LocalGroceryStore,
+  LogoutOutlined,
+  ShoppingBag,
+} from "@mui/icons-material";
 import { useRouter } from "next/router";
 
 const PranuesSideBar = (props) => {
@@ -31,41 +39,54 @@ const PranuesSideBar = (props) => {
       id: 1,
       displayName: "Ballina",
       pathOnClick: "/pranues/home",
-      icon: <Home />
+      icon: <Home />,
     },
     {
       id: 2,
       displayName: "Produktet",
       pathOnClick: "/pranues/products",
-      icon: <LocalGroceryStore />
+      icon: <LocalGroceryStore />,
     },
     {
       id: 3,
       displayName: "Historiku i porosive",
       pathOnClick: "/pranues/orders",
-      icon: <History />
+      icon: <History />,
     },
   ];
 
   return (
     <>
       <div className="sidebar-pranues-wide">
-        <h3 className="sidebar-pranues-wide-title">Pranues Panel</h3>
-        <div className="horizontal-line"></div>
-        <div className="sidebar-pranues-wide-navbuttons">
-          {sidebarOptions.map((option) => (
-            <h5
-              onClick={handleClick(option.pathOnClick)}
-              className={isActive(option.pathOnClick)}
-            >
-              {option.icon}
-              {option.displayName}
-            </h5>
-          ))}
+        <div className="sidebar-pranues-wide-top">
+          <h3 className="sidebar-pranues-wide-title">Pranues Panel</h3>
+          <div className="horizontal-line"></div>
+          <div className="sidebar-pranues-wide-navbuttons">
+            {sidebarOptions.map((option) => (
+              <h5
+                onClick={handleClick(option.pathOnClick)}
+                className={isActive(option.pathOnClick)}
+              >
+                {option.icon}
+                {option.displayName}
+              </h5>
+            ))}
+          </div>
         </div>
-        <button className="sidebar-pranues-wide-logout" onClick={logout}>
-          <LogoutOutlined /> SHKYÇU
-        </button>
+        <div className="sidebar-pranues-wide-bottom">
+          <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+            <button style={{ flexGrow: 1 }}>
+              <AccountCircle /> Profili
+            </button>
+            <button style={{ flexGrow: 1 }}>
+              <ShoppingBag />
+              Shporta
+            </button>
+          </div>
+          <button className="sidebar-pranues-wide-logout" onClick={logout}>
+            <LogoutOutlined /> SHKYÇU
+          </button>
+        </div>
       </div>
       <div className="sidebar-pranues-fullscreen" style={{ display: display }}>
         <CloseFullscreen
@@ -89,9 +110,14 @@ const PranuesSideBar = (props) => {
             </h5>
           ))}
         </div>
-        <button className="sidebar-pranues-fullscreen-logout" onClick={logout}>
-          <LogoutOutlined /> SHKYÇU
-        </button>
+        <div>
+          <button
+            className="sidebar-pranues-fullscreen-logout"
+            onClick={logout}
+          >
+            <LogoutOutlined /> SHKYÇU
+          </button>
+        </div>
       </div>
     </>
   );

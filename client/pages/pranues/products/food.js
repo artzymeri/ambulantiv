@@ -17,7 +17,7 @@ const Drinks = () => {
           }}
         >
           <PranuesSideBar />
-          <ProductsView drinksProducts={true} />
+          <ProductsView foodProducts={true} />
         </div>
       </PranuesChecker>
     </AuthenticatorChecker>

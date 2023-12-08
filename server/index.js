@@ -49,9 +49,70 @@ app.get("/getlistedproducts/:companyname", async (req, res) => {
   }
 });
 
+app.get("/getdrinksproducts", async (req, res) => {
+  try {
+    const drinksProducts = await listed_products.findAll({
+      where: { category: "Pije" },
+    });
+    res.json(drinksProducts);
+  } catch (error) {
+    console.error("Database query error:", error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+app.get("/getfruitsandvegetablesproducts", async (req, res) => {
+  try {
+    const fruitsandvegetablesProducts = await listed_products.findAll({
+      where: { category: "Fruta dhe Perime" },
+    });
+    res.json(fruitsandvegetablesProducts);
+  } catch (error) {
+    console.error("Database query error:", error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+app.get("/gethousekeepproducts", async (req, res) => {
+  try {
+    const fruitsandvegetablesProducts = await listed_products.findAll({
+      where: { category: "Shtepiake" },
+    });
+    res.json(fruitsandvegetablesProducts);
+  } catch (error) {
+    console.error("Database query error:", error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+app.get("/getfoodproducts", async (req, res) => {
+  try {
+    const fruitsandvegetablesProducts = await listed_products.findAll({
+      where: { category: "Ushqimore" },
+    });
+    res.json(fruitsandvegetablesProducts);
+  } catch (error) {
+    console.error("Database query error:", error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+app.get("/gethygeneproducts", async (req, res) => {
+  try {
+    const fruitsandvegetablesProducts = await listed_products.findAll({
+      where: { category: "Higjenë" },
+    });
+    res.json(fruitsandvegetablesProducts);
+  } catch (error) {
+    console.error("Database query error:", error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
 app.post("/addnewproduct", async (req, res) => {
   try {
-    const { name, category, price, weight, distributor, photo } = req.body.newProduct;
+    const { name, category, price, weight, distributor, photo } =
+      req.body.newProduct;
 
     await listed_products.create({
       name: name,
@@ -91,7 +152,8 @@ app.post("/deleteproduct/:productId", async (req, res) => {
 
 app.post("/editproduct/:productId", async (req, res) => {
   const { productId } = req.params;
-  const { name, category, price, weight, distributor, photo } = req.body.editedProduct;
+  const { name, category, price, weight, distributor, photo } =
+    req.body.editedProduct;
 
   const productToEdit = await listed_products.findByPk(productId);
 
