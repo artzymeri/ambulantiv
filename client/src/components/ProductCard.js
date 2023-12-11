@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "@/styling/global.css";
 import "@/styling/productcard.css";
-import {
-  Add,
-  AddShoppingCart,
-  LocalMall,
-  PlusOne,
-  Remove,
-} from "@mui/icons-material";
+import { Add, AddShoppingCart, LocalMall, Remove } from "@mui/icons-material";
 import { Button, ButtonGroup, Tooltip } from "@mui/material";
 
 const ProductCard = (props) => {
@@ -41,10 +35,10 @@ const ProductCard = (props) => {
   const [number, setNumber] = useState(parseInt(storedValue) || 0);
 
   const buttonsGroup = () => {
-    return cartProducts.map((product) => {
+    for (const product of cartProducts) {
       if (product.id === id) {
         return (
-          <Tooltip title="Produkti është vendosur në shportë">
+          <Tooltip title="Produkti është vendosur në shportë" key={product.id}>
             <ButtonGroup
               variant="contained"
               color="success"
@@ -61,77 +55,74 @@ const ProductCard = (props) => {
             </ButtonGroup>
           </Tooltip>
         );
-      } else {
-        return (
-          <ButtonGroup
-            variant="contained"
-            color="success"
-            style={{
-              background: "whitesmoke",
-              boxShadow: "none",
-            }}
-          >
-            <div className="increase-decrease-container">
-              {number < 1 ? (
-                <span className="increase-decrease-buttons cursor-disabled">
-                  <Remove sx={{ height: "15px", color: "#81c784" }} />
-                </span>
-              ) : (
-                <span
-                  className="increase-decrease-buttons"
-                  onClick={() => {
-                    localStorage.setItem(`productId${id}`, number - 1);
-                    setNumber(number - 1);
-                  }}
-                >
-                  <Remove sx={{ height: "15px", color: "#81c784" }} />
-                </span>
-              )}
-              <input
-                value={number}
-                onChange={(e) => {
-                  localStorage.setItem(
-                    `productId:${id}`,
-                    parseInt(e.target.value)
-                  );
-                  setNumber(parseInt(e.target.value));
-                }}
-                type="number"
-                className="increase-decrease-number"
-              />
-              <span
-                className="increase-decrease-buttons"
-                onClick={() => {
-                  localStorage.setItem(`productId:${id}`, number + 1);
-                  setNumber(number + 1);
-                }}
-              >
-                <Add sx={{ height: "15px", color: "#81c784" }} />
-              </span>
-            </div>
-            <Button
-              sx={{ width: "35px" }}
+      }
+    }
+
+    return (
+      <ButtonGroup
+        variant="contained"
+        color="success"
+        style={{
+          background: "whitesmoke",
+          boxShadow: "none",
+        }}
+      >
+        <div className="increase-decrease-container">
+          {number < 1 ? (
+            <span className="increase-decrease-buttons cursor-disabled">
+              <Remove sx={{ height: "15px", color: "#81c784" }} />
+            </span>
+          ) : (
+            <span
+              className="increase-decrease-buttons"
               onClick={() => {
-                setCartProducts((prevCartProducts) => {
-                  const newProduct = {
-                    id: id,
-                    name: name,
-                    price: price,
-                    weight: weight,
-                    quantity: number,
-                    distributor: distributor,
-                  };
-                  return prevCartProducts.concat(newProduct);
-                });
-                updateLocalStorage();
+                localStorage.setItem(`productId${id}`, number - 1);
+                setNumber(number - 1);
               }}
             >
-              <AddShoppingCart sx={{ width: "20px" }} />
-            </Button>
-          </ButtonGroup>
-        );
-      }
-    });
+              <Remove sx={{ height: "15px", color: "#81c784" }} />
+            </span>
+          )}
+          <input
+            value={number}
+            onChange={(e) => {
+              localStorage.setItem(`productId:${id}`, parseInt(e.target.value));
+              setNumber(parseInt(e.target.value));
+            }}
+            type="number"
+            className="increase-decrease-number"
+          />
+          <span
+            className="increase-decrease-buttons"
+            onClick={() => {
+              localStorage.setItem(`productId:${id}`, number + 1);
+              setNumber(number + 1);
+            }}
+          >
+            <Add sx={{ height: "15px", color: "#81c784" }} />
+          </span>
+        </div>
+        <Button
+          sx={{ width: "35px" }}
+          onClick={() => {
+            setCartProducts((prevCartProducts) => {
+              const newProduct = {
+                id: id,
+                name: name,
+                price: price,
+                weight: weight,
+                quantity: number,
+                distributor: distributor,
+              };
+              return prevCartProducts.concat(newProduct);
+            });
+            updateLocalStorage();
+          }}
+        >
+          <AddShoppingCart sx={{ width: "20px" }} />
+        </Button>
+      </ButtonGroup>
+    );
   };
 
   return (

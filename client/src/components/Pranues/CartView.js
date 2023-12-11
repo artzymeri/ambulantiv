@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartview.css";
 import { ShoppingBag } from "@mui/icons-material";
+import CartItem from "./CartItem";
 
 const CartView = () => {
   const [isClient, setIsClient] = useState(false);
@@ -20,17 +21,9 @@ const CartView = () => {
           <h3 style={{ color: "rgb(130, 30, 30)" }}>Shporta</h3>
         </div>
         <div className="cart-view-items-wrapper">
-          {/* {cartProductsList.map((product) => {
-            return (
-              <>
-                <h6>{product.name}</h6>
-                <h6>{product.price}</h6>
-                <h6>{product.weight}</h6>
-                <h6>{product.quantity}</h6>
-                <h6>{product.distributor}</h6>
-              </>
-            );
-          })} */}
+          {cartProductsList.map((product) => {
+            return <CartItem product={product} />;
+          })}
         </div>
       </div>
     )
