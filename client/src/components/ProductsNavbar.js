@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "@/styling/productsnavbar.css";
 import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
@@ -14,6 +14,12 @@ import { Tooltip } from "@mui/material";
 
 const ProductsNavbar = (props) => {
   const { changeSearchQuery } = props;
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const productOptions = [
     {
@@ -67,37 +73,39 @@ const ProductsNavbar = (props) => {
   const router = useRouter();
 
   return (
-    <div className="products-navbar-parent-wide">
-      <div className="products-navbar-up">
-        {productOptions.map((option) => {
-          return productNameDynamic(option);
-        })}
-        <div className="products-navbar-search-container">
-          <SearchIcon sx={{ color: "gray" }} />
-          <input
-            onChange={(e) => changeSearchQuery(e.target.value)}
-            type="text"
-            placeholder="Kërko produktet"
-          />
+    isClient && (
+      <div className="products-navbar-parent-wide">
+        <div className="products-navbar-up">
+          {productOptions.map((option) => {
+            return productNameDynamic(option);
+          })}
+          <div className="products-navbar-search-container">
+            <SearchIcon sx={{ color: "gray" }} />
+            <input
+              onChange={(e) => changeSearchQuery(e.target.value)}
+              type="text"
+              placeholder="Kërko produktet"
+            />
+          </div>
+        </div>
+        <div className="products-navbar-down">
+          {productOptions.map((option) => {
+            return (
+              <Tooltip title={option.name}>
+                <div
+                  onClick={() => {
+                    router.push(option.pathOnClick);
+                  }}
+                  className={isActiveOption(option.pathOnClick)}
+                >
+                  {option.icon}
+                </div>
+              </Tooltip>
+            );
+          })}
         </div>
       </div>
-      <div className="products-navbar-down">
-        {productOptions.map((option) => {
-          return (
-            <Tooltip title={option.name}>
-              <div
-                onClick={() => {
-                  router.push(option.pathOnClick);
-                }}
-                className={isActiveOption(option.pathOnClick)}
-              >
-                {option.icon}
-              </div>
-            </Tooltip>
-          );
-        })}
-      </div>
-    </div>
+    )
   );
 };
 

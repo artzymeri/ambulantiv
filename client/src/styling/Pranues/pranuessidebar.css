@@ -207,17 +207,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-}
-
-.sidebar-pranues-trigger-wrapper::after {
-  position: absolute;
-  top: -200px;
-  left: 0;
-  width: 100%;
-  height: 200px;
-  background: linear-gradient(to top, white, transparent);
-  content: "";
-  pointer-events: none;
+  display: none;
 }
 
 .sidebar-pranues-trigger-button {
@@ -244,6 +234,9 @@
     display: none;
   }
   .sidebar-pranues-trigger-button {
+    display: flex;
+  }
+  .sidebar-pranues-trigger-wrapper {
     display: flex;
   }
 }

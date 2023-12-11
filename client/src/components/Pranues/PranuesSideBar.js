@@ -78,7 +78,7 @@ const PranuesSideBar = (props) => {
             <button style={{ flexGrow: 1 }}>
               <AccountCircle /> Profili
             </button>
-            <button style={{ flexGrow: 1 }}>
+            <button style={{ flexGrow: 1 }} onClick={()=> { router.push('/pranues/cart')}}>
               <ShoppingBag />
               Shporta
             </button>

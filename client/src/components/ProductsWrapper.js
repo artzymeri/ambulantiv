@@ -17,7 +17,10 @@ const ProductsWrapper = (props) => {
 
   const [productsData, setProductsData] = useState([]);
 
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
+    setIsClient(true);
     if (allProducts) {
       axios.get("http://localhost:8080/getlistedproducts").then((res) => {
         setProductsData(res.data);
@@ -65,21 +68,25 @@ const ProductsWrapper = (props) => {
   }, [searchQuery, productsData]);
 
   return (
-    <div className="products-wrapper-parent">
-      {fileteredProducts.length === 0 ? (
-        <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
-          <ProductionQuantityLimitsOutlined sx={{ color: "gray" }} />
-          <p style={{ color: "gray" }}>Asnjë produkt për tu shfaqur</p>
-        </div>
-      ) : (
-        fileteredProducts
-          .slice()
-          .reverse()
-          .map((product) => {
-            return <ProductCard product={product} />;
-          })
-      )}
-    </div>
+    isClient && (
+      <div className="products-wrapper-parent">
+        {fileteredProducts.length === 0 ? (
+          <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
+            <ProductionQuantityLimitsOutlined sx={{ color: "gray" }} />
+            <p style={{ color: "gray" }}>Asnjë produkt për tu shfaqur</p>
+          </div>
+        ) : (
+          fileteredProducts
+            .slice()
+            .reverse()
+            .map((product, index) => {
+              return (
+                <ProductCard key={`${product.id}-${index}`} product={product} />
+              );
+            })
+        )}
+      </div>
+    )
   );
 };
 
