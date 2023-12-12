@@ -22,7 +22,7 @@ const CartView = dynamic(() => import("@/components/Pranues/CartView"), {
   ssr: false,
 });
 
-const Products = () => {
+const Cart = () => {
   const [display, setDisplay] = useState("none");
 
   const openSidebar = () => {
@@ -70,4 +70,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Cart;

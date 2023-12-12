@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartitem.css";
-import { Button, ButtonGroup, Tooltip } from "@mui/material";
-import { Add, AddShoppingCart, Remove } from "@mui/icons-material";
+import { Tooltip } from "@mui/material";
+import { Add, Remove } from "@mui/icons-material";
 
 const CartItem = (props) => {
   const [isClient, setIsClient] = useState(false);
 
   const { id, name, price, weight, quantity, distributor, photo } =
     props.product;
+
+  const { updateLocalStorage } = props;
 
   const getLocalStorageQuantity = (id) => {
     return localStorage.getItem(id);
@@ -20,13 +22,6 @@ const CartItem = (props) => {
   const [cartProducts, setCartProducts] = useState(
     parsedLocalStorageCartItems || []
   );
-
-  const updateLocalStorage = () => {
-    const newArray = cartProducts.filter((product) => product.id !== id);
-    setCartProducts(newArray);
-    localStorage.setItem("cartProducts", JSON.stringify(newArray));
-    localStorage.removeItem(`productId:${id}`);
-  };
 
   const storedValue = getLocalStorageQuantity(`productId:${id}`);
   const [number, setNumber] = useState(parseInt(storedValue) || 0);
@@ -104,7 +99,12 @@ const CartItem = (props) => {
             <h5>Totali:</h5>
             <h3>{totalValue.toFixed(2)}€</h3>
           </div>
-          <div className="cart-item-right-side-r" onClick={updateLocalStorage}>
+          <div
+            className="cart-item-right-side-r"
+            onClick={() => {
+              updateLocalStorage(id);
+            }}
+          >
             <Tooltip title="Fshij produktin nga shporta">
               <Remove sx={{ color: "white" }} />
             </Tooltip>

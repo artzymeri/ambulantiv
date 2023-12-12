@@ -1,16 +1,27 @@
+import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartview.css";
 import { ShoppingBag } from "@mui/icons-material";
-import CartItem from "./CartItem";
+
+const CartItem = dynamic(() => import("@/components/Pranues/CartItem"), {
+  ssr: false,
+});
 
 const CartView = () => {
   const [isClient, setIsClient] = useState(false);
   const [cartProductsList, setCartProductsList] = useState([]);
 
+  const updateLocalStorage = (id) => {
+    const newArray = cartProductsList.filter((product) => product.id !== id);
+    setCartProductsList(newArray);
+    localStorage.setItem("cartProducts", JSON.stringify(newArray));
+    localStorage.removeItem(`productId:${id}`);
+  };
+
   useEffect(() => {
     setIsClient(true);
     setCartProductsList(JSON.parse(localStorage.getItem("cartProducts")));
-  }, []);
+  }, [cartProductsList]);
 
   return (
     isClient && (
@@ -21,7 +32,12 @@ const CartView = () => {
         </div>
         <div className="cart-view-items-wrapper">
           {cartProductsList.map((product) => {
-            return <CartItem product={product} />;
+            return (
+              <CartItem
+                updateLocalStorage={updateLocalStorage}
+                product={product}
+              />
+            );
           })}
         </div>
       </div>
