@@ -222,6 +222,20 @@
   border: 0px solid transparent;
 }
 
+.sidebar-pranues-wide-cart-notify {
+  padding: 5px;
+  background-color: lightyellow;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 13px;
+  height: 20px;
+  width: 20px;
+}
+
 @media (min-width: 600px) {
   .sidebar-fullscreen {
     opacity: 0;

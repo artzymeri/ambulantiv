@@ -10,7 +10,6 @@ const CartView = () => {
   useEffect(() => {
     setIsClient(true);
     setCartProductsList(JSON.parse(localStorage.getItem("cartProducts")));
-    console.log(JSON.parse(localStorage.getItem("cartProducts")));
   }, []);
 
   return (

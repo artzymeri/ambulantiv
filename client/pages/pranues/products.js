@@ -1,21 +1,43 @@
-import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
-import PranuesChecker from "@/components/Checkers/PranuesChecker";
-import PranuesSideBar from "@/components/Pranues/PranuesSideBar";
-import ProductsView from "@/components/ProductsView";
+import dynamic from "next/dynamic";
 import React from "react";
 
-const Products = () => {
+const AuthenticatorChecker = dynamic(
+  () => import("@/components/Checkers/AuthenticatorChecker"),
+  { ssr: false }
+);
 
-    return (
-        <AuthenticatorChecker>
-            <PranuesChecker>
-                <div style={{display: 'flex', width: '100vw', height: '100vh', overflow: 'clip'}}>
-                <PranuesSideBar />
-                <ProductsView allProducts={true} />
-                </div>
-            </PranuesChecker>
-        </AuthenticatorChecker>
-    )
-}
+const PranuesChecker = dynamic(
+  () => import("@/components/Checkers/PranuesChecker"),
+  { ssr: false }
+);
+
+const PranuesSideBar = dynamic(
+  () => import("@/components/Pranues/PranuesSideBar"),
+  { ssr: false }
+);
+
+const ProductsView = dynamic(() => import("@/components/ProductsView"), {
+  ssr: false,
+});
+
+const Products = () => {
+  return (
+    <AuthenticatorChecker>
+      <PranuesChecker>
+        <div
+          style={{
+            display: "flex",
+            width: "100vw",
+            height: "100vh",
+            overflow: "clip",
+          }}
+        >
+          <PranuesSideBar />
+          <ProductsView allProducts={true} />
+        </div>
+      </PranuesChecker>
+    </AuthenticatorChecker>
+  );
+};
 
 export default Products;

@@ -1,9 +1,26 @@
-import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
-import PranuesChecker from "@/components/Checkers/PranuesChecker";
-import CartView from "@/components/Pranues/CartView";
-import PranuesSideBar from "@/components/Pranues/PranuesSideBar";
+import dynamic from "next/dynamic";
+
 import { Menu } from "@mui/material";
 import React, { useState } from "react";
+
+const AuthenticatorChecker = dynamic(
+  () => import("@/components/Checkers/AuthenticatorChecker"),
+  { ssr: false }
+);
+
+const PranuesChecker = dynamic(
+  () => import("@/components/Checkers/PranuesChecker"),
+  { ssr: false }
+);
+
+const PranuesSideBar = dynamic(
+  () => import("@/components/Pranues/PranuesSideBar"),
+  { ssr: false }
+);
+
+const CartView = dynamic(() => import("@/components/Pranues/CartView"), {
+  ssr: false,
+});
 
 const Products = () => {
   const [display, setDisplay] = useState("none");

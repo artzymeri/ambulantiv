@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/pranuessidebar.css";
 import "@/styling/global.css";
 import {
@@ -14,6 +14,16 @@ import { useRouter } from "next/router";
 
 const PranuesSideBar = (props) => {
   const router = useRouter();
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, [localStorage.getItem("cartProducts")]);
+
+  const parsedLocalStorageCartItems = JSON.parse(
+    localStorage.getItem("cartProducts")
+  );
 
   const { display, closeSidebar } = props;
 
@@ -56,70 +66,96 @@ const PranuesSideBar = (props) => {
   ];
 
   return (
-    <>
-      <div className="sidebar-pranues-wide">
-        <div className="sidebar-pranues-wide-top">
-          <h3 className="sidebar-pranues-wide-title">Pranues Panel</h3>
+    isClient && (
+      <>
+        <div className="sidebar-pranues-wide">
+          <div className="sidebar-pranues-wide-top">
+            <h3 className="sidebar-pranues-wide-title">Pranues Panel</h3>
+            <div className="horizontal-line"></div>
+            <div className="sidebar-pranues-wide-navbuttons">
+              {sidebarOptions.map((option) => (
+                <h5
+                  onClick={handleClick(option.pathOnClick)}
+                  className={isActive(option.pathOnClick)}
+                >
+                  {option.icon}
+                  {option.displayName}
+                </h5>
+              ))}
+            </div>
+          </div>
+          <div className="sidebar-pranues-wide-bottom">
+            <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+              <button style={{ flexGrow: 1 }}>
+                <AccountCircle /> Profili
+              </button>
+              {parsedLocalStorageCartItems &&
+              parsedLocalStorageCartItems.length > 0 ? (
+                <button
+                  style={{ flexGrow: 1 }}
+                  onClick={() => {
+                    router.push("/pranues/cart");
+                  }}
+                >
+                  <ShoppingBag />
+                  Shporta
+                  <span className="sidebar-pranues-wide-cart-notify">
+                    {parsedLocalStorageCartItems.length}
+                  </span>
+                </button>
+              ) : (
+                <button
+                  style={{ flexGrow: 1 }}
+                  onClick={() => {
+                    router.push("/pranues/cart");
+                  }}
+                >
+                  <ShoppingBag />
+                  Shporta
+                </button>
+              )}
+            </div>
+            <button className="sidebar-pranues-wide-logout" onClick={logout}>
+              <LogoutOutlined /> SHKYÇU
+            </button>
+          </div>
+        </div>
+        <div
+          className="sidebar-pranues-fullscreen"
+          style={{ display: display }}
+        >
+          <CloseFullscreen
+            onClick={closeSidebar}
+            style={{
+              color: "white",
+              position: "absolute",
+              right: "20px",
+              top: "20px",
+            }}
+          />
+          <h3 className="sidebar-pranues-fullscreen-title">Pranues Panel</h3>
           <div className="horizontal-line"></div>
-          <div className="sidebar-pranues-wide-navbuttons">
+          <div className="sidebar-pranues-fullscreen-navbuttons">
             {sidebarOptions.map((option) => (
               <h5
                 onClick={handleClick(option.pathOnClick)}
                 className={isActive(option.pathOnClick)}
               >
-                {option.icon}
                 {option.displayName}
               </h5>
             ))}
           </div>
-        </div>
-        <div className="sidebar-pranues-wide-bottom">
-          <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-            <button style={{ flexGrow: 1 }}>
-              <AccountCircle /> Profili
-            </button>
-            <button style={{ flexGrow: 1 }} onClick={()=> { router.push('/pranues/cart')}}>
-              <ShoppingBag />
-              Shporta
+          <div>
+            <button
+              className="sidebar-pranues-fullscreen-logout"
+              onClick={logout}
+            >
+              <LogoutOutlined /> SHKYÇU
             </button>
           </div>
-          <button className="sidebar-pranues-wide-logout" onClick={logout}>
-            <LogoutOutlined /> SHKYÇU
-          </button>
         </div>
-      </div>
-      <div className="sidebar-pranues-fullscreen" style={{ display: display }}>
-        <CloseFullscreen
-          onClick={closeSidebar}
-          style={{
-            color: "white",
-            position: "absolute",
-            right: "20px",
-            top: "20px",
-          }}
-        />
-        <h3 className="sidebar-pranues-fullscreen-title">Pranues Panel</h3>
-        <div className="horizontal-line"></div>
-        <div className="sidebar-pranues-fullscreen-navbuttons">
-          {sidebarOptions.map((option) => (
-            <h5
-              onClick={handleClick(option.pathOnClick)}
-              className={isActive(option.pathOnClick)}
-            >
-              {option.displayName}
-            </h5>
-          ))}
-        </div>
-        <div>
-          <button
-            className="sidebar-pranues-fullscreen-logout"
-            onClick={logout}
-          >
-            <LogoutOutlined /> SHKYÇU
-          </button>
-        </div>
-      </div>
-    </>
+      </>
+    )
   );
 };
 
