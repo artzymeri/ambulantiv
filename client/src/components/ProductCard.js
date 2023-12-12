@@ -113,6 +113,7 @@ const ProductCard = (props) => {
                 weight: weight,
                 quantity: number,
                 distributor: distributor,
+                photo: photo,
               };
               return prevCartProducts.concat(newProduct);
             });
