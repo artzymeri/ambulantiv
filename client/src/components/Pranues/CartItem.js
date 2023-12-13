@@ -32,7 +32,7 @@ const CartItem = (props) => {
     setIsClient(true);
     setTotalValue(number * price);
     setCartProducts(JSON.parse(localStorage.getItem("cartProducts")));
-  }, [number, price, cartProducts]);
+  }, [number, price]);
 
   return (
     isClient && (

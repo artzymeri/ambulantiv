@@ -21,7 +21,7 @@ const CartView = () => {
   useEffect(() => {
     setIsClient(true);
     setCartProductsList(JSON.parse(localStorage.getItem("cartProducts")));
-  }, [cartProductsList]);
+  }, []);
 
   return (
     isClient && (

@@ -19,7 +19,7 @@ const PranuesSideBar = (props) => {
 
   useEffect(() => {
     setIsClient(true);
-  }, [localStorage.getItem("cartProducts")]);
+  }, []);
 
   const parsedLocalStorageCartItems = JSON.parse(
     localStorage.getItem("cartProducts")
