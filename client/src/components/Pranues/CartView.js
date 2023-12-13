@@ -4,6 +4,7 @@ import "@/styling/Pranues/cartview.css";
 import { LocalShipping, RemoveCircle, ShoppingBag } from "@mui/icons-material";
 import { Button, Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
+import axios from "axios";
 
 const CartItem = dynamic(() => import("@/components/Pranues/CartItem"), {
   ssr: false,
@@ -39,6 +40,19 @@ const CartView = () => {
     setIsClient(true);
     setCartProductsList(JSON.parse(localStorage.getItem("cartProducts")));
   }, []);
+
+  const orderAll = () => {
+    for (const product of cartProductsList) {
+      axios.post("http://localhost:8080/sendorder", { product }).then((res) => {
+        const { title, message } = res.data;
+        setSnackbarData({
+          title: title,
+          message: message,
+        });
+        setSnackbarOpen(true);
+      });
+    }
+  };
 
   return (
     isClient && (
@@ -91,6 +105,7 @@ const CartView = () => {
               variant="contained"
               color="success"
               className="cart-view-order-button"
+              onClick={orderAll}
             >
               <LocalShipping />
               Porosit

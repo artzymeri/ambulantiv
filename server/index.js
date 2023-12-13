@@ -20,6 +20,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const db = require("./models");
+const orders_table = require("./models/orders_table");
 
 const port = 8080;
 
@@ -421,6 +422,30 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     console.error("Database query error:", error);
     res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+app.post("/sendorder", async (req, res) => {
+  try {
+    const { name, price, weight, quantity, photo, distributor, client } =
+      req.body.product;
+
+    await orders_table.create({
+      productName: name,
+      productPrice: price,
+      productWeight: weight,
+      productQuantity: quantity,
+      productPhoto: photo,
+      productDistributor: distributor,
+      productClient: client,
+    });
+    res.json({
+      title: "success",
+      message: "Porosia u bë me sukses",
+    });
+  } catch (error) {
+    console.log("Error while ordering");
+    res.json({ title: "error", message: "Porosia nuk mund të realizohet" });
   }
 });
 

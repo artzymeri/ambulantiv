@@ -20,6 +20,7 @@ const ProductCard = (props) => {
       quantity: number,
       distributor: distributor,
       photo: photo,
+      client: localStorage.getItem("companyname"),
     };
 
     console.log(newProduct);
