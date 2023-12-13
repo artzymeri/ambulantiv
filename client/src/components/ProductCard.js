@@ -9,7 +9,7 @@ import { observer } from "mobx-react";
 const ProductCard = (props) => {
   const [isClient, setIsClient] = useState(false);
 
-  const { updateLocalStorage } = props;
+  const { updateLocalStorage, activateSnackbar } = props;
 
   const updateCartItems = () => {
     const newProduct = {
@@ -141,6 +141,7 @@ const ProductCard = (props) => {
           sx={{ width: "35px" }}
           onClick={() => {
             updateCartItems();
+            activateSnackbar();
           }}
         >
           <AddShoppingCart sx={{ width: "20px" }} />

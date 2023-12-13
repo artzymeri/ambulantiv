@@ -20,6 +20,9 @@ const PranuesHomeView = () => {
 
   const updateLocalStorage = (newArray) => {
     localStorage.setItem("cartProducts", JSON.stringify(newArray));
+  };
+
+  const activateSnackbar = () => {
     setSnackbarData({
       title: "success",
       message: "Produkti u shtua në shportë",
@@ -63,6 +66,7 @@ const PranuesHomeView = () => {
                   <ProductCard
                     product={product}
                     updateLocalStorage={updateLocalStorage}
+                    activateSnackbar={activateSnackbar}
                   />
                 );
               })}
