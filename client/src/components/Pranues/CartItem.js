@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartitem.css";
 import { Tooltip } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
+import stateStorage from "@/store";
 
 const CartItem = (props) => {
   const [isClient, setIsClient] = useState(false);
@@ -103,6 +104,7 @@ const CartItem = (props) => {
             className="cart-item-right-side-r"
             onClick={() => {
               updateLocalStorage(id);
+              stateStorage.updateCartItems();
             }}
           >
             <Tooltip title="Fshij produktin nga shporta">

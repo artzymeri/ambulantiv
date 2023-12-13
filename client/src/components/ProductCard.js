@@ -3,9 +3,37 @@ import "@/styling/global.css";
 import "@/styling/productcard.css";
 import { Add, AddShoppingCart, LocalMall, Remove } from "@mui/icons-material";
 import { Button, ButtonGroup, Tooltip } from "@mui/material";
+import stateStorage from "@/store";
+import { observer } from "mobx-react";
 
 const ProductCard = (props) => {
   const [isClient, setIsClient] = useState(false);
+
+  const { updateLocalStorage } = props;
+
+  const updateCartItems = () => {
+    const newProduct = {
+      id: id,
+      name: name,
+      price: price,
+      weight: weight,
+      quantity: number,
+      distributor: distributor,
+      photo: photo,
+    };
+  
+    // Get existing cart products from local storage
+    const existingCartProducts = JSON.parse(localStorage.getItem("cartProducts")) || [];
+  
+    // Add the new product to the array
+    const updatedCartProducts = [...existingCartProducts, newProduct];
+  
+    // Update local storage with the updated array
+    localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
+  
+    // Update the state
+    setCartProducts(updatedCartProducts);
+  };
 
   const parsedLocalStorageCartItems = JSON.parse(
     localStorage.getItem("cartProducts")
@@ -15,13 +43,10 @@ const ProductCard = (props) => {
     parsedLocalStorageCartItems || []
   );
 
-  const updateLocalStorage = () => {
-    localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
-  };
-
   useEffect(() => {
     setIsClient(true);
-    updateLocalStorage();
+    updateLocalStorage(cartProducts);
+    stateStorage.updateCartItems();
   }, [cartProducts]);
 
   const { photo, price, name, weight, distributor, id } = props.product;
@@ -105,19 +130,7 @@ const ProductCard = (props) => {
         <Button
           sx={{ width: "35px" }}
           onClick={() => {
-            setCartProducts((prevCartProducts) => {
-              const newProduct = {
-                id: id,
-                name: name,
-                price: price,
-                weight: weight,
-                quantity: number,
-                distributor: distributor,
-                photo: photo,
-              };
-              return prevCartProducts.concat(newProduct);
-            });
-            updateLocalStorage();
+            updateCartItems();
           }}
         >
           <AddShoppingCart sx={{ width: "20px" }} />
@@ -147,4 +160,4 @@ const ProductCard = (props) => {
   );
 };
 
-export default ProductCard;
+export default observer(ProductCard);

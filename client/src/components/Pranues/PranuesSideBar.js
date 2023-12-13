@@ -11,6 +11,8 @@ import {
   ShoppingBag,
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import { observer } from "mobx-react";
+import stateStorage from "@/store";
 
 const PranuesSideBar = (props) => {
   const router = useRouter();
@@ -20,10 +22,6 @@ const PranuesSideBar = (props) => {
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  const parsedLocalStorageCartItems = JSON.parse(
-    localStorage.getItem("cartProducts")
-  );
 
   const { display, closeSidebar } = props;
 
@@ -89,8 +87,7 @@ const PranuesSideBar = (props) => {
               <button style={{ flexGrow: 1 }}>
                 <AccountCircle /> Profili
               </button>
-              {parsedLocalStorageCartItems &&
-              parsedLocalStorageCartItems.length > 0 ? (
+              {stateStorage.cartItems && stateStorage.cartItems.length > 0 ? (
                 <button
                   style={{ flexGrow: 1 }}
                   onClick={() => {
@@ -100,7 +97,7 @@ const PranuesSideBar = (props) => {
                   <ShoppingBag />
                   Shporta
                   <span className="sidebar-pranues-wide-cart-notify">
-                    {parsedLocalStorageCartItems.length}
+                    {stateStorage.cartItems.length}
                   </span>
                 </button>
               ) : (
@@ -159,4 +156,4 @@ const PranuesSideBar = (props) => {
   );
 };
 
-export default PranuesSideBar;
+export default observer(PranuesSideBar);

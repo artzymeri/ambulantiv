@@ -19,6 +19,14 @@ const ProductsWrapper = (props) => {
 
   const [isClient, setIsClient] = useState(false);
 
+  const [cartProducts, setCartProducts] = useState(
+    JSON.parse(localStorage.getItem("cartProducts")) || []
+  );
+
+  const updateLocalStorage = (newArray) => {
+    localStorage.setItem("cartProducts", JSON.stringify(newArray));
+  };
+
   useEffect(() => {
     setIsClient(true);
     if (allProducts) {
@@ -81,7 +89,11 @@ const ProductsWrapper = (props) => {
             .reverse()
             .map((product, index) => {
               return (
-                <ProductCard key={`${product.id}-${index}`} product={product} />
+                <ProductCard
+                  key={`${product.id}-${index}`}
+                  product={product}
+                  updateLocalStorage={updateLocalStorage}
+                />
               );
             })
         )}
