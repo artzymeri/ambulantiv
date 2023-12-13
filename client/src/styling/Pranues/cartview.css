@@ -24,4 +24,9 @@
   gap: 5px;
   width: 100%;
   background-color: whitesmoke;
+  flex-grow: 1;
+}
+
+.cart-view-order-button {
+  height: 70px;
 }

@@ -96,7 +96,7 @@ const ProductCard = (props) => {
         }}
       >
         <div className="increase-decrease-container">
-          {number < 1 ? (
+          {number < 2 ? (
             <span className="increase-decrease-buttons cursor-disabled">
               <Remove sx={{ height: "15px", color: "#81c784" }} />
             </span>
@@ -130,31 +130,14 @@ const ProductCard = (props) => {
             <Add sx={{ height: "15px", color: "#81c784" }} />
           </span>
         </div>
-        {number < 1 ? (
-          <Tooltip title="Sasia duhet të jetë të paktën 1 për tu shtuar në shportë">
-            <Button
-              sx={{
-                width: "35px",
-                cursor: "not-allowed",
-                background: "gray",
-                "&:hover": {
-                  background: "gray",
-                },
-              }}
-            >
-              <AddShoppingCart sx={{ width: "20px" }} />
-            </Button>
-          </Tooltip>
-        ) : (
-          <Button
-            sx={{ width: "35px" }}
-            onClick={() => {
-              updateCartItems();
-            }}
-          >
-            <AddShoppingCart sx={{ width: "20px" }} />
-          </Button>
-        )}
+        <Button
+          sx={{ width: "35px" }}
+          onClick={() => {
+            updateCartItems();
+          }}
+        >
+          <AddShoppingCart sx={{ width: "20px" }} />
+        </Button>
       </ButtonGroup>
     );
   };

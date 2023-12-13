@@ -27,10 +27,12 @@ const PranuesHomeView = dynamic(
 
 const PranuesHome = () => {
   const router = useRouter();
+
   const logout = () => {
     localStorage.removeItem("pranuesToken");
     router.push("/auth/login");
   };
+
   return (
     <AuthenticatorChecker>
       <PranuesChecker>

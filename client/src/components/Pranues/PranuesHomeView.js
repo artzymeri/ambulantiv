@@ -17,15 +17,25 @@ const PranuesHomeView = () => {
     });
   }, []);
 
+  const updateLocalStorage = (newArray) => {
+    localStorage.setItem("cartProducts", JSON.stringify(newArray));
+  };
+
   return (
     isClient && (
       <div className="pranues-home-parent">
         <div className="pranues-home-latestproducts b-25 shadow-one">
-          {productsData.slice().reverse().map((product) => {
-            return (
-              <ProductCard product={product} />
-            );
-          })}
+          {productsData
+            .slice()
+            .reverse()
+            .map((product) => {
+              return (
+                <ProductCard
+                  product={product}
+                  updateLocalStorage={updateLocalStorage}
+                />
+              );
+            })}
         </div>
         <div className="pranues-home-child b-25 shadow-one"></div>
         <div className="pranues-home-child b-25 shadow-one"></div>

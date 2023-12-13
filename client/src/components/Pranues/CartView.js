@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartview.css";
 import { ShoppingBag } from "@mui/icons-material";
+import { Button } from "@mui/material";
 
 const CartItem = dynamic(() => import("@/components/Pranues/CartItem"), {
   ssr: false,
@@ -40,6 +41,15 @@ const CartView = () => {
             );
           })}
         </div>
+        {cartProductsList && cartProductsList.length > 0 ? (
+          <Button
+            variant="contained"
+            color="success"
+            className="cart-view-order-button"
+          >
+            Porosit
+          </Button>
+        ) : null}
       </div>
     )
   );
