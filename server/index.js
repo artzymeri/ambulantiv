@@ -10,6 +10,7 @@ const {
   users_table,
   users_requests_table,
   listed_products,
+  orders_table,
 } = require("./models");
 
 const secretKey = process.env.SECRET_KEY;
@@ -20,7 +21,6 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const db = require("./models");
-const orders_table = require("./models/orders_table");
 
 const port = 8080;
 
@@ -314,7 +314,7 @@ app.post("/register", async (req, res) => {
       emailAddress,
       password,
       companyType,
-    } = req.body;
+    } = req.body.product;
 
     await users_table.create({
       namesurname,
@@ -396,7 +396,7 @@ app.post("/login", async (req, res) => {
         namesurname,
         emailAddressOfUser: emailAddress,
         companyType,
-        companyname: companyname,
+        companyname: user.companyname,
         userId: id,
       });
     } else if (companyType === "pranues") {
@@ -414,6 +414,7 @@ app.post("/login", async (req, res) => {
         phoneNumberOfUser: user.phoneNumber,
         companyLogo,
         namesurname,
+        companyname,
         emailAddressOfUser: emailAddress,
         companyType,
         userId: id,
@@ -430,6 +431,8 @@ app.post("/sendorder", async (req, res) => {
     const { name, price, weight, quantity, photo, distributor, client } =
       req.body.product;
 
+    console.log(req.body);
+
     await orders_table.create({
       productName: name,
       productPrice: price,
@@ -444,8 +447,20 @@ app.post("/sendorder", async (req, res) => {
       message: "Porosia u bë me sukses",
     });
   } catch (error) {
-    console.log("Error while ordering");
+    console.log(error);
     res.json({ title: "error", message: "Porosia nuk mund të realizohet" });
+  }
+});
+
+app.get("/getorders/:pranuesCompanyName", async (req, res) => {
+  const { pranuesCompanyName } = req.params;
+  try {
+    const listedOrders = await orders_table.findAll({
+      where: { productClient: pranuesCompanyName },
+    });
+    res.send(listedOrders);
+  } catch (error) {
+    console.log(error);
   }
 });
 

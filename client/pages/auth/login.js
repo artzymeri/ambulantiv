@@ -118,7 +118,6 @@ const Login = () => {
             } else if (distributorToken) {
               localStorage.setItem("distributorToken", distributorToken);
               localStorage.setItem("namesurname", namesurname);
-              console.log(companyname);
               localStorage.setItem("companyname", companyname);
               router.push("/");
             } else if (pranuesToken) {

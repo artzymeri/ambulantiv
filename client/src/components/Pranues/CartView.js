@@ -39,18 +39,26 @@ const CartView = () => {
   useEffect(() => {
     setIsClient(true);
     setCartProductsList(JSON.parse(localStorage.getItem("cartProducts")));
+    console.log(localStorage.getItem("companyname"));
   }, []);
 
   const orderAll = () => {
     for (const product of cartProductsList) {
-      axios.post("http://localhost:8080/sendorder", { product }).then((res) => {
-        const { title, message } = res.data;
-        setSnackbarData({
-          title: title,
-          message: message,
+      axios
+        .post("http://localhost:8080/sendorder", {
+          product,
+          client: localStorage.getItem("companyname"),
+        })
+        .then((res) => {
+          const { title, message } = res.data;
+          localStorage.removeItem("cartProducts");
+          setCartProductsList([]);
+          setSnackbarData({
+            title: title,
+            message: message,
+          });
+          setSnackbarOpen(true);
         });
-        setSnackbarOpen(true);
-      });
     }
   };
 
