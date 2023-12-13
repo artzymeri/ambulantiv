@@ -114,8 +114,15 @@ const ProductCard = (props) => {
           <input
             value={number}
             onChange={(e) => {
-              localStorage.setItem(`productId:${id}`, parseInt(e.target.value));
-              setNumber(parseInt(e.target.value));
+              if (e.target.value <= 0) {
+                return null;
+              } else {
+                localStorage.setItem(
+                  `productId:${id}`,
+                  parseInt(e.target.value)
+                );
+                setNumber(parseInt(e.target.value));
+              }
             }}
             type="number"
             className="increase-decrease-number"
