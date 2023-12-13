@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartview.css";
-import { ShoppingBag } from "@mui/icons-material";
+import { LocalShipping, ShoppingBag } from "@mui/icons-material";
 import { Button } from "@mui/material";
 
 const CartItem = dynamic(() => import("@/components/Pranues/CartItem"), {
@@ -47,6 +47,7 @@ const CartView = () => {
             color="success"
             className="cart-view-order-button"
           >
+            <LocalShipping />
             Porosit
           </Button>
         ) : null}

@@ -79,7 +79,7 @@
 }
 
 .increase-decrease-number-cart {
-  width: 25px;
+  width: 35px;
   height: 30px;
   border-radius: 6px;
   background: white;
@@ -90,6 +90,7 @@
   font-size: 13px;
   text-align: center;
 }
+
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
