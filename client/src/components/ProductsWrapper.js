@@ -2,7 +2,9 @@ import axios from "axios";
 import React, { useEffect, useMemo, useState } from "react";
 import ProductCard from "./ProductCard";
 import "@/styling/productswrapper.css";
-import { Error, ProductionQuantityLimitsOutlined } from "@mui/icons-material";
+import { ProductionQuantityLimitsOutlined } from "@mui/icons-material";
+import MuiAlert from "@mui/material/Alert";
+import { Snackbar } from "@mui/material";
 
 const ProductsWrapper = (props) => {
   const {
@@ -17,6 +19,16 @@ const ProductsWrapper = (props) => {
 
   const [productsData, setProductsData] = useState([]);
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarData, setSnackbarData] = useState({ title: "", message: "" });
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
   const [isClient, setIsClient] = useState(false);
 
   const [cartProducts, setCartProducts] = useState(
@@ -25,6 +37,11 @@ const ProductsWrapper = (props) => {
 
   const updateLocalStorage = (newArray) => {
     localStorage.setItem("cartProducts", JSON.stringify(newArray));
+    setSnackbarData({
+      title: "success",
+      message: "Produkti u shtua në shportë",
+    });
+    setSnackbarOpen(true);
   };
 
   useEffect(() => {
@@ -77,27 +94,42 @@ const ProductsWrapper = (props) => {
 
   return (
     isClient && (
-      <div className="products-wrapper-parent">
-        {fileteredProducts.length === 0 ? (
-          <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
-            <ProductionQuantityLimitsOutlined sx={{ color: "gray" }} />
-            <p style={{ color: "gray" }}>Asnjë produkt për tu shfaqur</p>
-          </div>
-        ) : (
-          fileteredProducts
-            .slice()
-            .reverse()
-            .map((product, index) => {
-              return (
-                <ProductCard
-                  key={`${product.id}-${index}`}
-                  product={product}
-                  updateLocalStorage={updateLocalStorage}
-                />
-              );
-            })
-        )}
-      </div>
+      <>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={2500}
+          onClose={handleSnackbarClose}
+        >
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            severity={snackbarData.title.toLowerCase()}
+          >
+            {snackbarData.message}
+          </MuiAlert>
+        </Snackbar>
+        <div className="products-wrapper-parent">
+          {fileteredProducts.length === 0 ? (
+            <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
+              <ProductionQuantityLimitsOutlined sx={{ color: "gray" }} />
+              <p style={{ color: "gray" }}>Asnjë produkt për tu shfaqur</p>
+            </div>
+          ) : (
+            fileteredProducts
+              .slice()
+              .reverse()
+              .map((product, index) => {
+                return (
+                  <ProductCard
+                    key={`${product.id}-${index}`}
+                    product={product}
+                    updateLocalStorage={updateLocalStorage}
+                  />
+                );
+              })
+          )}
+        </div>
+      </>
     )
   );
 };
