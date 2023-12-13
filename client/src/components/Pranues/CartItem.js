@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartitem.css";
-import { Tooltip } from "@mui/material";
+import { Tooltip, tooltipClasses } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import stateStorage from "@/store";
+import styled from "@emotion/styled";
 
 const CartItem = (props) => {
   const [isClient, setIsClient] = useState(false);
@@ -25,7 +26,7 @@ const CartItem = (props) => {
   );
 
   const storedValue = getLocalStorageQuantity(`productId:${id}`);
-  const [number, setNumber] = useState(parseInt(storedValue) || 0);
+  const [number, setNumber] = useState(parseInt(storedValue) || 1);
 
   const [totalValue, setTotalValue] = useState(0);
 
@@ -35,12 +36,39 @@ const CartItem = (props) => {
     setCartProducts(JSON.parse(localStorage.getItem("cartProducts")));
   }, [number, price]);
 
+  const HtmlTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: "#f5f5f9",
+      color: "rgba(0, 0, 0, 0.87)",
+      maxWidth: 220,
+      borderRadius: "10px",
+      fontSize: "12px",
+      border: "1px solid lightgray",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.3)",
+    },
+  }));
+
   return (
     isClient && (
       <div className="cart-item-parent">
         <div className="cart-item-left-side">
-          <img src={photo} />
-          <div>
+          <div className="cart-item-left-side-l">
+            <HtmlTooltip
+              title={
+                <React.Fragment>
+                  <img src={photo} style={{ height: "250px", width: "auto" }} />
+                </React.Fragment>
+              }
+            >
+              <img src={photo} />
+            </HtmlTooltip>
+          </div>
+          <div className="cart-item-left-side-r">
             <h4>{name}</h4>
             <p>
               {weight}, <span style={{ fontWeight: "600" }}>{distributor}</span>
@@ -52,7 +80,7 @@ const CartItem = (props) => {
             <h5>{price}€</h5>
             <span style={{ fontSize: "13px", fontWeight: "bold" }}>x</span>
             <div className="increase-decrease-container-cart">
-              {number < 1 ? (
+              {number < 2 ? (
                 <span className="increase-decrease-buttons-cart cursor-disabled">
                   <Tooltip title="Nuk mundeni të largoni më shumë sasi">
                     <Remove sx={{ height: "15px", color: "#81c784" }} />

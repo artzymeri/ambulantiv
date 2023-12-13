@@ -15,12 +15,21 @@
   gap: 15px;
 }
 
+.cart-item-left-side-l {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-shrink: 0;
+}
+
 .cart-item-left-side img {
   height: 50px;
   filter: drop-shadow(0px 0px 10px rgba(80, 80, 80, 0.5));
 }
 
-.cart-item-left-side div {
+.cart-item-left-side-r {
   display: flex;
   flex-direction: column;
   gap: 4px;

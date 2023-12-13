@@ -21,16 +21,19 @@ const ProductCard = (props) => {
       distributor: distributor,
       photo: photo,
     };
-  
+
+    console.log(newProduct);
+
     // Get existing cart products from local storage
-    const existingCartProducts = JSON.parse(localStorage.getItem("cartProducts")) || [];
-  
+    const existingCartProducts =
+      JSON.parse(localStorage.getItem("cartProducts")) || [];
+
     // Add the new product to the array
     const updatedCartProducts = [...existingCartProducts, newProduct];
-  
+
     // Update local storage with the updated array
     localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
-  
+
     // Update the state
     setCartProducts(updatedCartProducts);
   };
@@ -57,7 +60,7 @@ const ProductCard = (props) => {
 
   const storedValue = getLocalStorageQuantity(`productId:${id}`);
 
-  const [number, setNumber] = useState(parseInt(storedValue) || 0);
+  const [number, setNumber] = useState(parseInt(storedValue) || 1);
 
   const buttonsGroup = () => {
     for (const product of cartProducts) {
@@ -127,14 +130,31 @@ const ProductCard = (props) => {
             <Add sx={{ height: "15px", color: "#81c784" }} />
           </span>
         </div>
-        <Button
-          sx={{ width: "35px" }}
-          onClick={() => {
-            updateCartItems();
-          }}
-        >
-          <AddShoppingCart sx={{ width: "20px" }} />
-        </Button>
+        {number < 1 ? (
+          <Tooltip title="Sasia duhet të jetë të paktën 1 për tu shtuar në shportë">
+            <Button
+              sx={{
+                width: "35px",
+                cursor: "not-allowed",
+                background: "gray",
+                "&:hover": {
+                  background: "gray",
+                },
+              }}
+            >
+              <AddShoppingCart sx={{ width: "20px" }} />
+            </Button>
+          </Tooltip>
+        ) : (
+          <Button
+            sx={{ width: "35px" }}
+            onClick={() => {
+              updateCartItems();
+            }}
+          >
+            <AddShoppingCart sx={{ width: "20px" }} />
+          </Button>
+        )}
       </ButtonGroup>
     );
   };
