@@ -47,21 +47,28 @@ const CartView = () => {
 
   const orderAll = () => {
     for (const product of cartProductsList) {
-      axios
-        .post("http://localhost:8080/sendorder", {
-          product,
-          client: localStorage.getItem("companyname"),
-        })
-        .then((res) => {
-          const { title, message } = res.data;
-          localStorage.removeItem("cartProducts");
-          setCartProductsList([]);
-          setSnackbarData({
-            title: title,
-            message: message,
+      try {
+        axios
+          .post("http://localhost:8080/sendorder", {
+            product,
+            client: localStorage.getItem("companyname"),
+          })
+          .then((res) => {
+            const { title, message } = res.data;
+            if (title === "success") {
+              localStorage.removeItem("cartProducts");
+              setCartProductsList([]);
+              localStorage.removeItem(`productId:${product.id}`);
+            }
+            setSnackbarData({
+              title: title,
+              message: message,
+            });
+            setSnackbarOpen(true);
           });
-          setSnackbarOpen(true);
-        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
