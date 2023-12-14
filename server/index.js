@@ -428,14 +428,23 @@ app.post("/login", async (req, res) => {
 
 app.post("/sendorder", async (req, res) => {
   try {
-    const { name, price, weight, quantity, photo, distributor, client } =
-      req.body.product;
+    const {
+      name,
+      price,
+      totalPrice,
+      weight,
+      quantity,
+      photo,
+      distributor,
+      client,
+    } = req.body.product;
 
     console.log(req.body);
 
     await orders_table.create({
       productName: name,
       productPrice: price,
+      productTotalPrice: totalPrice,
       productWeight: weight,
       productQuantity: quantity,
       productPhoto: photo,
