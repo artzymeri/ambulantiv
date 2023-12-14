@@ -11,19 +11,45 @@ const CartItem = (props) => {
   const { id, name, price, weight, quantity, distributor, photo } =
     props.product;
 
-  const { updateLocalStorage } = props;
+  const { updateLocalStorage, giveParentTheNewProducts } = props;
+
+  const onQuantityChange = () => {
+    const updatedOnQuantityItem = {
+      id: id,
+      name: name,
+      price: price,
+      weight: weight,
+      quantity: number,
+      distributor: distributor,
+      client: localStorage.getItem("companyname"),
+      photo: photo,
+    };
+
+    const existingCartProducts =
+      JSON.parse(localStorage.getItem("cartProducts")) || [];
+
+    const indexToUpdate = existingCartProducts.findIndex(
+      (item) => item.id === updatedOnQuantityItem.id
+    );
+
+    if (indexToUpdate !== -1) {
+      // Replace the item at the found index with the updated item
+      existingCartProducts[indexToUpdate] = updatedOnQuantityItem;
+
+      // Update localStorage with the modified array
+      localStorage.setItem(
+        "cartProducts",
+        JSON.stringify(existingCartProducts)
+      );
+      console.log(existingCartProducts);
+    }
+    stateStorage.updateCartItems();
+    giveParentTheNewProducts(existingCartProducts);
+  };
 
   const getLocalStorageQuantity = (id) => {
     return localStorage.getItem(id);
   };
-
-  const parsedLocalStorageCartItems = JSON.parse(
-    localStorage.getItem("cartProducts")
-  );
-
-  const [cartProducts, setCartProducts] = useState(
-    parsedLocalStorageCartItems || []
-  );
 
   const storedValue = getLocalStorageQuantity(`productId:${id}`);
   const [number, setNumber] = useState(parseInt(storedValue) || 1);
@@ -33,7 +59,8 @@ const CartItem = (props) => {
   useEffect(() => {
     setIsClient(true);
     setTotalValue(number * price);
-    setCartProducts(JSON.parse(localStorage.getItem("cartProducts")));
+    onQuantityChange();
+    stateStorage.updateCartItems();
   }, [number, price]);
 
   const HtmlTooltip = styled(({ className, ...props }) => (
@@ -120,6 +147,7 @@ const CartItem = (props) => {
                 onClick={() => {
                   localStorage.setItem(`productId:${id}`, number + 1);
                   setNumber(number + 1);
+                  onQuantityChange();
                 }}
               >
                 <Tooltip title="Shtoni numrin e sasisë">

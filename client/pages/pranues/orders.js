@@ -22,7 +22,7 @@ const OrdersView = dynamic(() => import("@/components/Pranues/OrdersView"), {
   ssr: false,
 });
 
-const Cart = () => {
+const Orders = () => {
   const [display, setDisplay] = useState("none");
 
   const openSidebar = () => {
@@ -70,4 +70,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default Orders;

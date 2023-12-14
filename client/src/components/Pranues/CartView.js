@@ -39,8 +39,11 @@ const CartView = () => {
   useEffect(() => {
     setIsClient(true);
     setCartProductsList(JSON.parse(localStorage.getItem("cartProducts")));
-    console.log(localStorage.getItem("companyname"));
   }, []);
+
+  const giveParentTheNewProducts = (updatedCartItems) => {
+    setCartProductsList(updatedCartItems);
+  };
 
   const orderAll = () => {
     for (const product of cartProductsList) {
@@ -89,6 +92,7 @@ const CartView = () => {
                 <CartItem
                   updateLocalStorage={updateLocalStorage}
                   product={product}
+                  giveParentTheNewProducts={giveParentTheNewProducts}
                 />
               ))
             ) : (

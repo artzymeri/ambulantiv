@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartview.css";
 import { LocalShipping, RemoveCircle, ShoppingBag } from "@mui/icons-material";
@@ -11,6 +10,7 @@ const OrdersView = () => {
   const [ordersList, setOrdersList] = useState([]);
 
   useEffect(() => {
+    setIsClient(true);
     const pranuesCompanyName = localStorage.getItem("companyname");
     axios
       .get(`http://localhost:8080/getorders/${pranuesCompanyName}`)
@@ -24,21 +24,39 @@ const OrdersView = () => {
     isClient && (
       <div className="cart-view-parent">
         <div className="cart-view-navbar">
-          <ShoppingBag sx={{ color: "rgb(130, 30, 30)" }} />
-          <h3 style={{ color: "rgb(130, 30, 30)" }}>Shporta</h3>
+          <LocalShipping sx={{ color: "rgb(130, 30, 30)" }} />
+          <h3 style={{ color: "rgb(130, 30, 30)" }}>Porositë</h3>
         </div>
-        <div className="cart-view-items-wrapper"></div>
-        {cartProductsList && cartProductsList.length > 0 ? (
-          <Button
-            variant="contained"
-            color="success"
-            className="cart-view-order-button"
-            onClick={orderAll}
-          >
-            <LocalShipping />
-            Porosit
-          </Button>
-        ) : null}
+        <div className="cart-view-items-wrapper">
+          {ordersList && ordersList.length > 0
+            ? ordersList.map((order) => {
+                return (
+                  <div className="order-history-row">
+                    <div className="order-history-row-left">
+                      <div className="order-history-row-left-l">
+                        <img src={order.productPhoto} />
+                      </div>
+                      <div className="order-history-row-left-r">
+                        <h5>{order.productName}</h5>
+                        <h5>{order.productDistributor}</h5>
+                      </div>
+                    </div>
+                    <div className="order-history-row-right">
+                      <div className="order-history-row-right-l">
+                        <h5>
+                          {order.productPrice} x {order.productQuantity}
+                        </h5>
+                        <h5>Totali: {order.productTotalPrice}</h5>
+                      </div>
+                      <div className="order-history-row-right-r">
+                        <h5>{order.createdAt}</h5>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            : null}
+        </div>
       </div>
     )
   );
