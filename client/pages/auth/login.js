@@ -107,7 +107,6 @@ const Login = () => {
               companyType,
               userId,
             } = res.data;
-            console.log(res.data);
             setSnackbarData({
               title: title,
               message: message,

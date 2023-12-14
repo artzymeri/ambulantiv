@@ -6,7 +6,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Snackbar,
   TextField,
   useMediaQuery,
@@ -52,7 +57,9 @@ const EditProductDialog = (props) => {
       weight: editedProductData.weight,
       distributor: editedProductData.distributor,
       photo: editedProductData.photo,
+      outOfStock: editedProductData.outOfStock,
     });
+    console.log(editedProductData);
     axios.get("http://localhost:8080/getdistributors").then((res) => {
       setDistributorsData(res.data);
     });
@@ -66,6 +73,7 @@ const EditProductDialog = (props) => {
     weight: null,
     distributor: null,
     photo: null,
+    outOfStock: false,
   });
 
   const [file, setFile] = useState(null);
@@ -102,25 +110,25 @@ const EditProductDialog = (props) => {
   const categories = [
     {
       id: 1,
-      name: 'Pije',
+      name: "Pije",
     },
     {
       id: 2,
-      name: 'Fruta dhe Perime'
+      name: "Fruta dhe Perime",
     },
     {
       id: 3,
-      name: 'Ushqimore'
+      name: "Ushqimore",
     },
     {
       id: 4,
-      name: 'Shtëpiake'
+      name: "Shtëpiake",
     },
     {
       id: 5,
-      name: 'Higjenë'
-    }
-  ]
+      name: "Higjenë",
+    },
+  ];
 
   return (
     isClient && (
@@ -162,20 +170,27 @@ const EditProductDialog = (props) => {
                 }
               />
               <TextField
-              id="category"
-              label="Kategoria"
-              variant="outlined"
-              className="shadow-one"
-              fullWidth
-              select
-              autoComplete="off"
-              value={editedProduct.category}
-              onChange={(e)=> setEditedProduct({...editedProduct, category: e.target.value})}
+                id="category"
+                label="Kategoria"
+                variant="outlined"
+                className="shadow-one"
+                fullWidth
+                select
+                autoComplete="off"
+                value={editedProduct.category}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    category: e.target.value,
+                  })
+                }
               >
-                {categories.map((category)=>{
-                  return(
-                    <MenuItem key={category.id} value={category.name}>{category.name}</MenuItem>
-                  )
+                {categories.map((category) => {
+                  return (
+                    <MenuItem key={category.id} value={category.name}>
+                      {category.name}
+                    </MenuItem>
+                  );
                 })}
               </TextField>
               <TextField
@@ -228,6 +243,36 @@ const EditProductDialog = (props) => {
                 })}
                 <MenuItem value={null}>Asnjë</MenuItem>
               </TextField>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+              >
+                <FormControlLabel
+                  value={true}
+                  checked={editedProduct.outOfStock}
+                  control={<Radio />}
+                  label="Nuk ka stock"
+                  onChange={(e) =>
+                    setEditedProduct({
+                      ...editedProductData,
+                      outOfStock: e.target.value,
+                    })
+                  }
+                />
+                <FormControlLabel
+                  value={false}
+                  checked={!editedProduct.outOfStock}
+                  control={<Radio />}
+                  label="Ka Stock"
+                  onChange={(e) =>
+                    setEditedProduct({
+                      ...editedProductData,
+                      outOfStock: e.target.value,
+                    })
+                  }
+                />
+              </RadioGroup>
               <div className="file-uploader-container-edit">
                 <FileUploader
                   multiple={false}

@@ -64,6 +64,7 @@ const CompanyListedProducts = () => {
     weight: null,
     distributor: null,
     photo: null,
+    outOfStock: null,
   });
 
   const openSidebar = () => {
@@ -84,6 +85,7 @@ const CompanyListedProducts = () => {
       weight: product.weight,
       distributor: product.distributor,
       photo: product.photo,
+      outOfStock: product.outOfStock,
     });
   };
 
@@ -98,7 +100,7 @@ const CompanyListedProducts = () => {
     },
     {
       id: 2,
-      name: 'Kategoria',
+      name: "Kategoria",
     },
     {
       id: 3,

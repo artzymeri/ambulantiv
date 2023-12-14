@@ -23,8 +23,6 @@ const ProductCard = (props) => {
       client: localStorage.getItem("companyname"),
     };
 
-    console.log(newProduct);
-
     // Get existing cart products from local storage
     const existingCartProducts =
       JSON.parse(localStorage.getItem("cartProducts")) || [];

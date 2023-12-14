@@ -153,7 +153,7 @@ app.post("/deleteproduct/:productId", async (req, res) => {
 
 app.post("/editproduct/:productId", async (req, res) => {
   const { productId } = req.params;
-  const { name, category, price, weight, distributor, photo } =
+  const { name, category, price, weight, distributor, photo, outOfStock } =
     req.body.editedProduct;
 
   const productToEdit = await listed_products.findByPk(productId);
@@ -168,6 +168,7 @@ app.post("/editproduct/:productId", async (req, res) => {
   productToEdit.weight = weight;
   productToEdit.distributor = distributor;
   productToEdit.photo = photo;
+  productToEdit.outOfStock = outOfStock;
 
   await productToEdit.save();
   res.json({ title: "success", message: "Produkti u editua me sukses" });

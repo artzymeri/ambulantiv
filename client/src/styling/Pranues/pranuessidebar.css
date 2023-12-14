@@ -21,6 +21,7 @@
   font-weight: 200;
   color: whitesmoke;
   font-size: 23px;
+  gap: 10px;
 }
 
 .horizontal-line {
@@ -144,6 +145,7 @@
   font-weight: 200;
   color: whitesmoke;
   font-size: 23px;
+  gap: 10px;
 }
 
 .sidebar-pranues-fullscreen-navbuttons {

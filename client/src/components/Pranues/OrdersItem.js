@@ -14,8 +14,6 @@ const OrderItem = (props) => {
     createdAt,
   } = props.product;
 
-  console.log(createdAt);
-
   const [isClient, setIsClient] = useState(false);
 
   const [formattedCreatedAt, setFormattedCreatedAt] = useState(null);
@@ -49,9 +47,12 @@ const OrderItem = (props) => {
         <div className="orders-row-right">
           <div className="orders-row-right-l">
             <h5>
-              {productPrice}€ x {productQuantity} copë
+              {productPrice}€ x {productQuantity} pako
             </h5>
-            <h5>Totali: {productTotalPrice}</h5>
+            <h5>
+              Totali:{" "}
+              <span style={{ fontSize: "16px" }}> {productTotalPrice}€ </span>
+            </h5>
           </div>
           <div className="orders-row-right-r">
             <h5>{formattedCreatedAt}</h5>
