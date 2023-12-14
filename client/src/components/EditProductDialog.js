@@ -256,7 +256,7 @@ const EditProductDialog = (props) => {
                   onChange={(e) =>
                     setEditedProduct({
                       ...editedProductData,
-                      outOfStock: e.target.value,
+                      outOfStock: e.target.value === true,
                     })
                   }
                 />
@@ -268,7 +268,7 @@ const EditProductDialog = (props) => {
                   onChange={(e) =>
                     setEditedProduct({
                       ...editedProductData,
-                      outOfStock: e.target.value,
+                      outOfStock: e.target.value === true,
                     })
                   }
                 />
