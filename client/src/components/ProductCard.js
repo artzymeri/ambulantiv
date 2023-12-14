@@ -51,7 +51,8 @@ const ProductCard = (props) => {
     stateStorage.updateCartItems();
   }, [cartProducts]);
 
-  const { photo, price, name, weight, distributor, id } = props.product;
+  const { photo, price, name, weight, distributor, id, outOfStock } =
+    props.product;
 
   const getLocalStorageQuantity = (id) => {
     return localStorage.getItem(id);
@@ -150,7 +151,46 @@ const ProductCard = (props) => {
   };
 
   return (
-    isClient && (
+    isClient &&
+    (outOfStock ? (
+      <div className="product-card-parent out-of-stock">
+        <img src={photo} />
+        <div className="product-card-text-container">
+          <div className="product-card-text-up">
+            <h3 style={{ width: "180px" }}>{name}</h3>
+            <p style={{ fontSize: "13px" }}>
+              {weight}, <b>{distributor}</b>
+            </p>
+          </div>
+          <div className="product-card-text-down">
+            <h2>{price}€</h2>
+            <Tooltip title="Produkti është jashtë stokut" key={id}>
+              <ButtonGroup
+                variant="outlined"
+                color="success"
+                style={{
+                  background: "whitesmoke",
+                  boxShadow: "none",
+                  cursor: "not-allowed !important",
+                }}
+              >
+                <Button
+                  sx={{
+                    width: "auto",
+                    fontSize: "11px",
+                    fontWeight: "900",
+                    color: "black",
+                    cursor: "not-allowed !important",
+                  }}
+                >
+                  jashtë Stokut
+                </Button>
+              </ButtonGroup>
+            </Tooltip>
+          </div>
+        </div>
+      </div>
+    ) : (
       <div className="product-card-parent">
         <img src={photo} />
         <div className="product-card-text-container">
@@ -166,7 +206,7 @@ const ProductCard = (props) => {
           </div>
         </div>
       </div>
-    )
+    ))
   );
 };
 
