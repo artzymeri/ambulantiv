@@ -13,7 +13,15 @@ const CartItem = dynamic(() => import("@/components/Pranues/CartItem"), {
 
 const CartView = () => {
   const [isClient, setIsClient] = useState(false);
-  const [cartProductsList, setCartProductsList] = useState([]);
+  const [clientId, setClientId] = useState(localStorage.getItem("userId"));
+
+  const [cartProductsList, setCartProductsList] = useState(
+    JSON.parse(
+      localStorage.getItem(
+        `clientId:${localStorage.getItem("userId")}/cartProducts`
+      )
+    ) || []
+  );
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarData, setSnackbarData] = useState({ title: "", message: "" });
@@ -28,8 +36,11 @@ const CartView = () => {
   const updateLocalStorage = (id) => {
     const newArray = cartProductsList.filter((product) => product.id !== id);
     setCartProductsList(newArray);
-    localStorage.setItem("cartProducts", JSON.stringify(newArray));
-    localStorage.removeItem(`productId:${id}`);
+    localStorage.setItem(
+      `clientId:${clientId}/cartProducts`,
+      JSON.stringify(newArray)
+    );
+    localStorage.removeItem(`clientId:${clientId}/productId:${id}`);
     setSnackbarData({
       title: "success",
       message: "Produkti u largua nga shporta",
@@ -39,7 +50,6 @@ const CartView = () => {
 
   useEffect(() => {
     setIsClient(true);
-    setCartProductsList(JSON.parse(localStorage.getItem("cartProducts")));
   }, []);
 
   const giveParentTheNewProducts = (updatedCartItems) => {
@@ -57,9 +67,9 @@ const CartView = () => {
           .then((res) => {
             const { title, message } = res.data;
             if (title === "success") {
-              localStorage.removeItem("cartProducts");
+              localStorage.removeItem(`clientId:${clientId}/cartProducts`);
               setCartProductsList([]);
-              localStorage.removeItem(`productId:${product.id}`);
+              localStorage.removeItem(`clientId:${clientId}/productId:${id}`);
               stateStorage.updateCartItems();
             }
             setSnackbarData({
@@ -102,6 +112,7 @@ const CartView = () => {
                   updateLocalStorage={updateLocalStorage}
                   product={product}
                   giveParentTheNewProducts={giveParentTheNewProducts}
+                  key={[product.id]}
                 />
               ))
             ) : (

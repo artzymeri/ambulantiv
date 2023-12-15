@@ -28,6 +28,7 @@ const AdminSideBar = (props) => {
 
   const logout = () => {
     localStorage.removeItem("adminToken");
+    localStorage.removeItem("userId");
     router.push("/auth/login");
   };
 

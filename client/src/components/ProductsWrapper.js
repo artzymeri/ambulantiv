@@ -31,8 +31,10 @@ const ProductsWrapper = (props) => {
 
   const [isClient, setIsClient] = useState(false);
 
+  const [clientId, setClientId] = useState(localStorage.getItem("userId"));
+
   const [cartProducts, setCartProducts] = useState(
-    JSON.parse(localStorage.getItem("cartProducts")) || []
+    JSON.parse(localStorage.getItem(`clientId:${clientId}/cartProducts`)) || []
   );
 
   const activateSnackbar = () => {
@@ -44,7 +46,10 @@ const ProductsWrapper = (props) => {
   };
 
   const updateLocalStorage = (newArray) => {
-    localStorage.setItem("cartProducts", JSON.stringify(newArray));
+    localStorage.setItem(
+      `clientId:${clientId}/cartProducts`,
+      JSON.stringify(newArray)
+    );
   };
 
   useEffect(() => {

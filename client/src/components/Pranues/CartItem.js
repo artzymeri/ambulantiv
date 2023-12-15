@@ -8,6 +8,8 @@ import styled from "@emotion/styled";
 const CartItem = (props) => {
   const [isClient, setIsClient] = useState(false);
 
+  const [clientId, setClientId] = useState(localStorage.getItem("userId"));
+
   const { id, name, price, weight, quantity, distributor, photo } =
     props.product;
 
@@ -27,7 +29,8 @@ const CartItem = (props) => {
     };
 
     const existingCartProducts =
-      JSON.parse(localStorage.getItem("cartProducts")) || [];
+      JSON.parse(localStorage.getItem(`clientId:${clientId}/cartProducts`)) ||
+      [];
 
     const indexToUpdate = existingCartProducts.findIndex(
       (item) => item.id === updatedOnQuantityItem.id
@@ -39,12 +42,12 @@ const CartItem = (props) => {
 
       // Update localStorage with the modified array
       localStorage.setItem(
-        "cartProducts",
+        `clientId:${clientId}/cartProducts`,
         JSON.stringify(existingCartProducts)
       );
       console.log(existingCartProducts);
     }
-    stateStorage.updateCartItems();
+    // stateStorage.updateCartItems();
     giveParentTheNewProducts(existingCartProducts);
   };
 
@@ -52,7 +55,14 @@ const CartItem = (props) => {
     return localStorage.getItem(id);
   };
 
-  const storedValue = getLocalStorageQuantity(`productId:${id}`);
+  const [storedValue, setStoredValue] = useState(
+    localStorage.getItem(`clientId:${clientId}/productId:${id}`)
+  );
+
+  console.log("productId:", id);
+  console.log("clientId:", clientId);
+  console.log("storedValue:", storedValue);
+
   const [number, setNumber] = useState(parseInt(storedValue) || 1);
 
   const [totalValue, setTotalValue] = useState(number * price);
@@ -62,6 +72,9 @@ const CartItem = (props) => {
     setTotalValue(number * price);
     onQuantityChange();
     stateStorage.updateCartItems();
+    setStoredValue(
+      localStorage.getItem(`clientId:${clientId}/productId:${id}`)
+    );
   }, [number, price]);
 
   const HtmlTooltip = styled(({ className, ...props }) => (
@@ -134,7 +147,7 @@ const CartItem = (props) => {
                     return null;
                   } else {
                     localStorage.setItem(
-                      `productId:${id}`,
+                      `clientId:${clientId}/productId:${id}`,
                       parseInt(e.target.value)
                     );
                     setNumber(parseInt(e.target.value));
@@ -146,7 +159,10 @@ const CartItem = (props) => {
               <span
                 className="increase-decrease-buttons-cart"
                 onClick={() => {
-                  localStorage.setItem(`productId:${id}`, number + 1);
+                  localStorage.setItem(
+                    `clientId:${clientId}/productId:${id}`,
+                    number + 1
+                  );
                   setNumber(number + 1);
                   onQuantityChange();
                 }}

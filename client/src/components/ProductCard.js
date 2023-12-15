@@ -11,6 +11,8 @@ const ProductCard = (props) => {
 
   const { updateLocalStorage, activateSnackbar } = props;
 
+  const { clientId, setClientId } = useState(localStorage.getItem("userId"));
+
   const updateCartItems = () => {
     const newProduct = {
       id: id,
@@ -24,30 +26,36 @@ const ProductCard = (props) => {
     };
 
     // Get existing cart products from local storage
-    const existingCartProducts =
-      JSON.parse(localStorage.getItem("cartProducts")) || [];
+    const existingCartProducts = storedCartProducts
+      ? JSON.parse(localStorage.getItem(`clientId:${clientId}/cartProducts`))
+      : [];
 
     // Add the new product to the array
     const updatedCartProducts = [...existingCartProducts, newProduct];
 
     // Update local storage with the updated array
-    localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
+    localStorage.setItem(
+      `clientId:${clientId}/cartProducts`,
+      JSON.stringify(updatedCartProducts)
+    );
 
     // Update the state
     setCartProducts(updatedCartProducts);
   };
 
-  const parsedLocalStorageCartItems = JSON.parse(
-    localStorage.getItem("cartProducts")
+  const storedCartProducts = localStorage.getItem(
+    `clientId:${clientId}/cartProducts`
   );
+  const parsedLocalStorageCartItems = storedCartProducts
+    ? JSON.parse(storedCartProducts)
+    : [];
 
-  const [cartProducts, setCartProducts] = useState(
-    parsedLocalStorageCartItems || []
-  );
+  const [cartProducts, setCartProducts] = useState([]);
 
   useEffect(() => {
     setIsClient(true);
     updateLocalStorage(cartProducts);
+    setCartProducts(parsedLocalStorageCartItems);
     stateStorage.updateCartItems();
   }, [cartProducts]);
 
@@ -58,7 +66,9 @@ const ProductCard = (props) => {
     return localStorage.getItem(id);
   };
 
-  const storedValue = getLocalStorageQuantity(`productId:${id}`);
+  const storedValue = getLocalStorageQuantity(
+    `clientId:${clientId}/productId:${id}`
+  );
 
   const [number, setNumber] = useState(parseInt(storedValue) || 1);
 
@@ -104,7 +114,10 @@ const ProductCard = (props) => {
             <span
               className="increase-decrease-buttons"
               onClick={() => {
-                localStorage.setItem(`productId${id}`, number - 1);
+                localStorage.setItem(
+                  `clientId:${clientId}/productId:${id}`,
+                  number - 1
+                );
                 setNumber(number - 1);
               }}
             >
@@ -118,7 +131,7 @@ const ProductCard = (props) => {
                 return null;
               } else {
                 localStorage.setItem(
-                  `productId:${id}`,
+                  `clientId:${clientId}/productId:${id}`,
                   parseInt(e.target.value)
                 );
                 setNumber(parseInt(e.target.value));
@@ -130,7 +143,10 @@ const ProductCard = (props) => {
           <span
             className="increase-decrease-buttons"
             onClick={() => {
-              localStorage.setItem(`productId:${id}`, number + 1);
+              localStorage.setItem(
+                `clientId:${clientId}/productId:${id}`,
+                number + 1
+              );
               setNumber(number + 1);
             }}
           >

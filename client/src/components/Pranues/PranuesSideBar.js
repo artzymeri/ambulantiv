@@ -39,6 +39,9 @@ const PranuesSideBar = (props) => {
 
   const logout = () => {
     localStorage.removeItem("pranuesToken");
+    localStorage.removeItem("namesurname");
+    localStorage.removeItem("companyname");
+    localStorage.removeItem("userId");
     router.push("/auth/login");
   };
 

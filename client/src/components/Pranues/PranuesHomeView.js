@@ -11,6 +11,8 @@ const PranuesHomeView = () => {
 
   const [productsData, setProductsData] = useState([]);
 
+  const [clientId, setClientId] = useState(localStorage.getItem("userId"));
+
   useEffect(() => {
     setIsClient(true);
     axios.get("http://localhost:8080/getlistedproducts").then((res) => {
@@ -19,7 +21,10 @@ const PranuesHomeView = () => {
   }, []);
 
   const updateLocalStorage = (newArray) => {
-    localStorage.setItem("cartProducts", JSON.stringify(newArray));
+    localStorage.setItem(
+      `clientId:${clientId}/cartProducts`,
+      JSON.stringify(newArray)
+    );
   };
 
   const activateSnackbar = () => {

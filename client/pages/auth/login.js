@@ -29,6 +29,7 @@ const Login = () => {
 
   useEffect(() => {
     setIsClient(true);
+    // localStorage.clear();
   }, []);
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -113,16 +114,20 @@ const Login = () => {
             });
             if (adminToken) {
               localStorage.setItem("adminToken", adminToken);
+              localStorage.setItem("userId", userId);
               router.push("/");
             } else if (distributorToken) {
               localStorage.setItem("distributorToken", distributorToken);
               localStorage.setItem("namesurname", namesurname);
               localStorage.setItem("companyname", companyname);
+              localStorage.setItem("userId", userId);
+
               router.push("/");
             } else if (pranuesToken) {
               localStorage.setItem("pranuesToken", pranuesToken);
               localStorage.setItem("namesurname", namesurname);
               localStorage.setItem("companyname", companyname);
+              localStorage.setItem("userId", userId);
               router.push("/");
             }
             setSnackbarOpen(true);

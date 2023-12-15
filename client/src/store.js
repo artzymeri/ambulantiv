@@ -1,8 +1,12 @@
-// store.js
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 class StateStorage {
-  cartItems = JSON.parse(localStorage.getItem("cartProducts"));
+  cartItems =
+    JSON.parse(
+      localStorage.getItem(
+        `clientId:${localStorage.getItem("userId")}/cartProducts`
+      )
+    ) || [];
 
   constructor() {
     makeAutoObservable(this);
@@ -12,7 +16,14 @@ class StateStorage {
     // Wait for the local storage update
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    this.cartItems = JSON.parse(localStorage.getItem("cartProducts"));
+    runInAction(() => {
+      this.cartItems =
+        JSON.parse(
+          localStorage.getItem(
+            `clientId:${localStorage.getItem("userId")}/cartProducts`
+          )
+        ) || [];
+    });
   }
 }
 
