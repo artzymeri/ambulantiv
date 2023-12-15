@@ -60,6 +60,7 @@ const CartView = () => {
               localStorage.removeItem("cartProducts");
               setCartProductsList([]);
               localStorage.removeItem(`productId:${product.id}`);
+              stateStorage.updateCartItems();
             }
             setSnackbarData({
               title: title,

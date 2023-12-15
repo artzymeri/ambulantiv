@@ -14,6 +14,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    productTotalPrice: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
     productWeight: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -153,7 +153,7 @@ app.post("/deleteproduct/:productId", async (req, res) => {
 
 app.post("/editproduct/:productId", async (req, res) => {
   const { productId } = req.params;
-  const { name, category, price, weight, distributor, photo } =
+  const { name, category, price, weight, distributor, photo, outOfStock } =
     req.body.editedProduct;
 
   const productToEdit = await listed_products.findByPk(productId);
@@ -168,6 +168,7 @@ app.post("/editproduct/:productId", async (req, res) => {
   productToEdit.weight = weight;
   productToEdit.distributor = distributor;
   productToEdit.photo = photo;
+  productToEdit.outOfStock = outOfStock;
 
   await productToEdit.save();
   res.json({ title: "success", message: "Produkti u editua me sukses" });
@@ -428,14 +429,23 @@ app.post("/login", async (req, res) => {
 
 app.post("/sendorder", async (req, res) => {
   try {
-    const { name, price, weight, quantity, photo, distributor, client } =
-      req.body.product;
+    const {
+      name,
+      price,
+      totalPrice,
+      weight,
+      quantity,
+      photo,
+      distributor,
+      client,
+    } = req.body.product;
 
     console.log(req.body);
 
     await orders_table.create({
       productName: name,
       productPrice: price,
+      productTotalPrice: totalPrice,
       productWeight: weight,
       productQuantity: quantity,
       productPhoto: photo,

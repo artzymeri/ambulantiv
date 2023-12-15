@@ -100,7 +100,10 @@ const TableComponent = (props) => {
                     <div className="table-row-buttons">
                       <Button
                         variant="contained"
-                        onClick={() => handleOpenDialog(row)}
+                        onClick={() => {
+                          handleOpenDialog(row);
+                          console.log(row);
+                        }}
                       >
                         Edito
                       </Button>
@@ -139,7 +142,10 @@ const TableComponent = (props) => {
                     <div className="table-row-buttons">
                       <Button
                         variant="contained"
-                        onClick={() => handleOpenDialog(row)}
+                        onClick={() => {
+                          handleOpenDialog(row);
+                          console.log(row);
+                        }}
                       >
                         Edito
                       </Button>

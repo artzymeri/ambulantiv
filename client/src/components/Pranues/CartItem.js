@@ -18,6 +18,7 @@ const CartItem = (props) => {
       id: id,
       name: name,
       price: price,
+      totalPrice: totalValue.toFixed(2),
       weight: weight,
       quantity: number,
       distributor: distributor,
@@ -54,7 +55,7 @@ const CartItem = (props) => {
   const storedValue = getLocalStorageQuantity(`productId:${id}`);
   const [number, setNumber] = useState(parseInt(storedValue) || 1);
 
-  const [totalValue, setTotalValue] = useState(0);
+  const [totalValue, setTotalValue] = useState(number * price);
 
   useEffect(() => {
     setIsClient(true);

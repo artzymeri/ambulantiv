@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartview.css";
 import { LocalShipping, RemoveCircle, ShoppingBag } from "@mui/icons-material";
-import { Button, Snackbar } from "@mui/material";
 import axios from "axios";
+import OrderItem from "./OrdersItem";
+import "@/styling/Pranues/ordersview.css";
 
 const OrdersView = () => {
   const [isClient, setIsClient] = useState(false);
@@ -22,38 +23,15 @@ const OrdersView = () => {
 
   return (
     isClient && (
-      <div className="cart-view-parent">
-        <div className="cart-view-navbar">
+      <div className="orders-view-parent">
+        <div className="orders-view-navbar">
           <LocalShipping sx={{ color: "rgb(130, 30, 30)" }} />
           <h3 style={{ color: "rgb(130, 30, 30)" }}>Porositë</h3>
         </div>
-        <div className="cart-view-items-wrapper">
+        <div className="orders-view-items-wrapper">
           {ordersList && ordersList.length > 0
             ? ordersList.map((order) => {
-                return (
-                  <div className="order-history-row">
-                    <div className="order-history-row-left">
-                      <div className="order-history-row-left-l">
-                        <img src={order.productPhoto} />
-                      </div>
-                      <div className="order-history-row-left-r">
-                        <h5>{order.productName}</h5>
-                        <h5>{order.productDistributor}</h5>
-                      </div>
-                    </div>
-                    <div className="order-history-row-right">
-                      <div className="order-history-row-right-l">
-                        <h5>
-                          {order.productPrice} x {order.productQuantity}
-                        </h5>
-                        <h5>Totali: {order.productTotalPrice}</h5>
-                      </div>
-                      <div className="order-history-row-right-r">
-                        <h5>{order.createdAt}</h5>
-                      </div>
-                    </div>
-                  </div>
-                );
+                return <OrderItem product={order} />;
               })
             : null}
         </div>

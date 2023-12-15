@@ -48,7 +48,7 @@ const ListedProducts = () => {
     },
     {
       id: 2,
-      name: 'Kategoria',
+      name: "Kategoria",
     },
     {
       id: 3,
@@ -115,6 +115,7 @@ const ListedProducts = () => {
     weight: null,
     distributor: null,
     photo: null,
+    outOfStock: null,
   });
 
   const handleOpenDialog = (product) => {
@@ -127,6 +128,7 @@ const ListedProducts = () => {
       weight: product.weight,
       distributor: product.distributor,
       photo: product.photo,
+      outOfStock: product.outOfStock,
     });
   };
 

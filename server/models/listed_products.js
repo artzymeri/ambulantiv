@@ -35,13 +35,21 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-    category : {
+    category: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
-      }
-    }
+      },
+    },
+    outOfStock: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
   });
   return listed_products;
 };
