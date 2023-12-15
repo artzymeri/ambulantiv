@@ -11,7 +11,6 @@ const PranuesHomeView = () => {
 
   const [productsData, setProductsData] = useState([]);
 
-  const [clientId, setClientId] = useState(localStorage.getItem("userId"));
 
   useEffect(() => {
     setIsClient(true);
@@ -22,7 +21,7 @@ const PranuesHomeView = () => {
 
   const updateLocalStorage = (newArray) => {
     localStorage.setItem(
-      `clientId:${clientId}/cartProducts`,
+      `clientId:${localStorage.getItem('userId')}/cartProducts`,
       JSON.stringify(newArray)
     );
   };

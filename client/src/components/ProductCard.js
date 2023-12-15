@@ -27,7 +27,11 @@ const ProductCard = (props) => {
 
     // Get existing cart products from local storage
     const existingCartProducts = storedCartProducts
-      ? JSON.parse(localStorage.getItem(`clientId:${clientId}/cartProducts`))
+      ? JSON.parse(
+          localStorage.getItem(
+            `clientId:${localStorage.getItem("userId")}/cartProducts`
+          )
+        )
       : [];
 
     // Add the new product to the array
@@ -35,7 +39,7 @@ const ProductCard = (props) => {
 
     // Update local storage with the updated array
     localStorage.setItem(
-      `clientId:${clientId}/cartProducts`,
+      `clientId:${localStorage.getItem("userId")}/cartProducts`,
       JSON.stringify(updatedCartProducts)
     );
 
@@ -44,7 +48,7 @@ const ProductCard = (props) => {
   };
 
   const storedCartProducts = localStorage.getItem(
-    `clientId:${clientId}/cartProducts`
+    `clientId:${localStorage.getItem("userId")}/cartProducts`
   );
   const parsedLocalStorageCartItems = storedCartProducts
     ? JSON.parse(storedCartProducts)
@@ -56,8 +60,7 @@ const ProductCard = (props) => {
     setIsClient(true);
     updateLocalStorage(cartProducts);
     setCartProducts(parsedLocalStorageCartItems);
-    stateStorage.updateCartItems();
-  }, [cartProducts]);
+  }, []);
 
   const { photo, price, name, weight, distributor, id, outOfStock } =
     props.product;
@@ -67,7 +70,7 @@ const ProductCard = (props) => {
   };
 
   const storedValue = getLocalStorageQuantity(
-    `clientId:${clientId}/productId:${id}`
+    `clientId:${localStorage.getItem("userId")}/productId:${id}`
   );
 
   const [number, setNumber] = useState(parseInt(storedValue) || 1);
@@ -115,7 +118,7 @@ const ProductCard = (props) => {
               className="increase-decrease-buttons"
               onClick={() => {
                 localStorage.setItem(
-                  `clientId:${clientId}/productId:${id}`,
+                  `clientId:${localStorage.getItem("userId")}/productId:${id}`,
                   number - 1
                 );
                 setNumber(number - 1);
@@ -131,7 +134,7 @@ const ProductCard = (props) => {
                 return null;
               } else {
                 localStorage.setItem(
-                  `clientId:${clientId}/productId:${id}`,
+                  `clientId:${localStorage.getItem("userId")}/productId:${id}`,
                   parseInt(e.target.value)
                 );
                 setNumber(parseInt(e.target.value));
@@ -144,7 +147,7 @@ const ProductCard = (props) => {
             className="increase-decrease-buttons"
             onClick={() => {
               localStorage.setItem(
-                `clientId:${clientId}/productId:${id}`,
+                `clientId:${localStorage.getItem("userId")}/productId:${id}`,
                 number + 1
               );
               setNumber(number + 1);

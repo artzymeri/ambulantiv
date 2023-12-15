@@ -13,7 +13,6 @@ const CartItem = dynamic(() => import("@/components/Pranues/CartItem"), {
 
 const CartView = () => {
   const [isClient, setIsClient] = useState(false);
-  const [clientId, setClientId] = useState(localStorage.getItem("userId"));
 
   const [cartProductsList, setCartProductsList] = useState(
     JSON.parse(
@@ -37,10 +36,12 @@ const CartView = () => {
     const newArray = cartProductsList.filter((product) => product.id !== id);
     setCartProductsList(newArray);
     localStorage.setItem(
-      `clientId:${clientId}/cartProducts`,
+      `clientId:${localStorage.getItem("userId")}/cartProducts`,
       JSON.stringify(newArray)
     );
-    localStorage.removeItem(`clientId:${clientId}/productId:${id}`);
+    localStorage.removeItem(
+      `clientId:${localStorage.getItem("userId")}/productId:${id}`
+    );
     setSnackbarData({
       title: "success",
       message: "Produkti u largua nga shporta",
@@ -50,6 +51,11 @@ const CartView = () => {
 
   useEffect(() => {
     setIsClient(true);
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      const value = localStorage.getItem(key);
+      console.log(`Key: ${key}, Value: ${value}`);
+    }
   }, []);
 
   const giveParentTheNewProducts = (updatedCartItems) => {
@@ -67,9 +73,13 @@ const CartView = () => {
           .then((res) => {
             const { title, message } = res.data;
             if (title === "success") {
-              localStorage.removeItem(`clientId:${clientId}/cartProducts`);
+              localStorage.removeItem(
+                `clientId:${localStorage.getItem("userId")}/cartProducts`
+              );
               setCartProductsList([]);
-              localStorage.removeItem(`clientId:${clientId}/productId:${id}`);
+              localStorage.removeItem(
+                `clientId:${localStorage.getItem("userId")}/productId:${id}`
+              );
               stateStorage.updateCartItems();
             }
             setSnackbarData({
