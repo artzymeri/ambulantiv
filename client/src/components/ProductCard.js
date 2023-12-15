@@ -59,7 +59,7 @@ const ProductCard = (props) => {
       localStorage.getItem(
         `clientId:${localStorage.getItem("userId")}/cartProducts`
       )
-    )
+    ) || []
   );
 
   useEffect(() => {

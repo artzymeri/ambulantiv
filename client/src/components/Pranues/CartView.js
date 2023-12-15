@@ -78,7 +78,9 @@ const CartView = () => {
               );
               setCartProductsList([]);
               localStorage.removeItem(
-                `clientId:${localStorage.getItem("userId")}/productId:${id}`
+                `clientId:${localStorage.getItem("userId")}/productId:${
+                  product.id
+                }`
               );
               stateStorage.updateCartItems();
             }
