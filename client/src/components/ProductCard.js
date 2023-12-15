@@ -59,8 +59,8 @@ const ProductCard = (props) => {
   useEffect(() => {
     setIsClient(true);
     updateLocalStorage(cartProducts);
-    setCartProducts(parsedLocalStorageCartItems);
-  }, []);
+    stateStorage.updateCartItems();
+  }, [cartProducts]);
 
   const { photo, price, name, weight, distributor, id, outOfStock } =
     props.product;
