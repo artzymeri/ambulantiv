@@ -54,7 +54,13 @@ const ProductCard = (props) => {
     ? JSON.parse(storedCartProducts)
     : [];
 
-  const [cartProducts, setCartProducts] = useState([]);
+  const [cartProducts, setCartProducts] = useState(
+    JSON.parse(
+      localStorage.getItem(
+        `clientId:${localStorage.getItem("userId")}/cartProducts`
+      )
+    )
+  );
 
   useEffect(() => {
     setIsClient(true);
