@@ -5,6 +5,7 @@ import { LocalShipping, RemoveCircle, ShoppingBag } from "@mui/icons-material";
 import { Button, Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import axios from "axios";
+import stateStorage from "@/store";
 
 const CartItem = dynamic(() => import("@/components/Pranues/CartItem"), {
   ssr: false,
@@ -65,6 +66,7 @@ const CartView = () => {
               message: message,
             });
             setSnackbarOpen(true);
+            stateStorage.updateCartItems();
           });
       } catch (error) {
         console.log(error);

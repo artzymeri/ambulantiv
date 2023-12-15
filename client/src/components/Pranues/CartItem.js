@@ -119,6 +119,7 @@ const CartItem = (props) => {
                   onClick={() => {
                     localStorage.setItem(`productId${id}`, number - 1);
                     setNumber(number - 1);
+                    onQuantityChange();
                   }}
                 >
                   <Tooltip title="Zbritni numrin e sasisë">
@@ -137,6 +138,7 @@ const CartItem = (props) => {
                       parseInt(e.target.value)
                     );
                     setNumber(parseInt(e.target.value));
+                    onQuantityChange();
                   }
                 }}
                 type="number"
