@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/ordersitem.css";
 import { Tooltip } from "@mui/material";
+import { useRouter } from "next/router";
 
 const OrderItem = (props) => {
+  const router = useRouter();
+
   const {
     productName,
     productWeight,
@@ -43,6 +46,14 @@ const OrderItem = (props) => {
               Distributori:{" "}
               <Tooltip title="Kliko për të shikuar produktet e kompanisë">
                 <span
+                  onClick={() => {
+                    router.push({
+                      pathname: "/pranues/products/company",
+                      query: {
+                        companyname: productDistributor,
+                      },
+                    });
+                  }}
                   style={{
                     fontSize: "16px",
                     textDecoration: "underline",
