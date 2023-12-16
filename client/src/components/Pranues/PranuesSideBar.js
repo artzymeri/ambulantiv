@@ -103,7 +103,12 @@ const PranuesSideBar = (props) => {
           </div>
           <div className="sidebar-pranues-wide-bottom">
             <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-              <button style={{ flexGrow: 1 }}>
+              <button
+                style={{ flexGrow: 1 }}
+                onClick={() => {
+                  router.push("/pranues/profile");
+                }}
+              >
                 <AccountCircle /> Profili
               </button>
               {stateStorage.cartItems && stateStorage.cartItems.length > 0 ? (

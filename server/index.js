@@ -440,6 +440,61 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/changeprofiledetails/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const { namesurname, companyname, phoneNumber, emailAddress } = req.body;
+
+  const alreadyUserPhoneNumber = await users_table.findAll({
+    where: {
+      phoneNumber: phoneNumber,
+    },
+  });
+
+  if (alreadyUserPhoneNumber.length > 0) {
+    console.log("wow");
+    res.json({
+      title: "error",
+      message: "Numri i vendosur është i përdorur më parë",
+    });
+  } else {
+    const userToEdit = await users_table.findByPk(userId);
+    userToEdit.namesurname = namesurname;
+    userToEdit.companyname = companyname;
+    userToEdit.phoneNumber = phoneNumber;
+    userToEdit.emailAddress = emailAddress;
+    await userToEdit.save();
+    res.json({
+      title: "success",
+      message: "Të dhënat u ndryshuan me sukses",
+    });
+  }
+});
+
+app.post("/changepassword/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const { newPassword } = req.body;
+
+  const userToEdit = await users_table.findByPk(userId);
+
+  const hashedPassword = bcrypt.hashSync(newPassword, 10);
+
+  try {
+    userToEdit.password = hashedPassword;
+
+    await userToEdit.save();
+
+    res.json({
+      title: "success",
+      message: "Fjalëkalimi u ndryshua me sukses",
+    });
+  } catch (error) {
+    res.json({
+      title: "error",
+      message: "Ka ndodhur një problem gjatë ndryshimit të fjalëkalimit",
+    });
+  }
+});
+
 app.post("/sendorder", async (req, res) => {
   try {
     const { name, price, totalPrice, weight, quantity, photo, distributor } =

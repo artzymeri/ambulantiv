@@ -120,6 +120,8 @@ const Login = () => {
               localStorage.setItem("distributorToken", distributorToken);
               localStorage.setItem("namesurname", namesurname);
               localStorage.setItem("companyname", companyname);
+              localStorage.setItem("phonenumber", phoneNumberOfUser);
+              localStorage.setItem("emailaddress", emailAddressOfUser);
               localStorage.setItem("userId", userId);
 
               router.push("/");
@@ -127,6 +129,8 @@ const Login = () => {
               localStorage.setItem("pranuesToken", pranuesToken);
               localStorage.setItem("namesurname", namesurname);
               localStorage.setItem("companyname", companyname);
+              localStorage.setItem("phonenumber", phoneNumberOfUser);
+              localStorage.setItem("emailaddress", emailAddressOfUser);
               localStorage.setItem("userId", userId);
               router.push("/");
             }
