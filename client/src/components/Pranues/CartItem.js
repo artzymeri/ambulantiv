@@ -11,6 +11,10 @@ const CartItem = (props) => {
   const { id, name, price, weight, quantity, distributor, photo } =
     props.product;
 
+  const { disabled } = props;
+
+  console.log(disabled);
+
   const { updateLocalStorage, giveParentTheNewProducts } = props;
 
   const onQuantityChange = () => {
@@ -27,8 +31,11 @@ const CartItem = (props) => {
     };
 
     const existingCartProducts =
-      JSON.parse(localStorage.getItem(`clientId:${localStorage.getItem('userId')}/cartProducts`)) ||
-      [];
+      JSON.parse(
+        localStorage.getItem(
+          `clientId:${localStorage.getItem("userId")}/cartProducts`
+        )
+      ) || [];
 
     const indexToUpdate = existingCartProducts.findIndex(
       (item) => item.id === updatedOnQuantityItem.id
@@ -40,7 +47,7 @@ const CartItem = (props) => {
 
       // Update localStorage with the modified array
       localStorage.setItem(
-        `clientId:${localStorage.getItem('userId')}/cartProducts`,
+        `clientId:${localStorage.getItem("userId")}/cartProducts`,
         JSON.stringify(existingCartProducts)
       );
       console.log(existingCartProducts);
@@ -54,7 +61,9 @@ const CartItem = (props) => {
   };
 
   const [storedValue, setStoredValue] = useState(
-    localStorage.getItem(`clientId:${localStorage.getItem('userId')}/productId:${id}`)
+    localStorage.getItem(
+      `clientId:${localStorage.getItem("userId")}/productId:${id}`
+    )
   );
 
   const [number, setNumber] = useState(parseInt(storedValue) || 1);
@@ -67,7 +76,9 @@ const CartItem = (props) => {
     onQuantityChange();
     stateStorage.updateCartItems();
     setStoredValue(
-      localStorage.getItem(`clientId:${localStorage.getItem('userId')}/productId:${id}`)
+      localStorage.getItem(
+        `clientId:${localStorage.getItem("userId")}/productId:${id}`
+      )
     );
   }, [number, price]);
 
@@ -90,7 +101,9 @@ const CartItem = (props) => {
 
   return (
     isClient && (
-      <div className="cart-item-parent">
+      <div
+        className={`cart-item-parent ${disabled ? "disabled-cart-item" : ""}`}
+      >
         <div className="cart-item-left-side">
           <div className="cart-item-left-side-l">
             <HtmlTooltip
@@ -104,7 +117,25 @@ const CartItem = (props) => {
             </HtmlTooltip>
           </div>
           <div className="cart-item-left-side-r">
-            <h4>{name}</h4>
+            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <h4>{name} </h4>
+              {disabled ? (
+                <span
+                  style={{
+                    fontSize: "11px",
+                    marginLeft: "3px",
+                    background: "red",
+                    padding: "2px 8px",
+                    borderRadius: "50px",
+                    color: "white",
+                    cursor: "not-allowed",
+                    fontWeight: "600",
+                  }}
+                >
+                  Produkti është jashtë stokut
+                </span>
+              ) : null}
+            </div>
             <p>
               {weight}, <span style={{ fontWeight: "600" }}>{distributor}</span>
             </p>
@@ -141,7 +172,9 @@ const CartItem = (props) => {
                     return null;
                   } else {
                     localStorage.setItem(
-                      `clientId:${localStorage.getItem('userId')}/productId:${id}`,
+                      `clientId:${localStorage.getItem(
+                        "userId"
+                      )}/productId:${id}`,
                       parseInt(e.target.value)
                     );
                     setNumber(parseInt(e.target.value));
@@ -154,7 +187,9 @@ const CartItem = (props) => {
                 className="increase-decrease-buttons-cart"
                 onClick={() => {
                   localStorage.setItem(
-                    `clientId:${localStorage.getItem('userId')}/productId:${id}`,
+                    `clientId:${localStorage.getItem(
+                      "userId"
+                    )}/productId:${id}`,
                     number + 1
                   );
                   setNumber(number + 1);

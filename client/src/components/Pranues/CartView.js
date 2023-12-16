@@ -32,6 +32,8 @@ const CartView = () => {
     setSnackbarOpen(false);
   };
 
+  const [listedProducts, setListedProducts] = useState([]);
+
   const updateLocalStorage = (id) => {
     const newArray = cartProductsList.filter((product) => product.id !== id);
     setCartProductsList(newArray);
@@ -51,11 +53,10 @@ const CartView = () => {
 
   useEffect(() => {
     setIsClient(true);
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      const value = localStorage.getItem(key);
-      console.log(`Key: ${key}, Value: ${value}`);
-    }
+    axios.get("http://localhost:8080/getlistedproducts").then((res) => {
+      setListedProducts(res.data);
+      console.log(res.data);
+    });
   }, []);
 
   const giveParentTheNewProducts = (updatedCartItems) => {
@@ -118,16 +119,20 @@ const CartView = () => {
             <h3 style={{ color: "rgb(130, 30, 30)" }}>Shporta</h3>
           </div>
           <div className="cart-view-items-wrapper">
-            {cartProductsList && cartProductsList.length > 0 ? (
-              cartProductsList.map((product) => (
-                <CartItem
-                  updateLocalStorage={updateLocalStorage}
-                  product={product}
-                  giveParentTheNewProducts={giveParentTheNewProducts}
-                  key={[product.id]}
-                />
-              ))
-            ) : (
+            {cartProductsList.map((product) => (
+              <CartItem
+                key={product.id}
+                product={product}
+                updateLocalStorage={updateLocalStorage}
+                giveParentTheNewProducts={giveParentTheNewProducts}
+                disabled={listedProducts.some(
+                  (listedProduct) =>
+                    listedProduct.outOfStock &&
+                    listedProduct.name === product.name
+                )}
+              />
+            ))}
+            {cartProductsList.length === 0 && (
               <div
                 style={{
                   alignSelf: "center",
