@@ -15,7 +15,10 @@ const ProductsWrapper = (props) => {
     foodProducts,
     housekeepProducts,
     hygeneProducts,
+    companyname,
   } = props;
+
+  const companynameForServer = companyname?.companyname;
 
   const [productsData, setProductsData] = useState([]);
 
@@ -32,7 +35,11 @@ const ProductsWrapper = (props) => {
   const [isClient, setIsClient] = useState(false);
 
   const [cartProducts, setCartProducts] = useState(
-    JSON.parse(localStorage.getItem("cartProducts")) || []
+    JSON.parse(
+      localStorage.getItem(
+        `clientId:${localStorage.getItem("userId")}/cartProducts`
+      )
+    ) || []
   );
 
   const activateSnackbar = () => {
@@ -44,7 +51,10 @@ const ProductsWrapper = (props) => {
   };
 
   const updateLocalStorage = (newArray) => {
-    localStorage.setItem("cartProducts", JSON.stringify(newArray));
+    localStorage.setItem(
+      `clientId:${localStorage.getItem("userId")}/cartProducts`,
+      JSON.stringify(newArray)
+    );
   };
 
   useEffect(() => {
@@ -75,6 +85,14 @@ const ProductsWrapper = (props) => {
       axios.get("http://localhost:8080/gethygeneproducts").then((res) => {
         setProductsData(res.data);
       });
+    } else if (companyname) {
+      console.log(companynameForServer);
+      axios
+        .get(`http://localhost:8080/getcompanyproducts/${companynameForServer}`)
+        .then((res) => {
+          setProductsData(res.data);
+          console.log(res.data);
+        });
     }
   }, []);
 

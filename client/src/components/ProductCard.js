@@ -5,9 +5,12 @@ import { Add, AddShoppingCart, LocalMall, Remove } from "@mui/icons-material";
 import { Button, ButtonGroup, Tooltip } from "@mui/material";
 import stateStorage from "@/store";
 import { observer } from "mobx-react";
+import { useRouter } from "next/router";
 
 const ProductCard = (props) => {
   const [isClient, setIsClient] = useState(false);
+
+  const router = useRouter();
 
   const { updateLocalStorage, activateSnackbar } = props;
 
@@ -24,25 +27,40 @@ const ProductCard = (props) => {
     };
 
     // Get existing cart products from local storage
-    const existingCartProducts =
-      JSON.parse(localStorage.getItem("cartProducts")) || [];
+    const existingCartProducts = storedCartProducts
+      ? JSON.parse(
+          localStorage.getItem(
+            `clientId:${localStorage.getItem("userId")}/cartProducts`
+          )
+        )
+      : [];
 
     // Add the new product to the array
     const updatedCartProducts = [...existingCartProducts, newProduct];
 
     // Update local storage with the updated array
-    localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
+    localStorage.setItem(
+      `clientId:${localStorage.getItem("userId")}/cartProducts`,
+      JSON.stringify(updatedCartProducts)
+    );
 
     // Update the state
     setCartProducts(updatedCartProducts);
   };
 
-  const parsedLocalStorageCartItems = JSON.parse(
-    localStorage.getItem("cartProducts")
+  const storedCartProducts = localStorage.getItem(
+    `clientId:${localStorage.getItem("userId")}/cartProducts`
   );
+  const parsedLocalStorageCartItems = storedCartProducts
+    ? JSON.parse(storedCartProducts)
+    : [];
 
   const [cartProducts, setCartProducts] = useState(
-    parsedLocalStorageCartItems || []
+    JSON.parse(
+      localStorage.getItem(
+        `clientId:${localStorage.getItem("userId")}/cartProducts`
+      )
+    ) || []
   );
 
   useEffect(() => {
@@ -58,7 +76,9 @@ const ProductCard = (props) => {
     return localStorage.getItem(id);
   };
 
-  const storedValue = getLocalStorageQuantity(`productId:${id}`);
+  const storedValue = getLocalStorageQuantity(
+    `clientId:${localStorage.getItem("userId")}/productId:${id}`
+  );
 
   const [number, setNumber] = useState(parseInt(storedValue) || 1);
 
@@ -104,7 +124,10 @@ const ProductCard = (props) => {
             <span
               className="increase-decrease-buttons"
               onClick={() => {
-                localStorage.setItem(`productId${id}`, number - 1);
+                localStorage.setItem(
+                  `clientId:${localStorage.getItem("userId")}/productId:${id}`,
+                  number - 1
+                );
                 setNumber(number - 1);
               }}
             >
@@ -118,7 +141,7 @@ const ProductCard = (props) => {
                 return null;
               } else {
                 localStorage.setItem(
-                  `productId:${id}`,
+                  `clientId:${localStorage.getItem("userId")}/productId:${id}`,
                   parseInt(e.target.value)
                 );
                 setNumber(parseInt(e.target.value));
@@ -130,7 +153,10 @@ const ProductCard = (props) => {
           <span
             className="increase-decrease-buttons"
             onClick={() => {
-              localStorage.setItem(`productId:${id}`, number + 1);
+              localStorage.setItem(
+                `clientId:${localStorage.getItem("userId")}/productId:${id}`,
+                number + 1
+              );
               setNumber(number + 1);
             }}
           >
@@ -159,7 +185,26 @@ const ProductCard = (props) => {
           <div className="product-card-text-up">
             <h3 style={{ width: "180px" }}>{name}</h3>
             <p style={{ fontSize: "13px" }}>
-              {weight}, <b>{distributor}</b>
+              {weight},{" "}
+              <Tooltip title="Kliko për të shikuar produktet e kompanisë">
+                <span
+                  onClick={() => {
+                    router.push({
+                      pathname: "/pranues/products/company",
+                      query: {
+                        companyname: distributor,
+                      },
+                    });
+                  }}
+                  style={{
+                    fontWeight: "bold",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
+                >
+                  {distributor}
+                </span>
+              </Tooltip>
             </p>
           </div>
           <div className="product-card-text-down">
@@ -195,9 +240,28 @@ const ProductCard = (props) => {
         <img src={photo} />
         <div className="product-card-text-container">
           <div className="product-card-text-up">
-            <h3 style={{ width: "180px" }}>{name}</h3>
+            <h4 style={{ width: "180px" }}>{name}</h4>
             <p style={{ fontSize: "13px" }}>
-              {weight}, <b>{distributor}</b>
+              {weight},{" "}
+              <Tooltip title="Kliko për të shikuar produktet e kompanisë">
+                <span
+                  onClick={() => {
+                    router.push({
+                      pathname: "/pranues/products/company",
+                      query: {
+                        companyname: distributor,
+                      },
+                    });
+                  }}
+                  style={{
+                    fontWeight: "bold",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
+                >
+                  {distributor}
+                </span>
+              </Tooltip>
             </p>
           </div>
           <div className="product-card-text-down">

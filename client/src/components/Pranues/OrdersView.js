@@ -12,13 +12,11 @@ const OrdersView = () => {
 
   useEffect(() => {
     setIsClient(true);
-    const pranuesCompanyName = localStorage.getItem("companyname");
-    axios
-      .get(`http://localhost:8080/getorders/${pranuesCompanyName}`)
-      .then((res) => {
-        setOrdersList(res.data);
-        console.log(res.data);
-      });
+    const pranuesId = localStorage.getItem("userId");
+    axios.get(`http://localhost:8080/getorders/${pranuesId}`).then((res) => {
+      setOrdersList(res.data);
+      console.log(res.data);
+    });
   }, []);
 
   return (

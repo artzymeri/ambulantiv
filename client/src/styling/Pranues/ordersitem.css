@@ -20,6 +20,7 @@
 }
 
 .orders-row-left-l {
+    display: flex;
     width: 90px;
     height: 100%;
     flex-shrink: 0;

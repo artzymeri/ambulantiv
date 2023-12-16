@@ -255,8 +255,8 @@ const EditProductDialog = (props) => {
                   label="Nuk ka stock"
                   onChange={(e) =>
                     setEditedProduct({
-                      ...editedProductData,
-                      outOfStock: e.target.value === true,
+                      ...editedProduct,
+                      outOfStock: true,
                     })
                   }
                 />
@@ -267,8 +267,8 @@ const EditProductDialog = (props) => {
                   label="Ka Stock"
                   onChange={(e) =>
                     setEditedProduct({
-                      ...editedProductData,
-                      outOfStock: e.target.value === true,
+                      ...editedProduct,
+                      outOfStock: false,
                     })
                   }
                 />

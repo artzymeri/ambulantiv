@@ -13,7 +13,14 @@ const CartItem = dynamic(() => import("@/components/Pranues/CartItem"), {
 
 const CartView = () => {
   const [isClient, setIsClient] = useState(false);
-  const [cartProductsList, setCartProductsList] = useState([]);
+
+  const [cartProductsList, setCartProductsList] = useState(
+    JSON.parse(
+      localStorage.getItem(
+        `clientId:${localStorage.getItem("userId")}/cartProducts`
+      )
+    ) || []
+  );
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarData, setSnackbarData] = useState({ title: "", message: "" });
@@ -25,11 +32,18 @@ const CartView = () => {
     setSnackbarOpen(false);
   };
 
+  const [listedProducts, setListedProducts] = useState([]);
+
   const updateLocalStorage = (id) => {
     const newArray = cartProductsList.filter((product) => product.id !== id);
     setCartProductsList(newArray);
-    localStorage.setItem("cartProducts", JSON.stringify(newArray));
-    localStorage.removeItem(`productId:${id}`);
+    localStorage.setItem(
+      `clientId:${localStorage.getItem("userId")}/cartProducts`,
+      JSON.stringify(newArray)
+    );
+    localStorage.removeItem(
+      `clientId:${localStorage.getItem("userId")}/productId:${id}`
+    );
     setSnackbarData({
       title: "success",
       message: "Produkti u largua nga shporta",
@@ -39,7 +53,9 @@ const CartView = () => {
 
   useEffect(() => {
     setIsClient(true);
-    setCartProductsList(JSON.parse(localStorage.getItem("cartProducts")));
+    axios.get("http://localhost:8080/getlistedproducts").then((res) => {
+      setListedProducts(res.data);
+    });
   }, []);
 
   const giveParentTheNewProducts = (updatedCartItems) => {
@@ -47,21 +63,53 @@ const CartView = () => {
   };
 
   const orderAll = () => {
-    for (const product of cartProductsList) {
+    const productsToOrder = cartProductsList.filter((product) =>
+      listedProducts.some(
+        (listedProduct) =>
+          !listedProduct.outOfStock && listedProduct.name === product.name
+      )
+    );
+
+    console.log(productsToOrder);
+
+    if (productsToOrder.length === 0) {
+      // Handle the case where all products are disabled
+      setSnackbarData({
+        title: "warning",
+        message: "Nuk ka produkte të disponueshme për të porositur",
+      });
+      setSnackbarOpen(true);
+      return;
+    }
+
+    for (const product of productsToOrder) {
       try {
+        console.log("finished");
         axios
           .post("http://localhost:8080/sendorder", {
             product,
-            client: localStorage.getItem("companyname"),
+            clientId: localStorage.getItem("userId"),
           })
           .then((res) => {
             const { title, message } = res.data;
-            if (title === "success") {
-              localStorage.removeItem("cartProducts");
-              setCartProductsList([]);
-              localStorage.removeItem(`productId:${product.id}`);
-              stateStorage.updateCartItems();
-            }
+            const newArray = cartProductsList.filter(
+              (p) => p.id !== product.id
+            );
+            setCartProductsList((prevCartProductsList) => {
+              const newArray = prevCartProductsList.filter(
+                (p) => p.id !== product.id
+              );
+              localStorage.setItem(
+                `clientId:${localStorage.getItem("userId")}/cartProducts`,
+                JSON.stringify(newArray)
+              );
+              localStorage.removeItem(
+                `clientId:${localStorage.getItem("userId")}/productId:${
+                  product.id
+                }`
+              );
+              return newArray;
+            });
             setSnackbarData({
               title: title,
               message: message,
@@ -97,15 +145,20 @@ const CartView = () => {
             <h3 style={{ color: "rgb(130, 30, 30)" }}>Shporta</h3>
           </div>
           <div className="cart-view-items-wrapper">
-            {cartProductsList && cartProductsList.length > 0 ? (
-              cartProductsList.map((product) => (
-                <CartItem
-                  updateLocalStorage={updateLocalStorage}
-                  product={product}
-                  giveParentTheNewProducts={giveParentTheNewProducts}
-                />
-              ))
-            ) : (
+            {cartProductsList.map((product) => (
+              <CartItem
+                key={product.id}
+                product={product}
+                updateLocalStorage={updateLocalStorage}
+                giveParentTheNewProducts={giveParentTheNewProducts}
+                disabled={listedProducts.some(
+                  (listedProduct) =>
+                    listedProduct.outOfStock &&
+                    listedProduct.name === product.name
+                )}
+              />
+            ))}
+            {cartProductsList.length === 0 && (
               <div
                 style={{
                   alignSelf: "center",
