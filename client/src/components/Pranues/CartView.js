@@ -55,7 +55,6 @@ const CartView = () => {
     setIsClient(true);
     axios.get("http://localhost:8080/getlistedproducts").then((res) => {
       setListedProducts(res.data);
-      console.log(res.data);
     });
   }, []);
 
@@ -64,8 +63,28 @@ const CartView = () => {
   };
 
   const orderAll = () => {
-    for (const product of cartProductsList) {
+    const productsToOrder = cartProductsList.filter((product) =>
+      listedProducts.some(
+        (listedProduct) =>
+          !listedProduct.outOfStock && listedProduct.name === product.name
+      )
+    );
+
+    console.log(productsToOrder);
+
+    if (productsToOrder.length === 0) {
+      // Handle the case where all products are disabled
+      setSnackbarData({
+        title: "warning",
+        message: "Nuk ka produkte të disponueshme për porositi.",
+      });
+      setSnackbarOpen(true);
+      return;
+    }
+
+    for (const product of productsToOrder) {
       try {
+        console.log("finished");
         axios
           .post("http://localhost:8080/sendorder", {
             product,
@@ -73,23 +92,30 @@ const CartView = () => {
           })
           .then((res) => {
             const { title, message } = res.data;
-            if (title === "success") {
-              localStorage.removeItem(
-                `clientId:${localStorage.getItem("userId")}/cartProducts`
+            const newArray = cartProductsList.filter(
+              (p) => p.id !== product.id
+            );
+            setCartProductsList((prevCartProductsList) => {
+              const newArray = prevCartProductsList.filter(
+                (p) => p.id !== product.id
               );
-              setCartProductsList([]);
+              localStorage.setItem(
+                `clientId:${localStorage.getItem("userId")}/cartProducts`,
+                JSON.stringify(newArray)
+              );
               localStorage.removeItem(
                 `clientId:${localStorage.getItem("userId")}/productId:${
                   product.id
                 }`
               );
-              stateStorage.updateCartItems();
-            }
+              return newArray;
+            });
             setSnackbarData({
               title: title,
               message: message,
             });
             setSnackbarOpen(true);
+            stateStorage.updateCartItems();
           });
       } catch (error) {
         console.log(error);

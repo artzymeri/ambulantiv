@@ -13,8 +13,6 @@ const CartItem = (props) => {
 
   const { disabled } = props;
 
-  console.log(disabled);
-
   const { updateLocalStorage, giveParentTheNewProducts } = props;
 
   const onQuantityChange = () => {
@@ -50,7 +48,6 @@ const CartItem = (props) => {
         `clientId:${localStorage.getItem("userId")}/cartProducts`,
         JSON.stringify(existingCartProducts)
       );
-      console.log(existingCartProducts);
     }
     stateStorage.updateCartItems();
     giveParentTheNewProducts(existingCartProducts);
@@ -120,20 +117,22 @@ const CartItem = (props) => {
             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
               <h4>{name} </h4>
               {disabled ? (
-                <span
-                  style={{
-                    fontSize: "11px",
-                    marginLeft: "3px",
-                    background: "red",
-                    padding: "2px 8px",
-                    borderRadius: "50px",
-                    color: "white",
-                    cursor: "not-allowed",
-                    fontWeight: "600",
-                  }}
-                >
-                  Produkti është jashtë stokut
-                </span>
+                <Tooltip title="Nuk ka sasi furnizuese për këtë produkt momentalisht">
+                  <span
+                    style={{
+                      fontSize: "11px",
+                      marginLeft: "3px",
+                      background: "red",
+                      padding: "2px 8px",
+                      borderRadius: "50px",
+                      color: "white",
+                      cursor: "not-allowed",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Produkti është jashtë stokut
+                  </span>
+                </Tooltip>
               ) : null}
             </div>
             <p>
