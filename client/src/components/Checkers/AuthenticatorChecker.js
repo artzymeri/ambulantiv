@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 const AuthenticatorChecker = ({ children }) => {
@@ -13,7 +14,14 @@ const AuthenticatorChecker = ({ children }) => {
       authenticatedDistributor ||
       authenticatedPranues
     ) {
-      return <>{children}</>;
+      return (
+        <>
+          <Head>
+            <link rel="icon" href="/e-commerceKosovaLogo.png" />
+          </Head>
+          {children}
+        </>
+      );
     } else {
       router.push("/auth/login");
     }

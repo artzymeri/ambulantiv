@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 const LoginChecker = ({ children }) => {
@@ -28,6 +29,9 @@ const LoginChecker = ({ children }) => {
     ) {
       return (
         <>
+          <Head>
+            <link rel="icon" href="/e-commerceKosovaLogo.png" />
+          </Head>
           <h1>You are already logged in</h1>
           <button onClick={logout}>logout</button>
         </>

@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -34,25 +34,27 @@ const PranuesHome = () => {
   };
 
   return (
-    <AuthenticatorChecker>
-      <PranuesChecker>
-        <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
-          <PranuesSideBar />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              height: "100vh",
-              width: "100%",
-              overflow: "clip",
-            }}
-          >
-            <PranuesHomeView />
+    <>
+      <AuthenticatorChecker>
+        <PranuesChecker>
+          <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+            <PranuesSideBar />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "100vh",
+                width: "100%",
+                overflow: "clip",
+              }}
+            >
+              <PranuesHomeView />
+            </div>
           </div>
-        </div>
-      </PranuesChecker>
-    </AuthenticatorChecker>
+        </PranuesChecker>
+      </AuthenticatorChecker>
+    </>
   );
 };
 
