@@ -13,6 +13,8 @@ const {
   IconButton,
   Button,
   Dialog,
+  DialogTitle,
+  DialogActions,
 } = require("@mui/material");
 import MuiAlert from "@mui/material/Alert";
 import Head from "next/head";
@@ -182,6 +184,15 @@ const ProfileView = (props) => {
             setDialogPasswordOpen(false);
           }}
         >
+          <DialogTitle
+            style={{
+              textAlign: "center",
+              borderBottom: "1px",
+              border: "1px solid lightgray",
+            }}
+          >
+            Ndrysho Fjalëkalimin
+          </DialogTitle>
           <div
             style={{
               display: "flex",
@@ -250,13 +261,20 @@ const ProfileView = (props) => {
                 label="Password"
               />
             </FormControl>
-            <Button
-              variant="contained"
-              style={{ marginTop: "20px" }}
-              onClick={confirmNewPassword}
-            >
-              Ndrysho Fjalëkalimin
-            </Button>
+            <DialogActions>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => {
+                  setDialogPasswordOpen(false);
+                }}
+              >
+                Mbyll
+              </Button>
+              <Button variant="contained" onClick={confirmNewPassword}>
+                Ndrysho Fjalëkalimin
+              </Button>
+            </DialogActions>
           </div>
         </Dialog>
         <Snackbar

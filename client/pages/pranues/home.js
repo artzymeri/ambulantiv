@@ -30,6 +30,10 @@ const PranuesHome = () => {
 
   const logout = () => {
     localStorage.removeItem("pranuesToken");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("emailaddress");
+    localStorage.removeItem("phonenumber");
+    localStorage.removeItem("companyname");
     router.push("/auth/login");
   };
 

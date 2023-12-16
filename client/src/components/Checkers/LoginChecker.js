@@ -12,12 +12,21 @@ const LoginChecker = ({ children }) => {
     const logout = () => {
       if (authenticatedAdmin) {
         localStorage.removeItem("adminToken");
+        localStorage.removeItem("userId");
         window.location.reload();
       } else if (authenticatedDistributor) {
         localStorage.removeItem("distributorToken");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("emailaddress");
+        localStorage.removeItem("phonenumber");
+        localStorage.removeItem("companyname");
         window.location.reload();
       } else if (authenticatedPranues) {
         localStorage.removeItem("pranuesToken");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("emailaddress");
+        localStorage.removeItem("phonenumber");
+        localStorage.removeItem("companyname");
         window.location.reload();
       }
     };

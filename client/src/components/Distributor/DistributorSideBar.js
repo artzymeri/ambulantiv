@@ -30,9 +30,10 @@ const DistributorSideBar = (props) => {
 
   const logout = () => {
     localStorage.removeItem("distributorToken");
-    localStorage.removeItem("namesurname");
-    localStorage.removeItem("companyname");
     localStorage.removeItem("userId");
+    localStorage.removeItem("emailaddress");
+    localStorage.removeItem("phonenumber");
+    localStorage.removeItem("companyname");
     router.push("/auth/login");
   };
 
