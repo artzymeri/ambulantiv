@@ -13,7 +13,7 @@ import {
 import { Tooltip } from "@mui/material";
 
 const ProductsNavbar = (props) => {
-  const { changeSearchQuery } = props;
+  const { changeSearchQuery, companyname } = props;
 
   const [isClient, setIsClient] = useState(false);
 
@@ -76,9 +76,16 @@ const ProductsNavbar = (props) => {
     isClient && (
       <div className="products-navbar-parent-wide">
         <div className="products-navbar-up">
-          {productOptions.map((option) => {
-            return productNameDynamic(option);
-          })}
+          {!companyname ? (
+            <>
+              {productOptions.map((option) => {
+                return productNameDynamic(option);
+              })}
+            </>
+          ) : (
+            <h4>{companyname.companyname}</h4>
+          )}
+
           <div className="products-navbar-search-container">
             <SearchIcon sx={{ color: "gray" }} />
             <input
@@ -88,22 +95,24 @@ const ProductsNavbar = (props) => {
             />
           </div>
         </div>
-        <div className="products-navbar-down">
-          {productOptions.map((option) => {
-            return (
-              <Tooltip title={option.name}>
-                <div
-                  onClick={() => {
-                    router.push(option.pathOnClick);
-                  }}
-                  className={isActiveOption(option.pathOnClick)}
-                >
-                  {option.icon}
-                </div>
-              </Tooltip>
-            );
-          })}
-        </div>
+        {!companyname && (
+          <div className="products-navbar-down">
+            {productOptions.map((option) => {
+              return (
+                <Tooltip title={option.name}>
+                  <div
+                    onClick={() => {
+                      router.push(option.pathOnClick);
+                    }}
+                    className={isActiveOption(option.pathOnClick)}
+                  >
+                    {option.icon}
+                  </div>
+                </Tooltip>
+              );
+            })}
+          </div>
+        )}
       </div>
     )
   );

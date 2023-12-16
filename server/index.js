@@ -110,6 +110,19 @@ app.get("/gethygeneproducts", async (req, res) => {
   }
 });
 
+app.get("/getcompanyproducts/:companyname", async (req, res) => {
+  const companyname = req.params.companyname;
+  try {
+    const companyProducts = await listed_products.findAll({
+      where: { distributor: companyname },
+    });
+    res.json(companyProducts);
+  } catch (error) {
+    console.error("Database query error:", error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
 app.post("/addnewproduct", async (req, res) => {
   try {
     const { name, category, price, weight, distributor, photo } =
@@ -315,7 +328,7 @@ app.post("/register", async (req, res) => {
       emailAddress,
       password,
       companyType,
-    } = req.body.product;
+    } = req.body;
 
     await users_table.create({
       namesurname,
@@ -429,18 +442,10 @@ app.post("/login", async (req, res) => {
 
 app.post("/sendorder", async (req, res) => {
   try {
-    const {
-      name,
-      price,
-      totalPrice,
-      weight,
-      quantity,
-      photo,
-      distributor,
-      client,
-    } = req.body.product;
+    const { name, price, totalPrice, weight, quantity, photo, distributor } =
+      req.body.product;
 
-    console.log(req.body);
+    const { clientId } = req.body;
 
     await orders_table.create({
       productName: name,
@@ -450,7 +455,7 @@ app.post("/sendorder", async (req, res) => {
       productQuantity: quantity,
       productPhoto: photo,
       productDistributor: distributor,
-      productClient: client,
+      productClient: clientId,
     });
     res.json({
       title: "success",
@@ -462,11 +467,11 @@ app.post("/sendorder", async (req, res) => {
   }
 });
 
-app.get("/getorders/:pranuesCompanyName", async (req, res) => {
-  const { pranuesCompanyName } = req.params;
+app.get("/getorders/:pranuesId", async (req, res) => {
+  const { pranuesId } = req.params;
   try {
     const listedOrders = await orders_table.findAll({
-      where: { productClient: pranuesCompanyName },
+      where: { productClient: pranuesId },
     });
     res.send(listedOrders);
   } catch (error) {

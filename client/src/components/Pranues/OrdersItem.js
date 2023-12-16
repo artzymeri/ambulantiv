@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/ordersitem.css";
+import { Tooltip } from "@mui/material";
 
 const OrderItem = (props) => {
   const {
@@ -40,7 +41,17 @@ const OrderItem = (props) => {
             </h5>
             <h5>
               Distributori:{" "}
-              <span style={{ fontSize: "16px" }}> {productDistributor} </span>
+              <Tooltip title="Kliko për të shikuar produktet e kompanisë">
+                <span
+                  style={{
+                    fontSize: "16px",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
+                >
+                  {productDistributor}
+                </span>
+              </Tooltip>
             </h5>
           </div>
         </div>

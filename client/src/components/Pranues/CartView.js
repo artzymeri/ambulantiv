@@ -68,7 +68,7 @@ const CartView = () => {
         axios
           .post("http://localhost:8080/sendorder", {
             product,
-            client: localStorage.getItem("companyname"),
+            clientId: localStorage.getItem("userId"),
           })
           .then((res) => {
             const { title, message } = res.data;

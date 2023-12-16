@@ -10,6 +10,7 @@ const ProductsView = (props) => {
     foodProducts,
     housekeepProducts,
     hygeneProducts,
+    companyname,
   } = props;
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,7 +21,10 @@ const ProductsView = (props) => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-      <ProductsNavbar changeSearchQuery={changeSearchQuery} />
+      <ProductsNavbar
+        changeSearchQuery={changeSearchQuery}
+        companyname={companyname}
+      />
       <ProductsWrapper
         searchQuery={searchQuery}
         allProducts={allProducts}
@@ -29,6 +33,7 @@ const ProductsView = (props) => {
         foodProducts={foodProducts}
         housekeepProducts={housekeepProducts}
         hygeneProducts={hygeneProducts}
+        companyname={companyname}
       />
     </div>
   );

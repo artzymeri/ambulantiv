@@ -5,13 +5,14 @@ import { Add, AddShoppingCart, LocalMall, Remove } from "@mui/icons-material";
 import { Button, ButtonGroup, Tooltip } from "@mui/material";
 import stateStorage from "@/store";
 import { observer } from "mobx-react";
+import { useRouter } from "next/router";
 
 const ProductCard = (props) => {
   const [isClient, setIsClient] = useState(false);
 
-  const { updateLocalStorage, activateSnackbar } = props;
+  const router = useRouter();
 
-  const { clientId, setClientId } = useState(localStorage.getItem("userId"));
+  const { updateLocalStorage, activateSnackbar } = props;
 
   const updateCartItems = () => {
     const newProduct = {
@@ -184,7 +185,26 @@ const ProductCard = (props) => {
           <div className="product-card-text-up">
             <h3 style={{ width: "180px" }}>{name}</h3>
             <p style={{ fontSize: "13px" }}>
-              {weight}, <b>{distributor}</b>
+              {weight},{" "}
+              <Tooltip title="Kliko për të shikuar produktet e kompanisë">
+                <span
+                  onClick={() => {
+                    router.push({
+                      pathname: "/pranues/products/company",
+                      query: {
+                        companyname: distributor,
+                      },
+                    });
+                  }}
+                  style={{
+                    fontWeight: "bold",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
+                >
+                  {distributor}
+                </span>
+              </Tooltip>
             </p>
           </div>
           <div className="product-card-text-down">
@@ -220,9 +240,28 @@ const ProductCard = (props) => {
         <img src={photo} />
         <div className="product-card-text-container">
           <div className="product-card-text-up">
-            <h3 style={{ width: "180px" }}>{name}</h3>
+            <h4 style={{ width: "180px" }}>{name}</h4>
             <p style={{ fontSize: "13px" }}>
-              {weight}, <b>{distributor}</b>
+              {weight},{" "}
+              <Tooltip title="Kliko për të shikuar produktet e kompanisë">
+                <span
+                  onClick={() => {
+                    router.push({
+                      pathname: "/pranues/products/company",
+                      query: {
+                        companyname: distributor,
+                      },
+                    });
+                  }}
+                  style={{
+                    fontWeight: "bold",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
+                >
+                  {distributor}
+                </span>
+              </Tooltip>
             </p>
           </div>
           <div className="product-card-text-down">
