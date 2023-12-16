@@ -76,7 +76,7 @@ const CartView = () => {
       // Handle the case where all products are disabled
       setSnackbarData({
         title: "warning",
-        message: "Nuk ka produkte të disponueshme për porositi.",
+        message: "Nuk ka produkte të disponueshme për të porositur",
       });
       setSnackbarOpen(true);
       return;
