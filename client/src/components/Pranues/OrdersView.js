@@ -50,7 +50,7 @@ const OrdersView = () => {
         </div>
         {ordersList && ordersList.length > 0 ? (
           <Button variant="contained" color="warning" sx={{ height: 70 }}>
-            Printo Faturat
+            Shkarko Faturat
           </Button>
         ) : null}
       </div>

@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import React from "react";
 
 const AuthenticatorChecker = dynamic(
@@ -22,21 +23,27 @@ const ProductsView = dynamic(() => import("@/components/ProductsView"), {
 
 const Products = () => {
   return (
-    <AuthenticatorChecker>
-      <PranuesChecker>
-        <div
-          style={{
-            display: "flex",
-            width: "100vw",
-            height: "100vh",
-            overflow: "clip",
-          }}
-        >
-          <PranuesSideBar />
-          <ProductsView allProducts={true} />
-        </div>
-      </PranuesChecker>
-    </AuthenticatorChecker>
+    <>
+      <Head>
+        <link rel="icon" href="/e-commerceKosovaLogo.png" />
+        <title>Produktet</title>
+      </Head>
+      <AuthenticatorChecker>
+        <PranuesChecker>
+          <div
+            style={{
+              display: "flex",
+              width: "100vw",
+              height: "100vh",
+              overflow: "clip",
+            }}
+          >
+            <PranuesSideBar />
+            <ProductsView allProducts={true} />
+          </div>
+        </PranuesChecker>
+      </AuthenticatorChecker>
+    </>
   );
 };
 

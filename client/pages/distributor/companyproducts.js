@@ -9,6 +9,7 @@ import { Menu } from "@mui/icons-material";
 import axios from "axios";
 import "@/styling/global.css";
 import EditProductDialog from "@/components/EditProductDialog";
+import Head from "next/head";
 
 const CompanyListedProducts = () => {
   const [isClient, setIsClient] = useState(false);
@@ -121,72 +122,81 @@ const CompanyListedProducts = () => {
   ];
   return (
     isClient && (
-      <AuthenticatorChecker>
-        <DistributorChecker>
-          <Snackbar
-            open={snackbarOpen}
-            autoHideDuration={6000}
-            onClose={handleSnackbarClose}
-          >
-            <MuiAlert
-              elevation={6}
-              variant="filled"
-              severity={snackbarData.title.toLowerCase()}
+      <>
+        <Head>
+          <link rel="icon" href="/e-commerceKosovaLogo.png" />
+          <title>Produktet e kompanisë</title>
+        </Head>
+        <AuthenticatorChecker>
+          <DistributorChecker>
+            <Snackbar
+              open={snackbarOpen}
+              autoHideDuration={6000}
+              onClose={handleSnackbarClose}
             >
-              {snackbarData.message}
-            </MuiAlert>
-          </Snackbar>
-          <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
-            <EditProductDialog
-              openDialog={openDialog}
-              editedProductData={editedProduct}
-              handleCloseDialog={handleCloseDialog}
-              refreshListedProductsTable={refreshListedProductsTable}
-            />
-            <DistributorSideBar display={display} closeSidebar={closeSidebar} />
-            <div
-              style={{
-                display: "flex",
-                padding: "30px",
-                flexDirection: "column",
-                gap: "15px",
-                flexGrow: 1,
-                overflowX: "clip",
-              }}
-            >
-              <input
-                type="text"
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="Kërko llogaritë"
-                style={{
-                  width: "100%",
-                  height: "50px",
-                  borderRadius: "25px",
-                  border: "1px solid black",
-                  paddingLeft: "15px",
-                }}
-                className="shadow-one"
-              />
-              <TableComponent
-                columns={columns}
-                rows={rows}
-                searchInput={searchInput}
-                companyProductButtons={true}
-                handleOpenDialog={handleOpenDialog}
-                refreshRate={refreshRate}
-                companyProductsList={true}
-              />
-              <button
-                className="sidebar-distributor-trigger-button shadow-one"
-                onClick={openSidebar}
+              <MuiAlert
+                elevation={6}
+                variant="filled"
+                severity={snackbarData.title.toLowerCase()}
               >
-                <Menu style={{ color: "white" }} />
-              </button>
+                {snackbarData.message}
+              </MuiAlert>
+            </Snackbar>
+            <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+              <EditProductDialog
+                openDialog={openDialog}
+                editedProductData={editedProduct}
+                handleCloseDialog={handleCloseDialog}
+                refreshListedProductsTable={refreshListedProductsTable}
+              />
+              <DistributorSideBar
+                display={display}
+                closeSidebar={closeSidebar}
+              />
+              <div
+                style={{
+                  display: "flex",
+                  padding: "30px",
+                  flexDirection: "column",
+                  gap: "15px",
+                  flexGrow: 1,
+                  overflowX: "clip",
+                }}
+              >
+                <input
+                  type="text"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  placeholder="Kërko llogaritë"
+                  style={{
+                    width: "100%",
+                    height: "50px",
+                    borderRadius: "25px",
+                    border: "1px solid black",
+                    paddingLeft: "15px",
+                  }}
+                  className="shadow-one"
+                />
+                <TableComponent
+                  columns={columns}
+                  rows={rows}
+                  searchInput={searchInput}
+                  companyProductButtons={true}
+                  handleOpenDialog={handleOpenDialog}
+                  refreshRate={refreshRate}
+                  companyProductsList={true}
+                />
+                <button
+                  className="sidebar-distributor-trigger-button shadow-one"
+                  onClick={openSidebar}
+                >
+                  <Menu style={{ color: "white" }} />
+                </button>
+              </div>
             </div>
-          </div>
-        </DistributorChecker>
-      </AuthenticatorChecker>
+          </DistributorChecker>
+        </AuthenticatorChecker>
+      </>
     )
   );
 };

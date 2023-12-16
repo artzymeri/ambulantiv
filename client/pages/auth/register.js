@@ -137,9 +137,6 @@ const Login = () => {
   return (
     isClient && (
       <>
-        <Head>
-          <link rel="icon" href="/e-commerceKosovaLogo.png" />
-        </Head>
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={6000}

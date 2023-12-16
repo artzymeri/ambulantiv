@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 
 const AuthenticatorChecker = dynamic(
   () => import("@/components/Checkers/AuthenticatorChecker"),
@@ -26,21 +27,27 @@ const companyPage = () => {
   console.log(query);
 
   return (
-    <AuthenticatorChecker>
-      <PranuesChecker>
-        <div
-          style={{
-            display: "flex",
-            width: "100vw",
-            height: "100vh",
-            overflow: "clip",
-          }}
-        >
-          <PranuesSideBar />
-          <ProductsView companyname={query} />
-        </div>
-      </PranuesChecker>
-    </AuthenticatorChecker>
+    <>
+      <Head>
+        <link rel="icon" href="/e-commerceKosovaLogo.png" />
+        <title>Produktet e kompanisë</title>
+      </Head>
+      <AuthenticatorChecker>
+        <PranuesChecker>
+          <div
+            style={{
+              display: "flex",
+              width: "100vw",
+              height: "100vh",
+              overflow: "clip",
+            }}
+          >
+            <PranuesSideBar />
+            <ProductsView companyname={query} />
+          </div>
+        </PranuesChecker>
+      </AuthenticatorChecker>
+    </>
   );
 };
 

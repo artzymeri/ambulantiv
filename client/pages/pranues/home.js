@@ -39,6 +39,10 @@ const PranuesHome = () => {
 
   return (
     <>
+      <Head>
+        <link rel="icon" href="/e-commerceKosovaLogo.png" />
+        <title>Ballina</title>
+      </Head>
       <AuthenticatorChecker>
         <PranuesChecker>
           <div style={{ display: "flex", width: "100vw", height: "100vh" }}>

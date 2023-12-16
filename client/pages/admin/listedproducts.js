@@ -9,6 +9,7 @@ import MuiAlert from "@mui/material/Alert";
 import AdminChecker from "@/components/Checkers/AdminChecker";
 import { Snackbar } from "@mui/material";
 import EditProductDialog from "@/components/EditProductDialog";
+import Head from "next/head";
 
 const ListedProducts = () => {
   const [loading, setLoading] = useState(true);
@@ -138,79 +139,85 @@ const ListedProducts = () => {
 
   return (
     isClient && (
-      <AuthenticatorChecker>
-        <AdminChecker>
-          <Snackbar
-            open={snackbarOpen}
-            autoHideDuration={6000}
-            onClose={handleSnackbarClose}
-          >
-            <MuiAlert
-              elevation={6}
-              variant="filled"
-              severity={snackbarData.title.toLowerCase()}
+      <>
+        <Head>
+          <link rel="icon" href="/e-commerceKosovaLogo.png" />
+          <title>Produktet e listuara</title>
+        </Head>
+        <AuthenticatorChecker>
+          <AdminChecker>
+            <Snackbar
+              open={snackbarOpen}
+              autoHideDuration={6000}
+              onClose={handleSnackbarClose}
             >
-              {snackbarData.message}
-            </MuiAlert>
-          </Snackbar>
-          <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
-            <EditProductDialog
-              openDialog={openDialog}
-              editedProductData={editedProduct}
-              handleCloseDialog={handleCloseDialog}
-              refreshListedProductsTable={refreshListedProductsTable}
-            />
-            <AdminSideBar display={display} closeSidebar={closeSidebar} />
-            {loading ? (
-              <div className="loader-parent">
-                <span class="loader"></span>
-              </div>
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  padding: "30px",
-                  flexDirection: "column",
-                  gap: "15px",
-                  flexGrow: 1,
-                  overflowX: "clip",
-                }}
+              <MuiAlert
+                elevation={6}
+                variant="filled"
+                severity={snackbarData.title.toLowerCase()}
               >
-                <input
-                  type="text"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  placeholder="Kërko llogaritë"
+                {snackbarData.message}
+              </MuiAlert>
+            </Snackbar>
+            <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+              <EditProductDialog
+                openDialog={openDialog}
+                editedProductData={editedProduct}
+                handleCloseDialog={handleCloseDialog}
+                refreshListedProductsTable={refreshListedProductsTable}
+              />
+              <AdminSideBar display={display} closeSidebar={closeSidebar} />
+              {loading ? (
+                <div className="loader-parent">
+                  <span class="loader"></span>
+                </div>
+              ) : (
+                <div
                   style={{
-                    width: "100%",
-                    height: "50px",
-                    borderRadius: "25px",
-                    border: "1px solid black",
-                    paddingLeft: "15px",
+                    display: "flex",
+                    padding: "30px",
+                    flexDirection: "column",
+                    gap: "15px",
+                    flexGrow: 1,
+                    overflowX: "clip",
                   }}
-                  className="shadow-one"
-                />
-                <TableComponent
-                  columns={columns}
-                  rows={rows}
-                  searchInput={searchInput}
-                  productButtons={true}
-                  deleteProduct={deleteProduct}
-                  handleOpenDialog={handleOpenDialog}
-                  productsList={true}
-                  refreshRate={refreshRate}
-                />
-                <button
-                  className="sidebar-trigger-button shadow-one"
-                  onClick={openSidebar}
                 >
-                  <Menu style={{ color: "white" }} />
-                </button>
-              </div>
-            )}
-          </div>
-        </AdminChecker>
-      </AuthenticatorChecker>
+                  <input
+                    type="text"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    placeholder="Kërko llogaritë"
+                    style={{
+                      width: "100%",
+                      height: "50px",
+                      borderRadius: "25px",
+                      border: "1px solid black",
+                      paddingLeft: "15px",
+                    }}
+                    className="shadow-one"
+                  />
+                  <TableComponent
+                    columns={columns}
+                    rows={rows}
+                    searchInput={searchInput}
+                    productButtons={true}
+                    deleteProduct={deleteProduct}
+                    handleOpenDialog={handleOpenDialog}
+                    productsList={true}
+                    refreshRate={refreshRate}
+                  />
+                  <button
+                    className="sidebar-trigger-button shadow-one"
+                    onClick={openSidebar}
+                  >
+                    <Menu style={{ color: "white" }} />
+                  </button>
+                </div>
+              )}
+            </div>
+          </AdminChecker>
+        </AuthenticatorChecker>
+      </>
     )
   );
 };

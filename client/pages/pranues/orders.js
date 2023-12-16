@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 
 import { Menu } from "@mui/material";
 import React, { useState } from "react";
+import Head from "next/head";
 
 const AuthenticatorChecker = dynamic(
   () => import("@/components/Checkers/AuthenticatorChecker"),
@@ -34,39 +35,45 @@ const Orders = () => {
   };
 
   return (
-    <AuthenticatorChecker>
-      <PranuesChecker>
-        <div
-          style={{
-            display: "flex",
-            width: "100vw",
-            height: "100vh",
-            overflow: "clip",
-          }}
-        >
-          <PranuesSideBar />
+    <>
+      <Head>
+        <link rel="icon" href="/e-commerceKosovaLogo.png" />
+        <title>Porositë</title>
+      </Head>
+      <AuthenticatorChecker>
+        <PranuesChecker>
           <div
             style={{
               display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              height: "100%",
-              width: "100%",
+              width: "100vw",
+              height: "100vh",
+              overflow: "clip",
             }}
           >
-            <OrdersView openSidebar={openSidebar} />
-            <div className="sidebar-pranues-trigger-wrapper">
-              <button
-                className="sidebar-pranues-trigger-button shadow-one"
-                onClick={openSidebar}
-              >
-                <Menu style={{ color: "white" }} />
-              </button>
+            <PranuesSideBar />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "100%",
+                width: "100%",
+              }}
+            >
+              <OrdersView openSidebar={openSidebar} />
+              <div className="sidebar-pranues-trigger-wrapper">
+                <button
+                  className="sidebar-pranues-trigger-button shadow-one"
+                  onClick={openSidebar}
+                >
+                  <Menu style={{ color: "white" }} />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </PranuesChecker>
-    </AuthenticatorChecker>
+        </PranuesChecker>
+      </AuthenticatorChecker>
+    </>
   );
 };
 
