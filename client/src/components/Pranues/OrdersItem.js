@@ -215,9 +215,11 @@ const OrderItem = (props) => {
             <h5>{formattedCreatedAt}</h5>
           </div>
           <div className="orders-row-right-r">
-            <Button onClick={generatePDF} variant="outlined" color="warning">
-              <Download />
-            </Button>
+            <Tooltip title="Shkarko faturën për porosinë">
+              <Button onClick={generatePDF} variant="outlined" color="warning">
+                <Download />
+              </Button>
+            </Tooltip>
           </div>
         </div>
       </div>
