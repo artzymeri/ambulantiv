@@ -137,6 +137,9 @@ const Login = () => {
   return (
     isClient && (
       <>
+        <Head>
+          <link rel="icon" href="/e-commerceKosovaLogo.png" />
+        </Head>
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={6000}
@@ -178,7 +181,7 @@ const Login = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   color: "#1976d2",
-                  marginBottom: "50px",
+                  marginBottom: "30px",
                 }}
               >
                 <svg

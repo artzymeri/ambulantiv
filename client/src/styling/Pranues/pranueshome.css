@@ -1,34 +1,63 @@
 .pranues-home-parent {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    padding: 30px;
-    gap: 15px;
-    background-color: whitesmoke;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 30px;
+  gap: 15px;
+  background-color: whitesmoke;
 }
 
-.pranues-home-latestproducts{
-    width: 100%;
-    min-height: 330px;
-    max-height: 330px;
-    content: '';
-    padding: 10px;
-    background-color: whitesmoke;
-    display: flex;
-    gap: 7px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    position: relative;
-    /* have to fix the scrollbar display */
+.pranues-home-latestproducts-parent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.pranues-home-latestproducts-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  background-color: white;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  position: relative;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.pranues-home-latestproducts-title::after {
+  height: 25px;
+  width: 100%;
+  content: "";
+  background-color: white;
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+}
+
+.pranues-home-latestproducts {
+  width: 100%;
+  min-height: 330px;
+  max-height: 330px;
+  content: "";
+  padding: 10px;
+  background-color: whitesmoke;
+  display: flex;
+  gap: 7px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  position: relative;
+  /* have to fix the scrollbar display */
 }
 
 /* latest-products have to be border-radius to 10px (25-15=10) */
 
 .pranues-home-child {
-    flex-basis: 300px;
-    min-height: 300px;
-    flex-shrink: 0;
-    flex-grow: 1;
-    border: 1px solid black;
-    content: '';
+  flex-basis: 300px;
+  min-height: 300px;
+  flex-shrink: 0;
+  flex-grow: 1;
+  border: 1px solid black;
+  content: "";
 }

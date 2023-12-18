@@ -11,7 +11,6 @@ const PranuesHomeView = () => {
 
   const [productsData, setProductsData] = useState([]);
 
-
   useEffect(() => {
     setIsClient(true);
     axios.get("http://localhost:8080/getlistedproducts").then((res) => {
@@ -21,7 +20,7 @@ const PranuesHomeView = () => {
 
   const updateLocalStorage = (newArray) => {
     localStorage.setItem(
-      `clientId:${localStorage.getItem('userId')}/cartProducts`,
+      `clientId:${localStorage.getItem("userId")}/cartProducts`,
       JSON.stringify(newArray)
     );
   };
@@ -61,19 +60,24 @@ const PranuesHomeView = () => {
           </MuiAlert>
         </Snackbar>
         <div className="pranues-home-parent">
-          <div className="pranues-home-latestproducts b-25 shadow-one">
-            {productsData
-              .slice()
-              .reverse()
-              .map((product) => {
-                return (
-                  <ProductCard
-                    product={product}
-                    updateLocalStorage={updateLocalStorage}
-                    activateSnackbar={activateSnackbar}
-                  />
-                );
-              })}
+          <div className="pranues-home-latestproducts-parent">
+            <div className="pranues-home-latestproducts-title shadow-one">
+              Produktet e fundit
+            </div>
+            <div className="pranues-home-latestproducts b-25 shadow-one">
+              {productsData
+                .slice()
+                .reverse()
+                .map((product) => {
+                  return (
+                    <ProductCard
+                      product={product}
+                      updateLocalStorage={updateLocalStorage}
+                      activateSnackbar={activateSnackbar}
+                    />
+                  );
+                })}
+            </div>
           </div>
           <div className="pranues-home-child b-25 shadow-one"></div>
           <div className="pranues-home-child b-25 shadow-one"></div>

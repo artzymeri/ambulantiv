@@ -188,7 +188,7 @@ const Login = () => {
                     alignItems: "center",
                     justifyContent: "center",
                     color: "#1976d2",
-                    marginBottom: "50px",
+                    marginBottom: "30px",
                   }}
                 >
                   <svg
