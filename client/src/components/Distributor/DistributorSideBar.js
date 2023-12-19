@@ -58,7 +58,7 @@ const DistributorSideBar = (props) => {
     },
     {
       id: 3,
-      displayName: "Porositë",
+      displayName: "Porositë Aktive",
       pathOnClick: "/distributor/orders",
       icon: <LocalShipping />,
     },

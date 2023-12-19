@@ -34,7 +34,7 @@ const DistributorHomeView = () => {
           }}
         >
           {homeData && homeData.length < 1 ? (
-            <h3>Ju unuk keni produkte të listuara akoma</h3>
+            <h3>Ju nuk keni produkte të listuara akoma</h3>
           ) : (
             <>
               {homeData && homeData.length == 1 ? (
