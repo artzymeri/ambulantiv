@@ -444,28 +444,44 @@ app.post("/changeprofiledetails/:userId", async (req, res) => {
   const { userId } = req.params;
   const { namesurname, companyname, phoneNumber, emailAddress } = req.body;
 
-  const alreadyUserPhoneNumber = await users_table.findAll({
-    where: {
-      phoneNumber: phoneNumber,
-    },
-  });
-
-  if (alreadyUserPhoneNumber.length > 0) {
-    console.log("wow");
-    res.json({
-      title: "error",
-      message: "Numri i vendosur është i përdorur më parë",
-    });
-  } else {
+  try {
     const userToEdit = await users_table.findByPk(userId);
-    userToEdit.namesurname = namesurname;
-    userToEdit.companyname = companyname;
-    userToEdit.phoneNumber = phoneNumber;
-    userToEdit.emailAddress = emailAddress;
-    await userToEdit.save();
-    res.json({
-      title: "success",
-      message: "Të dhënat u ndryshuan me sukses",
+
+    // Check if the phone number is used by another user
+    const alreadyUserPhoneNumber = await users_table.findAll({
+      where: {
+        phoneNumber: phoneNumber,
+        id: {
+          [Op.ne]: userId, // Exclude the current user from the check
+        },
+      },
+    });
+
+    if (alreadyUserPhoneNumber.length > 0) {
+      res.json({
+        title: "error",
+        message:
+          "Numri i vendosur është i përdorur më parë nga një përdorues tjetër",
+      });
+    } else {
+      // Update user details
+      userToEdit.namesurname = namesurname;
+      userToEdit.companyname = companyname;
+      userToEdit.phoneNumber = phoneNumber;
+      userToEdit.emailAddress = emailAddress;
+
+      await userToEdit.save();
+
+      res.json({
+        title: "success",
+        message: "Të dhënat u ndryshuan me sukses",
+      });
+    }
+  } catch (error) {
+    console.error("Error updating profile details:", error);
+    res.status(500).json({
+      title: "error",
+      message: "Gabim gjatë përpjekjes për të ndryshuar të dhënat e profilit",
     });
   }
 });

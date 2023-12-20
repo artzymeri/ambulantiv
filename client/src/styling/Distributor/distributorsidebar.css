@@ -51,8 +51,8 @@
   font-size: 15px;
   width: 100%;
   padding: 10px;
-  gap: 5px;
   display: flex;
+  gap: 5px;
   justify-content: center;
   align-items: center;
   color: whitesmoke;
@@ -62,27 +62,42 @@
   transition: 0.1s ease-in-out;
 }
 
-.sidebar-wide-navbuttons h5:hover {
+.sidebar-distributor-wide-navbuttons h5:hover {
   background-color: rgba(255, 255, 255, 0.4) !important;
 }
 
-.sidebar-distributor-wide-logout {
-  position: absolute;
-  bottom: 10px;
-  width: calc(100% - 20px);
-  padding: 10px;
-  border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: whitesmoke;
-  border: 0px none transparent;
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 15px;
-  transition: 0.1s ease-in-out;
+.sidebar-distributor-wide-top {
   display: flex;
-  align-items: center;
+  width: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
+  flex-direction: column;
+}
+
+.sidebar-distributor-wide-bottom {
+  display: flex;
+  width: 100%;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
   gap: 10px;
+}
+
+.sidebar-distributor-wide-bottom button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 15px;
+  gap: 5px;
+  border: 0px solid transparent;
+  color: whitesmoke;
+  background-color: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
 }
 
 .sidebar-distributor-wide-logout:hover {
@@ -146,9 +161,9 @@
   font-weight: 100;
   font-size: 15px;
   width: 100%;
-  gap: 5px;
   padding: 10px;
   display: flex;
+  gap: 5px;
   justify-content: center;
   align-items: center;
   color: whitesmoke;
@@ -166,6 +181,7 @@
   position: absolute;
   bottom: 10px;
   transform: translate(0%, -50%);
+  width: calc(100% - 20px);
   padding: 10px;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.2);
@@ -193,17 +209,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-}
-
-.sidebar-distributor-trigger-wrapper::after {
-  position: absolute;
-  top: -200px;
-  left: 0;
-  width: 100%;
-  height: 200px;
-  background: linear-gradient(to top, white, transparent);
-  content: "";
-  pointer-events: none;
+  display: none;
 }
 
 .sidebar-distributor-trigger-button {
@@ -218,6 +224,20 @@
   border: 0px solid transparent;
 }
 
+.sidebar-distributor-wide-cart-notify {
+  padding: 5px;
+  background-color: lightyellow;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 13px;
+  height: 20px;
+  width: 20px;
+}
+
 @media (min-width: 600px) {
   .sidebar-fullscreen {
     opacity: 0;
@@ -230,6 +250,9 @@
     display: none;
   }
   .sidebar-distributor-trigger-button {
+    display: flex;
+  }
+  .sidebar-distributor-trigger-wrapper {
     display: flex;
   }
 }
