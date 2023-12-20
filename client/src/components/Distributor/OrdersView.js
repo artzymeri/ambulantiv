@@ -15,10 +15,14 @@ const OrdersView = () => {
 
   useEffect(() => {
     setIsClient(true);
-    const pranuesId = localStorage.getItem("userId");
-    axios.get(`http://localhost:8080/getorders/${pranuesId}`).then((res) => {
-      setOrdersList(res.data);
-    });
+    const distributorCompanyName = localStorage.getItem("companyname");
+    axios
+      .get(
+        `http://localhost:8080/getordersfromdistributor/${distributorCompanyName}`
+      )
+      .then((res) => {
+        setOrdersList(res.data);
+      });
   }, []);
 
   const generatePDFs = () => {
@@ -155,8 +159,6 @@ const OrdersView = () => {
     }
   };
 
-
-
   return (
     isClient && (
       <div className="orders-view-parent">
@@ -180,7 +182,7 @@ const OrdersView = () => {
               }}
             >
               <p style={{ color: "gray", textDecoration: "italic" }}>
-                Nuk keni bërë akoma porosi
+                Nuk keni porosi aktive
               </p>
             </div>
           )}
@@ -192,7 +194,7 @@ const OrdersView = () => {
             sx={{ height: 70 }}
             onClick={generatePDFs}
           >
-            Shkarko Faturat
+            Përfundo gjitha Porositë
           </Button>
         ) : null}
       </div>

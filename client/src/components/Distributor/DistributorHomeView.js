@@ -3,6 +3,7 @@ import "@/styling/global.css";
 import "@/styling/Distributor/distributorhomeview.css";
 import axios from "axios";
 import { useRouter } from "next/router";
+import stateStorage from "@/store";
 
 const DistributorHomeView = () => {
   const router = useRouter();
@@ -43,7 +44,11 @@ const DistributorHomeView = () => {
                   produkt të listuar
                 </h3>
               ) : (
-                <h3>Ju keni <span style={{ fontSize: '60px'}}>{homeData.length}</span> produkte të listuara</h3>
+                <h3>
+                  Ju keni{" "}
+                  <span style={{ fontSize: "60px" }}>{homeData.length}</span>{" "}
+                  produkte të listuara
+                </h3>
               )}
             </>
           )}
@@ -70,7 +75,16 @@ const DistributorHomeView = () => {
         </div>
         <div className="shadow-one b-25 home-children home-children-orders">
           <h3>
-            <span style={{ fontSize: "60px" }}>12</span> porosi aktive
+            {stateStorage.distributorActiveOrders.length > 0 ? (
+              <>
+                <span style={{ fontSize: "60px" }}>
+                  {stateStorage.distributorActiveOrders.length}
+                </span>{" "}
+                Porosi Aktive
+              </>
+            ) : (
+              <>Nuk keni porosi aktive</>
+            )}
           </h3>
         </div>
       </div>

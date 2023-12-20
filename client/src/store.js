@@ -1,11 +1,15 @@
 import { makeAutoObservable, runInAction } from "mobx";
+import axios from "axios";
 
 class StateStorage {
   cartItems = [];
 
+  distributorActiveOrders = [];
+
   constructor() {
     makeAutoObservable(this);
     this.initializeCartItems();
+    this.getDistributorActiveOrders();
   }
 
   initializeCartItems() {
@@ -39,6 +43,15 @@ class StateStorage {
           ) || [];
       });
     }
+  }
+
+  async getDistributorActiveOrders() {
+    const res = await axios.get(
+      `http://localhost:8080/getordersfromdistributor/${localStorage.getItem(
+        "companyname"
+      )}`
+    );
+    this.distributorActiveOrders = res.data;
   }
 }
 

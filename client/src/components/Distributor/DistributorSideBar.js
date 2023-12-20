@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "@/styling/Distributor/distributorsidebar.css";
 import "@/styling/global.css";
 import {
@@ -16,6 +16,10 @@ import { useRouter } from "next/router";
 import stateStorage from "@/store";
 
 const DistributorSideBar = (props) => {
+  useEffect(() => {
+    console.log(stateStorage.distributorActiveOrders.length);
+  }, []);
+
   const router = useRouter();
 
   const { display, closeSidebar } = props;
@@ -56,7 +60,16 @@ const DistributorSideBar = (props) => {
     },
     {
       id: 3,
-      displayName: "Porositë Aktive",
+      displayName: (
+        <>
+          Porositë Aktive
+          {stateStorage.distributorActiveOrders.length > 0 ? (
+            <span className="active-orders-notify">
+              {stateStorage.distributorActiveOrders.length}
+            </span>
+          ) : null}
+        </>
+      ),
       pathOnClick: "/distributor/orders",
       icon: <LocalShipping />,
     },

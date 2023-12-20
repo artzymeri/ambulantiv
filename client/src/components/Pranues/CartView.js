@@ -90,6 +90,7 @@ const CartView = () => {
             product,
             clientId: localStorage.getItem("userId"),
             clientName: localStorage.getItem("namesurname"),
+            clientCompanyname: localStorage.getItem("companyname"),
           })
           .then((res) => {
             const { title, message } = res.data;

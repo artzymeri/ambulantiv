@@ -516,7 +516,7 @@ app.post("/sendorder", async (req, res) => {
     const { name, price, totalPrice, weight, quantity, photo, distributor } =
       req.body.product;
 
-    const { clientId, clientName } = req.body;
+    const { clientId, clientName, clientCompanyname } = req.body;
 
     await orders_table.create({
       productName: name,
@@ -528,6 +528,7 @@ app.post("/sendorder", async (req, res) => {
       productDistributor: distributor,
       productClientId: clientId,
       productClientName: clientName,
+      productClientCompanyname: clientCompanyname,
     });
     res.json({
       title: "success",
@@ -550,6 +551,21 @@ app.get("/getorders/:pranuesId", async (req, res) => {
     console.log(error);
   }
 });
+
+app.get(
+  "/getordersfromdistributor/:distributorCompanyName",
+  async (req, res) => {
+    const { distributorCompanyName } = req.params;
+    try {
+      const listedActiveOrders = await orders_table.findAll({
+        where: { productDistributor: distributorCompanyName },
+      });
+      res.send(listedActiveOrders);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 db.sequelize.sync().then((req) => {
   app.listen(port, () => {

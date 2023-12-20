@@ -63,6 +63,21 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    productClientCompanyname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+      validate: {
+        notEmpty: true,
+      },
+    },
   });
   return orders_table;
 };

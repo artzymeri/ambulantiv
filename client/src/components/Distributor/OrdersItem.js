@@ -4,7 +4,7 @@ import { Button, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
 import { OutputType } from "jspdf-invoice-template";
 import jsPDFInvoiceTemplate from "jspdf-invoice-template";
-import { Download } from "@mui/icons-material";
+import { Clear, Done, Download } from "@mui/icons-material";
 
 const OrderItem = (props) => {
   const router = useRouter();
@@ -18,7 +18,7 @@ const OrderItem = (props) => {
     productQuantity,
     productPhoto,
     productDistributor,
-    productClient,
+    productClientName,
     createdAt,
   } = props.product;
 
@@ -178,24 +178,15 @@ const OrderItem = (props) => {
               <span style={{ fontSize: "16px" }}> {productName} </span>
             </h5>
             <h5>
-              Distributori:{" "}
+              Klienti:{" "}
               <Tooltip title="Kliko për të shikuar produktet e kompanisë">
                 <span
-                  onClick={() => {
-                    router.push({
-                      pathname: "/pranues/products/company",
-                      query: {
-                        companyname: productDistributor,
-                      },
-                    });
-                  }}
                   style={{
                     fontSize: "16px",
-                    textDecoration: "underline",
                     cursor: "pointer",
                   }}
                 >
-                  {productDistributor}
+                  {productClientName}
                 </span>
               </Tooltip>
             </h5>
@@ -215,9 +206,9 @@ const OrderItem = (props) => {
             <h5>{formattedCreatedAt}</h5>
           </div>
           <div className="orders-row-right-r">
-            <Tooltip title="Shkarko faturën për porosinë">
+            <Tooltip title="Përfundo porosinë">
               <Button onClick={generatePDF} variant="outlined" color="warning">
-                <Download />
+                <Done />
               </Button>
             </Tooltip>
           </div>
