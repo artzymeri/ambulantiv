@@ -4,6 +4,7 @@ import "@/styling/global.css";
 import {
   AccountCircle,
   CloseFullscreen,
+  History,
   Home,
   List,
   LocalShipping,
@@ -55,15 +56,21 @@ const DistributorSideBar = (props) => {
     },
     {
       id: 3,
-      displayName: "Klientët Tanë",
-      pathOnClick: "/distributor/clients",
-      icon: <Person />,
-    },
-    {
-      id: 3,
       displayName: "Porositë Aktive",
       pathOnClick: "/distributor/orders",
       icon: <LocalShipping />,
+    },
+    {
+      id: 4,
+      displayName: "Historiku i Porosive",
+      pathOnClick: "/distributor/orderhistory",
+      icon: <History />,
+    },
+    {
+      id: 5,
+      displayName: "Klientët Tanë",
+      pathOnClick: "/distributor/clients",
+      icon: <Person />,
     },
   ];
 

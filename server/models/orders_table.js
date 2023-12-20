@@ -49,7 +49,14 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-    productClient: {
+    productClientId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    productClientName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {

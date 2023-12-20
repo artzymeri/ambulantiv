@@ -279,7 +279,7 @@ const ProfileView = (props) => {
         </Dialog>
         <Snackbar
           open={snackbarOpen}
-          autoHideDuration={6000}
+          autoHideDuration={2000}
           onClose={handleSnackbarClose}
         >
           <MuiAlert

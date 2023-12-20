@@ -516,7 +516,7 @@ app.post("/sendorder", async (req, res) => {
     const { name, price, totalPrice, weight, quantity, photo, distributor } =
       req.body.product;
 
-    const { clientId } = req.body;
+    const { clientId, clientName } = req.body;
 
     await orders_table.create({
       productName: name,
@@ -526,7 +526,8 @@ app.post("/sendorder", async (req, res) => {
       productQuantity: quantity,
       productPhoto: photo,
       productDistributor: distributor,
-      productClient: clientId,
+      productClientId: clientId,
+      productClientName: clientName,
     });
     res.json({
       title: "success",
@@ -542,7 +543,7 @@ app.get("/getorders/:pranuesId", async (req, res) => {
   const { pranuesId } = req.params;
   try {
     const listedOrders = await orders_table.findAll({
-      where: { productClient: pranuesId },
+      where: { productClientId: pranuesId },
     });
     res.send(listedOrders);
   } catch (error) {

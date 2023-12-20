@@ -18,7 +18,8 @@ const OrderItem = (props) => {
     productQuantity,
     productPhoto,
     productDistributor,
-    productClient,
+    productClientId,
+    productClientName,
     createdAt,
   } = props.product;
 
@@ -85,7 +86,7 @@ const OrderItem = (props) => {
       },
       contact: {
         label: "Fatura lëshuar për:",
-        name: `${productClient}`,
+        name: `${productClientName}`,
         address: "Albania, Tirane, Astir",
         phone: "(+355) 069 22 22 222",
         email: "client@email.al",
@@ -148,7 +149,7 @@ const OrderItem = (props) => {
           },
           {
             col1: "SubTotali:",
-            col2: (parseFloat(productTotalPrice) * 0.8).toString(),
+            col2: (productTotalPrice * 0.8).toFixed(2).toString(),
             col3: "EURO",
             style: {
               fontSize: 10, //optional, default 12

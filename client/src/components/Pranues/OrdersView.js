@@ -73,7 +73,7 @@ const OrdersView = () => {
         },
         contact: {
           label: "Fatura lëshuar për:",
-          name: `${order.productClient}`,
+          name: `${order.productClientName}`,
           address: "Albania, Tirane, Astir",
           phone: "(+355) 069 22 22 222",
           email: "client@email.al",
@@ -154,8 +154,6 @@ const OrdersView = () => {
       console.log(order);
     }
   };
-
-
 
   return (
     isClient && (

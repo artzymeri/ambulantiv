@@ -89,12 +89,10 @@ const CartView = () => {
           .post("http://localhost:8080/sendorder", {
             product,
             clientId: localStorage.getItem("userId"),
+            clientName: localStorage.getItem("namesurname"),
           })
           .then((res) => {
             const { title, message } = res.data;
-            const newArray = cartProductsList.filter(
-              (p) => p.id !== product.id
-            );
             setCartProductsList((prevCartProductsList) => {
               const newArray = prevCartProductsList.filter(
                 (p) => p.id !== product.id

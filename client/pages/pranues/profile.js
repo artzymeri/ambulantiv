@@ -19,7 +19,7 @@ const PranuesSideBar = dynamic(
   { ssr: false }
 );
 
-const ProfileView = dynamic(() => import("@/components/Pranues/ProfileView"), {
+const ProfileView = dynamic(() => import("@/components/ProfileView"), {
   ssr: false,
 });
 
