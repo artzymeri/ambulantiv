@@ -13,8 +13,7 @@ class StateStorage {
   }
 
   initializeCartItems() {
-    if (typeof window !== "undefined") {
-      // Check if running on the client side
+    if (typeof localStorage !== "undefined") {
       const storedCartItems =
         JSON.parse(
           localStorage.getItem(
@@ -29,11 +28,9 @@ class StateStorage {
   }
 
   async updateCartItems() {
-    // Wait for the local storage update
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    if (typeof localStorage !== "undefined") {
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
-    if (typeof window !== "undefined") {
-      // Check if running on the client side
       runInAction(() => {
         this.cartItems =
           JSON.parse(
@@ -46,12 +43,14 @@ class StateStorage {
   }
 
   async getDistributorActiveOrders() {
-    const res = await axios.get(
-      `http://localhost:8080/getordersfromdistributor/${localStorage.getItem(
-        "companyname"
-      )}`
-    );
-    this.distributorActiveOrders = res.data;
+    if (typeof localStorage !== "undefined") {
+      const res = await axios.get(
+        `http://localhost:8080/getactiveordersfromdistributor/${localStorage.getItem(
+          "companyname"
+        )}`
+      );
+      this.distributorActiveOrders = res.data;
+    }
   }
 }
 

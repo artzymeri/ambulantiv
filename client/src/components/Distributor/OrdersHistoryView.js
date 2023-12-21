@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartview.css";
 import { LocalShipping, RemoveCircle, ShoppingBag } from "@mui/icons-material";
 import axios from "axios";
-import OrderItem from "./OrdersItem";
+import OrderInActiveItem from "./OrdersInActiveItem";
 import "@/styling/Pranues/ordersview.css";
 import { Button } from "@mui/material";
 import jsPDFInvoiceTemplate, { OutputType } from "jspdf-invoice-template";
@@ -14,10 +14,14 @@ const OrdersView = () => {
 
   useEffect(() => {
     setIsClient(true);
-    const pranuesId = localStorage.getItem("userId");
-    axios.get(`http://localhost:8080/getorders/${pranuesId}`).then((res) => {
-      setOrdersList(res.data);
-    });
+    const distributorCompanyName = localStorage.getItem("companyname");
+    axios
+      .get(
+        `http://localhost:8080/getinactiveordersfromdistributor/${distributorCompanyName}`
+      )
+      .then((res) => {
+        setOrdersList(res.data);
+      });
   }, []);
 
   const generatePDFs = () => {
@@ -73,7 +77,7 @@ const OrdersView = () => {
           },
           contact: {
             label: "Fatura lëshuar për:",
-            name: `${order.productClientName}`,
+            name: `${order.productClient}`,
             address: "Albania, Tirane, Astir",
             phone: "(+355) 069 22 22 222",
             email: "client@email.al",
@@ -151,6 +155,7 @@ const OrdersView = () => {
           pageLabel: "Page ",
         };
         const pdfObject = jsPDFInvoiceTemplate(props);
+        console.log(order);
       }
     }
   };
@@ -160,12 +165,12 @@ const OrdersView = () => {
       <div className="orders-view-parent">
         <div className="orders-view-navbar">
           <LocalShipping sx={{ color: "rgb(130, 30, 30)" }} />
-          <h3 style={{ color: "rgb(130, 30, 30)" }}>Porositë</h3>
+          <h3 style={{ color: "rgb(130, 30, 30)" }}>Historiku i Porosive</h3>
         </div>
         <div className="orders-view-items-wrapper">
           {ordersList && ordersList.length > 0 ? (
             ordersList.map((order) => {
-              return <OrderItem product={order} />;
+              return <OrderInActiveItem product={order} />;
             })
           ) : (
             <div
@@ -178,7 +183,7 @@ const OrdersView = () => {
               }}
             >
               <p style={{ color: "gray", textDecoration: "italic" }}>
-                Nuk keni bërë akoma porosi
+                Nuk keni histori të porosive
               </p>
             </div>
           )}
@@ -190,7 +195,7 @@ const OrdersView = () => {
             sx={{ height: 70 }}
             onClick={generatePDFs}
           >
-            Shkarko Faturat
+            Shkarko Gjitha Faturat
           </Button>
         ) : null}
       </div>

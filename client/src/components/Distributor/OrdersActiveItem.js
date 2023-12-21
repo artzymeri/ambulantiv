@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/ordersitem.css";
 import { Button, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
-import { Download } from "@mui/icons-material";
+import { Clear, Done, Download } from "@mui/icons-material";
+import axios from "axios";
 import jsPDFInvoiceTemplate, { OutputType } from "jspdf-invoice-template";
 
 const OrderItem = (props) => {
@@ -17,7 +18,6 @@ const OrderItem = (props) => {
     productQuantity,
     productPhoto,
     productDistributor,
-    productClientId,
     productClientName,
     createdAt,
   } = props.product;
@@ -149,7 +149,7 @@ const OrderItem = (props) => {
             },
             {
               col1: "SubTotali:",
-              col2: (productTotalPrice * 0.8).toFixed(2).toString(),
+              col2: (parseFloat(productTotalPrice) * 0.8).toString(),
               col3: "EURO",
               style: {
                 fontSize: 10, //optional, default 12
@@ -167,6 +167,22 @@ const OrderItem = (props) => {
     }
   };
 
+  const completeOrder = () => {
+    try {
+      axios
+        .post(`http://localhost:8080/completeorder/${id}`)
+        .then((res) => {
+          const { title, message } = res.data;
+          console.log(title, message);
+        })
+        .finally(() => {
+          generatePDF();
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     isClient && (
       <div className="orders-row">
@@ -180,24 +196,15 @@ const OrderItem = (props) => {
               <span style={{ fontSize: "16px" }}> {productName} </span>
             </h5>
             <h5>
-              Distributori:{" "}
+              Klienti:{" "}
               <Tooltip title="Kliko për të shikuar produktet e kompanisë">
                 <span
-                  onClick={() => {
-                    router.push({
-                      pathname: "/pranues/products/company",
-                      query: {
-                        companyname: productDistributor,
-                      },
-                    });
-                  }}
                   style={{
                     fontSize: "16px",
-                    textDecoration: "underline",
                     cursor: "pointer",
                   }}
                 >
-                  {productDistributor}
+                  {productClientName}
                 </span>
               </Tooltip>
             </h5>
@@ -217,9 +224,13 @@ const OrderItem = (props) => {
             <h5>{formattedCreatedAt}</h5>
           </div>
           <div className="orders-row-right-r">
-            <Tooltip title="Shkarko faturën për porosinë">
-              <Button onClick={generatePDF} variant="outlined" color="warning">
-                <Download />
+            <Tooltip title="Përfundo porosinë">
+              <Button
+                onClick={completeOrder}
+                variant="outlined"
+                color="warning"
+              >
+                <Done />
               </Button>
             </Tooltip>
           </div>
