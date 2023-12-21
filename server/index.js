@@ -1,9 +1,13 @@
+const http = require("http");
+const socketIO = require("socket.io");
 const express = require("express");
 const { Op } = require("sequelize");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const server = http.createServer();
+const io = socketIO(server);
 require("dotenv").config();
 
 const {
@@ -23,6 +27,16 @@ app.use(bodyParser.json());
 const db = require("./models");
 
 const port = 8080;
+
+io.on("connection", (socket) => {
+  console.log("Client connected");
+
+  // You can add more socket event listeners here as needed
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
+});
 
 app.get("/getlistedproducts", async (req, res) => {
   try {
@@ -553,12 +567,33 @@ app.get("/getorders/:pranuesId", async (req, res) => {
 });
 
 app.get(
-  "/getordersfromdistributor/:distributorCompanyName",
+  "/getactiveordersfromdistributor/:distributorCompanyName",
+  async (req, res) => {
+    const { distributorCompanyName } = req.params;
+
+    try {
+      const listedActiveOrders = await orders_table.findAll({
+        where: { productDistributor: distributorCompanyName, active: true },
+      });
+
+      // Emit a Socket.IO event to clients when there are changes
+      io.emit("activeOrdersUpdate", listedActiveOrders);
+
+      res.send(listedActiveOrders);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "An error occurred" });
+    }
+  }
+);
+
+app.get(
+  "/getinactiveordersfromdistributor/:distributorCompanyName",
   async (req, res) => {
     const { distributorCompanyName } = req.params;
     try {
       const listedActiveOrders = await orders_table.findAll({
-        where: { productDistributor: distributorCompanyName },
+        where: { productDistributor: distributorCompanyName, active: false },
       });
       res.send(listedActiveOrders);
     } catch (error) {
@@ -566,6 +601,27 @@ app.get(
     }
   }
 );
+
+app.post("/completeorder/:orderId", async (req, res) => {
+  const { orderId } = req.params;
+  const changedOrder = await orders_table.findByPk(orderId);
+
+  try {
+    changedOrder.active = false;
+    await changedOrder.save();
+
+    res.json({
+      title: "success",
+      message: "Porosia u përfundua me sukses",
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      title: "error",
+      message: "Diçka nuk shkoi mirë me kërkesën",
+    });
+  }
+});
 
 db.sequelize.sync().then((req) => {
   app.listen(port, () => {

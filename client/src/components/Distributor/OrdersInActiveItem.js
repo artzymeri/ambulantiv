@@ -11,7 +11,15 @@ import {
   Print,
 } from "@mui/icons-material";
 import axios from "axios";
-import jsPDFInvoiceTemplate, { OutputType } from "jspdf-invoice-template";
+import { OutputType } from "jspdf-invoice-template";
+import dynamic from "next/dynamic";
+
+const jsPDFInvoiceTemplate = dynamic(
+  () => import("jspdf-invoice-template/dist/index"),
+  {
+    ssr: false,
+  }
+);
 
 const OrderItem = (props) => {
   const router = useRouter();

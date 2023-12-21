@@ -5,7 +5,15 @@ import axios from "axios";
 import OrderItem from "./OrdersActiveItem";
 import "@/styling/Pranues/ordersview.css";
 import { Button } from "@mui/material";
-import jsPDFInvoiceTemplate, { OutputType } from "jspdf-invoice-template";
+import { OutputType } from "jspdf-invoice-template";
+import dynamic from "next/dynamic";
+
+const jsPDFInvoiceTemplate = dynamic(
+  () => import("jspdf-invoice-template/dist/index"),
+  {
+    ssr: false,
+  }
+);
 import stateStorage from "@/store";
 
 const OrdersView = () => {
