@@ -28,8 +28,5 @@ const Home = () => {
   return <AuthenticatorChecker></AuthenticatorChecker>;
 };
 
-HomePage.getInitialProps = async () => ({
-  // Disabling SSR globally for the index page by returning an empty object
-});
 
 export default Home;
