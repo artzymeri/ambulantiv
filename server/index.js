@@ -9,12 +9,9 @@ const jwt = require("jsonwebtoken");
 const server = http.createServer();
 const io = socketIO(server);
 require("dotenv").config();
-const { createInvoice, sendInvoiceFile } = require('./createinvoice.js');
-const fs = require('fs');
-const PDFDocument = require('pdfkit');
-
-
-
+const { createInvoice, sendInvoiceFile } = require("./createinvoice.js");
+const fs = require("fs");
+const PDFDocument = require("pdfkit");
 
 const {
   users_table,
@@ -609,21 +606,20 @@ app.get(
 );
 
 app.post("/completeorder/:orderId", async (req, res) => {
-	const { orderId } = req.params;
-	const changedOrder = await orders_table.findByPk(orderId);
+  const { orderId } = req.params;
+  const changedOrder = await orders_table.findByPk(orderId);
 
-	try {
-		await createInvoice(orderId);
-		sendInvoiceFile(orderId, res);
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({
-			title: "error",
-			message: "Diçka nuk shkoi mirë me kërkesën",
-		});
-	}
+  try {
+    await createInvoice(orderId);
+    sendInvoiceFile(orderId, res);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      title: "error",
+      message: "Diçka nuk shkoi mirë me kërkesën",
+    });
+  }
 });
-
 
 db.sequelize.sync().then((req) => {
   app.listen(port, () => {

@@ -24,29 +24,6 @@ const OrdersView = () => {
       });
   }, []);
 
-  const downloadPDF = (data) => {
-    // Create a Blob from the raw PDF data
-    const blob = new Blob([data], { type: 'application/pdf' });
-  
-    // Create a URL for the Blob
-    const blobUrl = URL.createObjectURL(blob);
-  
-    // Create an anchor element
-    const link = document.createElement('a');
-    link.href = blobUrl;
-    link.download = 'invoice.pdf'; // Set the filename for download
-    link.style.display = 'none';
-  
-    // Append the anchor element to the body
-    document.body.appendChild(link);
-  
-    // Simulate a click to trigger download
-    link.click();
-  
-    // Clean up - remove the anchor and revoke the Blob URL after download
-    document.body.removeChild(link);
-    URL.revokeObjectURL(blobUrl);
-  };
 
   const completeAllOrders = async () => {
     for (const order of ordersList) {
