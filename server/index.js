@@ -610,8 +610,8 @@ app.post("/completeorder/:orderId", async (req, res) => {
   const changedOrder = await orders_table.findByPk(orderId);
 
   try {
-    await createInvoice(orderId);
-    sendInvoiceFile(orderId, res);
+    await createInvoice(orderId, res);
+    // sendInvoiceFile(orderId, res);
   } catch (error) {
     console.log(error);
     res.status(500).json({

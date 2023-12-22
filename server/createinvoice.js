@@ -1,56 +1,60 @@
-const fs = require('fs');
-const PDFDocument = require('pdfkit');
+const fs = require("fs");
+const PDFDocument = require("pdfkit");
 
 function generateHeader(doc) {
-	doc.text('aaa')
+  doc.text("aaa");
 }
 
-function createInvoice(orderId) {
-	return new Promise((resolve, reject) => {
-		let doc = new PDFDocument({ margin: 50 });
+function createInvoice(orderId, res) {
+  return new Promise((resolve, reject) => {
+    let doc = new PDFDocument({ margin: 50 });
 
+    doc.text("aaasaa");
 
-        doc.text('aaasaa')
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=invoice_${orderId}.pdf`
+    );
 
-		const filePath = `./output_${orderId}.pdf`; // Adjust filename using orderId
+    doc.pipe(res);
+    doc.end();
 
-		const writeStream = fs.createWriteStream(filePath);
-		doc.pipe(writeStream);
+    doc.on("end", () => {
+      resolve();
+    });
 
-		doc.end();
-		writeStream.on('finish', () => {
-			resolve(filePath);
-		});
-
-		writeStream.on('error', (err) => {
-			reject(err);
-		});
-	});
+    doc.on("error", (err) => {
+      reject(err);
+    });
+  });
 }
 
-function sendInvoiceFile(orderId, res) {
-	const filePath = `./output_${orderId}.pdf`; // Adjust filename using orderId
+// function sendInvoiceFile(orderId, res) {
+//   const filePath = `./output_${orderId}.pdf`; // Adjust filename using orderId
 
-	// Ensure file exists before attempting to read it
-	if (fs.existsSync(filePath)) {
-		const file = fs.createReadStream(filePath);
-		const stat = fs.statSync(filePath);
+//   // Ensure file exists before attempting to read it
+//   if (fs.existsSync(filePath)) {
+//     const file = fs.createReadStream(filePath);
+//     const stat = fs.statSync(filePath);
 
-		res.setHeader('Content-Length', stat.size);
-		res.setHeader('Content-Type', 'application/pdf');
-		res.setHeader('Content-Disposition', `attachment; filename=invoice_${orderId}.pdf`);
+//     res.setHeader("Content-Length", stat.size);
+//     res.setHeader("Content-Type", "application/pdf");
+//     res.setHeader(
+//       "Content-Disposition",
+//       `attachment; filename=invoice_${orderId}.pdf`
+//     );
 
-		file.pipe(res);
-	} else {
-		res.status(404).json({
-			title: "error",
-			message: "File not found",
-		});
-	}
-}
+//     file.pipe(res);
+//   } else {
+//     res.status(404).json({
+//       title: "error",
+//       message: "File not found",
+//     });
+//   }
+// }
 
 module.exports = {
-	createInvoice,
-	sendInvoiceFile,
+  createInvoice,
+  //   sendInvoiceFile,
 };
-
