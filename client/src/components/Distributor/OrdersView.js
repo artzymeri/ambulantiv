@@ -24,6 +24,50 @@ const OrdersView = () => {
       });
   }, []);
 
+  const downloadPDF = (data) => {
+    // Create a Blob from the raw PDF data
+    const blob = new Blob([data], { type: 'application/pdf' });
+  
+    // Create a URL for the Blob
+    const blobUrl = URL.createObjectURL(blob);
+  
+    // Create an anchor element
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = 'invoice.pdf'; // Set the filename for download
+    link.style.display = 'none';
+  
+    // Append the anchor element to the body
+    document.body.appendChild(link);
+  
+    // Simulate a click to trigger download
+    link.click();
+  
+    // Clean up - remove the anchor and revoke the Blob URL after download
+    document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl);
+  };
+
+  const completeAllOrders = async () => {
+    for (const order of ordersList) {
+        try {
+            const response = await axios.post(`http://localhost:8080/completeorder/${order.id}`, { order }, { responseType: 'blob' });
+
+            const downloadLink = document.createElement('a');
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+
+            downloadLink.href = url;
+            downloadLink.setAttribute('download', `invoice_${order.id}.pdf`);
+            downloadLink.click();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+};
+
+
+
  
   return (
     isClient && (
@@ -58,7 +102,7 @@ const OrdersView = () => {
             variant="contained"
             color="warning"
             sx={{ height: 70 }}
-            onClick={generatePDFs}
+            onClick={completeAllOrders}
           >
             Përfundo gjitha Porositë
           </Button>

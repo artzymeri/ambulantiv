@@ -77,7 +77,7 @@ const OrderItem = (props) => {
           <div className="orders-row-right-r">
             <Tooltip title="Përfundo porosinë">
               <Button
-                onClick={completeOrder}
+                // onClick={completeOrder}
                 variant="outlined"
                 color="warning"
               >
