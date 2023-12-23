@@ -554,6 +554,11 @@ app.post("/sendorder", async (req, res) => {
       productClientName: clientName,
       productClientCompanyname: clientCompanyname,
     });
+
+    const allOrdersData = await orders_table.findAll();
+
+    io.emit("orderCreated", allOrdersData);
+
     res.json({
       title: "success",
       message: "Porosia u bë me sukses",

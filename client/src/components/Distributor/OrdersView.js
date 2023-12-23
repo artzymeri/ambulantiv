@@ -5,9 +5,18 @@ import axios from "axios";
 import OrderItem from "./OrdersActiveItem";
 import "@/styling/Pranues/ordersview.css";
 import { Button } from "@mui/material";
-
+import { io } from "socket.io-client";
 
 const OrdersView = () => {
+  const socket = io("http://localhost:8080", {
+    withCredentials: true,
+  });
+
+  socket.on("orderCreated", (allOrdersData) => {
+    setOrdersList(allOrdersData);
+    console.log("client socket.on triggered");
+  });
+
   const [isClient, setIsClient] = useState(false);
 
   const [ordersList, setOrdersList] = useState([]);
@@ -24,28 +33,28 @@ const OrdersView = () => {
       });
   }, []);
 
-
   const completeAllOrders = async () => {
     for (const order of ordersList) {
-        try {
-            const response = await axios.post(`http://localhost:8080/completeorder/${order.id}`, { order }, { responseType: 'blob' });
+      try {
+        const response = await axios.post(
+          `http://localhost:8080/completeorder/${order.id}`,
+          { order },
+          { responseType: "blob" }
+        );
 
-            const downloadLink = document.createElement('a');
-            const blob = new Blob([response.data], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
+        const downloadLink = document.createElement("a");
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
 
-            downloadLink.href = url;
-            downloadLink.setAttribute('download', `invoice_${order.id}.pdf`);
-            downloadLink.click();
-        } catch (error) {
-            console.error(error);
-        }
+        downloadLink.href = url;
+        downloadLink.setAttribute("download", `invoice_${order.id}.pdf`);
+        downloadLink.click();
+      } catch (error) {
+        console.error(error);
+      }
     }
-};
+  };
 
-
-
- 
   return (
     isClient && (
       <div className="orders-view-parent">

@@ -13,7 +13,6 @@ import {
   ShoppingBag,
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
-import stateStorage from "@/store";
 import { io } from "socket.io-client";
 import axios from "axios";
 
@@ -24,21 +23,9 @@ const socket = io("http://localhost:8080", {
 const DistributorSideBar = (props) => {
   const [activeOrdersNumber, setActiveOrdersNumber] = useState([]);
 
-  socket.on("orderCreated", (newOrder) => {
-    try {
-      axios
-        .get(
-          `http://localhost:8080/getactiveordersfromdistributor/${localStorage.getItem(
-            "companyname"
-          )}`
-        )
-        .then((res) => {
-          setActiveOrdersNumber(res.data);
-          console.log(res.data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+  socket.on("orderCreated", (allOrdersData) => {
+    setActiveOrdersNumber(allOrdersData);
+    console.log("client socket.on triggered");
   });
 
   useEffect(() => {
@@ -51,7 +38,6 @@ const DistributorSideBar = (props) => {
         )
         .then((res) => {
           setActiveOrdersNumber(res.data);
-          console.log(res.data);
         });
     } catch (error) {
       console.log(error);
