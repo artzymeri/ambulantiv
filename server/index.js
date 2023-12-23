@@ -1,13 +1,11 @@
 const http = require("http");
-const socketIO = require("socket.io");
+const socketIo = require("socket.io");
 const express = require("express");
 const { Op } = require("sequelize");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const server = http.createServer();
-const io = socketIO(server);
 require("dotenv").config();
 const { createInvoice, sendInvoiceFile } = require("./createinvoice.js");
 const fs = require("fs");
@@ -23,6 +21,14 @@ const {
 const secretKey = process.env.SECRET_KEY;
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
 app.use(express.json({ limit: "50mb" }));
 app.use(cors());
 app.use(bodyParser.json());
@@ -34,10 +40,11 @@ const port = 8080;
 io.on("connection", (socket) => {
   console.log("Client connected");
 
-  // You can add more socket event listeners here as needed
+  // You can add more logic here to handle specific events
 
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
+  // Example: Broadcast changes to orders_table
+  orders_table.afterCreate((order) => {
+    io.emit("orderCreated", order);
   });
 });
 
@@ -579,9 +586,6 @@ app.get(
         where: { productDistributor: distributorCompanyName, active: true },
       });
 
-      // Emit a Socket.IO event to clients when there are changes
-      io.emit("activeOrdersUpdate", listedActiveOrders);
-
       res.send(listedActiveOrders);
     } catch (error) {
       console.log(error);
@@ -621,8 +625,11 @@ app.post("/completeorder/:orderId", async (req, res) => {
   }
 });
 
-db.sequelize.sync().then((req) => {
-  app.listen(port, () => {
-    console.log(`Server is running in http://localhost:${port}`);
-  });
+// Sync the Sequelize models
+db.sequelize.sync().then(() => {
+  console.log("Database synchronized");
+});
+
+server.listen(port, () => {
+  console.log(`Server is running in http://localhost:${port}`);
 });

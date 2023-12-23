@@ -60,7 +60,8 @@ const DistributorHomeView = () => {
           }}
         >
           <h3>
-            <span style={{ fontSize: "60px" }}>32</span> klientë aktivë
+            <span style={{ fontSize: "60px" }}>{stateStorage.testNumber}</span>{" "}
+            klientë aktivë
           </h3>
         </div>
         <div

@@ -14,10 +14,48 @@ import {
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import stateStorage from "@/store";
+import { io } from "socket.io-client";
+import axios from "axios";
+
+const socket = io("http://localhost:8080", {
+  withCredentials: true,
+});
 
 const DistributorSideBar = (props) => {
+  const [activeOrdersNumber, setActiveOrdersNumber] = useState([]);
+
+  socket.on("orderCreated", (newOrder) => {
+    try {
+      axios
+        .get(
+          `http://localhost:8080/getactiveordersfromdistributor/${localStorage.getItem(
+            "companyname"
+          )}`
+        )
+        .then((res) => {
+          setActiveOrdersNumber(res.data);
+          console.log(res.data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
   useEffect(() => {
-    console.log(stateStorage.distributorActiveOrders.length);
+    try {
+      axios
+        .get(
+          `http://localhost:8080/getactiveordersfromdistributor/${localStorage.getItem(
+            "companyname"
+          )}`
+        )
+        .then((res) => {
+          setActiveOrdersNumber(res.data);
+          console.log(res.data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   const router = useRouter();
@@ -63,9 +101,9 @@ const DistributorSideBar = (props) => {
       displayName: (
         <>
           Porositë Aktive
-          {stateStorage.distributorActiveOrders.length > 0 ? (
+          {activeOrdersNumber.length > 0 ? (
             <span className="active-orders-notify">
-              {stateStorage.distributorActiveOrders.length}
+              {activeOrdersNumber.length}
             </span>
           ) : null}
         </>

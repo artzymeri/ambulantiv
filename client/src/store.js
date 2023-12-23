@@ -1,10 +1,13 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, observable, runInAction } from "mobx";
 import axios from "axios";
+import socketIOClient, { io } from "socket.io-client";
 
 class StateStorage {
   cartItems = [];
 
-  distributorActiveOrders = [];
+  distributorActiveOrders = observable([]);
+
+  testNumber = 1;
 
   constructor() {
     makeAutoObservable(this);
@@ -43,15 +46,33 @@ class StateStorage {
   }
 
   async getDistributorActiveOrders() {
-    if (typeof localStorage !== "undefined") {
-      const res = await axios.get(
-        `http://localhost:8080/getactiveordersfromdistributor/${localStorage.getItem(
-          "companyname"
-        )}`
-      );
-      this.distributorActiveOrders = res.data;
-    }
+    // if (typeof localStorage !== "undefined") {
+    const res = await axios.get(
+      `http://localhost:8080/getactiveordersfromdistributor/${localStorage.getItem(
+        "companyname"
+      )}`
+    );
+    this.distributorActiveOrders = res.data;
+    // }
   }
+
+  //   setupSocketConnection() {
+  //     const socket = io("http://localhost:8080", {
+  //       withCredentials: true,
+  //     });
+
+  //     socket.on("orderCreated", (newOrder) => {
+  //       // Use a try-catch block to handle any errors during the asynchronous call
+  //       try {
+  //         runInAction(async () => {
+  //           console.log("artiiii");
+  //           await this.getDistributorActiveOrders();
+  //         });
+  //       } catch (error) {
+  //         console.error("Error updating distributor active orders:", error);
+  //       }
+  //     });
+  //   }
 }
 
 const stateStorage = new StateStorage();
