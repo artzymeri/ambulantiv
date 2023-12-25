@@ -93,12 +93,6 @@ const DistributorSideBar = (props) => {
       pathOnClick: "/distributor/orderhistory",
       icon: <History />,
     },
-    {
-      id: 5,
-      displayName: "Klientët Tanë",
-      pathOnClick: "/distributor/clients",
-      icon: <Person />,
-    },
   ];
 
   return (

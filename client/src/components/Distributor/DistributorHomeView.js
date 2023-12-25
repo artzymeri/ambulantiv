@@ -12,6 +12,8 @@ const DistributorHomeView = () => {
 
   const [isClient, setIsClient] = useState(false);
 
+  const [distributorActiveOrders, setDistributorActiveOrders] = useState([]);
+
   useEffect(() => {
     setIsClient(true);
     axios
@@ -22,6 +24,15 @@ const DistributorHomeView = () => {
       )
       .then((res) => {
         setHomeData(res.data);
+      });
+    axios
+      .get(
+        `http://localhost:8080/getactiveordersfromdistributor/${localStorage.getItem(
+          "companyname"
+        )}`
+      )
+      .then((res) => {
+        setDistributorActiveOrders(res.data);
       });
   }, []);
 
@@ -54,17 +65,6 @@ const DistributorHomeView = () => {
           )}
         </div>
         <div
-          className="shadow-one b-25 home-children home-children-clients"
-          onClick={() => {
-            router.push("/distributor/clients");
-          }}
-        >
-          <h3>
-            <span style={{ fontSize: "60px" }}>{stateStorage.testNumber}</span>{" "}
-            klientë aktivë
-          </h3>
-        </div>
-        <div
           className="shadow-one b-25 home-children home-children-sale-products"
           onClick={() => {
             router.push("/distributor/companyproducts");
@@ -76,10 +76,10 @@ const DistributorHomeView = () => {
         </div>
         <div className="shadow-one b-25 home-children home-children-orders">
           <h3>
-            {stateStorage.distributorActiveOrders.length > 0 ? (
+            {distributorActiveOrders.length > 0 ? (
               <>
                 <span style={{ fontSize: "60px" }}>
-                  {stateStorage.distributorActiveOrders.length}
+                  {distributorActiveOrders.length}
                 </span>{" "}
                 Porosi Aktive
               </>

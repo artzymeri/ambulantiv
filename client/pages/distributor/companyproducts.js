@@ -142,7 +142,14 @@ const CompanyListedProducts = () => {
                 {snackbarData.message}
               </MuiAlert>
             </Snackbar>
-            <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+            <div
+              style={{
+                display: "flex",
+                width: "100vw",
+                height: "100vh",
+                background: "whitesmoke",
+              }}
+            >
               <EditProductDialog
                 openDialog={openDialog}
                 editedProductData={editedProduct}

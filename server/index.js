@@ -27,17 +27,6 @@ const db = require("./models");
 
 const port = 8080;
 
-io.on("connection", (socket) => {
-  console.log("Client connected");
-
-  // You can add more logic here to handle specific events
-
-  // Example: Broadcast changes to orders_table
-  orders_table.afterCreate((order) => {
-    io.emit("orderCreated", order);
-  });
-});
-
 app.get("/getlistedproducts", async (req, res) => {
   try {
     const listedProducts = await listed_products.findAll();
@@ -610,7 +599,6 @@ app.post("/completeorder/:orderId", async (req, res) => {
 
   try {
     await createInvoice(orderId, res);
-    // sendInvoiceFile(orderId, res);
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -620,6 +608,8 @@ app.post("/completeorder/:orderId", async (req, res) => {
   }
 });
 
-db.sequelize.sync().then(() => {
-  console.log("Database synchronized");
+db.sequelize.sync().then((req) => {
+  app.listen(port, () => {
+    console.log(`Server is running in http://localhost:${port}`);
+  });
 });
