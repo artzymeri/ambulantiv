@@ -26,17 +26,6 @@ const PranuesHomeView = dynamic(
 );
 
 const PranuesHome = () => {
-  const router = useRouter();
-
-  const logout = () => {
-    localStorage.removeItem("pranuesToken");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("emailaddress");
-    localStorage.removeItem("phonenumber");
-    localStorage.removeItem("companyname");
-    router.push("/auth/login");
-  };
-
   return (
     <>
       <Head>
@@ -55,6 +44,7 @@ const PranuesHome = () => {
                 height: "100vh",
                 width: "100%",
                 overflow: "clip",
+                background: "whitesmoke",
               }}
             >
               <PranuesHomeView />

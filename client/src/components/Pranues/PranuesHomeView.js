@@ -5,6 +5,7 @@ import axios from "axios";
 import ProductCard from "../ProductCard";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
+import { Grade } from "@mui/icons-material";
 
 const PranuesHomeView = () => {
   const [isClient, setIsClient] = useState(false);
@@ -62,6 +63,11 @@ const PranuesHomeView = () => {
         <div className="pranues-home-parent">
           <div className="pranues-home-latestproducts-parent">
             <div className="pranues-home-latestproducts-title shadow-one">
+              <Grade
+                sx={{
+                  marginRight: "4px",
+                }}
+              />
               Produktet e fundit
             </div>
             <div className="pranues-home-latestproducts b-25 shadow-one">
