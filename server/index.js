@@ -1,5 +1,3 @@
-const http = require("http");
-const socketIo = require("socket.io");
 const express = require("express");
 const { Op } = require("sequelize");
 const bodyParser = require("body-parser");
@@ -21,14 +19,6 @@ const {
 const secretKey = process.env.SECRET_KEY;
 
 const app = express();
-const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
-});
 app.use(express.json({ limit: "50mb" }));
 app.use(cors());
 app.use(bodyParser.json());
@@ -630,11 +620,6 @@ app.post("/completeorder/:orderId", async (req, res) => {
   }
 });
 
-// Sync the Sequelize models
 db.sequelize.sync().then(() => {
   console.log("Database synchronized");
-});
-
-server.listen(port, () => {
-  console.log(`Server is running in http://localhost:${port}`);
 });

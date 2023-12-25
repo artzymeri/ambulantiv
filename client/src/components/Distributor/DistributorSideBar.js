@@ -13,20 +13,10 @@ import {
   ShoppingBag,
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
-import { io } from "socket.io-client";
 import axios from "axios";
-
-const socket = io("http://localhost:8080", {
-  withCredentials: true,
-});
 
 const DistributorSideBar = (props) => {
   const [activeOrdersNumber, setActiveOrdersNumber] = useState([]);
-
-  socket.on("orderCreated", (allOrdersData) => {
-    setActiveOrdersNumber(allOrdersData);
-    console.log("client socket.on triggered");
-  });
 
   useEffect(() => {
     try {

@@ -3,8 +3,6 @@ import { makeAutoObservable, runInAction } from "mobx";
 class StateStorage {
   cartItems = [];
 
-  testNumber = 1;
-
   constructor() {
     makeAutoObservable(this);
     this.initializeCartItems();

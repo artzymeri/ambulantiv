@@ -5,18 +5,8 @@ import axios from "axios";
 import OrderItem from "./OrdersActiveItem";
 import "@/styling/Pranues/ordersview.css";
 import { Button } from "@mui/material";
-import { io } from "socket.io-client";
 
 const OrdersView = () => {
-  const socket = io("http://localhost:8080", {
-    withCredentials: true,
-  });
-
-  socket.on("orderCreated", (allOrdersData) => {
-    setOrdersList(allOrdersData);
-    console.log("client socket.on triggered");
-  });
-
   const [isClient, setIsClient] = useState(false);
 
   const [ordersList, setOrdersList] = useState([]);
