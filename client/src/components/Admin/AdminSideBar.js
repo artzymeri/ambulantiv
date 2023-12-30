@@ -27,7 +27,8 @@ const AdminSideBar = (props) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("adminToken");
+    document.cookie =
+      "adminToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     localStorage.removeItem("userId");
     router.push("/auth/login");
   };

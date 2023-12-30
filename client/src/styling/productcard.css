@@ -49,6 +49,7 @@
   width: 100%;
   justify-content: space-between;
   align-items: center;
+  height: 42px;
 }
 
 .increase-decrease-container {

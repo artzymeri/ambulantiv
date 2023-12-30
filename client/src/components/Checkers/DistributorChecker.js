@@ -4,9 +4,10 @@ const DistributorChecker = ({ children }) => {
   const router = useRouter();
 
   if (typeof window !== "undefined") {
-    const authenticatedPranues = localStorage.getItem("pranuesToken");
-    const authenticatedAdmin = localStorage.getItem("adminToken");
-    const authenticatedDistributor = localStorage.getItem("distributorToken");
+    const authenticatedAdmin = document.cookie.includes("adminToken");
+    const authenticatedDistributor =
+      document.cookie.includes("distributorToken");
+    const authenticatedPranues = document.cookie.includes("pranuesToken");
 
     if (authenticatedDistributor) {
       return <>{children}</>;

@@ -38,7 +38,8 @@ const PranuesSideBar = (props) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("pranuesToken");
+    document.cookie =
+      "pranuesToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     localStorage.removeItem("userId");
     localStorage.removeItem("emailaddress");
     localStorage.removeItem("phonenumber");

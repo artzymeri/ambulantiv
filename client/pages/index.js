@@ -7,15 +7,19 @@ const Home = () => {
   const router = useRouter();
 
   const adminToken =
-    typeof window !== "undefined" ? localStorage.getItem("adminToken") : null;
+    typeof window !== "undefined"
+      ? document.cookie.includes("adminToken")
+      : null;
 
   const distributorToken =
     typeof window !== "undefined"
-      ? localStorage.getItem("distributorToken")
+      ? document.cookie.includes("distributorToken")
       : null;
 
   const pranuesToken =
-    typeof window !== "undefined" ? localStorage.getItem("pranuesToken") : null;
+    typeof window !== "undefined"
+      ? document.cookie.includes("pranuesToken")
+      : null;
 
   if (adminToken && adminToken !== null) {
     router.push("/admin/registeredusers");
@@ -27,6 +31,5 @@ const Home = () => {
 
   return <AuthenticatorChecker></AuthenticatorChecker>;
 };
-
 
 export default Home;

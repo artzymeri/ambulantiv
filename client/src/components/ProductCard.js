@@ -217,6 +217,7 @@ const ProductCard = (props) => {
                   background: "whitesmoke",
                   boxShadow: "none",
                   cursor: "not-allowed !important",
+                  height: "42px",
                 }}
               >
                 <Button
