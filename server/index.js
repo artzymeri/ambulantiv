@@ -8,6 +8,7 @@ require("dotenv").config();
 const { createInvoice, sendInvoiceFile } = require("./createinvoice.js");
 const fs = require("fs");
 const PDFDocument = require("pdfkit");
+const cookieParser = require("cookie-parser");
 
 const {
   users_table,
@@ -21,6 +22,7 @@ const secretKey = process.env.SECRET_KEY;
 const app = express();
 app.use(express.json({ limit: "50mb" }));
 app.use(cors());
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 const db = require("./models");
@@ -384,6 +386,7 @@ app.post("/login", async (req, res) => {
           expiresIn: "1h",
         }
       );
+      res.cookie("adminToken", adminToken, { httpOnly: true });
       res.json({
         title: "success",
         message: "Kyçja u bë me sukses",
@@ -404,10 +407,10 @@ app.post("/login", async (req, res) => {
           expiresIn: "1h",
         }
       );
+      res.cookie("distributorToken", distributorToken, { httpOnly: true });
       res.json({
         title: "success",
         message: "Kyçja u bë me sukses",
-        distributorToken,
         phoneNumberOfUser: user.phoneNumber,
         companyLogo,
         namesurname,
@@ -424,10 +427,10 @@ app.post("/login", async (req, res) => {
           expiresIn: "1h",
         }
       );
+      res.cookie("pranuesToken", pranuesToken, { httpOnly: true });
       res.json({
         title: "success",
         message: "Kyçja u bë me sukses",
-        pranuesToken,
         phoneNumberOfUser: user.phoneNumber,
         companyLogo,
         namesurname,
