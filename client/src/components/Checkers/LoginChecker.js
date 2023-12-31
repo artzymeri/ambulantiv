@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -5,28 +6,25 @@ const LoginChecker = ({ children }) => {
   const router = useRouter();
 
   if (typeof window !== "undefined") {
-    const authenticatedAdmin = document.cookie.includes("adminToken");
+    const authenticatedAdmin = Cookies.get("adminToken") !== undefined;
     const authenticatedDistributor =
-      document.cookie.includes("distributorToken");
-    const authenticatedPranues = document.cookie.includes("pranuesToken");
+      Cookies.get("distributorToken") !== undefined;
+    const authenticatedPranues = Cookies.get("pranuesToken") !== undefined;
 
     const logout = () => {
       if (authenticatedAdmin) {
-        document.cookie =
-          "adminToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        Cookies.remove("adminToken");
         localStorage.removeItem("userId");
         window.location.reload();
       } else if (authenticatedDistributor) {
-        document.cookie =
-          "distributorToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        Cookies.remove("distributorToken");
         localStorage.removeItem("userId");
         localStorage.removeItem("emailaddress");
         localStorage.removeItem("phonenumber");
         localStorage.removeItem("companyname");
         window.location.reload();
       } else if (authenticatedPranues) {
-        document.cookie =
-          "pranuesToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        Cookies.remove("pranuesToken");
         localStorage.removeItem("userId");
         localStorage.removeItem("emailaddress");
         localStorage.removeItem("phonenumber");

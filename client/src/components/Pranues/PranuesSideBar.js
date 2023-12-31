@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/router";
 import { observer } from "mobx-react";
 import stateStorage from "@/store";
+import Cookies from "js-cookie";
 
 const PranuesSideBar = (props) => {
   const router = useRouter();
@@ -38,8 +39,7 @@ const PranuesSideBar = (props) => {
   };
 
   const logout = () => {
-    document.cookie =
-      "pranuesToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    Cookies.remove("pranuesToken");
     localStorage.removeItem("userId");
     localStorage.removeItem("emailaddress");
     localStorage.removeItem("phonenumber");

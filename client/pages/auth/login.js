@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import {
   Box,
@@ -21,6 +22,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 import "@/styling/global.css";
 import LoginChecker from "@/components/Checkers/LoginChecker";
+import { Cookie } from "@mui/icons-material";
 
 const Login = () => {
   const router = useRouter();
@@ -97,9 +99,6 @@ const Login = () => {
             const {
               title,
               message,
-              adminToken,
-              distributorToken,
-              pranuesToken,
               phoneNumberOfUser,
               companyLogo,
               namesurname,
@@ -107,17 +106,22 @@ const Login = () => {
               emailAddressOfUser,
               companyType,
               userId,
+              adminToken,
+              distributorToken,
+              pranuesToken,
             } = res.data;
             setSnackbarData({
               title: title,
               message: message,
             });
             if (adminToken) {
-              localStorage.setItem("adminToken", adminToken);
+              Cookies.set("adminToken", adminToken, { expires: 1 / 24 });
               localStorage.setItem("userId", userId);
               router.push("/");
             } else if (distributorToken) {
-              localStorage.setItem("distributorToken", distributorToken);
+              Cookies.set("distributorToken", distributorToken, {
+                expires: 1 / 24,
+              });
               localStorage.setItem("namesurname", namesurname);
               localStorage.setItem("companyname", companyname);
               localStorage.setItem("phonenumber", phoneNumberOfUser);
@@ -126,7 +130,7 @@ const Login = () => {
 
               router.push("/");
             } else if (pranuesToken) {
-              localStorage.setItem("pranuesToken", pranuesToken);
+              Cookies.set("pranuesToken", pranuesToken, { expires: 1 / 24 });
               localStorage.setItem("namesurname", namesurname);
               localStorage.setItem("companyname", companyname);
               localStorage.setItem("phonenumber", phoneNumberOfUser);

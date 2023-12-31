@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -5,10 +6,10 @@ const AuthenticatorChecker = ({ children }) => {
   const router = useRouter();
 
   if (typeof window !== "undefined") {
-    const authenticatedAdmin = document.cookie.includes("adminToken");
+    const authenticatedAdmin = Cookies.get("adminToken") !== undefined;
     const authenticatedDistributor =
-      document.cookie.includes("distributorToken");
-    const authenticatedPranues = document.cookie.includes("pranuesToken");
+      Cookies.get("distributorToken") !== undefined;
+    const authenticatedPranues = Cookies.get("pranuesToken") !== undefined;
 
     if (
       authenticatedAdmin ||

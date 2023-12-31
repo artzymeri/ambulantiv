@@ -8,6 +8,7 @@ import {
   MenuOutlined,
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 const AdminSideBar = (props) => {
   const router = useRouter();
@@ -27,8 +28,7 @@ const AdminSideBar = (props) => {
   };
 
   const logout = () => {
-    document.cookie =
-      "adminToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    Cookies.remove("adminToken");
     localStorage.removeItem("userId");
     router.push("/auth/login");
   };

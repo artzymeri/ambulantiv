@@ -390,7 +390,7 @@ app.post("/login", async (req, res) => {
       res.json({
         title: "success",
         message: "Kyçja u bë me sukses",
-        adminToken,
+        adminToken: adminToken,
         phoneNumberOfUser: user.phoneNumber,
         companyLogo,
         companyname: user.companyname,
@@ -411,6 +411,7 @@ app.post("/login", async (req, res) => {
       res.json({
         title: "success",
         message: "Kyçja u bë me sukses",
+        distributorToken: distributorToken,
         phoneNumberOfUser: user.phoneNumber,
         companyLogo,
         namesurname,
@@ -431,6 +432,7 @@ app.post("/login", async (req, res) => {
       res.json({
         title: "success",
         message: "Kyçja u bë me sukses",
+        pranuesToken: pranuesToken,
         phoneNumberOfUser: user.phoneNumber,
         companyLogo,
         namesurname,

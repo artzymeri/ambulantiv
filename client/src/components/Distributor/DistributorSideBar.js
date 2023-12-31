@@ -14,6 +14,7 @@ import {
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const DistributorSideBar = (props) => {
   const [activeOrdersNumber, setActiveOrdersNumber] = useState([]);
@@ -51,8 +52,7 @@ const DistributorSideBar = (props) => {
   };
 
   const logout = () => {
-    document.cookie =
-      "distributorToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    Cookies.remove("distributorToken");
     localStorage.removeItem("userId");
     localStorage.removeItem("emailaddress");
     localStorage.removeItem("phonenumber");
