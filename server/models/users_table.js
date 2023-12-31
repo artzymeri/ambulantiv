@@ -14,6 +14,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
     phoneNumber: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -40,6 +47,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: true,
+      },
+    },
+    location: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        notEmpty: false,
       },
     },
   });

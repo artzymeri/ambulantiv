@@ -63,6 +63,7 @@ const Login = () => {
     phoneNumber: "",
     emailAddress: "",
     password: "",
+    address: "",
     companyType: "",
   });
 
@@ -72,6 +73,7 @@ const Login = () => {
     phoneNumberError: false,
     emailAddressError: false,
     passwordError: false,
+    addressError: false,
     companyTypeError: false,
   });
 
@@ -102,6 +104,8 @@ const Login = () => {
         setTextFieldProps({ ...textFieldProps, emailAddressError: true });
       } else if (regsiterInfo.password.length < 8) {
         setTextFieldProps({ ...textFieldProps, passwordError: true });
+      } else if (regsiterInfo.address.length < 3) {
+        setTextFieldProps({ ...textFieldProps, addressError: true });
       } else {
         axios
           .post("http://localhost:8080/requestregister", regsiterInfo)
@@ -118,6 +122,7 @@ const Login = () => {
               phoneNumber: "",
               emailAddress: "",
               password: "",
+              address: "",
               companyType: null,
             });
           });
@@ -128,6 +133,7 @@ const Login = () => {
           phoneNumberError: false,
           emailAddressError: false,
           passwordError: false,
+          addressError: false,
           companyTypeError: false,
         });
       }
@@ -248,7 +254,7 @@ const Login = () => {
                   }
                   autoComplete="off"
                   size="small"
-                  label="Emri Dyqanit/Kompanisë"
+                  label="Emri i Dyqanit/Kompanisë"
                   name="companyname"
                   type="text"
                   value={regsiterInfo.companyname}
@@ -256,6 +262,29 @@ const Login = () => {
                     setRegisterInfo({
                       ...regsiterInfo,
                       companyname: e.target.value,
+                    })
+                  }
+                  onKeyPress={handleKeyPress}
+                />
+                <TextField
+                  className="shadow-one b-5"
+                  fullWidth
+                  error={textFieldProps.addressError}
+                  helperText={
+                    textFieldProps.addressError
+                      ? "Shënoni një adresë të duhur"
+                      : null
+                  }
+                  autoComplete="off"
+                  size="small"
+                  label="Adresa e Dyqanit/Kompanisë"
+                  name="address"
+                  type="text"
+                  value={regsiterInfo.address}
+                  onChange={(e) =>
+                    setRegisterInfo({
+                      ...regsiterInfo,
+                      address: e.target.value,
                     })
                   }
                   onKeyPress={handleKeyPress}
@@ -352,7 +381,10 @@ const Login = () => {
                 </FormControl>
                 <FormControl
                   className="radio-wrapper shadow-one b-5 p-10 p-l-13 border-gray"
-                  style={{ padding: "10px" }}
+                  style={{
+                    padding: "10px",
+                    border: "1px solid rgba(0, 0, 0, 0.25)",
+                  }}
                 >
                   <FormLabel id="demo-row-radio-buttons-group-label">
                     Lloji i Kompanisë

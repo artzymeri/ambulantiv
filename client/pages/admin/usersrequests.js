@@ -30,6 +30,7 @@ const UsersRequests = () => {
     axios.post("http://localhost:8080/register", {
       namesurname: user.namesurname,
       companyname: user.companyname,
+      address: user.address,
       phoneNumber: user.phoneNumber,
       emailAddress: user.emailAddress,
       password: user.password,

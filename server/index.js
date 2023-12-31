@@ -285,6 +285,7 @@ app.post("/requestregister", async (req, res) => {
     const {
       namesurname,
       companyname,
+      address,
       phoneNumber,
       emailAddress,
       password,
@@ -307,6 +308,7 @@ app.post("/requestregister", async (req, res) => {
     await users_requests_table.create({
       namesurname,
       companyname,
+      address,
       phoneNumber,
       emailAddress,
       password: hashedPassword,
@@ -329,6 +331,7 @@ app.post("/register", async (req, res) => {
     const {
       namesurname,
       companyname,
+      address,
       phoneNumber,
       emailAddress,
       password,
@@ -338,6 +341,7 @@ app.post("/register", async (req, res) => {
     await users_table.create({
       namesurname,
       companyname,
+      address,
       phoneNumber,
       emailAddress,
       password,
