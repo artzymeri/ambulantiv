@@ -58,6 +58,8 @@ const EditProductDialog = (props) => {
       distributor: editedProductData.distributor,
       photo: editedProductData.photo,
       outOfStock: editedProductData.outOfStock,
+      discounted: editedProductData.discounted,
+      discountedPercentage: editedProductData.discountedPercentage,
     });
     console.log(editedProductData);
     axios.get("http://localhost:8080/getdistributors").then((res) => {
@@ -74,6 +76,8 @@ const EditProductDialog = (props) => {
     distributor: null,
     photo: null,
     outOfStock: false,
+    discounted: false,
+    discountedPercentage: null,
   });
 
   const [file, setFile] = useState(null);
@@ -273,6 +277,53 @@ const EditProductDialog = (props) => {
                   }
                 />
               </RadioGroup>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+              >
+                <FormControlLabel
+                  value={true}
+                  checked={editedProduct.discounted}
+                  control={<Radio />}
+                  label="Në aksion"
+                  onChange={(e) =>
+                    setEditedProduct({
+                      ...editedProduct,
+                      discounted: true,
+                    })
+                  }
+                />
+                <FormControlLabel
+                  value={false}
+                  checked={!editedProduct.discounted}
+                  control={<Radio />}
+                  label="Çmimi real"
+                  onChange={(e) =>
+                    setEditedProduct({
+                      ...editedProduct,
+                      discounted: false,
+                    })
+                  }
+                />
+              </RadioGroup>
+              {editedProduct.discounted && (
+                <TextField
+                  id="discountedPercentage"
+                  label="Përqindja e zbritjes"
+                  variant="outlined"
+                  className="shadow-one"
+                  fullWidth
+                  autoComplete="off"
+                  value={editedProduct.discountedPercentage}
+                  onChange={(e) =>
+                    setEditedProduct({
+                      ...editedProduct,
+                      discountedPercentage: e.target.value,
+                    })
+                  }
+                />
+              )}
               <div className="file-uploader-container-edit">
                 <FileUploader
                   multiple={false}

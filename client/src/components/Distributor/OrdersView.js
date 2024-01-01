@@ -6,14 +6,15 @@ import OrderItem from "./OrdersActiveItem";
 import "@/styling/Pranues/ordersview.css";
 import { Button } from "@mui/material";
 
-const OrdersView = () => {
+const OrdersView = ({updateStateInSideBar}) => {
   const [isClient, setIsClient] = useState(false);
 
   const [ordersList, setOrdersList] = useState([]);
 
+  const distributorCompanyName = localStorage.getItem("companyname");
+
   useEffect(() => {
     setIsClient(true);
-    const distributorCompanyName = localStorage.getItem("companyname");
     axios
       .get(
         `http://localhost:8080/getactiveordersfromdistributor/${distributorCompanyName}`
@@ -43,6 +44,14 @@ const OrdersView = () => {
         console.error(error);
       }
     }
+    axios
+      .get(
+        `http://localhost:8080/getactiveordersfromdistributor/${distributorCompanyName}`
+      )
+      .then((res) => {
+        setOrdersList(res.data);
+      });
+      updateStateInSideBar(1);
   };
 
   return (

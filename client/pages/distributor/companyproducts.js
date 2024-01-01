@@ -66,6 +66,8 @@ const CompanyListedProducts = () => {
     distributor: null,
     photo: null,
     outOfStock: null,
+    discounted: null,
+    discountedPercentage: null,
   });
 
   const openSidebar = () => {

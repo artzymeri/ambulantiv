@@ -102,7 +102,6 @@ const TableComponent = (props) => {
                         variant="contained"
                         onClick={() => {
                           handleOpenDialog(row);
-                          console.log(row);
                         }}
                       >
                         Edito

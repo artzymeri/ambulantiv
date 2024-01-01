@@ -69,8 +69,17 @@ const ProductCard = (props) => {
     stateStorage.updateCartItems();
   }, [cartProducts]);
 
-  const { photo, price, name, weight, distributor, id, outOfStock } =
-    props.product;
+  const {
+    photo,
+    price,
+    name,
+    weight,
+    distributor,
+    id,
+    outOfStock,
+    discounted,
+    discountedPercentage,
+  } = props.product;
 
   const getLocalStorageQuantity = (id) => {
     return localStorage.getItem(id);
@@ -233,6 +242,45 @@ const ProductCard = (props) => {
                 </Button>
               </ButtonGroup>
             </Tooltip>
+          </div>
+        </div>
+      </div>
+    ) : discounted ? (
+      <div className="product-card-parent">
+        <Tooltip title="Produkti është në aksion">
+          <div className="discounted-badge">- {discountedPercentage}%</div>
+        </Tooltip>
+        <img src={photo} />
+        <div className="product-card-text-container">
+          <div className="product-card-text-up">
+            <h4 style={{ width: "180px" }}>{name}</h4>
+            <p style={{ fontSize: "13px" }}>
+              {weight},{" "}
+              <Tooltip title="Kliko për të shikuar produktet e kompanisë">
+                <span
+                  onClick={() => {
+                    router.push({
+                      pathname: "/pranues/products/company",
+                      query: {
+                        companyname: distributor,
+                      },
+                    });
+                  }}
+                  style={{
+                    fontWeight: "bold",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
+                >
+                  {distributor}
+                </span>
+              </Tooltip>
+            </p>
+          </div>
+          <div className="product-card-text-down">
+            <div className="discounted-before-price">{price}</div>
+            <h2>{price - (price * discountedPercentage) / 100}€</h2>
+            {buttonsGroup()}
           </div>
         </div>
       </div>

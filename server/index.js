@@ -171,8 +171,17 @@ app.post("/deleteproduct/:productId", async (req, res) => {
 
 app.post("/editproduct/:productId", async (req, res) => {
   const { productId } = req.params;
-  const { name, category, price, weight, distributor, photo, outOfStock } =
-    req.body.editedProduct;
+  const {
+    name,
+    category,
+    price,
+    weight,
+    distributor,
+    photo,
+    outOfStock,
+    discounted,
+    discountedPercentage,
+  } = req.body.editedProduct;
 
   const productToEdit = await listed_products.findByPk(productId);
 
@@ -187,6 +196,8 @@ app.post("/editproduct/:productId", async (req, res) => {
   productToEdit.distributor = distributor;
   productToEdit.photo = photo;
   productToEdit.outOfStock = outOfStock;
+  productToEdit.discounted = discounted;
+  productToEdit.discountedPercentage = discountedPercentage;
 
   await productToEdit.save();
   res.json({ title: "success", message: "Produkti u editua me sukses" });
@@ -545,8 +556,6 @@ app.post("/sendorder", async (req, res) => {
 
     const allOrdersData = await orders_table.findAll();
 
-    io.emit("orderCreated", allOrdersData);
-
     res.json({
       title: "success",
       message: "Porosia u bë me sukses",
@@ -608,6 +617,8 @@ app.post("/completeorder/:orderId", async (req, res) => {
 
   try {
     await createInvoice(orderId, res);
+    changedOrder.active = false;
+    await changedOrder.save();
   } catch (error) {
     console.log(error);
     res.status(500).json({

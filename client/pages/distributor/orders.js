@@ -2,21 +2,33 @@ import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
 import DistributorChecker from "@/components/Checkers/DistributorChecker";
 import DistributorSideBar from "@/components/Distributor/DistributorSideBar";
 import OrdersView from "@/components/Distributor/OrdersView";
-import React from "react";
+import React, { useState } from "react";
 
 const Orders = () => {
+  const [someState, setSomeState] = useState(1);
 
-    return (
-        <AuthenticatorChecker>
-            <DistributorChecker>
-                <div style={{display: 'flex', width: '100vw', height: '100vh', overflow: 'clip'}}>
-                    <DistributorSideBar />
-                    <OrdersView />
-                </div>
-            </DistributorChecker>
-        </AuthenticatorChecker>
-    )
+  // Callback function to be passed to OrdersView
+  const updateStateInSideBar = (newValue) => {
+    setSomeState(someState + newValue);
+  };
 
-}
+  return (
+    <AuthenticatorChecker>
+      <DistributorChecker>
+        <div
+          style={{
+            display: "flex",
+            width: "100vw",
+            height: "100vh",
+            overflow: "clip",
+          }}
+        >
+          <DistributorSideBar someState={someState} />
+          <OrdersView updateStateInSideBar={updateStateInSideBar} />
+        </div>
+      </DistributorChecker>
+    </AuthenticatorChecker>
+  );
+};
 
 export default Orders;

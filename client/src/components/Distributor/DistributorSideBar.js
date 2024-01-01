@@ -17,7 +17,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const DistributorSideBar = (props) => {
+  const { display, closeSidebar, someState } = props;
+
   const [activeOrdersNumber, setActiveOrdersNumber] = useState([]);
+
+  const [refreshRate, setRefreshRate] = useState(1);
 
   useEffect(() => {
     try {
@@ -33,11 +37,9 @@ const DistributorSideBar = (props) => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [someState]);
 
   const router = useRouter();
-
-  const { display, closeSidebar } = props;
 
   const isActive = (path) => {
     return router.pathname === path ? "active-option" : "";

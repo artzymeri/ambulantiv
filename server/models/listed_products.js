@@ -50,6 +50,21 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    discounted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    discountedPercentage: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        notEmpty: false,
+      },
+    },
   });
   return listed_products;
 };

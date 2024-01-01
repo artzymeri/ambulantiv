@@ -117,6 +117,8 @@ const ListedProducts = () => {
     distributor: null,
     photo: null,
     outOfStock: null,
+    discounted: null,
+    discountedPercentage: null,
   });
 
   const handleOpenDialog = (product) => {
@@ -130,6 +132,8 @@ const ListedProducts = () => {
       distributor: product.distributor,
       photo: product.photo,
       outOfStock: product.outOfStock,
+      discounted: product.discounted,
+      discountedPercentage: product.discountedPercentage,
     });
   };
 
