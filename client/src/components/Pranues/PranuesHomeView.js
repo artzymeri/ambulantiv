@@ -64,7 +64,7 @@ const PranuesHomeView = () => {
             {snackbarData.message}
           </MuiAlert>
         </Snackbar>
-        <div>
+        <div style={{ overflowY: "auto" }}>
           <div
             style={{
               width: "100%",
@@ -99,18 +99,33 @@ const PranuesHomeView = () => {
                 Produktet e fundit
               </div>
               <div className="pranues-home-latestproducts b-25 shadow-one">
-                {productsData
-                  .slice()
-                  .reverse()
-                  .map((product) => {
-                    return (
-                      <ProductCard
-                        product={product}
-                        updateLocalStorage={updateLocalStorage}
-                        activateSnackbar={activateSnackbar}
-                      />
-                    );
-                  })}
+                {productsData && productsData.length > 0 ? (
+                  productsData
+                    .slice()
+                    .reverse()
+                    .map((product) => {
+                      return (
+                        <ProductCard
+                          product={product}
+                          updateLocalStorage={updateLocalStorage}
+                          activateSnackbar={activateSnackbar}
+                        />
+                      );
+                    })
+                ) : (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "gray",
+                    }}
+                  >
+                    Nuk ka produkte të listuara
+                  </div>
+                )}
               </div>
             </div>
             <div className="pranues-home-latestproducts-parent">
@@ -123,18 +138,33 @@ const PranuesHomeView = () => {
                 Produktet në aksion
               </div>
               <div className="pranues-home-latestproducts b-25 shadow-one">
-                {discountedProducts
-                  .slice()
-                  .reverse()
-                  .map((product) => {
-                    return (
-                      <ProductCard
-                        product={product}
-                        updateLocalStorage={updateLocalStorage}
-                        activateSnackbar={activateSnackbar}
-                      />
-                    );
-                  })}
+                {discountedProducts && discountedProducts.length > 0 ? (
+                  discountedProducts
+                    .slice()
+                    .reverse()
+                    .map((product) => {
+                      return (
+                        <ProductCard
+                          product={product}
+                          updateLocalStorage={updateLocalStorage}
+                          activateSnackbar={activateSnackbar}
+                        />
+                      );
+                    })
+                ) : (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "gray",
+                    }}
+                  >
+                    Nuk ka produkte në aksion
+                  </div>
+                )}
               </div>
             </div>
           </div>
