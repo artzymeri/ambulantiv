@@ -40,6 +40,19 @@ app.get("/getlistedproducts", async (req, res) => {
   }
 });
 
+app.get("/getdiscountedproducts", async (req, res) => {
+  try {
+    const listedProducts = await listed_products.findAll({
+      where: { discounted: true },
+    });
+
+    res.json(listedProducts);
+  } catch (error) {
+    console.error("Database query error:", error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
 app.get("/getlistedproducts/:companyname", async (req, res) => {
   const { companyname } = req.params;
 
