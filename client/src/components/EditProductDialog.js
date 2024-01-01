@@ -22,6 +22,7 @@ import { FileUploader } from "react-drag-drop-files";
 import MuiAlert from "@mui/material/Alert";
 import "@/styling/global.css";
 import "@/styling/editdialog.css";
+import Cookies from "js-cookie";
 
 const EditProductDialog = (props) => {
   const theme = useTheme();
@@ -47,7 +48,10 @@ const EditProductDialog = (props) => {
     setSnackbarOpen(false);
   };
 
+  const [authenticatedAdmin, setAuthenticatedAdmin] = useState(false);
+
   useEffect(() => {
+    setAuthenticatedAdmin(Cookies.get("adminToken") !== undefined);
     setIsClient(true);
     setEditedProduct({
       id: editedProductData.id,
@@ -222,31 +226,33 @@ const EditProductDialog = (props) => {
                   setEditedProduct({ ...editedProduct, weight: e.target.value })
                 }
               />
-              <TextField
-                id="distributor"
-                select
-                label="Distributori"
-                variant="outlined"
-                className="shadow-one"
-                fullWidth
-                autoComplete="off"
-                value={editedProduct.distributor}
-                onChange={(e) =>
-                  setEditedProduct({
-                    ...editedProduct,
-                    distributor: e.target.value,
-                  })
-                }
-              >
-                {distributorsData.map((distributor) => {
-                  return (
-                    <MenuItem value={distributor.companyname}>
-                      {distributor.companyname}
-                    </MenuItem>
-                  );
-                })}
-                <MenuItem value={null}>Asnjë</MenuItem>
-              </TextField>
+              {authenticatedAdmin && (
+                <TextField
+                  id="distributor"
+                  select
+                  label="Distributori"
+                  variant="outlined"
+                  className="shadow-one"
+                  fullWidth
+                  autoComplete="off"
+                  value={editedProduct.distributor}
+                  onChange={(e) =>
+                    setEditedProduct({
+                      ...editedProduct,
+                      distributor: e.target.value,
+                    })
+                  }
+                >
+                  {distributorsData.map((distributor) => {
+                    return (
+                      <MenuItem value={distributor.companyname}>
+                        {distributor.companyname}
+                      </MenuItem>
+                    );
+                  })}
+                  <MenuItem value={null}>Asnjë</MenuItem>
+                </TextField>
+              )}
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
