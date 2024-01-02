@@ -111,6 +111,7 @@ const Login = () => {
               companyname,
               emailAddressOfUser,
               companyType,
+              companyAddress,
               userId,
               adminToken,
               distributorToken,
@@ -132,6 +133,7 @@ const Login = () => {
               localStorage.setItem("companyname", companyname);
               localStorage.setItem("phonenumber", phoneNumberOfUser);
               localStorage.setItem("emailaddress", emailAddressOfUser);
+              localStorage.setItem("companyAddress", companyAddress);
               localStorage.setItem("userId", userId);
 
               router.push("/");
@@ -141,6 +143,7 @@ const Login = () => {
               localStorage.setItem("companyname", companyname);
               localStorage.setItem("phonenumber", phoneNumberOfUser);
               localStorage.setItem("emailaddress", emailAddressOfUser);
+              localStorage.setItem("companyAddress", companyAddress);
               localStorage.setItem("userId", userId);
               router.push("/");
             }

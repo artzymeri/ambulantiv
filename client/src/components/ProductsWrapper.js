@@ -86,12 +86,10 @@ const ProductsWrapper = (props) => {
         setProductsData(res.data);
       });
     } else if (companyname) {
-      console.log(companynameForServer);
       axios
         .get(`http://localhost:8080/getcompanyproducts/${companynameForServer}`)
         .then((res) => {
           setProductsData(res.data);
-          console.log(res.data);
         });
     }
   }, []);

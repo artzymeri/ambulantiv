@@ -17,7 +17,6 @@ const AddProductView = () => {
     setIsClient(true);
     axios.get("http://localhost:8080/getdistributors").then((res) => {
       setDistributorsData(res.data);
-      console.log(res.data);
     });
   }, []);
 
@@ -43,25 +42,25 @@ const AddProductView = () => {
   const categories = [
     {
       id: 1,
-      name: 'Pije',
+      name: "Pije",
     },
     {
       id: 2,
-      name: 'Fruta dhe Perime'
+      name: "Fruta dhe Perime",
     },
     {
       id: 3,
-      name: 'Ushqimore'
+      name: "Ushqimore",
     },
     {
       id: 4,
-      name: 'Shtëpiake'
+      name: "Shtëpiake",
     },
     {
       id: 5,
-      name: 'Higjenë'
-    }
-  ]
+      name: "Higjenë",
+    },
+  ];
 
   const [file, setFile] = useState(null);
 
@@ -87,7 +86,7 @@ const AddProductView = () => {
           weight: "",
           distributor: "",
           photo: null,
-          category: '',
+          category: "",
         });
         setSnackbarData({
           title: title,
@@ -130,20 +129,24 @@ const AddProductView = () => {
                 }
               />
               <TextField
-              id="category"
-              label="Kategoria"
-              variant="outlined"
-              className="shadow-one"
-              fullWidth
-              select
-              autoComplete="off"
-              value={newProduct.category}
-              onChange={(e)=> setNewProduct({...newProduct, category: e.target.value})}
+                id="category"
+                label="Kategoria"
+                variant="outlined"
+                className="shadow-one"
+                fullWidth
+                select
+                autoComplete="off"
+                value={newProduct.category}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, category: e.target.value })
+                }
               >
-                {categories.map((category)=>{
-                  return(
-                    <MenuItem key={category.id} value={category.name}>{category.name}</MenuItem>
-                  )
+                {categories.map((category) => {
+                  return (
+                    <MenuItem key={category.id} value={category.name}>
+                      {category.name}
+                    </MenuItem>
+                  );
                 })}
               </TextField>
               <TextField

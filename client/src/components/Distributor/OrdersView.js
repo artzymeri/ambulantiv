@@ -57,6 +57,7 @@ const OrdersView = ({ updateStateInSideBar }) => {
       .then((res) => {
         setOrdersList(res.data);
       });
+    Trigger(listener + 1);
     updateStateInSideBar(1);
   };
 
@@ -72,6 +73,7 @@ const OrdersView = ({ updateStateInSideBar }) => {
             ordersList.map((order) => {
               return (
                 <OrderItem
+                  key={order.id}
                   product={order}
                   triggerUseEffect={triggerUseEffect}
                   updateStateInSideBar={updateStateInSideBar}

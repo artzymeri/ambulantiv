@@ -24,8 +24,6 @@ const companyPage = () => {
 
   const query = router.query;
 
-  console.log(query);
-
   return (
     <>
       <Head>

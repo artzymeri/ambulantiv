@@ -74,16 +74,14 @@ const OrderInActiveItem = (props) => {
             </h5>
             <h5>
               Klienti:{" "}
-              <Tooltip title="Kliko për të shikuar produktet e kompanisë">
-                <span
-                  style={{
-                    fontSize: "16px",
-                    cursor: "pointer",
-                  }}
-                >
-                  {productClientName}
-                </span>
-              </Tooltip>
+              <span
+                style={{
+                  fontSize: "16px",
+                  cursor: "pointer",
+                }}
+              >
+                {productClientName}
+              </span>
             </h5>
           </div>
         </div>

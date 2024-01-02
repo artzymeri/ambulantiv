@@ -22,6 +22,7 @@ const LoginChecker = ({ children }) => {
         localStorage.removeItem("emailaddress");
         localStorage.removeItem("phonenumber");
         localStorage.removeItem("companyname");
+        localStorage.removeItem("companyAddress");
         window.location.reload();
       } else if (authenticatedPranues) {
         Cookies.remove("pranuesToken");
@@ -29,6 +30,7 @@ const LoginChecker = ({ children }) => {
         localStorage.removeItem("emailaddress");
         localStorage.removeItem("phonenumber");
         localStorage.removeItem("companyname");
+        localStorage.removeItem("companyAddress");
         window.location.reload();
       }
     };

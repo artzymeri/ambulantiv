@@ -404,6 +404,7 @@ app.post("/login", async (req, res) => {
       namesurname,
       emailAddress,
       companyLogo,
+      address,
     } = user;
 
     if (companyType === "admin") {
@@ -423,6 +424,7 @@ app.post("/login", async (req, res) => {
         companyLogo,
         companyname: user.companyname,
         namesurname,
+        companyAddress: address,
         emailAddressOfUser: emailAddress,
         companyType,
         userId: id,
@@ -443,6 +445,7 @@ app.post("/login", async (req, res) => {
         phoneNumberOfUser: user.phoneNumber,
         companyLogo,
         namesurname,
+        companyAddress: address,
         emailAddressOfUser: emailAddress,
         companyType,
         companyname: user.companyname,
@@ -465,6 +468,7 @@ app.post("/login", async (req, res) => {
         companyLogo,
         namesurname,
         companyname,
+        companyAddress: address,
         emailAddressOfUser: emailAddress,
         companyType,
         userId: id,
@@ -556,6 +560,7 @@ app.post("/sendorder", async (req, res) => {
       clientId,
       clientName,
       clientCompanyname,
+      clientCompanyAddress,
       distributorCompanyAddress,
     } = req.body;
 
@@ -570,7 +575,8 @@ app.post("/sendorder", async (req, res) => {
       productDistributorCompanyAddress: distributorCompanyAddress,
       productClientId: clientId,
       productClientName: clientName,
-      productClientCompanyname: clientCompanyname,
+      productClientCompanyName: clientCompanyname,
+      productClientCompanyAddress: clientCompanyAddress,
     });
 
     const allOrdersData = await orders_table.findAll();
@@ -622,7 +628,10 @@ app.get(
 
     try {
       const listedActiveOrders = await orders_table.findAll({
-        where: { productDistributor: distributorCompanyName, active: true },
+        where: {
+          productDistributorCompanyName: distributorCompanyName,
+          active: true,
+        },
       });
 
       res.send(listedActiveOrders);
@@ -639,7 +648,10 @@ app.get(
     const { distributorCompanyName } = req.params;
     try {
       const listedActiveOrders = await orders_table.findAll({
-        where: { productDistributor: distributorCompanyName, active: false },
+        where: {
+          productDistributorCompanyName: distributorCompanyName,
+          active: false,
+        },
       });
       res.send(listedActiveOrders);
     } catch (error) {

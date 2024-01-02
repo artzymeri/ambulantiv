@@ -1,59 +1,30 @@
 const fs = require("fs");
 const PDFDocument = require("pdfkit");
 
-const invoice = {
-  shipping: {
-    name: "John Doe",
-    address: "1234 Main Street",
-    city: "San Francisco",
-    state: "CA",
-    country: "US",
-    postal_code: 94111,
-  },
-  items: [
-    {
-      item: "TC 100",
-      description: "Toner Cartridge",
-      quantity: 2,
-      amount: 6000,
-    },
-    {
-      item: "USB_EXT",
-      description: "USB Cable Extender",
-      quantity: 1,
-      amount: 2000,
-    },
-  ],
-  subtotal: 8000,
-  paid: 0,
-  invoice_nr: 1234,
-};
-
 function generateHeader(doc, theOrder) {
   doc
     .fillColor("#444444")
     .fontSize(20)
     .text(`${theOrder.productDistributorCompanyName}`, 50, 57)
     .fontSize(10)
-    .text(`${theOrder.productDistributorCompanyAddress}`, 200, 65, {
-      align: "right",
-    })
+    .text(`${theOrder.productDistributorCompanyAddress}`, 50, 75)
     .moveDown();
 }
 
-function generateCustomerInformation(doc, invoice) {
-  const invoiceDate = new Date();
+function generateCustomerInformation(doc, theOrder) {
+  const orderValues = theOrder.dataValues;
+
+  console.log(orderValues);
+
+  const invoiceDate = orderValues.createdAt;
   const formattedDate = invoiceDate.toLocaleDateString("en-GB");
-  const shipping = invoice.shipping;
 
   doc
-    .text(`Invoice Number: ${invoice.invoice_nr}`, 50, 130)
-    .text(`Invoice Date: ${formattedDate}`, 50, 145)
-    .text(`Balance Due: ${invoice.subtotal - invoice.paid}`, 50, 160)
-
-    .text(shipping.name, 300, 130)
-    .text(shipping.address, 300, 145)
-    .text(`${shipping.city}, ${shipping.state}, ${shipping.country}`, 300, 160)
+    .text(`Porosia Numër: #${orderValues.id}`, 50, 130)
+    .text(`Data e porosisë: ${formattedDate}`, 50, 145)
+    .text(orderValues.productClientName, 50, 160)
+    .text(orderValues.productClientCompanyName, 50, 175)
+    .text(orderValues.productClientCompanyAddress, 50, 190)
     .moveDown();
 }
 
@@ -72,7 +43,7 @@ function createInvoice(orderId, theOrder, res) {
     let doc = new PDFDocument({ margin: 50 });
 
     generateHeader(doc, theOrder);
-    generateCustomerInformation(doc, invoice);
+    generateCustomerInformation(doc, theOrder);
     generateTableRow(doc, 250, "text1", "text2", "text3", "text4", "text5");
 
     res.setHeader("Content-Type", "application/pdf");

@@ -65,7 +65,6 @@ const EditProductDialog = (props) => {
       discounted: editedProductData.discounted,
       discountedPercentage: editedProductData.discountedPercentage,
     });
-    console.log(editedProductData);
     axios.get("http://localhost:8080/getdistributors").then((res) => {
       setDistributorsData(res.data);
     });
