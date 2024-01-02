@@ -34,45 +34,39 @@ const Profile = () => {
   };
 
   return (
-    <>
-      <Head>
-        <link rel="icon" href="/e-commerceKosovaLogo.png" />
-        <title>Detajet e profilit</title>
-      </Head>
-      <AuthenticatorChecker>
-        <DistributorChecker>
+    <AuthenticatorChecker>
+      <DistributorChecker>
+        <div
+          style={{
+            display: "flex",
+            width: "100vw",
+            height: "100vh",
+            overflow: "clip",
+          }}
+        >
+          <DistributorSideBar />
           <div
             style={{
               display: "flex",
-              width: "100vw",
-              height: "100vh",
-              overflow: "clip",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100%",
+              width: "100%",
             }}
           >
-            <DistributorSideBar />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                height: "100%",
-                width: "100%",
-              }}
-            >
-              <ProfileView openSidebar={openSidebar} />
-              <div className="sidebar-pranues-trigger-wrapper">
-                <button
-                  className="sidebar-pranues-trigger-button shadow-one"
-                  onClick={openSidebar}
-                >
-                  <Menu style={{ color: "white" }} />
-                </button>
-              </div>
+            <ProfileView openSidebar={openSidebar} />
+            <div className="sidebar-pranues-trigger-wrapper">
+              <button
+                className="sidebar-pranues-trigger-button shadow-one"
+                onClick={openSidebar}
+              >
+                <Menu style={{ color: "white" }} />
+              </button>
             </div>
           </div>
-        </DistributorChecker>
-      </AuthenticatorChecker>
-    </>
+        </div>
+      </DistributorChecker>
+    </AuthenticatorChecker>
   );
 };
 

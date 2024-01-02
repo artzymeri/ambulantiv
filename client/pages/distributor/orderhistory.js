@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import React from "react";
 
 const AuthenticatorChecker = dynamic(
@@ -31,21 +32,27 @@ const OrdersHistoryView = dynamic(
 
 const Orders = () => {
   return (
-    <AuthenticatorChecker>
-      <DistributorChecker>
-        <div
-          style={{
-            display: "flex",
-            width: "100vw",
-            height: "100vh",
-            overflow: "clip",
-          }}
-        >
-          <DistributorSideBar />
-          <OrdersHistoryView />
-        </div>
-      </DistributorChecker>
-    </AuthenticatorChecker>
+    <>
+      <Head>
+        <link rel="icon" href="/e-commerceKosovaLogo.png" />
+        <title>Historiku i Porosive</title>
+      </Head>
+      <AuthenticatorChecker>
+        <DistributorChecker>
+          <div
+            style={{
+              display: "flex",
+              width: "100vw",
+              height: "100vh",
+              overflow: "clip",
+            }}
+          >
+            <DistributorSideBar />
+            <OrdersHistoryView />
+          </div>
+        </DistributorChecker>
+      </AuthenticatorChecker>
+    </>
   );
 };
 

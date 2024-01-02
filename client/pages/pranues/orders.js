@@ -37,7 +37,7 @@ const Orders = () => {
     <>
       <Head>
         <link rel="icon" href="/e-commerceKosovaLogo.png" />
-        <title>Porositë</title>
+        <title>Historiku i Porosive</title>
       </Head>
       <AuthenticatorChecker>
         <PranuesChecker>

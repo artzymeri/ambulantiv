@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import React, { useState } from "react";
 
 const AuthenticatorChecker = dynamic(
@@ -38,21 +39,27 @@ const Orders = () => {
   };
 
   return (
-    <AuthenticatorChecker>
-      <DistributorChecker>
-        <div
-          style={{
-            display: "flex",
-            width: "100vw",
-            height: "100vh",
-            overflow: "clip",
-          }}
-        >
-          <DistributorSideBar someState={someState} />
-          <OrdersView updateStateInSideBar={updateStateInSideBar} />
-        </div>
-      </DistributorChecker>
-    </AuthenticatorChecker>
+    <>
+      <Head>
+        <link rel="icon" href="/e-commerceKosovaLogo.png" />
+        <title>Porositë Aktive</title>
+      </Head>
+      <AuthenticatorChecker>
+        <DistributorChecker>
+          <div
+            style={{
+              display: "flex",
+              width: "100vw",
+              height: "100vh",
+              overflow: "clip",
+            }}
+          >
+            <DistributorSideBar someState={someState} />
+            <OrdersView updateStateInSideBar={updateStateInSideBar} />
+          </div>
+        </DistributorChecker>
+      </AuthenticatorChecker>
+    </>
   );
 };
 
