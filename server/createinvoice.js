@@ -1,6 +1,14 @@
 const fs = require("fs");
 const PDFDocument = require("pdfkit");
 
+function generateHr(doc, y) {
+  doc.strokeColor("#aaaaaa").lineWidth(1).moveTo(50, y).lineTo(560, y).stroke();
+}
+
+function generateBackground(doc, x, y, width, height, color) {
+  doc.fillColor(color).rect(x, y, width, height).fill();
+}
+
 function generateHeader(doc, theOrder) {
   doc
     .fillColor("#444444")
@@ -9,33 +17,49 @@ function generateHeader(doc, theOrder) {
     .fontSize(10)
     .text(`${theOrder.productDistributorCompanyAddress}`, 50, 75)
     .moveDown();
+
+  generateHr(doc, 110);
 }
 
 function generateCustomerInformation(doc, theOrder) {
   const orderValues = theOrder.dataValues;
 
-  console.log(orderValues);
-
   const invoiceDate = orderValues.createdAt;
   const formattedDate = invoiceDate.toLocaleDateString("en-GB");
 
   doc
-    .text(`Porosia Numër: #${orderValues.id}`, 50, 130)
-    .text(`Data e porosisë: ${formattedDate}`, 50, 145)
-    .text(orderValues.productClientName, 50, 160)
-    .text(orderValues.productClientCompanyName, 50, 175)
-    .text(orderValues.productClientCompanyAddress, 50, 190)
+    .fillColor("#000000")
+    .text(`Porosia Numër: #${orderValues.id}`, 60, 130)
+    .text(`Data e porosisë: ${formattedDate}`, 60, 145)
+    .text(orderValues.productClientName, 60, 160)
+    .text(orderValues.productClientCompanyName, 60, 175)
+    .text(orderValues.productClientCompanyAddress, 60, 190)
     .moveDown();
+
+  generateHr(doc, 220);
 }
 
-function generateTableRow(doc, y, c1, c2, c3, c4, c5) {
+function generateTableRowHeader(doc, y, c1, c2, c3, c4) {
+  doc.font("Helvetica-Bold");
+  doc
+    .fontSize(11)
+    .text(c1, 50, y)
+    .text(c2, 200, y)
+    .text(c3, 330, y)
+    .text(c4, 480, y);
+
+  generateHr(doc, 280);
+}
+
+function generateTableRowContent(doc, theOrder) {
+  const orderValues = theOrder.dataValues;
+  doc.font("Helvetica");
   doc
     .fontSize(10)
-    .text(c1, 50, y)
-    .text(c2, 150, y)
-    .text(c3, 280, y, { width: 90, align: "right" })
-    .text(c4, 370, y, { width: 90, align: "right" })
-    .text(c5, 0, y, { align: "right" });
+    .text(orderValues.productName, 50, 310)
+    .text(orderValues.productPrice, 200, 310)
+    .text(orderValues.productQuantity, 330, 310)
+    .text(orderValues.productTotalPrice, 480, 310);
 }
 
 function createInvoice(orderId, theOrder, res) {
@@ -43,8 +67,17 @@ function createInvoice(orderId, theOrder, res) {
     let doc = new PDFDocument({ margin: 50 });
 
     generateHeader(doc, theOrder);
+    generateBackground(doc, 50, 110, 510, 110, "#DDDDDD");
     generateCustomerInformation(doc, theOrder);
-    generateTableRow(doc, 250, "text1", "text2", "text3", "text4", "text5");
+    generateTableRowHeader(
+      doc,
+      260,
+      "Emri produktit",
+      "Çmimi për njësi",
+      "Sasia e porositur",
+      "Totali i vlerës"
+    );
+    generateTableRowContent(doc, theOrder);
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
