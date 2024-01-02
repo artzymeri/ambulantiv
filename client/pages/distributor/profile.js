@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-
 import { Menu } from "@mui/material";
 import React, { useState } from "react";
 import Head from "next/head";

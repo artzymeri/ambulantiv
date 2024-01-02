@@ -1,15 +1,43 @@
-import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
-import DistributorChecker from "@/components/Checkers/DistributorChecker";
-import DistributorSideBar from "@/components/Distributor/DistributorSideBar";
-import TableComponent from "@/components/TableComponent";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import React, { useEffect, useState } from "react";
 import { Menu } from "@mui/icons-material";
 import axios from "axios";
 import "@/styling/global.css";
-import EditProductDialog from "@/components/EditProductDialog";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+
+const AuthenticatorChecker = dynamic(
+  () => import("@/components/Checkers/AuthenticatorChecker"),
+  {
+    ssr: false,
+  }
+);
+
+const DistributorChecker = dynamic(
+  () => import("@/components/Checkers/DistributorChecker"),
+  {
+    ssr: false,
+  }
+);
+
+const DistributorSideBar = dynamic(
+  () => import("@/components/Distributor/DistributorSideBar"),
+  {
+    ssr: false,
+  }
+);
+
+const TableComponent = dynamic(() => import("@/components/TableComponent"), {
+  ssr: false,
+});
+
+const EditProductDialog = dynamic(
+  () => import("@/components/EditProductDialog"),
+  {
+    ssr: false,
+  }
+);
 
 const CompanyListedProducts = () => {
   const [isClient, setIsClient] = useState(false);

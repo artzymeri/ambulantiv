@@ -1,13 +1,32 @@
 import React, { useEffect, useState } from "react";
-import AdminSideBar from "@/components/Admin/AdminSideBar";
 import "@/styling/global.css";
 import "@/styling/Admin/adminsidebar.css";
-import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
-import TableComponent from "@/components/TableComponent";
 import axios from "axios";
 import { Menu } from "@mui/icons-material";
-import AdminChecker from "@/components/Checkers/AdminChecker";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+
+const AuthenticatorChecker = dynamic(
+  () => import("@/components/Checkers/AuthenticatorChecker"),
+  {
+    ssr: false,
+  }
+);
+
+const AdminSideBar = dynamic(() => import("@/components/Admin/AdminSideBar"), {
+  ssr: false,
+});
+
+const TableComponent = dynamic(() => import("@/components/TableComponent"), {
+  ssr: false,
+});
+
+const AdminChecker = dynamic(
+  () => import("@/components/Checkers/AdminChecker"),
+  {
+    ssr: false,
+  }
+);
 
 const RegisteredUsers = () => {
   const [usersData, setUsersData] = useState([]);

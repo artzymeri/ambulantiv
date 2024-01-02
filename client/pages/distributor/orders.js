@@ -1,8 +1,33 @@
-import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
-import DistributorChecker from "@/components/Checkers/DistributorChecker";
-import DistributorSideBar from "@/components/Distributor/DistributorSideBar";
-import OrdersView from "@/components/Distributor/OrdersView";
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
+
+const AuthenticatorChecker = dynamic(
+  () => import("@/components/Checkers/AuthenticatorChecker"),
+  {
+    ssr: false,
+  }
+);
+
+const DistributorChecker = dynamic(
+  () => import("@/components/Checkers/DistributorChecker"),
+  {
+    ssr: false,
+  }
+);
+
+const DistributorSideBar = dynamic(
+  () => import("@/components/Distributor/DistributorSideBar"),
+  {
+    ssr: false,
+  }
+);
+
+const OrdersView = dynamic(
+  () => import("@/components/Distributor/OrdersView"),
+  {
+    ssr: false,
+  }
+);
 
 const Orders = () => {
   const [someState, setSomeState] = useState(1);

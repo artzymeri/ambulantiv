@@ -1,9 +1,22 @@
-import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
-import PranuesChecker from "@/components/Checkers/PranuesChecker";
-import PranuesSideBar from "@/components/Pranues/PranuesSideBar";
-import ProductsView from "@/components/ProductsView";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import React from "react";
+
+const AuthenticatorChecker = dynamic(
+  () => import("@/components/Checkers/AuthenticatorChecker"),
+  { ssr: false }
+);
+const PranuesChecker = dynamic(
+  () => import("@/components/Checkers/PranuesChecker"),
+  { ssr: false }
+);
+const PranuesSideBar = dynamic(
+  () => import("@/components/Pranues/PranuesSideBar"),
+  { ssr: false }
+);
+const ProductsView = dynamic(() => import("@/components/ProductsView"), {
+  ssr: false,
+});
 
 const Housekeep = () => {
   return (

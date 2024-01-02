@@ -21,8 +21,14 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 import "@/styling/global.css";
-import LoginChecker from "@/components/Checkers/LoginChecker";
-import { Cookie } from "@mui/icons-material";
+import dynamic from "next/dynamic";
+
+const LoginChecker = dynamic(
+  () => import("@/components/Checkers/LoginChecker"),
+  {
+    ssr: false,
+  }
+);
 
 const Login = () => {
   const router = useRouter();

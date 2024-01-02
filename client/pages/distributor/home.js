@@ -3,8 +3,31 @@ import DistributorChecker from "@/components/Checkers/DistributorChecker";
 import DistributorHomeView from "@/components/Distributor/DistributorHomeView";
 import DistributorSideBar from "@/components/Distributor/DistributorSideBar";
 import { Home, Menu } from "@mui/icons-material";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import React, { useState } from "react";
+
+const AuthenticatorChecker = dynamic(
+  () => import("@/components/Checkers/AuthenticatorChecker"),
+  {
+    ssr: false,
+  }
+);
+
+const DistributorChecker = dynamic(
+  () => import("@/components/Checkers/DistributorChecker"),
+  {
+    ssr: false,
+  }
+);
+
+const DistributorSideBar = dynamic(
+  () => import("@/components/Distributor/DistributorSideBar"),
+  {
+    ssr: false,
+  }
+);
+
 
 const DistributorHome = () => {
   const [display, setDisplay] = useState("none");

@@ -1,9 +1,24 @@
-import AddProductView from "@/components/AddProductView";
-import AdminChecker from "@/components/Checkers/AdminChecker";
-import AdminSideBar from "@/components/Admin/AdminSideBar";
-import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
 import React from "react";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+
+const AuthenticatorChecker = dynamic(
+  () => import("@/components/Checkers/AuthenticatorChecker"),
+  { ssr: false }
+);
+
+const AddProductView = dynamic(() => import("@/components/AddProductView"), {
+  ssr: false,
+});
+
+const AdminChecker = dynamic(
+  () => import("@/components/Checkers/AdminChecker"),
+  { ssr: false }
+);
+
+const AdminSideBar = dynamic(() => import("@/components/Admin/AdminSideBar"), {
+  ssr: false,
+});
 
 const AddProduct = () => {
   return (

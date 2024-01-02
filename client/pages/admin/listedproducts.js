@@ -1,15 +1,40 @@
 import React, { useEffect, useState } from "react";
-import AdminSideBar from "@/components/Admin/AdminSideBar";
 import "@/styling/global.css";
-import AuthenticatorChecker from "@/components/Checkers/AuthenticatorChecker";
 import axios from "axios";
-import TableComponent from "@/components/TableComponent";
 import { Menu } from "@mui/icons-material";
 import MuiAlert from "@mui/material/Alert";
-import AdminChecker from "@/components/Checkers/AdminChecker";
 import { Snackbar } from "@mui/material";
-import EditProductDialog from "@/components/EditProductDialog";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+
+const AdminSideBar = dynamic(() => import("@/components/Admin/AdminSideBar"), {
+  ssr: false,
+});
+
+const AuthenticatorChecker = dynamic(
+  () => import("@/components/Checkers/AuthenticatorChecker"),
+  {
+    ssr: false,
+  }
+);
+
+const TableComponent = dynamic(() => import("@/components/TableComponent"), {
+  ssr: false,
+});
+
+const AdminChecker = dynamic(
+  () => import("@/components/Checkers/AdminChecker"),
+  {
+    ssr: false,
+  }
+);
+
+const EditProductDialog = dynamic(
+  () => import("@/components/EditProductDialog"),
+  {
+    ssr: false,
+  }
+);
 
 const ListedProducts = () => {
   const [loading, setLoading] = useState(true);
