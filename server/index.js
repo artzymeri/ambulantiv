@@ -552,7 +552,12 @@ app.post("/sendorder", async (req, res) => {
     const { name, price, totalPrice, weight, quantity, photo, distributor } =
       req.body.product;
 
-    const { clientId, clientName, clientCompanyname } = req.body;
+    const {
+      clientId,
+      clientName,
+      clientCompanyname,
+      distributorCompanyAddress,
+    } = req.body;
 
     await orders_table.create({
       productName: name,
@@ -561,7 +566,8 @@ app.post("/sendorder", async (req, res) => {
       productWeight: weight,
       productQuantity: quantity,
       productPhoto: photo,
-      productDistributor: distributor,
+      productDistributorCompanyName: distributor,
+      productDistributorCompanyAddress: distributorCompanyAddress,
       productClientId: clientId,
       productClientName: clientName,
       productClientCompanyname: clientCompanyname,
@@ -590,6 +596,24 @@ app.get("/getorders/:pranuesId", async (req, res) => {
     console.log(error);
   }
 });
+
+app.get(
+  "/getdistributorcompanyaddress/:distributorCompanyName",
+  async (req, res) => {
+    const { distributorCompanyName } = req.params;
+
+    try {
+      const distributorRow = await users_table.findAll({
+        where: { companyname: distributorCompanyName },
+      });
+
+      res.send(distributorRow);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "An error occurred" });
+    }
+  }
+);
 
 app.get(
   "/getactiveordersfromdistributor/:distributorCompanyName",
@@ -629,7 +653,7 @@ app.post("/completeorder/:orderId", async (req, res) => {
   const changedOrder = await orders_table.findByPk(orderId);
 
   try {
-    await createInvoice(orderId, res);
+    await createInvoice(orderId, changedOrder, res);
     changedOrder.active = false;
     await changedOrder.save();
   } catch (error) {
@@ -643,9 +667,10 @@ app.post("/completeorder/:orderId", async (req, res) => {
 
 app.post("/generatepdfonly/:orderId", async (req, res) => {
   const { orderId } = req.params;
+  const theOrder = await orders_table.findByPk(orderId);
 
   try {
-    await createInvoice(orderId, res);
+    await createInvoice(orderId, theOrder, res);
   } catch (error) {
     console.log(error);
     res.status(500).json({

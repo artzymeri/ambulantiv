@@ -42,7 +42,14 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-    productDistributor: {
+    productDistributorCompanyName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    productDistributorCompanyAddress: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {

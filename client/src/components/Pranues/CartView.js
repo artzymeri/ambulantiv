@@ -70,8 +70,6 @@ const CartView = () => {
       )
     );
 
-    console.log(productsToOrder);
-
     if (productsToOrder.length === 0) {
       // Handle the case where all products are disabled
       setSnackbarData({
@@ -84,37 +82,44 @@ const CartView = () => {
 
     for (const product of productsToOrder) {
       try {
-        console.log("finished");
         axios
-          .post("http://localhost:8080/sendorder", {
-            product,
-            clientId: localStorage.getItem("userId"),
-            clientName: localStorage.getItem("namesurname"),
-            clientCompanyname: localStorage.getItem("companyname"),
-          })
+          .get(
+            `http://localhost:8080/getdistributorcompanyaddress/${product.distributor}`
+          )
           .then((res) => {
-            const { title, message } = res.data;
-            setCartProductsList((prevCartProductsList) => {
-              const newArray = prevCartProductsList.filter(
-                (p) => p.id !== product.id
-              );
-              localStorage.setItem(
-                `clientId:${localStorage.getItem("userId")}/cartProducts`,
-                JSON.stringify(newArray)
-              );
-              localStorage.removeItem(
-                `clientId:${localStorage.getItem("userId")}/productId:${
-                  product.id
-                }`
-              );
-              return newArray;
-            });
-            setSnackbarData({
-              title: title,
-              message: message,
-            });
-            setSnackbarOpen(true);
-            stateStorage.updateCartItems();
+            const distributorCompanyAddress = res.data[0].address;
+            axios
+              .post("http://localhost:8080/sendorder", {
+                product,
+                distributorCompanyAddress,
+                clientId: localStorage.getItem("userId"),
+                clientName: localStorage.getItem("namesurname"),
+                clientCompanyname: localStorage.getItem("companyname"),
+              })
+              .then((res) => {
+                const { title, message } = res.data;
+                setCartProductsList((prevCartProductsList) => {
+                  const newArray = prevCartProductsList.filter(
+                    (p) => p.id !== product.id
+                  );
+                  localStorage.setItem(
+                    `clientId:${localStorage.getItem("userId")}/cartProducts`,
+                    JSON.stringify(newArray)
+                  );
+                  localStorage.removeItem(
+                    `clientId:${localStorage.getItem("userId")}/productId:${
+                      product.id
+                    }`
+                  );
+                  return newArray;
+                });
+                setSnackbarData({
+                  title: title,
+                  message: message,
+                });
+                setSnackbarOpen(true);
+                stateStorage.updateCartItems();
+              });
           });
       } catch (error) {
         console.log(error);
