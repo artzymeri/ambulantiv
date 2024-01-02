@@ -3,7 +3,7 @@ import "@/styling/Pranues/ordersitem.css";
 import { Button, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
 import { Download } from "@mui/icons-material";
-
+import axios from "axios";
 
 const OrderItem = (props) => {
   const router = useRouter();
@@ -34,6 +34,25 @@ const OrderItem = (props) => {
     setFormattedCreatedAt(formattedDate);
   }, []);
 
+  const generatePDF = async (order) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/generatepdfonly/${order.id}`,
+        { order },
+        { responseType: "blob" }
+      );
+
+      const downloadLink = document.createElement("a");
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+
+      downloadLink.href = url;
+      downloadLink.setAttribute("download", `invoice_${order.id}.pdf`);
+      downloadLink.click();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     isClient && (
@@ -86,7 +105,13 @@ const OrderItem = (props) => {
           </div>
           <div className="orders-row-right-r">
             <Tooltip title="Shkarko faturën për porosinë">
-              <Button onClick={generatePDF} variant="outlined" color="warning">
+              <Button
+                onClick={() => {
+                  generatePDF(props.product);
+                }}
+                variant="outlined"
+                color="warning"
+              >
                 <Download />
               </Button>
             </Tooltip>

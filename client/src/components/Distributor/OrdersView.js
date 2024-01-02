@@ -6,10 +6,12 @@ import OrderItem from "./OrdersActiveItem";
 import "@/styling/Pranues/ordersview.css";
 import { Button } from "@mui/material";
 
-const OrdersView = ({updateStateInSideBar}) => {
+const OrdersView = ({ updateStateInSideBar }) => {
   const [isClient, setIsClient] = useState(false);
 
   const [ordersList, setOrdersList] = useState([]);
+
+  const [listener, Trigger] = useState(1);
 
   const distributorCompanyName = localStorage.getItem("companyname");
 
@@ -22,7 +24,11 @@ const OrdersView = ({updateStateInSideBar}) => {
       .then((res) => {
         setOrdersList(res.data);
       });
-  }, []);
+  }, [listener]);
+
+  const triggerUseEffect = () => {
+    Trigger(listener + 1);
+  };
 
   const completeAllOrders = async () => {
     for (const order of ordersList) {
@@ -51,7 +57,7 @@ const OrdersView = ({updateStateInSideBar}) => {
       .then((res) => {
         setOrdersList(res.data);
       });
-      updateStateInSideBar(1);
+    updateStateInSideBar(1);
   };
 
   return (
@@ -64,7 +70,13 @@ const OrdersView = ({updateStateInSideBar}) => {
         <div className="orders-view-items-wrapper">
           {ordersList && ordersList.length > 0 ? (
             ordersList.map((order) => {
-              return <OrderItem product={order} />;
+              return (
+                <OrderItem
+                  product={order}
+                  triggerUseEffect={triggerUseEffect}
+                  updateStateInSideBar={updateStateInSideBar}
+                />
+              );
             })
           ) : (
             <div

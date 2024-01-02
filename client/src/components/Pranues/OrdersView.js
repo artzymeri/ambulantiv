@@ -6,21 +6,44 @@ import OrderItem from "./OrdersItem";
 import "@/styling/Pranues/ordersview.css";
 import { Button } from "@mui/material";
 
-
 const OrdersView = () => {
   const [isClient, setIsClient] = useState(false);
 
   const [ordersList, setOrdersList] = useState([]);
 
+  const pranuesId = localStorage.getItem("userId");
+
   useEffect(() => {
     setIsClient(true);
-    const pranuesId = localStorage.getItem("userId");
     axios.get(`http://localhost:8080/getorders/${pranuesId}`).then((res) => {
       setOrdersList(res.data);
     });
   }, []);
 
+  const generatePDFs = async () => {
+    for (const order of ordersList) {
+      try {
+        const response = await axios.post(
+          `http://localhost:8080/generatepdfonly/${order.id}`,
+          { order },
+          { responseType: "blob" }
+        );
 
+        const downloadLink = document.createElement("a");
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
+
+        downloadLink.href = url;
+        downloadLink.setAttribute("download", `invoice_${order.id}.pdf`);
+        downloadLink.click();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    axios.get(`http://localhost:8080/getorders/${pranuesId}`).then((res) => {
+      setOrdersList(res.data);
+    });
+  };
 
   return (
     isClient && (
@@ -55,7 +78,7 @@ const OrdersView = () => {
             variant="contained"
             color="warning"
             sx={{ height: 70 }}
-            onClick={generatePDFs}
+            onClick={generatePDFs} //
           >
             Shkarko Faturat
           </Button>

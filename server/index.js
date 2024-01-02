@@ -641,6 +641,20 @@ app.post("/completeorder/:orderId", async (req, res) => {
   }
 });
 
+app.post("/generatepdfonly/:orderId", async (req, res) => {
+  const { orderId } = req.params;
+
+  try {
+    await createInvoice(orderId, res);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      title: "error",
+      message: "Diçka nuk shkoi mirë me kërkesën",
+    });
+  }
+});
+
 db.sequelize.sync().then((req) => {
   app.listen(port, () => {
     console.log(`Server is running in http://localhost:${port}`);

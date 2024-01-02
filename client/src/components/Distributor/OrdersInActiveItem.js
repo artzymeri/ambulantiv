@@ -12,8 +12,7 @@ import {
 } from "@mui/icons-material";
 import axios from "axios";
 
-
-const OrderItem = (props) => {
+const OrderInActiveItem = (props) => {
   const router = useRouter();
 
   const {
@@ -41,6 +40,25 @@ const OrderItem = (props) => {
     setFormattedCreatedAt(formattedDate);
   }, []);
 
+  const generatePDF = async (order) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/generatepdfonly/${order.id}`,
+        { order },
+        { responseType: "blob" }
+      );
+
+      const downloadLink = document.createElement("a");
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+
+      downloadLink.href = url;
+      downloadLink.setAttribute("download", `invoice_${order.id}.pdf`);
+      downloadLink.click();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     isClient && (
@@ -85,7 +103,9 @@ const OrderItem = (props) => {
           <div className="orders-row-right-r">
             <Tooltip title="Përfundo porosinë">
               <Button
-                onClick={completeOrder}
+                onClick={() => {
+                  generatePDF(props.product);
+                }}
                 variant="outlined"
                 color="warning"
               >
@@ -99,4 +119,4 @@ const OrderItem = (props) => {
   );
 };
 
-export default OrderItem;
+export default OrderInActiveItem;

@@ -5,8 +5,7 @@ import { useRouter } from "next/router";
 import { Clear, Done, Download } from "@mui/icons-material";
 import axios from "axios";
 
-
-const OrderItem = (props) => {
+const OrderActiveItem = (props) => {
   const router = useRouter();
 
   const {
@@ -22,6 +21,8 @@ const OrderItem = (props) => {
     createdAt,
   } = props.product;
 
+  const { triggerUseEffect, updateStateInSideBar } = props;
+
   const [isClient, setIsClient] = useState(false);
 
   const [formattedCreatedAt, setFormattedCreatedAt] = useState(null);
@@ -33,6 +34,28 @@ const OrderItem = (props) => {
 
     setFormattedCreatedAt(formattedDate);
   }, []);
+
+  const completeOrder = async (order) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/completeorder/${order.id}`,
+        { order },
+        { responseType: "blob" }
+      );
+
+      const downloadLink = document.createElement("a");
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+
+      downloadLink.href = url;
+      downloadLink.setAttribute("download", `invoice_${order.id}.pdf`);
+      downloadLink.click();
+    } catch (error) {
+      console.error(error);
+    }
+    triggerUseEffect();
+    updateStateInSideBar(1);
+  };
 
   return (
     isClient && (
@@ -77,7 +100,9 @@ const OrderItem = (props) => {
           <div className="orders-row-right-r">
             <Tooltip title="Përfundo porosinë">
               <Button
-                // onClick={completeOrder}
+                onClick={() => {
+                  completeOrder(props.product);
+                }}
                 variant="outlined"
                 color="warning"
               >
@@ -91,4 +116,4 @@ const OrderItem = (props) => {
   );
 };
 
-export default OrderItem;
+export default OrderActiveItem;
