@@ -5,6 +5,10 @@ function generateHr(doc, y) {
   doc.strokeColor("#aaaaaa").lineWidth(1).moveTo(50, y).lineTo(560, y).stroke();
 }
 
+function generateHr2(doc, y) {
+  doc.strokeColor("#aaaaaa").lineWidth(5).moveTo(50, y).lineTo(560, y).stroke();
+}
+
 function generateBackground(doc, x, y, width, height, color) {
   doc.fillColor(color).rect(x, y, width, height).fill();
 }
@@ -44,8 +48,8 @@ function generateTableRowHeader(doc, y, c1, c2, c3, c4) {
   doc
     .fontSize(11)
     .text(c1, 50, y)
-    .text(c2, 200, y)
-    .text(c3, 330, y)
+    .text(c2, 280, y)
+    .text(c3, 380, y)
     .text(c4, 480, y);
 
   generateHr(doc, 280);
@@ -57,9 +61,47 @@ function generateTableRowContent(doc, theOrder) {
   doc
     .fontSize(10)
     .text(orderValues.productName, 50, 310)
-    .text(orderValues.productPrice, 200, 310)
-    .text(orderValues.productQuantity, 330, 310)
-    .text(orderValues.productTotalPrice, 480, 310);
+    .text(`${orderValues.productPrice}€`, 280, 310)
+    .text(orderValues.productQuantity, 380, 310)
+    .text(`${orderValues.productTotalPrice}€`, 480, 310);
+
+  generateHr2(doc, 330);
+}
+
+function generateTableTotalPrice(doc, theOrder) {
+  const orderValues = theOrder.dataValues;
+  doc
+    .font("Helvetica")
+    .fontSize(10)
+    .text("Totali i Faturës është:", 400, 360)
+    .fontSize(15)
+    .font("Helvetica-Bold")
+    .text(`${orderValues.productTotalPrice}€`, 500, 357)
+    .font("Helvetica")
+    .fontSize(10)
+    .text("Vlera e TVSH (në përqindje):", 367, 385)
+    .font("Helvetica")
+    .fontSize(13)
+    .text("15%", 500, 383)
+    .font("Helvetica")
+    .fontSize(10)
+    .text("Totali Faturës pas TVSH:", 385, 410)
+    .font("Helvetica-Bold")
+    .fontSize(15)
+    .text(`${(orderValues.productTotalPrice * 0.85).toFixed(2)}€`, 500, 407);
+}
+
+function generateFooterDisclaimer(doc, theOrder) {
+  const orderValues = theOrder.dataValues;
+  doc
+    .font("Helvetica")
+    .fontSize(9)
+    .text(
+      "Kjo faturë eshtë përpiluar në kuadër të softuerit/uebfaqes E-Commerce Kosova",
+      50,
+      730,
+      { align: "center" }
+    );
 }
 
 function createInvoice(orderId, theOrder, res) {
@@ -69,6 +111,7 @@ function createInvoice(orderId, theOrder, res) {
     generateHeader(doc, theOrder);
     generateBackground(doc, 50, 110, 510, 110, "#DDDDDD");
     generateCustomerInformation(doc, theOrder);
+
     generateTableRowHeader(
       doc,
       260,
@@ -78,6 +121,8 @@ function createInvoice(orderId, theOrder, res) {
       "Totali i vlerës"
     );
     generateTableRowContent(doc, theOrder);
+    generateTableTotalPrice(doc, theOrder);
+    generateFooterDisclaimer(doc, theOrder);
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
