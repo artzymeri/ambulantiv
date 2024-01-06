@@ -14,40 +14,6 @@ const ProductCard = (props) => {
 
   const { updateLocalStorage, activateSnackbar } = props;
 
-  const updateCartItems = () => {
-    const newProduct = {
-      id: id,
-      name: name,
-      price: price,
-      weight: weight,
-      quantity: number,
-      distributor: distributor,
-      photo: photo,
-      client: localStorage.getItem("companyname"),
-    };
-
-    // Get existing cart products from local storage
-    const existingCartProducts = storedCartProducts
-      ? JSON.parse(
-          localStorage.getItem(
-            `clientId:${localStorage.getItem("userId")}/cartProducts`
-          )
-        )
-      : [];
-
-    // Add the new product to the array
-    const updatedCartProducts = [...existingCartProducts, newProduct];
-
-    // Update local storage with the updated array
-    localStorage.setItem(
-      `clientId:${localStorage.getItem("userId")}/cartProducts`,
-      JSON.stringify(updatedCartProducts)
-    );
-
-    // Update the state
-    setCartProducts(updatedCartProducts);
-  };
-
   const storedCartProducts = localStorage.getItem(
     `clientId:${localStorage.getItem("userId")}/cartProducts`
   );
@@ -114,6 +80,76 @@ const ProductCard = (props) => {
         );
       }
     }
+
+    const updateCartItems = () => {
+      if (discounted) {
+        const newProduct = {
+          id: id,
+          name: name,
+          price: (price - (price * discountedPercentage) / 100).toFixed(2),
+          weight: weight,
+          quantity: number,
+          distributor: distributor,
+          photo: photo,
+          client: localStorage.getItem("companyname"),
+          discounted: discounted,
+        };
+
+        // Get existing cart products from local storage
+        const existingCartProducts = storedCartProducts
+          ? JSON.parse(
+              localStorage.getItem(
+                `clientId:${localStorage.getItem("userId")}/cartProducts`
+              )
+            )
+          : [];
+
+        // Add the new product to the array
+        const updatedCartProducts = [...existingCartProducts, newProduct];
+
+        // Update local storage with the updated array
+        localStorage.setItem(
+          `clientId:${localStorage.getItem("userId")}/cartProducts`,
+          JSON.stringify(updatedCartProducts)
+        );
+
+        // Update the state
+        setCartProducts(updatedCartProducts);
+      } else {
+        const newProduct = {
+          id: id,
+          name: name,
+          price: price,
+          weight: weight,
+          quantity: number,
+          distributor: distributor,
+          photo: photo,
+          client: localStorage.getItem("companyname"),
+          discounted: discounted,
+        };
+
+        // Get existing cart products from local storage
+        const existingCartProducts = storedCartProducts
+          ? JSON.parse(
+              localStorage.getItem(
+                `clientId:${localStorage.getItem("userId")}/cartProducts`
+              )
+            )
+          : [];
+
+        // Add the new product to the array
+        const updatedCartProducts = [...existingCartProducts, newProduct];
+
+        // Update local storage with the updated array
+        localStorage.setItem(
+          `clientId:${localStorage.getItem("userId")}/cartProducts`,
+          JSON.stringify(updatedCartProducts)
+        );
+
+        // Update the state
+        setCartProducts(updatedCartProducts);
+      }
+    };
 
     return (
       <ButtonGroup
@@ -279,7 +315,9 @@ const ProductCard = (props) => {
           </div>
           <div className="product-card-text-down">
             <div className="discounted-before-price">{price}</div>
-            <h2>{price - (price * discountedPercentage) / 100}€</h2>
+            <h2>
+              {(price - (price * discountedPercentage) / 100).toFixed(2)}€
+            </h2>
             {buttonsGroup()}
           </div>
         </div>

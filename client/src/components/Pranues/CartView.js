@@ -14,12 +14,29 @@ const CartItem = dynamic(() => import("@/components/Pranues/CartItem"), {
 const CartView = () => {
   const [isClient, setIsClient] = useState(false);
 
+  useEffect(() => {
+    setIsClient(true);
+    axios.get("http://localhost:8080/getlistedproducts").then((res) => {
+      setListedProducts(res.data);
+    });
+  }, []);
+
+  
+
   const [cartProductsList, setCartProductsList] = useState(
     JSON.parse(
       localStorage.getItem(
         `clientId:${localStorage.getItem("userId")}/cartProducts`
       )
     ) || []
+  );
+
+  console.log(
+    JSON.parse(
+      localStorage.getItem(
+        `clientId:${localStorage.getItem("userId")}/cartProducts`
+      )
+    )
   );
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -50,13 +67,6 @@ const CartView = () => {
     });
     setSnackbarOpen(true);
   };
-
-  useEffect(() => {
-    setIsClient(true);
-    axios.get("http://localhost:8080/getlistedproducts").then((res) => {
-      setListedProducts(res.data);
-    });
-  }, []);
 
   const giveParentTheNewProducts = (updatedCartItems) => {
     setCartProductsList(updatedCartItems);

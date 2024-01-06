@@ -8,7 +8,7 @@ import styled from "@emotion/styled";
 const CartItem = (props) => {
   const [isClient, setIsClient] = useState(false);
 
-  const { id, name, price, weight, quantity, distributor, photo } =
+  const { id, name, price, weight, quantity, distributor, photo, discounted } =
     props.product;
 
   const { disabled } = props;
@@ -26,6 +26,7 @@ const CartItem = (props) => {
       distributor: distributor,
       client: localStorage.getItem("companyname"),
       photo: photo,
+      discounted: discounted,
     };
 
     const existingCartProducts =
@@ -116,6 +117,7 @@ const CartItem = (props) => {
           <div className="cart-item-left-side-r">
             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
               <h4>{name} </h4>
+              {discounted && <h5>Në zbritje</h5>}
               {disabled ? (
                 <Tooltip title="Nuk ka sasi furnizuese për këtë produkt momentalisht">
                   <span

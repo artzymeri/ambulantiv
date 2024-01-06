@@ -1,5 +1,5 @@
 TODO:
-
+---------------------------------------------------------------------------------------------------------------------------
 [X] - ADD A DELETE BUTTON ON LISTS OF PRODUCTS
 [X] - ADD EDIT FUNCTIONALITY FOR PRODUCTS
 [X] - FIX THE EDIT IMAGE OF PRODUCT ON EDITING PRODUCT TAB
