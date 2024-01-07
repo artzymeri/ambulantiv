@@ -9,6 +9,7 @@ const { createInvoice, sendInvoiceFile } = require("./createinvoice.js");
 const fs = require("fs");
 const PDFDocument = require("pdfkit");
 const cookieParser = require("cookie-parser");
+const nodemailer = require("nodemailer");
 
 const {
   users_table,
@@ -28,6 +29,22 @@ app.use(bodyParser.json());
 const db = require("./models");
 
 const port = 8080;
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "ecommerce.kosova.info@gmail.com",
+    pass: "pcud bwtu hdgb wfzs",
+  },
+});
+
+// Define the email content
+const mailOptions = {
+  from: "ecommerce.kosova.info@gmail.com",
+  to: "artzymeri2001@gmail.com",
+  subject: "Test Subject",
+  text: "Hello, this is a test email!",
+};
 
 app.get("/getlistedproducts", async (req, res) => {
   try {
@@ -561,7 +578,9 @@ app.post("/sendorder", async (req, res) => {
       clientName,
       clientCompanyname,
       clientCompanyAddress,
+      clientEmailAddress,
       distributorCompanyAddress,
+      distributorEmailAddress,
     } = req.body;
 
     await orders_table.create({
@@ -580,6 +599,42 @@ app.post("/sendorder", async (req, res) => {
     });
 
     const allOrdersData = await orders_table.findAll();
+
+    transporter.sendMail(
+      {
+        from: "ecommerce.kosova.info@gmail.com",
+        to: `${distributorEmailAddress}`,
+        subject: "Keni porosi të re!",
+        text: `Keni porosi për ${quantity} ${name} nga ${clientName}.
+Kliko këtu për të shikuar porositë e juaja aktive : http://localhost:3000/distributor/orders
+        `,
+      },
+      (error, info) => {
+        if (error) {
+          console.error("Error sending email:", error);
+        } else {
+          console.log("Email sent successfully:", info.response);
+        }
+      }
+    );
+
+    transporter.sendMail(
+      {
+        from: "ecommerce.kosova.info@gmail.com",
+        to: `${clientEmailAddress}`,
+        subject: "Porosia juaj u dërgua me sukses!",
+        text: `Porosia juaj për ${quantity} ${name} nga ${distributor}.
+Kliko këtu për të shikuar historikun e porosive tuaja : http://localhost:3000/pranues/orders
+        `,
+      },
+      (error, info) => {
+        if (error) {
+          console.error("Error sending email:", error);
+        } else {
+          console.log("Email sent successfully:", info.response);
+        }
+      }
+    );
 
     res.json({
       title: "success",
