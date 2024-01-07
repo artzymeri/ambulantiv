@@ -21,8 +21,6 @@ const CartView = () => {
     });
   }, []);
 
-  
-
   const [cartProductsList, setCartProductsList] = useState(
     JSON.parse(
       localStorage.getItem(
@@ -98,14 +96,17 @@ const CartView = () => {
           )
           .then((res) => {
             const distributorCompanyAddress = res.data[0].address;
+            const distributorEmailAddress = res.data[0].emailAddress;
             axios
               .post("http://localhost:8080/sendorder", {
                 product,
                 distributorCompanyAddress,
+                distributorEmailAddress,
                 clientId: localStorage.getItem("userId"),
                 clientName: localStorage.getItem("namesurname"),
                 clientCompanyname: localStorage.getItem("companyname"),
                 clientCompanyAddress: localStorage.getItem("companyAddress"),
+                clientEmailAddress: localStorage.getItem("emailaddress"),
               })
               .then((res) => {
                 const { title, message } = res.data;

@@ -117,7 +117,28 @@ const CartItem = (props) => {
           <div className="cart-item-left-side-r">
             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
               <h4>{name} </h4>
-              {discounted && <h5>Në zbritje</h5>}
+              {discounted && (
+                <Tooltip title="Produkti i zgjedhur ka çmim në zbritje">
+                  <div
+                    style={{
+                      padding: "3px 7px",
+                      borderRadius: "20px",
+                      background: "red",
+                      color: "white",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontSize: "12px",
+                      fontWeight: "700",
+                      boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
+                      marginLeft: "3px",
+                      cursor: "help",
+                    }}
+                  >
+                    Në Zbritje
+                  </div>
+                </Tooltip>
+              )}
               {disabled ? (
                 <Tooltip title="Nuk ka sasi furnizuese për këtë produkt momentalisht">
                   <span

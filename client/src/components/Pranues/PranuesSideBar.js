@@ -45,6 +45,7 @@ const PranuesSideBar = (props) => {
     localStorage.removeItem("phonenumber");
     localStorage.removeItem("companyname");
     localStorage.removeItem("companyAddress");
+    localStorage.removeItem("namesurname");
     router.push("/auth/login");
   };
 
