@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartitem.css";
 import { Tooltip, tooltipClasses } from "@mui/material";
-import { Add, Remove } from "@mui/icons-material";
+import { Add, Discount, Percent, Remove } from "@mui/icons-material";
 import stateStorage from "@/store";
 import styled from "@emotion/styled";
 
@@ -121,8 +121,8 @@ const CartItem = (props) => {
                 <Tooltip title="Produkti i zgjedhur ka çmim në zbritje">
                   <div
                     style={{
-                      padding: "3px 7px",
-                      borderRadius: "20px",
+                      padding: "3px",
+                      borderRadius: "50%",
                       background: "red",
                       color: "white",
                       display: "flex",
@@ -133,9 +133,11 @@ const CartItem = (props) => {
                       boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
                       marginLeft: "3px",
                       cursor: "help",
+                      width: "20px",
+                      height: "20px",
                     }}
                   >
-                    Në Zbritje
+                    <Percent sx={{ height: "15px", fontWeight: "bold" }} />
                   </div>
                 </Tooltip>
               )}
