@@ -302,6 +302,7 @@ const ProfileView = (props) => {
             alignItems: "center",
             display: "flex",
             justifyContent: "center",
+            overflow: "clip",
           }}
         >
           <Box

@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
-import { Menu } from "@mui/material";
 import React, { useState } from "react";
 import Head from "next/head";
+import { Menu } from "@mui/icons-material";
 
 const AuthenticatorChecker = dynamic(
   () => import("@/components/Checkers/AuthenticatorChecker"),
@@ -46,10 +46,10 @@ const Profile = () => {
               display: "flex",
               width: "100vw",
               height: "100vh",
-              overflow: "clip",
+              overflowX: "clip",
             }}
           >
-            <PranuesSideBar />
+            <PranuesSideBar display={display} closeSidebar={closeSidebar} />
             <div
               style={{
                 display: "flex",

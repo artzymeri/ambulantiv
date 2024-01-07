@@ -177,12 +177,22 @@
   background-color: rgba(255, 255, 255, 0.4) !important;
 }
 
-.sidebar-pranues-fullscreen-logout {
+.sidebar-pranues-fullscreen-bottom {
   position: absolute;
   bottom: 10px;
-  transform: translate(-50%, 0%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   width: calc(100% - 20px);
-  padding: 10px;
+}
+
+.sidebar-pranues-fullscreen-cart-profile-wrapper {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.sidebar-pranues-fullscreen-bottom-element {
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.2);
   color: whitesmoke;
@@ -195,6 +205,24 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  flex-grow: 1;
+  padding: 10px;
+}
+
+.sidebar-pranues-fullscreen-logout {
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: whitesmoke;
+  border: 0px none transparent;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+  transition: 0.1s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
 }
 
 .sidebar-pranues-fullscreen-logout:hover {

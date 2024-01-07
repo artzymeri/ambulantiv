@@ -186,7 +186,41 @@ const PranuesSideBar = (props) => {
               </h5>
             ))}
           </div>
-          <div>
+          <div className="sidebar-pranues-fullscreen-bottom">
+            <div className="sidebar-pranues-fullscreen-cart-profile-wrapper">
+              <button
+                className="sidebar-pranues-fullscreen-bottom-element"
+                onClick={() => {
+                  router.push("/pranues/profile");
+                }}
+              >
+                <AccountCircle /> Profili
+              </button>
+              {stateStorage.cartItems && stateStorage.cartItems.length > 0 ? (
+                <button
+                  className="sidebar-pranues-fullscreen-bottom-element"
+                  onClick={() => {
+                    router.push("/pranues/cart");
+                  }}
+                >
+                  <ShoppingBag />
+                  Shporta
+                  <span className="sidebar-pranues-wide-cart-notify">
+                    {stateStorage.cartItems.length}
+                  </span>
+                </button>
+              ) : (
+                <button
+                  className="sidebar-pranues-fullscreen-bottom-element"
+                  onClick={() => {
+                    router.push("/pranues/cart");
+                  }}
+                >
+                  <ShoppingBag />
+                  Shporta
+                </button>
+              )}
+            </div>
             <button
               className="sidebar-pranues-fullscreen-logout"
               onClick={logout}
