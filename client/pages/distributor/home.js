@@ -50,55 +50,42 @@ const DistributorHome = () => {
       </Head>
       <AuthenticatorChecker>
         <DistributorChecker>
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              height: "100%",
-            }}
-          >
+          <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
             <DistributorSideBar display={display} closeSidebar={closeSidebar} />
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-between",
-                height: "100vh",
+                // padding: "30px",
+                gap: "15px",
+                background: "whitesmoke",
                 width: "100%",
               }}
             >
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
                   width: "100%",
+                  background: "white",
+                  display: "flex",
+                  gap: "10px",
+                  border: "1px solid lightgray",
+                  borderTop: "0px",
+                  borderLeft: "0px",
+                  borderRight: "0px",
+                  flexShrink: "0",
+                  zIndex: "999",
+                  height: "70px",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "1.17em",
+                  fontWeight: "800",
+                  color: "rgb(130, 30, 30)",
                 }}
               >
-                <div
-                  style={{
-                    width: "100%",
-                    background: "white",
-                    display: "flex",
-                    gap: "10px",
-                    border: "1px solid lightgray",
-                    borderTop: "0px",
-                    borderLeft: "0px",
-                    borderRight: "0px",
-                    flexShrink: "0",
-                    zIndex: "999",
-                    height: "70px",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: "1.17em",
-                    fontWeight: "800",
-                    color: "rgb(130, 30, 30)",
-                  }}
-                >
-                  <Home sx={{ marginBottom: "2px" }} />
-                  Ballina
-                </div>
-                <DistributorHomeView />
+                <Home sx={{ marginBottom: "2px" }} />
+                Ballina
               </div>
+              <DistributorHomeView />
               <div className="sidebar-distributor-trigger-wrapper">
                 <button
                   className="sidebar-distributor-trigger-button shadow-one"

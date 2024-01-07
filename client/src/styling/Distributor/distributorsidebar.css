@@ -150,8 +150,10 @@
   width: 100vw;
   height: 100vh;
   position: absolute;
-  z-index: 999;
+  z-index: 99999;
   padding: 10px;
+  top: 0;
+  left: 0;
   transition: 0.2s ease-in-out;
 }
 
@@ -191,6 +193,7 @@
   border-radius: 10px;
   cursor: pointer;
   transition: 0.1s ease-in-out;
+  position: relative;
 }
 
 .sidebar-distributor-fullscreen-navbuttons h5:hover {
@@ -200,7 +203,7 @@
 .sidebar-distributor-fullscreen-logout {
   position: absolute;
   bottom: 10px;
-  transform: translate(0%, -50%);
+  transform: translate(-50%, 0%);
   width: calc(100% - 20px);
   padding: 10px;
   border-radius: 10px;
