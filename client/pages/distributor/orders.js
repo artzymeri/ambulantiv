@@ -1,3 +1,4 @@
+import { Menu } from "@mui/icons-material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import React, { useState } from "react";
@@ -31,6 +32,16 @@ const OrdersView = dynamic(
 );
 
 const Orders = () => {
+  const [display, setDisplay] = useState("none");
+
+  const openSidebar = () => {
+    setDisplay("flex");
+  };
+
+  const closeSidebar = () => {
+    setDisplay("none");
+  };
+
   const [someState, setSomeState] = useState(1);
 
   // Callback function to be passed to OrdersView
@@ -51,11 +62,38 @@ const Orders = () => {
               display: "flex",
               width: "100vw",
               height: "100vh",
-              overflow: "clip",
+              overflowX: "clip",
             }}
           >
-            <DistributorSideBar someState={someState} />
-            <OrdersView updateStateInSideBar={updateStateInSideBar} />
+            <DistributorSideBar
+              someState={someState}
+              display={display}
+              closeSidebar={closeSidebar}
+            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+              }}
+            >
+              <OrdersView updateStateInSideBar={updateStateInSideBar} />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: "15px 30px",
+                }}
+              >
+                <button
+                  className="sidebar-distributor-trigger-button shadow-one"
+                  onClick={openSidebar}
+                >
+                  <Menu style={{ color: "white" }} />
+                </button>
+              </div>
+            </div>
           </div>
         </DistributorChecker>
       </AuthenticatorChecker>

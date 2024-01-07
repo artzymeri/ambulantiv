@@ -11,9 +11,10 @@ const OrdersView = () => {
 
   const [ordersList, setOrdersList] = useState([]);
 
+  const distributorCompanyName = localStorage.getItem("companyname");
+
   useEffect(() => {
     setIsClient(true);
-    const distributorCompanyName = localStorage.getItem("companyname");
     axios
       .get(
         `http://localhost:8080/getinactiveordersfromdistributor/${distributorCompanyName}`
@@ -43,9 +44,13 @@ const OrdersView = () => {
         console.error(error);
       }
     }
-    axios.get(`http://localhost:8080/getorders/${pranuesId}`).then((res) => {
-      setOrdersList(res.data);
-    });
+    axios
+      .get(
+        `http://localhost:8080/getinactiveordersfromdistributor/${distributorCompanyName}`
+      )
+      .then((res) => {
+        setOrdersList(res.data);
+      });
   };
 
   return (

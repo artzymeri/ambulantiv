@@ -193,7 +193,7 @@ const CompanyListedProducts = () => {
               <div
                 style={{
                   display: "flex",
-                  padding: "30px",
+                  padding: "15px 30px",
                   flexDirection: "column",
                   gap: "15px",
                   flexGrow: 1,

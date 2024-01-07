@@ -100,7 +100,7 @@ const OrdersView = ({ updateStateInSideBar }) => {
           <Button
             variant="contained"
             color="warning"
-            sx={{ height: 70 }}
+            sx={{ height: 70, flexShrink: "0" }}
             onClick={completeAllOrders}
           >
             Përfundo gjitha Porositë
