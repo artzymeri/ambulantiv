@@ -125,7 +125,7 @@
   display: none;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(80, 80, 80);
+  background-color: rgb(130, 30, 30);
   backdrop-filter: blur(7px);
   width: 100vw;
   height: 100vh;
@@ -180,7 +180,7 @@
 .sidebar-pranues-fullscreen-logout {
   position: absolute;
   bottom: 10px;
-  transform: translate(0%, -50%);
+  transform: translate(-50%, 0%);
   width: calc(100% - 20px);
   padding: 10px;
   border-radius: 10px;
@@ -219,7 +219,7 @@
   height: 50px;
   width: 100%;
   border-radius: 25px;
-  background-color: rgb(80, 80, 80);
+  background-color: rgb(130, 30, 30);
   flex-shrink: 0;
   border: 0px solid transparent;
 }

@@ -20,7 +20,15 @@ const ProductsView = (props) => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        overflowY: "auto",
+        overflowX: "clip",
+      }}
+    >
       <ProductsNavbar
         changeSearchQuery={changeSearchQuery}
         companyname={companyname}

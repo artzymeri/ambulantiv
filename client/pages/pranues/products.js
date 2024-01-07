@@ -1,6 +1,8 @@
+import { Menu } from "@mui/icons-material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
+import "@/styling/Pranues/pranuessidebar.css";
 
 const AuthenticatorChecker = dynamic(
   () => import("@/components/Checkers/AuthenticatorChecker"),
@@ -22,6 +24,15 @@ const ProductsView = dynamic(() => import("@/components/ProductsView"), {
 });
 
 const Products = () => {
+  const [display, setDisplay] = useState("none");
+
+  const openSidebar = () => {
+    setDisplay("flex");
+  };
+
+  const closeSidebar = () => {
+    setDisplay("none");
+  };
   return (
     <>
       <Head>
@@ -35,11 +46,31 @@ const Products = () => {
               display: "flex",
               width: "100vw",
               height: "100vh",
-              overflow: "clip",
+              overflowX: "clip",
             }}
           >
-            <PranuesSideBar />
-            <ProductsView allProducts={true} />
+            <PranuesSideBar display={display} closeSidebar={closeSidebar} />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "100vh",
+                width: "100%",
+                overflowX: "clip",
+                background: "whitesmoke",
+              }}
+            >
+              <ProductsView allProducts={true} />
+              <div className="sidebar-pranues-trigger-wrapper">
+                <button
+                  className="sidebar-pranues-trigger-button shadow-one"
+                  onClick={openSidebar}
+                >
+                  <Menu style={{ color: "white" }} />
+                </button>
+              </div>
+            </div>
           </div>
         </PranuesChecker>
       </AuthenticatorChecker>
