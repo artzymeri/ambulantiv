@@ -11,8 +11,6 @@
   flex-shrink: 0;
 }
 
-
-
 .sidebar-distributor-wide-title {
   display: flex;
   justify-content: center;
@@ -145,7 +143,7 @@
   display: none;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(80 , 80, 80);
+  background-color: rgb(80, 80, 80);
   backdrop-filter: blur(7px);
   width: 100vw;
   height: 100vh;
@@ -294,14 +292,14 @@
   padding: 15px 30px;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 1000px) {
   .sidebar-fullscreen {
     opacity: 0;
     pointer-events: none;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1000px) {
   .sidebar-distributor-wide {
     display: none;
   }

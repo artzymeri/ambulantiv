@@ -266,14 +266,14 @@
   width: 20px;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 1000px) {
   .sidebar-fullscreen {
     opacity: 0;
     pointer-events: none;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1000px) {
   .sidebar-pranues-wide {
     display: none;
   }

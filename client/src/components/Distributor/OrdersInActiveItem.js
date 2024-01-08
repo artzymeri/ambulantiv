@@ -53,7 +53,10 @@ const OrderInActiveItem = (props) => {
       const url = URL.createObjectURL(blob);
 
       downloadLink.href = url;
-      downloadLink.setAttribute("download", `Fatura ${order.productName} ${order.createdAt}.pdf`);
+      downloadLink.setAttribute(
+        "download",
+        `Fatura ${order.productName} ${order.createdAt}.pdf`
+      );
       downloadLink.click();
     } catch (error) {
       console.error(error);
@@ -69,7 +72,6 @@ const OrderInActiveItem = (props) => {
           </div>
           <div className="orders-row-left-r">
             <h5>
-              Emri i produktit:{" "}
               <span style={{ fontSize: "16px" }}> {productName} </span>
             </h5>
             <h5>

@@ -178,7 +178,12 @@ const CartItem = (props) => {
         <div className="cart-item-right-side">
           <div className="cart-item-right-side-l">
             <h5>{price}€</h5>
-            <span style={{ fontSize: "13px", fontWeight: "bold" }}>x</span>
+            <span
+              className="multiplier"
+              style={{ fontSize: "13px", fontWeight: "bold" }}
+            >
+              x
+            </span>
             <div className="increase-decrease-container-cart">
               {number < 2 ? (
                 <span className="increase-decrease-buttons-cart cursor-disabled">
