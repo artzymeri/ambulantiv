@@ -8,8 +8,17 @@ import styled from "@emotion/styled";
 const CartItem = (props) => {
   const [isClient, setIsClient] = useState(false);
 
-  const { id, name, price, weight, quantity, distributor, photo, discounted } =
-    props.product;
+  const {
+    id,
+    name,
+    price,
+    weight,
+    quantity,
+    distributor,
+    photo,
+    discounted,
+    discountedPercentage,
+  } = props.product;
 
   const { disabled } = props;
 
@@ -27,6 +36,7 @@ const CartItem = (props) => {
       client: localStorage.getItem("companyname"),
       photo: photo,
       discounted: discounted,
+      discountedPercentage: discountedPercentage,
     };
 
     const existingCartProducts =

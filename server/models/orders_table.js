@@ -92,6 +92,22 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    discounted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    discountedPercentage: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: true,
+      validate: {
+        notEmpty: false,
+      },
+    },
   });
   return orders_table;
 };

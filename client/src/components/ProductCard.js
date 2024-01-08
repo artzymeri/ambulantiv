@@ -8,6 +8,20 @@ import { observer } from "mobx-react";
 import { useRouter } from "next/router";
 
 const ProductCard = (props) => {
+  const {
+    photo,
+    price,
+    name,
+    weight,
+    distributor,
+    id,
+    outOfStock,
+    discounted,
+    discountedPercentage,
+  } = props.product;
+
+  console.log(discountedPercentage);
+
   const [isClient, setIsClient] = useState(false);
 
   const router = useRouter();
@@ -34,18 +48,6 @@ const ProductCard = (props) => {
     updateLocalStorage(cartProducts);
     stateStorage.updateCartItems();
   }, [cartProducts]);
-
-  const {
-    photo,
-    price,
-    name,
-    weight,
-    distributor,
-    id,
-    outOfStock,
-    discounted,
-    discountedPercentage,
-  } = props.product;
 
   const getLocalStorageQuantity = (id) => {
     return localStorage.getItem(id);
@@ -93,6 +95,7 @@ const ProductCard = (props) => {
           photo: photo,
           client: localStorage.getItem("companyname"),
           discounted: discounted,
+          discountedPercentage: discountedPercentage,
         };
 
         // Get existing cart products from local storage
@@ -126,6 +129,7 @@ const ProductCard = (props) => {
           photo: photo,
           client: localStorage.getItem("companyname"),
           discounted: discounted,
+          discountedPercentage: discountedPercentage,
         };
 
         // Get existing cart products from local storage

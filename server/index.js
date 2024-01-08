@@ -570,8 +570,17 @@ app.post("/changepassword/:userId", async (req, res) => {
 
 app.post("/sendorder", async (req, res) => {
   try {
-    const { name, price, totalPrice, weight, quantity, photo, distributor } =
-      req.body.product;
+    const {
+      name,
+      price,
+      totalPrice,
+      weight,
+      quantity,
+      photo,
+      distributor,
+      discounted,
+      discountedPercentage,
+    } = req.body.product;
 
     const {
       clientId,
@@ -596,6 +605,8 @@ app.post("/sendorder", async (req, res) => {
       productClientName: clientName,
       productClientCompanyName: clientCompanyname,
       productClientCompanyAddress: clientCompanyAddress,
+      discounted: discounted,
+      discountedPercentage: discountedPercentage,
     });
 
     const allOrdersData = await orders_table.findAll();

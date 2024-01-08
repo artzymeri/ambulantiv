@@ -60,8 +60,20 @@ function generateTableRowContent(doc, theOrder) {
   doc.font("Helvetica");
   doc
     .fontSize(10)
-    .text(orderValues.productName, 50, 310)
-    .text(`${orderValues.productPrice}€`, 280, 310)
+    .text(
+      `${orderValues.productName}` +
+        (orderValues.discounted ? " (Në zbritje)" : ""),
+      50,
+      310
+    )
+    .text(
+      `${orderValues.productPrice}€` +
+        (orderValues.discounted
+          ? ` -(${orderValues.discountedPercentage}%)`
+          : ""),
+      280,
+      310
+    )
     .text(orderValues.productQuantity, 380, 310)
     .text(`${orderValues.productTotalPrice}€`, 480, 310);
 
@@ -127,7 +139,9 @@ function createInvoice(orderId, theOrder, res) {
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
-      `attachment; filename=Fatura ${theOrder.dataValues.productName} ${theOrder.dataValues.createdAt.toLocaleDateString("en-GB")}.pdf`
+      `attachment; filename=Fatura ${
+        theOrder.dataValues.productName
+      } ${theOrder.dataValues.createdAt.toLocaleDateString("en-GB")}.pdf`
     );
 
     doc.pipe(res);
