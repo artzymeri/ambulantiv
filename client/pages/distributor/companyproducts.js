@@ -117,6 +117,8 @@ const CompanyListedProducts = () => {
       distributor: product.distributor,
       photo: product.photo,
       outOfStock: product.outOfStock,
+      discounted: product.discounted,
+      discountedPercentage: product.discountedPercentage
     });
   };
 

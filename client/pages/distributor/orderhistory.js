@@ -68,12 +68,7 @@ const OrdersHistory = () => {
             >
               <OrdersHistoryView />
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: "15px 30px",
-                }}
+                className="sidebar-distributor-button-container"
               >
                 <button
                   className="sidebar-distributor-trigger-button shadow-one"

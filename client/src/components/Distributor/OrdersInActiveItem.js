@@ -53,7 +53,7 @@ const OrderInActiveItem = (props) => {
       const url = URL.createObjectURL(blob);
 
       downloadLink.href = url;
-      downloadLink.setAttribute("download", `invoice_${order.id}.pdf`);
+      downloadLink.setAttribute("download", `Fatura ${order.productName} ${order.createdAt}.pdf`);
       downloadLink.click();
     } catch (error) {
       console.error(error);

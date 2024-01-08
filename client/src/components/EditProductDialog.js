@@ -69,6 +69,7 @@ const EditProductDialog = (props) => {
       setDistributorsData(res.data);
     });
     setLocalOpenDialog(openDialog);
+    console.log(editedProductData);
   }, [editedProductData, openDialog]);
 
   const [editedProduct, setEditedProduct] = useState({
@@ -98,6 +99,28 @@ const EditProductDialog = (props) => {
   const [localOpenDialog, setLocalOpenDialog] = useState(openDialog);
 
   const handleEditProduct = () => {
+    if (
+      editedProduct.name == null ||
+      editedProduct.name == "" ||
+      editedProduct.category == null ||
+      editedProduct.category == "" ||
+      editedProduct.price == null ||
+      editedProduct.price == "" ||
+      editedProduct.weight == null ||
+      editedProduct.weight == "" ||
+      editedProduct.photo == null ||
+      editedProduct.photo == ""
+    ) {
+      window.alert("Mbushni të gjitha rubrikat");
+      return;
+    } else if (
+      editedProduct.discounted == true &&
+      (editedProduct.discountedPercentage == null ||
+        editedProduct.discountedPercentage == "")
+    ) {
+      window.alert("Cakto perqindjen e aksionit");
+      return;
+    }
     axios
       .post(`http://localhost:8080/editproduct/${editedProduct.id}`, {
         editedProduct,

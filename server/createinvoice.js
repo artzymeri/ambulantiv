@@ -127,7 +127,7 @@ function createInvoice(orderId, theOrder, res) {
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
-      `attachment; filename=invoice_${orderId}.pdf`
+      `attachment; filename=Fatura ${theOrder.dataValues.productName} ${theOrder.dataValues.createdAt.toLocaleDateString("en-GB")}.pdf`
     );
 
     doc.pipe(res);
@@ -142,30 +142,6 @@ function createInvoice(orderId, theOrder, res) {
     });
   });
 }
-
-// function sendInvoiceFile(orderId, res) {
-//   const filePath = `./output_${orderId}.pdf`; // Adjust filename using orderId
-
-//   // Ensure file exists before attempting to read it
-//   if (fs.existsSync(filePath)) {
-//     const file = fs.createReadStream(filePath);
-//     const stat = fs.statSync(filePath);
-
-//     res.setHeader("Content-Length", stat.size);
-//     res.setHeader("Content-Type", "application/pdf");
-//     res.setHeader(
-//       "Content-Disposition",
-//       `attachment; filename=invoice_${orderId}.pdf`
-//     );
-
-//     file.pipe(res);
-//   } else {
-//     res.status(404).json({
-//       title: "error",
-//       message: "File not found",
-//     });
-//   }
-// }
 
 module.exports = {
   createInvoice,

@@ -287,6 +287,13 @@
   width: 20px;
 }
 
+.sidebar-distributor-button-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 30px;
+}
+
 @media (min-width: 600px) {
   .sidebar-fullscreen {
     opacity: 0;
@@ -302,6 +309,9 @@
     display: flex;
   }
   .sidebar-distributor-trigger-wrapper {
+    display: flex;
+  }
+  .sidebar-distributor-button-container {
     display: flex;
   }
 }

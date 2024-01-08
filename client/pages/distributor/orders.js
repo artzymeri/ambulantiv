@@ -2,6 +2,7 @@ import { Menu } from "@mui/icons-material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import React, { useState } from "react";
+import '@/styling/Distributor/distributorsidebar.css'
 
 const AuthenticatorChecker = dynamic(
   () => import("@/components/Checkers/AuthenticatorChecker"),
@@ -79,12 +80,7 @@ const Orders = () => {
             >
               <OrdersView updateStateInSideBar={updateStateInSideBar} />
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: "15px 30px",
-                }}
+                className="sidebar-distributor-button-container"
               >
                 <button
                   className="sidebar-distributor-trigger-button shadow-one"

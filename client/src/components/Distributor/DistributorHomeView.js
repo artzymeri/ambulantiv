@@ -10,6 +10,8 @@ const DistributorHomeView = () => {
 
   const [homeData, setHomeData] = useState([]);
 
+  const [discountedProducts, setDiscountedProducts] = useState([]);
+
   const [isClient, setIsClient] = useState(false);
 
   const [distributorActiveOrders, setDistributorActiveOrders] = useState([]);
@@ -24,6 +26,10 @@ const DistributorHomeView = () => {
       )
       .then((res) => {
         setHomeData(res.data);
+
+        const discounted = res.data.filter((product) => product.discounted === true);
+
+        setDiscountedProducts(discounted);
       });
     axios
       .get(
@@ -70,11 +76,30 @@ const DistributorHomeView = () => {
             router.push("/distributor/companyproducts");
           }}
         >
-          <h3>
-            <span style={{ fontSize: "60px" }}>1</span> produkt në aksion
-          </h3>
+          {discountedProducts && discountedProducts.length < 1 ? (
+            <h3>Ju nuk keni produkte në aksion</h3>
+          ) : (
+            <>
+              {discountedProducts && discountedProducts.length == 1 ? (
+                <h3>
+                  <span style={{ fontSize: "60px" }}>{discountedProducts.length}</span>{" "}
+                  produkt në aksion
+                </h3>
+              ) : (
+                <h3>
+                  Ju keni{" "}
+                  <span style={{ fontSize: "60px" }}>{discountedProducts.length}</span>{" "}
+                  produkte në aksion
+                </h3>
+              )}
+            </>
+          )}
         </div>
-        <div className="shadow-one b-25 home-children home-children-orders">
+        <div 
+            onClick={() => {
+            router.push("/distributor/orders");
+          }} 
+          className="shadow-one b-25 home-children home-children-orders">
           <h3>
             {distributorActiveOrders.length > 0 ? (
               <>
