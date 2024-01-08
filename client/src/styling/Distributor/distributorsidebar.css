@@ -145,16 +145,15 @@
   display: none;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(80, 80, 80);
+  background-color: rgb(80 , 80, 80);
   backdrop-filter: blur(7px);
   width: 100vw;
   height: 100vh;
   position: absolute;
-  z-index: 99999;
+  z-index: 999;
   padding: 10px;
-  top: 0;
-  left: 0;
   transition: 0.2s ease-in-out;
+  z-index: 9999;
 }
 
 .sidebar-distributor-fullscreen-title {
@@ -193,19 +192,28 @@
   border-radius: 10px;
   cursor: pointer;
   transition: 0.1s ease-in-out;
-  position: relative;
 }
 
 .sidebar-distributor-fullscreen-navbuttons h5:hover {
   background-color: rgba(255, 255, 255, 0.4) !important;
 }
 
-.sidebar-distributor-fullscreen-logout {
+.sidebar-distributor-fullscreen-bottom {
   position: absolute;
   bottom: 10px;
-  transform: translate(-50%, 0%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   width: calc(100% - 20px);
-  padding: 10px;
+}
+
+.sidebar-distributor-fullscreen-cart-profile-wrapper {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.sidebar-distributor-fullscreen-bottom-element {
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.2);
   color: whitesmoke;
@@ -218,6 +226,24 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  flex-grow: 1;
+  padding: 10px;
+}
+
+.sidebar-distributor-fullscreen-logout {
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: whitesmoke;
+  border: 0px none transparent;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+  transition: 0.1s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
 }
 
 .sidebar-distributor-fullscreen-logout:hover {
