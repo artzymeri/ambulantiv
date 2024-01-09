@@ -5,6 +5,8 @@ import axios from "axios";
 import OrderItem from "./OrdersItem";
 import "@/styling/Pranues/ordersview.css";
 import { Button } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const OrdersView = () => {
   const [isClient, setIsClient] = useState(false);
@@ -70,8 +72,22 @@ const OrdersView = () => {
           <h3 style={{ color: "rgb(130, 30, 30)" }}>Porositë</h3>
         </div>
         <div className="orders-view-navbar">
-          <input type="date" onChange={(e)=> {setStartDate(e.target.value)}} />
-          <input type="date" onChange={(e)=> {setEndDate(e.target.value)}} />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+    label="Start Date"
+    value={startDate}
+    onChange={(date) => setStartDate(date)}
+    renderInput={(params) => <TextField {...params} />}
+  />
+          </LocalizationProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+    label="End Date"
+    value={endDate}
+    onChange={(date) => setEndDate(date)}
+    renderInput={(params) => <TextField {...params} />}
+  />
+          </LocalizationProvider>
         </div>
         <div className="orders-view-items-wrapper">
           {filteredOrders && filteredOrders.length > 0 ? (
