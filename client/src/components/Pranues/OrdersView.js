@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "@/styling/Pranues/cartview.css";
 import { LocalShipping, RemoveCircle, ShoppingBag } from "@mui/icons-material";
 import axios from "axios";
@@ -10,6 +10,23 @@ const OrdersView = () => {
   const [isClient, setIsClient] = useState(false);
 
   const [ordersList, setOrdersList] = useState([]);
+
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null)
+
+  const filteredOrders = useMemo(() => {
+    if (startDate === null || endDate === null) {
+      return ordersList;
+    }
+  
+    return ordersList.filter((order) => {
+      const orderDate = new Date(order.createdAt).getTime();
+      const startDateTime = new Date(startDate).getTime();
+      const endDateTime = new Date(endDate).getTime();
+  
+      return orderDate >= startDateTime && orderDate <= endDateTime;
+    });
+  }, [startDate, endDate, ordersList]);
 
   const pranuesId = localStorage.getItem("userId");
 
@@ -52,9 +69,13 @@ const OrdersView = () => {
           <LocalShipping sx={{ color: "rgb(130, 30, 30)" }} />
           <h3 style={{ color: "rgb(130, 30, 30)" }}>Porositë</h3>
         </div>
+        <div className="orders-view-navbar">
+          <input type="date" onChange={(e)=> {setStartDate(e.target.value)}} />
+          <input type="date" onChange={(e)=> {setEndDate(e.target.value)}} />
+        </div>
         <div className="orders-view-items-wrapper">
-          {ordersList && ordersList.length > 0 ? (
-            ordersList.map((order) => {
+          {filteredOrders && filteredOrders.length > 0 ? (
+            filteredOrders.map((order) => {
               return <OrderItem product={order} />;
             })
           ) : (
@@ -73,7 +94,7 @@ const OrdersView = () => {
             </div>
           )}
         </div>
-        {ordersList && ordersList.length > 0 ? (
+        {filteredOrders && filteredOrders.length > 0 ? (
           <Button
             variant="contained"
             color="warning"
