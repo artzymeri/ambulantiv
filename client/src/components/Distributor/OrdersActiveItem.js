@@ -59,6 +59,15 @@ const OrderActiveItem = (props) => {
     updateStateInSideBar(1);
   };
 
+  const totalPriceOfOrder = (productsArray) => {
+    let totalSum = 0;
+    for (const product of productsArray) {
+      totalSum = totalSum + parseFloat(product.totalPrice);
+      console.log(parseFloat(product.totalPrice));
+    }
+    return totalSum.toFixed(2);
+  };
+
   return (
     isClient && (
       <div className="orders-row">
@@ -80,11 +89,11 @@ const OrderActiveItem = (props) => {
         <div className="orders-row-right">
           <div className="orders-row-right-l">
             <h5>
-              {productPrice}€ x {productQuantity} pako
-            </h5>
-            <h5>
               Totali:{" "}
-              <span style={{ fontSize: "16px" }}> {productTotalPrice}€ </span>
+              <span style={{ fontSize: "16px" }}>
+                {" "}
+                {totalPriceOfOrder(JSON.parse(products))}€{" "}
+              </span>
             </h5>
           </div>
           <div className="orders-row-right-r">
@@ -93,9 +102,9 @@ const OrderActiveItem = (props) => {
           <div className="orders-row-right-r">
             <Tooltip title="Përfundo porosinë">
               <Button
-                onClick={() => {
-                  completeOrder(props.product);
-                }}
+                // onClick={() => {
+                //   completeOrder(props.product);
+                // }}
                 variant="outlined"
                 color="warning"
               >
