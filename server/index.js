@@ -713,7 +713,7 @@ app.post("/completeorder/:orderId", async (req, res) => {
   const changedOrder = await orders_table.findByPk(orderId);
 
   try {
-    await createInvoice(orderId, changedOrder, res);
+    // await createInvoice(orderId, changedOrder, res);
     changedOrder.active = false;
     await changedOrder.save();
   } catch (error) {

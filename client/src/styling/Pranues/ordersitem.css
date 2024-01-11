@@ -16,25 +16,6 @@
 
 .orders-row-left {
   display: flex;
-  align-items: center;
-}
-
-.orders-row-left-l {
-  display: flex;
-  width: 90px;
-  height: 100%;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-}
-
-.orders-row-left-l img {
-  height: 60px;
-  filter: drop-shadow(0px 0px 10px rgba(80, 80, 80, 0.5));
-}
-
-.orders-row-left-r {
-  display: flex;
   flex-direction: column;
   gap: 10px;
 }
