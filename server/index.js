@@ -571,18 +571,6 @@ app.post("/changepassword/:userId", async (req, res) => {
 app.post("/sendorder", async (req, res) => {
   try {
     const {
-      name,
-      price,
-      totalPrice,
-      weight,
-      quantity,
-      photo,
-      distributor,
-      discounted,
-      discountedPercentage,
-    } = req.body.product;
-
-    const {
       clientId,
       clientName,
       clientCompanyname,
@@ -590,33 +578,27 @@ app.post("/sendorder", async (req, res) => {
       clientEmailAddress,
       distributorCompanyAddress,
       distributorEmailAddress,
+      order,
     } = req.body;
 
     await orders_table.create({
-      productName: name,
-      productPrice: price,
-      productTotalPrice: totalPrice,
-      productWeight: weight,
-      productQuantity: quantity,
-      productPhoto: photo,
-      productDistributorCompanyName: distributor,
-      productDistributorCompanyAddress: distributorCompanyAddress,
-      productClientId: clientId,
-      productClientName: clientName,
-      productClientCompanyName: clientCompanyname,
-      productClientCompanyAddress: clientCompanyAddress,
-      discounted: discounted,
-      discountedPercentage: discountedPercentage,
+      clientId: clientId,
+      clientName: clientName,
+      clientCompanyname: clientCompanyname,
+      clientCompanyAddress: clientCompanyAddress,
+      clientEmailAddress: clientEmailAddress,
+      distributorCompanyName: order.distributor,
+      distributorCompanyAddress: distributorCompanyAddress,
+      distributorEmailAddress: distributorEmailAddress,
+      products: JSON.stringify(order.products),
     });
-
-    const allOrdersData = await orders_table.findAll();
 
     transporter.sendMail(
       {
         from: "ecommerce.kosova.info@gmail.com",
         to: `${distributorEmailAddress}`,
         subject: "Keni porosi të re!",
-        text: `Keni porosi për ${quantity} ${name} nga ${clientName}.
+        text: `Keni porosi nga ${clientName}.
 Kliko këtu për të shikuar porositë e juaja aktive : http://localhost:3000/distributor/orders
         `,
       },
@@ -634,7 +616,7 @@ Kliko këtu për të shikuar porositë e juaja aktive : http://localhost:3000/di
         from: "ecommerce.kosova.info@gmail.com",
         to: `${clientEmailAddress}`,
         subject: "Porosia juaj u dërgua me sukses!",
-        text: `Porosia juaj për ${quantity} ${name} nga ${distributor}.
+        text: `Porosia juaj drejt ${order.distributor} u realizua me sukses.
 Kliko këtu për të shikuar historikun e porosive tuaja : http://localhost:3000/pranues/orders
         `,
       },
@@ -695,7 +677,7 @@ app.get(
     try {
       const listedActiveOrders = await orders_table.findAll({
         where: {
-          productDistributorCompanyName: distributorCompanyName,
+          distributorCompanyName: distributorCompanyName,
           active: true,
         },
       });

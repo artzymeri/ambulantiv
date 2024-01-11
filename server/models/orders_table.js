@@ -1,84 +1,49 @@
 module.exports = (sequelize, DataTypes) => {
   const orders_table = sequelize.define("orders_table", {
-    productName: {
+    clientId: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    productPrice: {
+    clientName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    productTotalPrice: {
+    clientCompanyname: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    productWeight: {
+    clientCompanyAddress: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    productQuantity: {
+    distributorCompanyName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
-    productPhoto: {
+    distributorCompanyAddress: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    products: {
       type: DataTypes.TEXT("long"),
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    productDistributorCompanyName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    productDistributorCompanyAddress: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    productClientId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    productClientName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    productClientCompanyName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    productClientCompanyAddress: {
-      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -90,22 +55,6 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: true,
       validate: {
         notEmpty: true,
-      },
-    },
-    discounted: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: true,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    discountedPercentage: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: true,
-      validate: {
-        notEmpty: false,
       },
     },
   });

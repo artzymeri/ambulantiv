@@ -10,16 +10,15 @@ const OrderActiveItem = (props) => {
 
   const {
     id,
-    productName,
-    productWeight,
-    productPrice,
-    productTotalPrice,
-    productQuantity,
-    productPhoto,
-    productDistributor,
-    productClientName,
+    clientId,
+    clientName,
+    clientCompanyname,
+    clientCompanyAddress,
+    distributorCompanyName,
+    distributorCompanyAddress,
+    products,
     createdAt,
-  } = props.product;
+  } = props.order;
 
   const { triggerUseEffect, updateStateInSideBar } = props;
 
@@ -64,13 +63,7 @@ const OrderActiveItem = (props) => {
     isClient && (
       <div className="orders-row">
         <div className="orders-row-left">
-          <div className="orders-row-left-l">
-            <img src={productPhoto} />
-          </div>
           <div className="orders-row-left-r">
-            <h5>
-              <span style={{ fontSize: "16px" }}> {productName} </span>
-            </h5>
             <h5>
               Klienti:{" "}
               <span
@@ -79,7 +72,7 @@ const OrderActiveItem = (props) => {
                   cursor: "pointer",
                 }}
               >
-                {productClientName}
+                {clientCompanyname}
               </span>
             </h5>
           </div>

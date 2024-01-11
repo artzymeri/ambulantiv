@@ -29,14 +29,6 @@ const CartView = () => {
     ) || []
   );
 
-  console.log(
-    JSON.parse(
-      localStorage.getItem(
-        `clientId:${localStorage.getItem("userId")}/cartProducts`
-      )
-    )
-  );
-
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarData, setSnackbarData] = useState({ title: "", message: "" });
 
@@ -88,18 +80,55 @@ const CartView = () => {
       return;
     }
 
-    for (const product of productsToOrder) {
+    const ordersArray = [];
+
+    for (const cartProduct of productsToOrder) {
+      const existingOrder = ordersArray.find((order) => {
+        return order.distributor === cartProduct.distributor;
+      });
+      if (existingOrder) {
+        existingOrder.products.push({
+          id: cartProduct.id,
+          name: cartProduct.name,
+          price: cartProduct.price,
+          weight: cartProduct.weight,
+          quantity: cartProduct.quantity,
+          discounted: cartProduct.discounted,
+          discountedPercentage: cartProduct.discountedPercentage,
+          totalPrice: cartProduct.totalPrice,
+        });
+      } else {
+        ordersArray.push({
+          client: cartProduct.client,
+          distributor: cartProduct.distributor,
+          products: [
+            {
+              id: cartProduct.id,
+              name: cartProduct.name,
+              price: cartProduct.price,
+              weight: cartProduct.weight,
+              quantity: cartProduct.quantity,
+              discounted: cartProduct.discounted,
+              discountedPercentage: cartProduct.discountedPercentage,
+              totalPrice: cartProduct.totalPrice,
+            },
+          ],
+        });
+      }
+    }
+    console.log(ordersArray);
+    for (const order of ordersArray) {
       try {
         axios
           .get(
-            `http://localhost:8080/getdistributorcompanyaddress/${product.distributor}`
+            `http://localhost:8080/getdistributorcompanyaddress/${order.distributor}`
           )
           .then((res) => {
             const distributorCompanyAddress = res.data[0].address;
             const distributorEmailAddress = res.data[0].emailAddress;
             axios
               .post("http://localhost:8080/sendorder", {
-                product,
+                order,
                 distributorCompanyAddress,
                 distributorEmailAddress,
                 clientId: localStorage.getItem("userId"),
@@ -110,21 +139,23 @@ const CartView = () => {
               })
               .then((res) => {
                 const { title, message } = res.data;
-                setCartProductsList((prevCartProductsList) => {
-                  const newArray = prevCartProductsList.filter(
-                    (p) => p.id !== product.id
-                  );
-                  localStorage.setItem(
-                    `clientId:${localStorage.getItem("userId")}/cartProducts`,
-                    JSON.stringify(newArray)
-                  );
-                  localStorage.removeItem(
-                    `clientId:${localStorage.getItem("userId")}/productId:${
-                      product.id
-                    }`
-                  );
-                  return newArray;
-                });
+                for (const product of order.products) {
+                  setCartProductsList((prevCartProductsList) => {
+                    const newArray = prevCartProductsList.filter(
+                      (p) => p.id !== product.id
+                    );
+                    localStorage.setItem(
+                      `clientId:${localStorage.getItem("userId")}/cartProducts`,
+                      JSON.stringify(newArray)
+                    );
+                    localStorage.removeItem(
+                      `clientId:${localStorage.getItem("userId")}/productId:${
+                        product.id
+                      }`
+                    );
+                    return newArray;
+                  });
+                }
                 setSnackbarData({
                   title: title,
                   message: message,

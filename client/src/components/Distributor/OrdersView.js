@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartview.css";
 import { LocalShipping, RemoveCircle, ShoppingBag } from "@mui/icons-material";
 import axios from "axios";
-import OrderItem from "./OrdersActiveItem";
+import OrderActiveItem from "./OrdersActiveItem";
 import "@/styling/Pranues/ordersview.css";
 import { Button } from "@mui/material";
 
@@ -44,7 +44,10 @@ const OrdersView = ({ updateStateInSideBar }) => {
         const url = URL.createObjectURL(blob);
 
         downloadLink.href = url;
-        downloadLink.setAttribute("download", `Fatura ${order.productName} ${order.createdAt}.pdf`);
+        downloadLink.setAttribute(
+          "download",
+          `Fatura ${order.productName} ${order.createdAt}.pdf`
+        );
         downloadLink.click();
       } catch (error) {
         console.error(error);
@@ -72,9 +75,9 @@ const OrdersView = ({ updateStateInSideBar }) => {
           {ordersList && ordersList.length > 0 ? (
             ordersList.map((order) => {
               return (
-                <OrderItem
+                <OrderActiveItem
                   key={order.id}
-                  product={order}
+                  order={order}
                   triggerUseEffect={triggerUseEffect}
                   updateStateInSideBar={updateStateInSideBar}
                 />
