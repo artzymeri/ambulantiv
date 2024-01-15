@@ -20,8 +20,6 @@ const OrderItem = (props) => {
     createdAt,
   } = props.order;
 
-  console.log(props.product);
-
   const [isClient, setIsClient] = useState(false);
 
   const [formattedCreatedAt, setFormattedCreatedAt] = useState(null);

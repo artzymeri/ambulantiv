@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import OrderItem from "./OrdersItem";
 import "@/styling/Pranues/ordersview.css";
-import { Button, Tooltip } from "@mui/material";
+import { Button, MenuItem, TextField, Tooltip } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -17,23 +17,41 @@ const OrdersView = () => {
   const [isClient, setIsClient] = useState(false);
 
   const [ordersList, setOrdersList] = useState([]);
+  const [distributorsList, setDistributorsList] = useState([]);
 
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [distributorCompanyName, setDistributorCompanyName] = useState(null);
 
   const filteredOrders = useMemo(() => {
-    if (startDate === null || endDate === null) {
+    if (
+      startDate === null &&
+      endDate === null &&
+      distributorCompanyName === null
+    ) {
       return ordersList;
     }
 
     return ordersList.filter((order) => {
       const orderDate = new Date(order.createdAt).setHours(0, 0, 0, 0);
-      const startDateTime = new Date(startDate).setHours(0, 0, 0, 0);
-      const endDateTime = new Date(endDate).setHours(23, 59, 59, 999);
+      const startDateTime = startDate
+        ? new Date(startDate).setHours(0, 0, 0, 0)
+        : null;
+      const endDateTime = endDate
+        ? new Date(endDate).setHours(23, 59, 59, 999)
+        : null;
 
-      return orderDate >= startDateTime && orderDate <= endDateTime;
+      const matchesDateRange =
+        (startDateTime === null || orderDate >= startDateTime) &&
+        (endDateTime === null || orderDate <= endDateTime);
+
+      const matchesDistributor =
+        distributorCompanyName === null ||
+        order.distributorCompanyName === distributorCompanyName;
+
+      return matchesDateRange && matchesDistributor;
     });
-  }, [startDate, endDate, ordersList]);
+  }, [startDate, endDate, distributorCompanyName, ordersList]);
 
   const pranuesId = localStorage.getItem("userId");
 
@@ -41,6 +59,10 @@ const OrdersView = () => {
     setIsClient(true);
     axios.get(`http://localhost:8080/getorders/${pranuesId}`).then((res) => {
       setOrdersList(res.data);
+      console.log(res.data);
+    });
+    axios.get("http://localhost:8080/getdistributors").then((res) => {
+      setDistributorsList(res.data);
       console.log(res.data);
     });
   }, [startDate, endDate]);
@@ -81,6 +103,21 @@ const OrdersView = () => {
           <h3 style={{ color: "rgb(130, 30, 30)" }}>Porositë</h3>
         </div>
         <div className="orders-view-navbar" style={{ borderTop: "0px" }}>
+          <TextField
+            select
+            label="Distributori"
+            style={{ width: "200px" }}
+            value={distributorCompanyName}
+            onChange={(e) => {
+              setDistributorCompanyName(e.target.value);
+            }}
+          >
+            {distributorsList.map((distributor, index) => (
+              <MenuItem key={index} value={distributor.companyname}>
+                {distributor.companyname}
+              </MenuItem>
+            ))}
+          </TextField>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Data Fillestare"
@@ -106,7 +143,9 @@ const OrdersView = () => {
               Bonusi Vjetor
             </Button>
           </Tooltip>
-          {startDate !== null && endDate !== null && (
+          {(startDate !== null ||
+            endDate !== null ||
+            distributorCompanyName !== null) && (
             <Tooltip title="Rikthe filtrat në origjinë">
               <Button
                 variant="outlined"
@@ -114,6 +153,7 @@ const OrdersView = () => {
                 onClick={() => {
                   setStartDate(null);
                   setEndDate(null);
+                  setDistributorCompanyName(null);
                 }}
               >
                 <Refresh />
