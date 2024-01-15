@@ -8,6 +8,7 @@ import {
   Done,
   Download,
   DownloadOutlined,
+  Edit,
   Print,
 } from "@mui/icons-material";
 import axios from "axios";
@@ -17,16 +18,17 @@ const OrderInActiveItem = (props) => {
 
   const {
     id,
-    productName,
-    productWeight,
-    productPrice,
-    productTotalPrice,
-    productQuantity,
-    productPhoto,
-    productDistributor,
-    productClientName,
+    clientId,
+    clientName,
+    clientCompanyname,
+    clientCompanyAddress,
+    distributorCompanyName,
+    distributorCompanyAddress,
+    products,
     createdAt,
   } = props.product;
+
+  const { editOrderDialog } = props;
 
   const [isClient, setIsClient] = useState(false);
 
@@ -36,7 +38,6 @@ const OrderInActiveItem = (props) => {
     setIsClient(true);
     const dateObject = new Date(createdAt);
     const formattedDate = dateObject.toLocaleString();
-
     setFormattedCreatedAt(formattedDate);
   }, []);
 
@@ -63,50 +64,52 @@ const OrderInActiveItem = (props) => {
     }
   };
 
+  const totalPriceOfOrder = (productsArray) => {
+    let totalSum = 0;
+    for (const product of productsArray) {
+      totalSum = totalSum + parseFloat(product.totalPrice);
+    }
+    return totalSum.toFixed(2);
+  };
+
   return (
     isClient && (
       <div className="orders-row">
         <div className="orders-row-left">
-          <div className="orders-row-left-l">
-            <img src={productPhoto} />
-          </div>
-          <div className="orders-row-left-r">
-            <h5>
-              <span style={{ fontSize: "16px" }}> {productName} </span>
-            </h5>
-            <h5>
-              Klienti:{" "}
-              <span
-                style={{
-                  fontSize: "16px",
-                  cursor: "pointer",
-                }}
-              >
-                {productClientName}
-              </span>
-            </h5>
-          </div>
+          <h5>Klienti: {clientCompanyname}</h5>
+          <h5>{clientCompanyAddress}</h5>
         </div>
         <div className="orders-row-right">
           <div className="orders-row-right-l">
             <h5>
-              {productPrice}€ x {productQuantity} pako
-            </h5>
-            <h5>
               Totali:{" "}
-              <span style={{ fontSize: "16px" }}> {productTotalPrice}€ </span>
+              <span style={{ fontSize: "16px" }}>
+                {" "}
+                {totalPriceOfOrder(JSON.parse(products))}€{" "}
+              </span>
             </h5>
           </div>
           <div className="orders-row-right-r">
             <h5>{formattedCreatedAt}</h5>
           </div>
           <div className="orders-row-right-r">
-            <Tooltip title="Përfundo porosinë">
+            <Tooltip title="Edito porosinë">
+              <Button
+                onClick={() => {
+                  editOrderDialog(id, JSON.parse(products));
+                }}
+                variant="outlined"
+                color="warning"
+              >
+                <Edit />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Shkarko faturën e porosisë">
               <Button
                 onClick={() => {
                   generatePDF(props.product);
                 }}
-                variant="outlined"
+                variant="contained"
                 color="warning"
               >
                 <Download />

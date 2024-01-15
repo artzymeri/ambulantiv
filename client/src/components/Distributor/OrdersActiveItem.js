@@ -30,7 +30,6 @@ const OrderActiveItem = (props) => {
     setIsClient(true);
     const dateObject = new Date(createdAt);
     const formattedDate = dateObject.toLocaleString();
-
     setFormattedCreatedAt(formattedDate);
   }, []);
 

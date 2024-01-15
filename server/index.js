@@ -697,7 +697,7 @@ app.get(
     try {
       const listedActiveOrders = await orders_table.findAll({
         where: {
-          productDistributorCompanyName: distributorCompanyName,
+          distributorCompanyName: distributorCompanyName,
           active: false,
         },
       });
