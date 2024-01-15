@@ -6,7 +6,7 @@ import OrderItem from "./OrdersItem";
 import "@/styling/Pranues/ordersview.css";
 import { Button } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const OrdersView = () => {
   const [isClient, setIsClient] = useState(false);
@@ -14,18 +14,18 @@ const OrdersView = () => {
   const [ordersList, setOrdersList] = useState([]);
 
   const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null)
+  const [endDate, setEndDate] = useState(null);
 
   const filteredOrders = useMemo(() => {
     if (startDate === null || endDate === null) {
       return ordersList;
     }
-  
+
     return ordersList.filter((order) => {
       const orderDate = new Date(order.createdAt).getTime();
       const startDateTime = new Date(startDate).getTime();
       const endDateTime = new Date(endDate).getTime();
-  
+
       return orderDate >= startDateTime && orderDate <= endDateTime;
     });
   }, [startDate, endDate, ordersList]);
@@ -36,6 +36,7 @@ const OrdersView = () => {
     setIsClient(true);
     axios.get(`http://localhost:8080/getorders/${pranuesId}`).then((res) => {
       setOrdersList(res.data);
+      console.log(res.data);
     });
   }, []);
 
@@ -53,7 +54,10 @@ const OrdersView = () => {
         const url = URL.createObjectURL(blob);
 
         downloadLink.href = url;
-        downloadLink.setAttribute("download", `Fatura ${order.productName} ${order.createdAt}.pdf`);
+        downloadLink.setAttribute(
+          "download",
+          `Fatura ${order.productName} ${order.createdAt}.pdf`
+        );
         downloadLink.click();
       } catch (error) {
         console.error(error);
@@ -73,26 +77,26 @@ const OrdersView = () => {
         </div>
         <div className="orders-view-navbar">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-    label="Start Date"
-    value={startDate}
-    onChange={(date) => setStartDate(date)}
-    renderInput={(params) => <TextField {...params} />}
-  />
+            <DatePicker
+              label="Start Date"
+              value={startDate}
+              onChange={(date) => setStartDate(date)}
+              renderInput={(params) => <TextField {...params} />}
+            />
           </LocalizationProvider>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-    label="End Date"
-    value={endDate}
-    onChange={(date) => setEndDate(date)}
-    renderInput={(params) => <TextField {...params} />}
-  />
+            <DatePicker
+              label="End Date"
+              value={endDate}
+              onChange={(date) => setEndDate(date)}
+              renderInput={(params) => <TextField {...params} />}
+            />
           </LocalizationProvider>
         </div>
         <div className="orders-view-items-wrapper">
           {filteredOrders && filteredOrders.length > 0 ? (
             filteredOrders.map((order) => {
-              return <OrderItem product={order} />;
+              return <OrderItem order={order} />;
             })
           ) : (
             <div

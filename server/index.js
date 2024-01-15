@@ -643,7 +643,7 @@ app.get("/getorders/:pranuesId", async (req, res) => {
   const { pranuesId } = req.params;
   try {
     const listedOrders = await orders_table.findAll({
-      where: { productClientId: pranuesId },
+      where: { clientId: pranuesId },
     });
     res.send(listedOrders);
   } catch (error) {

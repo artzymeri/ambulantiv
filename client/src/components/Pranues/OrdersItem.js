@@ -10,17 +10,15 @@ const OrderItem = (props) => {
 
   const {
     id,
-    productName,
-    productWeight,
-    productPrice,
-    productTotalPrice,
-    productQuantity,
-    productPhoto,
-    productDistributorCompanyName,
-    productClientId,
-    productClientName,
+    clientId,
+    clientName,
+    clientCompanyname,
+    clientCompanyAddress,
+    distributorCompanyName,
+    distributorCompanyAddress,
+    products,
     createdAt,
-  } = props.product;
+  } = props.order;
 
   console.log(props.product);
 
@@ -59,60 +57,41 @@ const OrderItem = (props) => {
     }
   };
 
+  const totalPriceOfOrder = (productsArray) => {
+    let totalSum = 0;
+    for (const product of productsArray) {
+      totalSum = totalSum + parseFloat(product.totalPrice);
+    }
+    return totalSum.toFixed(2);
+  };
+
   return (
     isClient && (
       <div className="orders-row">
         <div className="orders-row-left">
-          <div className="orders-row-left-l">
-            <img src={productPhoto} />
-          </div>
-          <div className="orders-row-left-r">
-            <h5>
-              <span style={{ fontSize: "16px" }}> {productName} </span>
-            </h5>
-            <h5>
-              <Tooltip title="Kliko për të shikuar produktet e kompanisë">
-                <span
-                  onClick={() => {
-                    router.push({
-                      pathname: "/pranues/products/company",
-                      query: {
-                        companyname: productDistributorCompanyName,
-                      },
-                    });
-                  }}
-                  style={{
-                    fontSize: "16px",
-                    textDecoration: "underline",
-                    cursor: "pointer",
-                  }}
-                >
-                  {productDistributorCompanyName}
-                </span>
-              </Tooltip>
-            </h5>
-          </div>
+          <h5>{distributorCompanyName}</h5>
+          <h5>{distributorCompanyAddress}</h5>
         </div>
         <div className="orders-row-right">
           <div className="orders-row-right-l">
             <h5>
-              {productPrice}€ x {productQuantity} pako
-            </h5>
-            <h5>
               Totali:{" "}
-              <span style={{ fontSize: "16px" }}> {productTotalPrice}€ </span>
+              <span style={{ fontSize: "16px" }}>
+                {" "}
+                {totalPriceOfOrder(JSON.parse(products))}€{" "}
+              </span>
             </h5>
           </div>
           <div className="orders-row-right-r">
             <h5>{formattedCreatedAt}</h5>
           </div>
           <div className="orders-row-right-r">
-            <Tooltip title="Shkarko faturën për porosinë">
+            <Tooltip title="Sharko faturën e porosisë">
               <Button
                 onClick={() => {
-                  generatePDF(props.product);
+                  generatePDF(props.order);
                 }}
-                variant="outlined"
+                variant="contained"
                 color="warning"
               >
                 <Download />
