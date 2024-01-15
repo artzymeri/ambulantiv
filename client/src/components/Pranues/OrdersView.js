@@ -1,10 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "@/styling/Pranues/cartview.css";
-import { LocalShipping, RemoveCircle, ShoppingBag } from "@mui/icons-material";
+import {
+  LocalShipping,
+  Refresh,
+  RemoveCircle,
+  ShoppingBag,
+} from "@mui/icons-material";
 import axios from "axios";
 import OrderItem from "./OrdersItem";
 import "@/styling/Pranues/ordersview.css";
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -22,9 +27,9 @@ const OrdersView = () => {
     }
 
     return ordersList.filter((order) => {
-      const orderDate = new Date(order.createdAt).getTime();
-      const startDateTime = new Date(startDate).getTime();
-      const endDateTime = new Date(endDate).getTime();
+      const orderDate = new Date(order.createdAt).setHours(0, 0, 0, 0);
+      const startDateTime = new Date(startDate).setHours(0, 0, 0, 0);
+      const endDateTime = new Date(endDate).setHours(23, 59, 59, 999);
 
       return orderDate >= startDateTime && orderDate <= endDateTime;
     });
@@ -38,7 +43,7 @@ const OrdersView = () => {
       setOrdersList(res.data);
       console.log(res.data);
     });
-  }, []);
+  }, [startDate, endDate]);
 
   const generatePDFs = async () => {
     for (const order of ordersList) {
@@ -75,10 +80,10 @@ const OrdersView = () => {
           <LocalShipping sx={{ color: "rgb(130, 30, 30)" }} />
           <h3 style={{ color: "rgb(130, 30, 30)" }}>Porositë</h3>
         </div>
-        <div className="orders-view-navbar">
+        <div className="orders-view-navbar" style={{ borderTop: "0px" }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="Start Date"
+              label="Data Fillestare"
               value={startDate}
               onChange={(date) => setStartDate(date)}
               renderInput={(params) => <TextField {...params} />}
@@ -86,12 +91,35 @@ const OrdersView = () => {
           </LocalizationProvider>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="End Date"
+              label="Data Përfundimtare"
               value={endDate}
               onChange={(date) => setEndDate(date)}
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
+          <Tooltip title="Kalkulo Bonusin Vjetor">
+            <Button
+              disabled={startDate == null || endDate == null}
+              variant="contained"
+              style={{ height: "56px" }}
+            >
+              Bonusi Vjetor
+            </Button>
+          </Tooltip>
+          {startDate !== null && endDate !== null && (
+            <Tooltip title="Rikthe filtrat në origjinë">
+              <Button
+                variant="outlined"
+                style={{ height: "56px" }}
+                onClick={() => {
+                  setStartDate(null);
+                  setEndDate(null);
+                }}
+              >
+                <Refresh />
+              </Button>
+            </Tooltip>
+          )}
         </div>
         <div className="orders-view-items-wrapper">
           {filteredOrders && filteredOrders.length > 0 ? (
