@@ -26,7 +26,7 @@ const OrderInActiveItem = (props) => {
     distributorCompanyAddress,
     products,
     createdAt,
-  } = props.product;
+  } = props.order;
 
   const { editOrderDialog } = props;
 
@@ -107,7 +107,7 @@ const OrderInActiveItem = (props) => {
             <Tooltip title="Shkarko faturën e porosisë">
               <Button
                 onClick={() => {
-                  generatePDF(props.product);
+                  generatePDF(props.order);
                 }}
                 variant="contained"
                 color="warning"

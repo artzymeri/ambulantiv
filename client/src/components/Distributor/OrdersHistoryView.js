@@ -27,7 +27,6 @@ const OrdersView = () => {
       )
       .then((res) => {
         setOrdersList(res.data);
-        console.log(res.data);
       });
   }, []);
 
@@ -190,7 +189,7 @@ const OrdersView = () => {
             ordersList.map((order) => {
               return (
                 <OrderInActiveItem
-                  product={order}
+                  order={order}
                   editOrderDialog={editOrderDialog}
                 />
               );

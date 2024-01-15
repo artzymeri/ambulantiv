@@ -69,7 +69,6 @@ const EditProductDialog = (props) => {
       setDistributorsData(res.data);
     });
     setLocalOpenDialog(openDialog);
-    console.log(editedProductData);
   }, [editedProductData, openDialog]);
 
   const [editedProduct, setEditedProduct] = useState({

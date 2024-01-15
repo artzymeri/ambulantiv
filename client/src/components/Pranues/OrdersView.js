@@ -59,11 +59,9 @@ const OrdersView = () => {
     setIsClient(true);
     axios.get(`http://localhost:8080/getorders/${pranuesId}`).then((res) => {
       setOrdersList(res.data);
-      console.log(res.data);
     });
     axios.get("http://localhost:8080/getdistributors").then((res) => {
       setDistributorsList(res.data);
-      console.log(res.data);
     });
   }, [startDate, endDate]);
 

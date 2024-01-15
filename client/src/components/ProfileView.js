@@ -63,8 +63,6 @@ const ProfileView = (props) => {
     emailAddress: localStorage.getItem("emailaddress"),
   });
 
-  console.log(profileInfo);
-
   const [newPasswordTester, setNewPasswordTester] = useState("");
   const [newPassword, setNewPassword] = useState("");
 

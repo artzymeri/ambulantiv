@@ -20,8 +20,6 @@ const ProductCard = (props) => {
     discountedPercentage,
   } = props.product;
 
-  console.log(discountedPercentage);
-
   const [isClient, setIsClient] = useState(false);
 
   const router = useRouter();

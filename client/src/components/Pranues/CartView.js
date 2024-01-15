@@ -116,7 +116,6 @@ const CartView = () => {
         });
       }
     }
-    console.log(ordersArray);
     for (const order of ordersArray) {
       try {
         axios

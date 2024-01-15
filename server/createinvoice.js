@@ -35,15 +35,15 @@ function generateCustomerInformation(doc, theOrder) {
     .fillColor("#000000")
     .text(`Porosia Numër: #${orderValues.id}`, 60, 130)
     .text(`Data e porosisë: ${formattedDate}`, 60, 145)
-    .text(orderValues.productClientName, 60, 160)
-    .text(orderValues.productClientCompanyName, 60, 175)
-    .text(orderValues.productClientCompanyAddress, 60, 190)
+    .text(orderValues.clientName, 60, 160)
+    .text(orderValues.clientCompanyname, 60, 175)
+    .text(orderValues.clientCompanyAddress, 60, 190)
     .moveDown();
 
   generateHr(doc, 220);
 }
 
-function generateTableRowHeader(doc, y, c1, c2, c3, c4) {
+function generateTableHeader(doc, y, c1, c2, c3, c4) {
   doc.font("Helvetica-Bold");
   doc
     .fontSize(11)
@@ -55,27 +55,23 @@ function generateTableRowHeader(doc, y, c1, c2, c3, c4) {
   generateHr(doc, 280);
 }
 
-function generateTableRowContent(doc, theOrder) {
-  const orderValues = theOrder.dataValues;
+function generateTableRow(doc, product, y) {
   doc.font("Helvetica");
   doc
     .fontSize(10)
     .text(
-      `${orderValues.productName}` +
-        (orderValues.discounted ? " (Në zbritje)" : ""),
+      `${product.name}` + (product.discounted ? " (Në zbritje)" : ""),
       50,
-      310
+      y
     )
     .text(
-      `${orderValues.productPrice}€` +
-        (orderValues.discounted
-          ? ` -(${orderValues.discountedPercentage}%)`
-          : ""),
+      `${product.price}€` +
+        (product.discounted ? ` -(${product.discountedPercentage}%)` : ""),
       280,
-      310
+      y
     )
-    .text(orderValues.productQuantity, 380, 310)
-    .text(`${orderValues.productTotalPrice}€`, 480, 310);
+    .text(product.quantity, 380, y)
+    .text(`${product.totalPrice}€`, 480, y);
 
   generateHr2(doc, 330);
 }
@@ -103,8 +99,7 @@ function generateTableTotalPrice(doc, theOrder) {
     .text(`${(orderValues.productTotalPrice * 0.85).toFixed(2)}€`, 500, 407);
 }
 
-function generateFooterDisclaimer(doc, theOrder) {
-  const orderValues = theOrder.dataValues;
+function generateFooterDisclaimer(doc) {
   doc
     .font("Helvetica")
     .fontSize(9)
@@ -124,7 +119,7 @@ function createInvoice(orderId, theOrder, res) {
     generateBackground(doc, 50, 110, 510, 110, "#DDDDDD");
     generateCustomerInformation(doc, theOrder);
 
-    generateTableRowHeader(
+    generateTableHeader(
       doc,
       260,
       "Emri produktit",
@@ -132,9 +127,33 @@ function createInvoice(orderId, theOrder, res) {
       "Sasia e porositur",
       "Totali i vlerës"
     );
-    generateTableRowContent(doc, theOrder);
-    generateTableTotalPrice(doc, theOrder);
-    generateFooterDisclaimer(doc, theOrder);
+
+    let y = 310;
+    let y1 = 330;
+
+    for (const product of JSON.parse(theOrder.products)) {
+      doc.font("Helvetica");
+      doc
+        .fontSize(10)
+        .text(
+          `${product.name}` + (product.discounted ? " (Në zbritje)" : ""),
+          50,
+          y
+        )
+        .text(
+          `${product.price}€` +
+            (product.discounted ? ` -(${product.discountedPercentage}%)` : ""),
+          280,
+          y
+        )
+        .text(product.quantity, 380, y)
+        .text(`${product.totalPrice}€`, 480, y);
+
+      generateHr2(doc, y1);
+      y += 50;
+      y1 += 50;
+    }
+    generateFooterDisclaimer(doc);
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
