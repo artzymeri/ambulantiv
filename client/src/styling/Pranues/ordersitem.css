@@ -33,6 +33,12 @@
   gap: 10px;
 }
 
+
+.orders-row-right-r {
+  display: flex;
+  gap: 5px;
+}
+
 @media (max-width: 1000px) {
   .orders-row-left-l {
     display: none;

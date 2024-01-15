@@ -740,6 +740,19 @@ app.post("/generatepdfonly/:orderId", async (req, res) => {
   }
 });
 
+app.post("/changeorder/:orderId", async (req, res) => {
+  const { orderId } = req.params;
+  const { editedOrder } = req.body;
+  const changedOrder = await orders_table.findByPk(orderId);
+
+  try {
+    changedOrder.products = JSON.stringify(editedOrder.products);
+    changedOrder.save();
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 db.sequelize.sync().then((req) => {
   app.listen(port, () => {
     console.log(`Server is running in http://localhost:${port}`);

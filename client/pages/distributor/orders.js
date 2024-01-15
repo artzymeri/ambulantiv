@@ -2,7 +2,14 @@ import { Menu } from "@mui/icons-material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import React, { useState } from "react";
-import '@/styling/Distributor/distributorsidebar.css'
+import "@/styling/Distributor/distributorsidebar.css";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 
 const AuthenticatorChecker = dynamic(
   () => import("@/components/Checkers/AuthenticatorChecker"),
@@ -79,9 +86,7 @@ const Orders = () => {
               }}
             >
               <OrdersView updateStateInSideBar={updateStateInSideBar} />
-              <div
-                className="sidebar-distributor-button-container"
-              >
+              <div className="sidebar-distributor-button-container">
                 <button
                   className="sidebar-distributor-trigger-button shadow-one"
                   onClick={openSidebar}

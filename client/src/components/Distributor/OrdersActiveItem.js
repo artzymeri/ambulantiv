@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/ordersitem.css";
 import { Button, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
-import { Clear, Done, Download } from "@mui/icons-material";
+import { Clear, Done, Download, Edit } from "@mui/icons-material";
 import axios from "axios";
 
 const OrderActiveItem = (props) => {
@@ -20,7 +20,7 @@ const OrderActiveItem = (props) => {
     createdAt,
   } = props.order;
 
-  const { triggerUseEffect, updateStateInSideBar } = props;
+  const { triggerUseEffect, updateStateInSideBar, editOrderDialog } = props;
 
   const [isClient, setIsClient] = useState(false);
 
@@ -63,7 +63,6 @@ const OrderActiveItem = (props) => {
     let totalSum = 0;
     for (const product of productsArray) {
       totalSum = totalSum + parseFloat(product.totalPrice);
-      console.log(parseFloat(product.totalPrice));
     }
     return totalSum.toFixed(2);
   };
@@ -89,12 +88,26 @@ const OrderActiveItem = (props) => {
             <h5>{formattedCreatedAt}</h5>
           </div>
           <div className="orders-row-right-r">
+            <Tooltip title="Edito porosinë">
+              <Button
+                onClick={() => {
+                  editOrderDialog(
+                    props.order.id,
+                    JSON.parse(props.order.products)
+                  );
+                }}
+                variant="outlined"
+                color="warning"
+              >
+                <Edit />
+              </Button>
+            </Tooltip>
             <Tooltip title="Përfundo porosinë">
               <Button
                 onClick={() => {
                   completeOrder(props.order);
                 }}
-                variant="outlined"
+                variant="contained"
                 color="warning"
               >
                 <Done />
