@@ -47,7 +47,7 @@ const OrderItem = (props) => {
       downloadLink.href = url;
       downloadLink.setAttribute(
         "download",
-        `Fatura ${order.productName} ${order.createdAt}.pdf`
+        `Fatura ${order.clientName} ${order.distributorCompanyName} ${formattedCreatedAt}.pdf`
       );
       downloadLink.click();
     } catch (error) {

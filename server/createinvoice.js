@@ -17,9 +17,9 @@ function generateHeader(doc, theOrder) {
   doc
     .fillColor("#444444")
     .fontSize(20)
-    .text(`${theOrder.productDistributorCompanyName}`, 50, 57)
+    .text(`${theOrder.distributorCompanyName}`, 50, 57)
     .fontSize(10)
-    .text(`${theOrder.productDistributorCompanyAddress}`, 50, 75)
+    .text(`${theOrder.distributorCompanyAddress}`, 50, 75)
     .moveDown();
 
   generateHr(doc, 110);
@@ -76,27 +76,26 @@ function generateTableRow(doc, product, y) {
   generateHr2(doc, 330);
 }
 
-function generateTableTotalPrice(doc, theOrder) {
-  const orderValues = theOrder.dataValues;
+function generateTableTotalPrice(doc, totalSum, y) {
   doc
     .font("Helvetica")
     .fontSize(10)
-    .text("Totali i Faturës është:", 400, 360)
+    .text("Totali i Faturës është:", 400, (y + 310))
     .fontSize(15)
     .font("Helvetica-Bold")
-    .text(`${orderValues.productTotalPrice}€`, 500, 357)
+    .text(`${totalSum}€`, 500, (y + 307))
     .font("Helvetica")
     .fontSize(10)
-    .text("Vlera e TVSH (në përqindje):", 367, 385)
+    .text("Vlera e TVSH (në përqindje):", 367, (y + 335))
     .font("Helvetica")
     .fontSize(13)
-    .text("15%", 500, 383)
+    .text("15%", 500, (y + 333))
     .font("Helvetica")
     .fontSize(10)
-    .text("Totali Faturës pas TVSH:", 385, 410)
+    .text("Totali Faturës pas TVSH:", 385, (y + 360))
     .font("Helvetica-Bold")
     .fontSize(15)
-    .text(`${(orderValues.productTotalPrice * 0.85).toFixed(2)}€`, 500, 407);
+    .text(`${(totalSum * 0.85).toFixed(2)}€`, 500, (y + 357));
 }
 
 function generateFooterDisclaimer(doc) {
@@ -130,6 +129,8 @@ function createInvoice(orderId, theOrder, res) {
 
     let y = 310;
     let y1 = 330;
+    let y3 = 0;
+    let totalSum = 0;
 
     for (const product of JSON.parse(theOrder.products)) {
       doc.font("Helvetica");
@@ -152,14 +153,17 @@ function createInvoice(orderId, theOrder, res) {
       generateHr2(doc, y1);
       y += 50;
       y1 += 50;
+      y3 += 50;
+      totalSum = parseInt(product.totalPrice) + totalSum;
     }
+    generateTableTotalPrice(doc, totalSum, y3)
     generateFooterDisclaimer(doc);
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
       `attachment; filename=Fatura ${
-        theOrder.dataValues.productName
+        theOrder.dataValues.name
       } ${theOrder.dataValues.createdAt.toLocaleDateString("en-GB")}.pdf`
     );
 

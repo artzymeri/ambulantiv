@@ -31,7 +31,7 @@ const OrdersView = () => {
     ) {
       return ordersList;
     }
-
+  
     return ordersList.filter((order) => {
       const orderDate = new Date(order.createdAt).setHours(0, 0, 0, 0);
       const startDateTime = startDate
@@ -40,18 +40,19 @@ const OrdersView = () => {
       const endDateTime = endDate
         ? new Date(endDate).setHours(23, 59, 59, 999)
         : null;
-
+  
       const matchesDateRange =
         (startDateTime === null || orderDate >= startDateTime) &&
         (endDateTime === null || orderDate <= endDateTime);
-
+  
       const matchesDistributor =
         distributorCompanyName === null ||
         order.distributorCompanyName === distributorCompanyName;
-
+  
       return matchesDateRange && matchesDistributor;
     });
   }, [startDate, endDate, distributorCompanyName, ordersList]);
+  
 
   const pranuesId = localStorage.getItem("userId");
 
@@ -67,6 +68,8 @@ const OrdersView = () => {
 
   const generatePDFs = async () => {
     for (const order of ordersList) {
+      const dateObject = new Date(order.createdAt);
+      const formattedDate = dateObject.toLocaleString();
       try {
         const response = await axios.post(
           `http://localhost:8080/generatepdfonly/${order.id}`,
@@ -81,7 +84,7 @@ const OrdersView = () => {
         downloadLink.href = url;
         downloadLink.setAttribute(
           "download",
-          `Fatura ${order.productName} ${order.createdAt}.pdf`
+          `Fatura ${order.clientName} ${order.distributorCompanyName} ${formattedDate}.pdf`
         );
         downloadLink.click();
       } catch (error) {
@@ -162,7 +165,7 @@ const OrdersView = () => {
         <div className="orders-view-items-wrapper">
           {filteredOrders && filteredOrders.length > 0 ? (
             filteredOrders.map((order) => {
-              return <OrderItem order={order} />;
+              return <OrderItem key={order.id} order={order} />;
             })
           ) : (
             <div
