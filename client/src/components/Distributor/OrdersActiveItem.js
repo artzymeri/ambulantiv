@@ -34,23 +34,25 @@ const OrderActiveItem = (props) => {
   }, []);
 
   const completeOrder = async (order) => {
+    const dateObject = new Date(order.createdAt);
+    const formattedDate = dateObject.toLocaleString();
     try {
       const response = await axios.post(
-        `http://localhost:8080/completeorder/${order.id}`
-        // { order },
-        // { responseType: "blob" }
+        `http://localhost:8080/completeorder/${order.id}`,
+        { order },
+        { responseType: "blob" }
       );
 
-      // const downloadLink = document.createElement("a");
-      // const blob = new Blob([response.data], { type: "application/pdf" });
-      // const url = URL.createObjectURL(blob);
+      const downloadLink = document.createElement("a");
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
 
-      // downloadLink.href = url;
-      // downloadLink.setAttribute(
-      //   "download",
-      //   `Fatura ${order.productName} ${order.createdAt}.pdf`
-      // );
-      // downloadLink.click();
+      downloadLink.href = url;
+      downloadLink.setAttribute(
+        "download",
+        `Fatura ${order.clientCompanyname} ${order.distributorCompanyName} ${formattedDate}.pdf`
+      );
+      downloadLink.click();
     } catch (error) {
       console.error(error);
     }

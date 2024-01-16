@@ -42,6 +42,8 @@ const OrderInActiveItem = (props) => {
   }, []);
 
   const generatePDF = async (order) => {
+    const dateObject = new Date(order.createdAt);
+    const formattedDate = dateObject.toLocaleString();
     try {
       const response = await axios.post(
         `http://localhost:8080/generatepdfonly/${order.id}`,
@@ -56,7 +58,7 @@ const OrderInActiveItem = (props) => {
       downloadLink.href = url;
       downloadLink.setAttribute(
         "download",
-        `Fatura ${order.productName} ${order.createdAt}.pdf`
+        `Fatura ${order.clientCompanyname} ${order.distributorCompanyName} ${formattedDate}.pdf`
       );
       downloadLink.click();
     } catch (error) {

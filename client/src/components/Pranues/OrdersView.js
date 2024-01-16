@@ -84,7 +84,7 @@ const OrdersView = () => {
         downloadLink.href = url;
         downloadLink.setAttribute(
           "download",
-          `Fatura ${order.clientName} ${order.distributorCompanyName} ${formattedDate}.pdf`
+          `Fatura ${order.clientCompanyname} ${order.distributorCompanyName} ${formattedDate}.pdf`
         );
         downloadLink.click();
       } catch (error) {
@@ -95,6 +95,20 @@ const OrdersView = () => {
       setOrdersList(res.data);
     });
   };
+
+  const groupOrdersByDate = (orders) => {
+    const groupedOrders = {};
+    orders.forEach((order) => {
+      const orderDate = new Date(order.createdAt).toLocaleDateString();
+      if (!groupedOrders[orderDate]) {
+        groupedOrders[orderDate] = [];
+      }
+      groupedOrders[orderDate].push(order);
+    });
+    return groupedOrders;
+  };
+
+  const groupedOrders = groupOrdersByDate(filteredOrders);
 
   return (
     isClient && (
@@ -163,25 +177,14 @@ const OrdersView = () => {
           )}
         </div>
         <div className="orders-view-items-wrapper">
-          {filteredOrders && filteredOrders.length > 0 ? (
-            filteredOrders.map((order) => {
-              return <OrderItem key={order.id} order={order} />;
-            })
-          ) : (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              <p style={{ color: "gray", textDecoration: "italic" }}>
-                Nuk keni bërë akoma porosi
-              </p>
+          {Object.entries(groupedOrders).map(([date, orders]) => (
+            <div key={date}>
+              <h5 style={{ marginBottom: "7px", marginTop: '3px', width: '100%', textAlign: 'center', background: 'white', padding: '10px', border: '1px solid lightgray' }}>{date}</h5>
+              {orders.map((order) => (
+                <OrderItem key={order.id} order={order} />
+              ))}
             </div>
-          )}
+          ))}
         </div>
         {filteredOrders && filteredOrders.length > 0 ? (
           <Button

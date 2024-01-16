@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "@/styling/Pranues/cartview.css";
-import { LocalShipping, RemoveCircle, ShoppingBag } from "@mui/icons-material";
+import { LocalShipping, Refresh, RemoveCircle, ShoppingBag } from "@mui/icons-material";
 import axios from "axios";
 import OrderInActiveItem from "./OrdersInActiveItem";
 import "@/styling/Pranues/ordersview.css";
@@ -10,12 +10,52 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  TextField,
+  Tooltip,
 } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const OrdersView = () => {
   const [isClient, setIsClient] = useState(false);
 
   const [ordersList, setOrdersList] = useState([]);
+
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [pranuesCompanyName, setPranuesCompanyName] = useState(null);
+
+  const filteredOrders = useMemo(() => {
+    if (
+      startDate === null &&
+      endDate === null &&
+      pranuesCompanyName === null
+    ) {
+      return ordersList;
+    }
+  
+    return ordersList.filter((order) => {
+      const orderDate = new Date(order.createdAt).setHours(0, 0, 0, 0);
+      const startDateTime = startDate
+        ? new Date(startDate).setHours(0, 0, 0, 0)
+        : null;
+      const endDateTime = endDate
+        ? new Date(endDate).setHours(23, 59, 59, 999)
+        : null;
+  
+      const matchesDateRange =
+        (startDateTime === null || orderDate >= startDateTime) &&
+        (endDateTime === null || orderDate <= endDateTime);
+  
+      const matchesPranues =
+        pranuesCompanyName === null ||
+        order.clientCompanyname.toLowerCase().includes(pranuesCompanyName.trim().toLowerCase());
+  
+      return matchesDateRange && matchesPranues;
+    });
+  }, [startDate, endDate, pranuesCompanyName, ordersList]);
+  
+  
 
   const distributorCompanyName = localStorage.getItem("companyname");
 
@@ -27,11 +67,14 @@ const OrdersView = () => {
       )
       .then((res) => {
         setOrdersList(res.data);
+        console.log(res.data)
       });
   }, []);
 
   const generatePDFs = async () => {
     for (const order of ordersList) {
+      const dateObject = new Date(order.createdAt);
+      const formattedDate = dateObject.toLocaleString();
       try {
         const response = await axios.post(
           `http://localhost:8080/generatepdfonly/${order.id}`,
@@ -46,7 +89,7 @@ const OrdersView = () => {
         downloadLink.href = url;
         downloadLink.setAttribute(
           "download",
-          `Fatura ${order.productName} ${order.createdAt}.pdf`
+          `Fatura ${order.clientCompanyname} ${order.distributorCompanyName} ${formattedDate}.pdf`
         );
         downloadLink.click();
       } catch (error) {
@@ -184,11 +227,55 @@ const OrdersView = () => {
           <LocalShipping sx={{ color: "rgb(130, 30, 30)" }} />
           <h3 style={{ color: "rgb(130, 30, 30)" }}>Historiku i Porosive</h3>
         </div>
+        <div className="orders-view-navbar" style={{ borderTop: "0px" }}>
+          <TextField
+            label="Klienti"
+            style={{ width: "200px" }}
+            value={pranuesCompanyName}
+            onChange={(e) => {
+              setPranuesCompanyName(e.target.value);
+            }}
+          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Data Fillestare"
+              value={startDate}
+              onChange={(date) => setStartDate(date)}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Data Përfundimtare"
+              value={endDate}
+              onChange={(date) => setEndDate(date)}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+          {(startDate !== null ||
+            endDate !== null ||
+            distributorCompanyName !== null) && (
+            <Tooltip title="Rikthe filtrat në origjinë">
+              <Button
+                variant="outlined"
+                style={{ height: "56px" }}
+                onClick={() => {
+                  setStartDate(null);
+                  setEndDate(null);
+                  setPranuesCompanyName('');
+                }}
+              >
+                <Refresh />
+              </Button>
+            </Tooltip>
+          )}
+        </div>
         <div className="orders-view-items-wrapper">
-          {ordersList && ordersList.length > 0 ? (
-            ordersList.map((order) => {
+          {filteredOrders && filteredOrders.length > 0 ? (
+            filteredOrders.map((order) => {
               return (
                 <OrderInActiveItem
+                  key={order.id}
                   order={order}
                   editOrderDialog={editOrderDialog}
                 />
@@ -210,7 +297,7 @@ const OrdersView = () => {
             </div>
           )}
         </div>
-        {ordersList && ordersList.length > 0 ? (
+        {filteredOrders && filteredOrders.length > 0 ? (
           <Button
             variant="contained"
             color="warning"
