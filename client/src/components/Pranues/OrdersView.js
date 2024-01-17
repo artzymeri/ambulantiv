@@ -9,7 +9,16 @@ import {
 import axios from "axios";
 import OrderItem from "./OrdersItem";
 import "@/styling/Pranues/ordersview.css";
-import { Button, MenuItem, TextField, Tooltip } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  MenuItem,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -23,6 +32,9 @@ const OrdersView = () => {
   const [endDate, setEndDate] = useState(null);
   const [distributorCompanyName, setDistributorCompanyName] = useState(null);
 
+  const [yearlyBonusDialogOpen, setYearlyBonusDialogOpen] = useState(false);
+  const [yearlyBonusPercentage, setYearlyBonusPercentage] = useState(null);
+
   const filteredOrders = useMemo(() => {
     if (
       startDate === null &&
@@ -31,7 +43,7 @@ const OrdersView = () => {
     ) {
       return ordersList;
     }
-  
+
     return ordersList.filter((order) => {
       const orderDate = new Date(order.createdAt).setHours(0, 0, 0, 0);
       const startDateTime = startDate
@@ -40,19 +52,18 @@ const OrdersView = () => {
       const endDateTime = endDate
         ? new Date(endDate).setHours(23, 59, 59, 999)
         : null;
-  
+
       const matchesDateRange =
         (startDateTime === null || orderDate >= startDateTime) &&
         (endDateTime === null || orderDate <= endDateTime);
-  
+
       const matchesDistributor =
         distributorCompanyName === null ||
         order.distributorCompanyName === distributorCompanyName;
-  
+
       return matchesDateRange && matchesDistributor;
     });
   }, [startDate, endDate, distributorCompanyName, ordersList]);
-  
 
   const pranuesId = localStorage.getItem("userId");
 
@@ -113,6 +124,61 @@ const OrdersView = () => {
   return (
     isClient && (
       <div className="orders-view-parent">
+        <Dialog
+          open={yearlyBonusDialogOpen}
+          onClose={() => {
+            setYearlyBonusDialogOpen(false);
+          }}
+        >
+          <DialogTitle borderBottom={"1px solid lightgray"}>
+            Tabela për kalkulimin e bonusit vjetor
+          </DialogTitle>
+          <DialogContent style={{ paddingTop: "20px" }}>
+            <TextField
+              label="Përqindja e bonusit vjetor"
+              fullWidth
+              value={yearlyBonusPercentage}
+              onChange={(e) => {
+                setYearlyBonusPercentage(e.target.value);
+              }}
+            />
+          </DialogContent>
+          <DialogActions
+            style={{ borderTop: "1px solid lightgray", padding: "20px" }}
+          >
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={() => {
+                let totalSum = 0;
+                for (const order of filteredOrders) {
+                  for (const product of JSON.parse(order.products)) {
+                    totalSum = totalSum + parseFloat(product.totalPrice);
+                  }
+                }
+                if (
+                  yearlyBonusPercentage == null ||
+                  yearlyBonusPercentage == ""
+                ) {
+                  window.alert("Ju lutem mbushni numrin e përqindjes vjetore");
+                  return;
+                }
+                window.alert(
+                  `Bonusi vjetor me përqindje ${yearlyBonusPercentage} nga kompania ${distributorCompanyName} është ${(
+                    totalSum *
+                    (parseFloat(yearlyBonusPercentage) / 100)
+                  ).toFixed(2)} nga totali i vlerës: ${parseFloat(
+                    totalSum
+                  ).toFixed(2)}`
+                );
+                setYearlyBonusDialogOpen(false);
+                setYearlyBonusPercentage(null);
+              }}
+            >
+              Kalkulo Bonusin Vjetor
+            </Button>
+          </DialogActions>
+        </Dialog>
         <div className="orders-view-navbar">
           <LocalShipping sx={{ color: "rgb(130, 30, 30)" }} />
           <h3 style={{ color: "rgb(130, 30, 30)" }}>Porositë</h3>
@@ -151,9 +217,16 @@ const OrdersView = () => {
           </LocalizationProvider>
           <Tooltip title="Kalkulo Bonusin Vjetor">
             <Button
-              disabled={startDate == null || endDate == null}
+              disabled={
+                startDate == null ||
+                endDate == null ||
+                distributorCompanyName == null
+              }
               variant="contained"
               style={{ height: "56px" }}
+              onClick={() => {
+                setYearlyBonusDialogOpen(true);
+              }}
             >
               Bonusi Vjetor
             </Button>
@@ -178,8 +251,33 @@ const OrdersView = () => {
         </div>
         <div className="orders-view-items-wrapper">
           {Object.entries(groupedOrders).map(([date, orders]) => (
-            <div key={date}>
-              <h5 style={{ marginBottom: "7px", marginTop: '3px', width: '100%', textAlign: 'center', background: 'white', padding: '10px', border: '1px solid lightgray' }}>{date}</h5>
+            <div
+              key={date}
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <h6
+                  style={{
+                    marginBottom: "0px",
+                    marginTop: "3px",
+                    width: "80px",
+                    textAlign: "center",
+                    background: "white",
+                    padding: "10px",
+                    border: "1px solid lightgray",
+                    borderRadius: "20px",
+                  }}
+                >
+                  {date}
+                </h6>
+              </div>
               {orders.map((order) => (
                 <OrderItem key={order.id} order={order} />
               ))}

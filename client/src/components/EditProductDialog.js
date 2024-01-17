@@ -295,7 +295,7 @@ const EditProductDialog = (props) => {
                   value={false}
                   checked={!editedProduct.outOfStock}
                   control={<Radio />}
-                  label="Ka Stock"
+                  label="Ka stock"
                   onChange={(e) =>
                     setEditedProduct({
                       ...editedProduct,
