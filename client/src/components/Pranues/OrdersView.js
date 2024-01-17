@@ -147,6 +147,17 @@ const OrdersView = () => {
             style={{ borderTop: "1px solid lightgray", padding: "20px" }}
           >
             <Button
+              fullWidth
+              variant="outlined"
+              color="error"
+              onClick={() => {
+                setYearlyBonusPercentage(null);
+                setYearlyBonusDialogOpen(false);
+              }}
+            >
+              Mbyll
+            </Button>
+            <Button
               variant="contained"
               fullWidth
               onClick={() => {
@@ -175,7 +186,7 @@ const OrdersView = () => {
                 setYearlyBonusPercentage(null);
               }}
             >
-              Kalkulo Bonusin Vjetor
+              Kalkulo
             </Button>
           </DialogActions>
         </Dialog>

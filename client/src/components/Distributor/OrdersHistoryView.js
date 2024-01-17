@@ -1,6 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "@/styling/Pranues/cartview.css";
-import { LocalShipping, Refresh, RemoveCircle, ShoppingBag } from "@mui/icons-material";
+import {
+  LocalShipping,
+  Refresh,
+  RemoveCircle,
+  ShoppingBag,
+} from "@mui/icons-material";
 import axios from "axios";
 import OrderInActiveItem from "./OrdersInActiveItem";
 import "@/styling/Pranues/ordersview.css";
@@ -26,14 +31,10 @@ const OrdersView = () => {
   const [pranuesCompanyName, setPranuesCompanyName] = useState(null);
 
   const filteredOrders = useMemo(() => {
-    if (
-      startDate === null &&
-      endDate === null &&
-      pranuesCompanyName === null
-    ) {
+    if (startDate === null && endDate === null && pranuesCompanyName === null) {
       return ordersList;
     }
-  
+
     return ordersList.filter((order) => {
       const orderDate = new Date(order.createdAt).setHours(0, 0, 0, 0);
       const startDateTime = startDate
@@ -42,22 +43,24 @@ const OrdersView = () => {
       const endDateTime = endDate
         ? new Date(endDate).setHours(23, 59, 59, 999)
         : null;
-  
+
       const matchesDateRange =
         (startDateTime === null || orderDate >= startDateTime) &&
         (endDateTime === null || orderDate <= endDateTime);
-  
+
       const matchesPranues =
         pranuesCompanyName === null ||
-        order.clientCompanyname.toLowerCase().includes(pranuesCompanyName.trim().toLowerCase());
-  
+        order.clientCompanyname
+          .toLowerCase()
+          .includes(pranuesCompanyName.trim().toLowerCase());
+
       return matchesDateRange && matchesPranues;
     });
   }, [startDate, endDate, pranuesCompanyName, ordersList]);
-  
-  
 
   const distributorCompanyName = localStorage.getItem("companyname");
+
+  const [listener, triggerUseEffect] = useState(1);
 
   useEffect(() => {
     setIsClient(true);
@@ -67,9 +70,8 @@ const OrdersView = () => {
       )
       .then((res) => {
         setOrdersList(res.data);
-        console.log(res.data)
       });
-  }, []);
+  }, [listener]);
 
   const generatePDFs = async () => {
     for (const order of ordersList) {
@@ -96,13 +98,6 @@ const OrdersView = () => {
         console.error(error);
       }
     }
-    axios
-      .get(
-        `http://localhost:8080/getinactiveordersfromdistributor/${distributorCompanyName}`
-      )
-      .then((res) => {
-        setOrdersList(res.data);
-      });
   };
 
   const [editedOrder, setEditedOrder] = useState({
@@ -135,6 +130,7 @@ const OrdersView = () => {
       editedOrder,
     });
     setEditOrderDialogOpen(false);
+    triggerUseEffect(listener + 1);
   };
 
   const [totalSumOfOrder, setTotalSumOfOrder] = useState(0);
@@ -176,8 +172,9 @@ const OrdersView = () => {
                   style={{
                     display: "flex",
                     width: "100%",
-                    gap: "10px",
                     height: "45px",
+                    justifyContent: "space-between",
+                    gap: "20px",
                     alignItems: "center",
                     background: "whitesmoke",
                     border: "1px solid lightgray",
@@ -186,22 +183,30 @@ const OrdersView = () => {
                     flexShrink: "0",
                   }}
                 >
-                  <p>{product.name}</p>
-                  <p>{product.price}€</p>
-                  <p>x</p>
-                  <input
-                    type="number"
-                    style={{ width: "50px", textAlign: "center" }}
-                    value={product.quantity}
-                    onChange={(e) =>
-                      handleQuantityChange(
-                        product.id,
-                        parseInt(e.target.value, 10)
-                      )
-                    }
-                  />
-                  <p>=</p>
-                  <p>{product.totalPrice}€</p>
+                  <p style={{ fontWeight: "bold" }}>{product.name}</p>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: "5px",
+                    }}
+                  >
+                    <p>{product.price}€</p>
+                    <p>x</p>
+                    <input
+                      type="number"
+                      style={{ width: "50px", textAlign: "center" }}
+                      value={product.quantity}
+                      onChange={(e) =>
+                        handleQuantityChange(
+                          product.id,
+                          parseInt(e.target.value, 10)
+                        )
+                      }
+                    />
+                    <p>=</p>
+                    <p>{product.totalPrice}€</p>
+                  </div>
                 </div>
               );
             })}
@@ -216,9 +221,42 @@ const OrdersView = () => {
               justifyContent: "space-between",
             }}
           >
-            <Button variant="outlined">Mbyll</Button>
-            <div>Totali i Porosisë: {totalSumOfOrder.toFixed(2)}€ </div>
-            <Button variant="contained" onClick={changeOrderFunction}>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setEditOrderDialogOpen(false);
+              }}
+            >
+              Mbyll
+            </Button>
+            <div
+              style={{
+                padding: "5px 20px",
+                background: "whitesmoke",
+                borderRadius: "20px",
+                boxShadow: "0px 0px 5px lightgray",
+                border: "1px solid lightgray",
+                fontWeight: "300",
+              }}
+            >
+              Totali i Porosisë:{" "}
+              <span style={{ fontWeight: "400" }}>
+                {totalSumOfOrder.toFixed(2)}€
+              </span>
+            </div>
+            <Button
+              variant="contained"
+              onClick={() => {
+                changeOrderFunction();
+                axios
+                  .get(
+                    `http://localhost:8080/getinactiveordersfromdistributor/${distributorCompanyName}`
+                  )
+                  .then((res) => {
+                    setOrdersList(res.data);
+                  });
+              }}
+            >
               Edito
             </Button>
           </DialogActions>
@@ -262,7 +300,7 @@ const OrdersView = () => {
                 onClick={() => {
                   setStartDate(null);
                   setEndDate(null);
-                  setPranuesCompanyName('');
+                  setPranuesCompanyName("");
                 }}
               >
                 <Refresh />

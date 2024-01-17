@@ -56,8 +56,6 @@ const OrderActiveItem = (props) => {
     } catch (error) {
       console.error(error);
     }
-    triggerUseEffect();
-    updateStateInSideBar(1);
   };
 
   const totalPriceOfOrder = (productsArray) => {
@@ -107,6 +105,8 @@ const OrderActiveItem = (props) => {
               <Button
                 onClick={() => {
                   completeOrder(props.order);
+                  triggerUseEffect();
+                  updateStateInSideBar(1);
                 }}
                 variant="contained"
                 color="warning"

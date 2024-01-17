@@ -40,21 +40,21 @@ const OrdersView = ({ updateStateInSideBar }) => {
     for (const order of ordersList) {
       try {
         axios.post(
-          `http://localhost:8080/completeorder/${order.id}`
-          // { order },
-          // { responseType: "blob" }
+          `http://localhost:8080/completeorder/${order.id}`,
+          { order },
+          { responseType: "blob" }
         );
 
-        // const downloadLink = document.createElement("a");
-        // const blob = new Blob([response.data], { type: "application/pdf" });
-        // const url = URL.createObjectURL(blob);
+        const downloadLink = document.createElement("a");
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
 
-        // downloadLink.href = url;
-        // downloadLink.setAttribute(
-        //   "download",
-        //   `Fatura ${order.productName} ${order.createdAt}.pdf`
-        // );
-        // downloadLink.click();
+        downloadLink.href = url;
+        downloadLink.setAttribute(
+          "download",
+          `Fatura ${order.productName} ${order.createdAt}.pdf`
+        );
+        downloadLink.click();
       } catch (error) {
         console.error(error);
       }
@@ -100,6 +100,7 @@ const OrdersView = ({ updateStateInSideBar }) => {
       editedOrder,
     });
     setEditOrderDialogOpen(false);
+    triggerUseEffect();
   };
 
   const [totalSumOfOrder, setTotalSumOfOrder] = useState(0);
