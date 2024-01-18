@@ -54,6 +54,7 @@ const UsersRequests = () => {
       emailAddress: user.emailAddress,
       password: user.password,
       companyType: user.companyType,
+      companyLogo: user.companyLogo,
     });
 
     axios

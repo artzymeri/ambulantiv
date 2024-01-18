@@ -1,0 +1,8 @@
+.pranues-companies-parent {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 30px;
+  gap: 15px;
+  background-color: whitesmoke;
+}

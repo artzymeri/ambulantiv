@@ -24,6 +24,7 @@ import MuiAlert from "@mui/material/Alert";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import "@/styling/global.css";
 import dynamic from "next/dynamic";
+import { FileUploader } from "react-drag-drop-files";
 
 const LoginChecker = dynamic(
   () => import("@/components/Checkers/LoginChecker"),
@@ -34,7 +35,6 @@ const LoginChecker = dynamic(
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
-
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -71,6 +71,7 @@ const Register = () => {
     password: "",
     address: "",
     companyType: "",
+    companyLogo: null,
   });
 
   const [textFieldProps, setTextFieldProps] = useState({
@@ -122,15 +123,18 @@ const Register = () => {
               message: message,
             });
             setSnackbarOpen(true);
-            setRegisterInfo({
-              namesurname: "",
-              companyname: "",
-              phoneNumber: "",
-              emailAddress: "",
-              password: "",
-              address: "",
-              companyType: null,
-            });
+            if (title == "success") {
+              setRegisterInfo({
+                namesurname: "",
+                companyname: "",
+                phoneNumber: "",
+                emailAddress: "",
+                password: "",
+                address: "",
+                companyType: null,
+                companyLogo: null,
+              });
+            }
           });
         setTextFieldProps({
           ...textFieldProps,
@@ -144,6 +148,17 @@ const Register = () => {
         });
       }
     }
+  };
+
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (file) => {
+    const fileReader = new FileReader();
+    setFile(file);
+    fileReader.readAsDataURL(file);
+    fileReader.onload = (e) => {
+      setRegisterInfo({ ...regsiterInfo, companyLogo: e.target.result });
+    };
   };
 
   return (
@@ -425,6 +440,27 @@ const Register = () => {
                       />
                     </RadioGroup>
                   </FormControl>
+                  <div className="file-uploader-container-edit">
+                    <FileUploader
+                      multiple={false}
+                      handleChange={handleFileChange}
+                      name="file"
+                      required={true}
+                      hoverTitle="Vendose këtu"
+                      label="Ngarko fotografinë ose zvarrite këtu"
+                    />
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "12px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {file
+                        ? `Emri i fotografisë: ${file.name}`
+                        : "Asnjë fotografi nuk është ngarkuar akoma"}
+                    </p>
+                  </div>
                 </Stack>
                 <Button
                   className="shadow-one"

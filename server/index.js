@@ -331,15 +331,27 @@ app.post("/requestregister", async (req, res) => {
       emailAddress,
       password,
       companyType,
+      companyLogo,
     } = req.body;
 
     const hashedPassword = bcrypt.hashSync(password, 10);
 
-    const existingUser = await users_requests_table.findOne({
+    const existingUserInRequests = await users_requests_table.findOne({
       where: { phoneNumber: phoneNumber },
     });
 
-    if (existingUser) {
+    const existingUserInUsers = await users_table.findOne({
+      where: { phoneNumber: phoneNumber },
+    });
+
+    if (existingUserInRequests) {
+      return res.json({
+        title: "error",
+        message: "Numri i paraqitur është përdorur më parë",
+      });
+    }
+
+    if (existingUserInUsers) {
       return res.json({
         title: "error",
         message: "Numri i paraqitur është përdorur më parë",
@@ -354,6 +366,7 @@ app.post("/requestregister", async (req, res) => {
       emailAddress,
       password: hashedPassword,
       companyType,
+      companyLogo,
     });
 
     res.json({
@@ -377,6 +390,7 @@ app.post("/register", async (req, res) => {
       emailAddress,
       password,
       companyType,
+      companyLogo,
     } = req.body;
 
     await users_table.create({
@@ -387,6 +401,7 @@ app.post("/register", async (req, res) => {
       emailAddress,
       password,
       companyType,
+      companyLogo,
     });
 
     res.json({

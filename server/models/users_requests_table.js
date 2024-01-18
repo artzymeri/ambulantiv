@@ -56,6 +56,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: false,
       },
     },
+    companyLogo: {
+      type: DataTypes.TEXT("long"),
+      allowNull: true,
+      validate: {
+        notEmpty: false,
+      },
+    },
   });
   return users_requests_table;
 };

@@ -8,7 +8,9 @@ import {
   Home,
   LocalGroceryStore,
   LogoutOutlined,
+  Shop,
   ShoppingBag,
+  Storage,
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { observer } from "mobx-react";
@@ -58,12 +60,18 @@ const PranuesSideBar = (props) => {
     },
     {
       id: 2,
+      displayName: "Kompanitë",
+      pathOnClick: "/pranues/companies",
+      icon: <Storage />,
+    },
+    {
+      id: 3,
       displayName: "Produktet",
       pathOnClick: "/pranues/products",
       icon: <LocalGroceryStore />,
     },
     {
-      id: 3,
+      id: 4,
       displayName: "Historiku i porosive",
       pathOnClick: "/pranues/orders",
       icon: <History />,
