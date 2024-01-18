@@ -576,6 +576,73 @@ app.post("/changeprofiledetailsdistributor/:userId", async (req, res) => {
   }
 });
 
+app.post("/changeprofiledetailspranues/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const {
+    namesurname,
+    companyname,
+    phoneNumber,
+    emailAddress,
+    companyAddress,
+  } = req.body.profileInfo;
+
+  try {
+    const userToEdit = await users_table.findByPk(userId);
+
+    const alreadyUserPhoneNumber = await users_table.findAll({
+      where: {
+        phoneNumber: phoneNumber,
+        id: {
+          [Op.ne]: userId,
+        },
+      },
+    });
+
+    if (alreadyUserPhoneNumber.length > 0) {
+      res.json({
+        title: "error",
+        message:
+          "Numri i vendosur është i përdorur më parë nga një përdorues tjetër",
+      });
+    } else {
+      userToEdit.namesurname = namesurname;
+      userToEdit.companyname = companyname;
+      userToEdit.phoneNumber = phoneNumber;
+      userToEdit.emailAddress = emailAddress;
+      userToEdit.address = companyAddress;
+
+      const ordersToChange = await orders_table.findAll({
+        where: { clientCompanyname: req.body.clientCompanyname },
+      });
+
+      for (const order of ordersToChange) {
+        order.clientName = namesurname;
+        order.clientCompanyname = companyname;
+        order.clientCompanyAddress = companyAddress;
+        order.save();
+      }
+
+      await userToEdit.save();
+
+      res.json({
+        title: "success",
+        message: "Të dhënat u ndryshuan me sukses",
+        companyname: companyname,
+        companyAddress: companyAddress,
+        namesurname: namesurname,
+        phoneNumber: phoneNumber,
+        emailAddress: emailAddress,
+      });
+    }
+  } catch (error) {
+    console.error("Error updating profile details:", error);
+    res.status(500).json({
+      title: "error",
+      message: "Gabim gjatë përpjekjes për të ndryshuar të dhënat e profilit",
+    });
+  }
+});
+
 app.post("/changepassword/:userId", async (req, res) => {
   const { userId } = req.params;
   const { newPassword } = req.body;

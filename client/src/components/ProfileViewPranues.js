@@ -61,6 +61,7 @@ const ProfileViewPranues = (props) => {
     companyname: localStorage.getItem("companyname"),
     phoneNumber: localStorage.getItem("phonenumber"),
     emailAddress: localStorage.getItem("emailaddress"),
+    companyAddress: localStorage.getItem("companyAddress"),
   });
 
   const [newPasswordTester, setNewPasswordTester] = useState("");
@@ -160,8 +161,20 @@ const ProfileViewPranues = (props) => {
           }
         )
         .then((res) => {
-          const { title, message, companyname } = res.data;
+          const {
+            title,
+            message,
+            companyname,
+            namesurname,
+            emailAddress,
+            companyAddress,
+            phoneNumber,
+          } = res.data;
           localStorage.setItem("companyname", companyname);
+          localStorage.setItem("namesurname", namesurname);
+          localStorage.setItem("emailaddress", emailAddress);
+          localStorage.setItem("companyAddress", companyAddress);
+          localStorage.setItem("phonenumber", phoneNumber);
           setSnackbarData({
             title: title,
             message: message,
@@ -365,6 +378,23 @@ const ProfileViewPranues = (props) => {
                     setProfileInfo({
                       ...profileInfo,
                       companyname: e.target.value,
+                    })
+                  }
+                  onKeyPress={handleKeyPress}
+                />
+                <TextField
+                  className="shadow-one b-5"
+                  fullWidth
+                  autoComplete="off"
+                  size="small"
+                  label="Adresa Dyqanit/Kompanisë"
+                  name="companyAddress"
+                  type="text"
+                  value={profileInfo.companyAddress}
+                  onChange={(e) =>
+                    setProfileInfo({
+                      ...profileInfo,
+                      companyAddress: e.target.value,
                     })
                   }
                   onKeyPress={handleKeyPress}
