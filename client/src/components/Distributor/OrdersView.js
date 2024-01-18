@@ -96,6 +96,30 @@ const OrdersView = ({ updateStateInSideBar }) => {
   };
 
   const changeOrderFunction = () => {
+    const hasInvalidQuantity = editedOrder.products.some(
+      (product) =>
+        product.quantity == null ||
+        product.quantity == "" ||
+        isNaN(product.quantity)
+    );
+
+    const hasNegativeQuantity = editedOrder.products.some(
+      (product) => product.quantity < 0
+    );
+
+    if (hasNegativeQuantity) {
+      window.alert(
+        "Ju lutem mos vendosni sasi negative tek sasia e produkteve"
+      );
+      return;
+    }
+
+    if (hasInvalidQuantity) {
+      window.alert(
+        "Ju lutem mbushni rubrikat e zbrazura të sasive të produktit"
+      );
+      return;
+    }
     axios.post(`http://localhost:8080/changeorder/${editedOrder.id}`, {
       editedOrder,
     });

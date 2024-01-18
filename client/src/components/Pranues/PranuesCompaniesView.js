@@ -3,12 +3,19 @@ import "@/styling/global.css";
 import "@/styling/Pranues/pranuescompanies.css";
 import axios from "axios";
 import { Storage } from "@mui/icons-material";
+import { useRouter } from "next/router";
 
 const PranuesCompaniesView = () => {
   const [isClient, setIsClient] = useState(false);
+  const [distributorsList, setDistributorsList] = useState([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
+    axios.get("http://localhost:8080/getdistributors").then((res) => {
+      setDistributorsList(res.data);
+    });
   }, []);
 
   return (
@@ -39,7 +46,25 @@ const PranuesCompaniesView = () => {
             Kompanitë
           </div>
           <div className="pranues-companies-parent">
-            Here will come the mapping
+            {distributorsList && distributorsList.length > 0
+              ? distributorsList.map((distributor) => {
+                  return (
+                    <div
+                      className="pranues-companies-item"
+                      onClick={() => {
+                        router.push({
+                          pathname: "/pranues/products/company",
+                          query: {
+                            companyname: distributor.companyname,
+                          },
+                        });
+                      }}
+                    >
+                      <img src={distributor.companyLogo} />
+                    </div>
+                  );
+                })
+              : null}
           </div>
         </div>
       </>
