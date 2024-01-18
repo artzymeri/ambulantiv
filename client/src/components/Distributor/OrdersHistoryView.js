@@ -128,10 +128,21 @@ const OrdersView = () => {
   const changeOrderFunction = () => {
     const hasInvalidQuantity = editedOrder.products.some(
       (product) =>
-        product.quantity === null ||
-        product.quantity === "" ||
-        product.quantity === NaN
+        product.quantity == null ||
+        product.quantity == "" ||
+        isNaN(product.quantity)
     );
+
+    const hasNegativeQuantity = editedOrder.products.some(
+      (product) => product.quantity < 0
+    );
+
+    if (hasNegativeQuantity) {
+      window.alert(
+        "Ju lutem mos vendosni sasi negative tek sasia e produkteve"
+      );
+      return;
+    }
 
     if (hasInvalidQuantity) {
       window.alert(
@@ -145,7 +156,6 @@ const OrdersView = () => {
     });
     setEditOrderDialogOpen(false);
     triggerUseEffect(listener + 1);
-    console.log(editedOrder);
   };
 
   const [totalSumOfOrder, setTotalSumOfOrder] = useState(0);
@@ -157,6 +167,20 @@ const OrdersView = () => {
     }
     setTotalSumOfOrder(totalSum);
   }, [editedOrder]);
+
+  const groupOrdersByDate = (orders) => {
+    const groupedOrders = {};
+    orders.forEach((order) => {
+      const orderDate = new Date(order.createdAt).toLocaleDateString();
+      if (!groupedOrders[orderDate]) {
+        groupedOrders[orderDate] = [];
+      }
+      groupedOrders[orderDate].push(order);
+    });
+    return groupedOrders;
+  };
+
+  const groupedOrders = groupOrdersByDate(filteredOrders);
 
   return (
     isClient && (
@@ -325,15 +349,47 @@ const OrdersView = () => {
         </div>
         <div className="orders-view-items-wrapper">
           {filteredOrders && filteredOrders.length > 0 ? (
-            filteredOrders.map((order) => {
-              return (
-                <OrderInActiveItem
-                  key={order.id}
-                  order={order}
-                  editOrderDialog={editOrderDialog}
-                />
-              );
-            })
+            Object.entries(groupedOrders).map(([date, orders]) => (
+              <div
+                key={date}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
+                  }}
+                >
+                  <h6
+                    style={{
+                      marginBottom: "0px",
+                      marginTop: "3px",
+                      width: "80px",
+                      textAlign: "center",
+                      background: "white",
+                      padding: "10px",
+                      border: "1px solid lightgray",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    {date}
+                  </h6>
+                </div>
+                {orders.map((order) => (
+                  <OrderInActiveItem
+                    key={order.id}
+                    order={order}
+                    editOrderDialog={editOrderDialog}
+                  />
+                ))}
+              </div>
+            ))
           ) : (
             <div
               style={{
