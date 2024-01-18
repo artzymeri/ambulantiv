@@ -17,9 +17,12 @@ const DistributorSideBar = dynamic(
   { ssr: false }
 );
 
-const ProfileView = dynamic(() => import("@/components/ProfileView"), {
-  ssr: false,
-});
+const ProfileView = dynamic(
+  () => import("@/components/ProfileViewDistributor"),
+  {
+    ssr: false,
+  }
+);
 
 const Profile = () => {
   const [display, setDisplay] = useState("none");
@@ -35,14 +38,14 @@ const Profile = () => {
   return (
     <AuthenticatorChecker>
       <DistributorChecker>
-      <div
-            style={{
-              display: "flex",
-              width: "100vw",
-              height: "100vh",
-              overflowX: "clip",
-            }}
-          >
+        <div
+          style={{
+            display: "flex",
+            width: "100vw",
+            height: "100vh",
+            overflowX: "clip",
+          }}
+        >
           <DistributorSideBar display={display} closeSidebar={closeSidebar} />
           <div
             style={{
@@ -55,13 +58,13 @@ const Profile = () => {
           >
             <ProfileView openSidebar={openSidebar} />
             <div className="sidebar-distributor-trigger-wrapper">
-                <button
-                  className="sidebar-distributor-trigger-button shadow-one"
-                  onClick={openSidebar}
-                >
-                  <Menu style={{ color: "white" }} />
-                </button>
-              </div>
+              <button
+                className="sidebar-distributor-trigger-button shadow-one"
+                onClick={openSidebar}
+              >
+                <Menu style={{ color: "white" }} />
+              </button>
+            </div>
           </div>
         </div>
       </DistributorChecker>

@@ -21,7 +21,7 @@ import Head from "next/head";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
 
-const ProfileView = (props) => {
+const ProfileViewPranues = (props) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -151,13 +151,17 @@ const ProfileView = (props) => {
     } else {
       axios
         .post(
-          `http://localhost:8080/changeprofiledetails/${localStorage.getItem(
+          `http://localhost:8080/changeprofiledetailspranues/${localStorage.getItem(
             "userId"
           )}`,
-          profileInfo
+          {
+            profileInfo: profileInfo,
+            clientCompanyname: localStorage.getItem("companyname"),
+          }
         )
         .then((res) => {
-          const { title, message } = res.data;
+          const { title, message, companyname } = res.data;
+          localStorage.setItem("companyname", companyname);
           setSnackbarData({
             title: title,
             message: message,
@@ -448,8 +452,4 @@ const ProfileView = (props) => {
   );
 };
 
-export default ProfileView;
-
-{
-  /*  */
-}
+export default ProfileViewPranues;

@@ -126,11 +126,26 @@ const OrdersView = () => {
   };
 
   const changeOrderFunction = () => {
+    const hasInvalidQuantity = editedOrder.products.some(
+      (product) =>
+        product.quantity === null ||
+        product.quantity === "" ||
+        product.quantity === NaN
+    );
+
+    if (hasInvalidQuantity) {
+      window.alert(
+        "Ju lutem mbushni rubrikat e zbrazura të sasive të produktit"
+      );
+      return;
+    }
+
     axios.post(`http://localhost:8080/changeorder/${editedOrder.id}`, {
       editedOrder,
     });
     setEditOrderDialogOpen(false);
     triggerUseEffect(listener + 1);
+    console.log(editedOrder);
   };
 
   const [totalSumOfOrder, setTotalSumOfOrder] = useState(0);

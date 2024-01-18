@@ -18,9 +18,12 @@ const PranuesSideBar = dynamic(
   { ssr: false }
 );
 
-const ProfileView = dynamic(() => import("@/components/ProfileView"), {
-  ssr: false,
-});
+const ProfileView = dynamic(
+  () => import("@/components/ProfileViewDistributor"),
+  {
+    ssr: false,
+  }
+);
 
 const Profile = () => {
   const [display, setDisplay] = useState("none");

@@ -497,9 +497,15 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/changeprofiledetails/:userId", async (req, res) => {
+app.post("/changeprofiledetailsdistributor/:userId", async (req, res) => {
   const { userId } = req.params;
-  const { namesurname, companyname, phoneNumber, emailAddress } = req.body;
+  const {
+    namesurname,
+    companyname,
+    phoneNumber,
+    emailAddress,
+    companyAddress,
+  } = req.body.profileInfo;
 
   try {
     const userToEdit = await users_table.findByPk(userId);
@@ -526,12 +532,39 @@ app.post("/changeprofiledetails/:userId", async (req, res) => {
       userToEdit.companyname = companyname;
       userToEdit.phoneNumber = phoneNumber;
       userToEdit.emailAddress = emailAddress;
+      userToEdit.address = companyAddress;
+
+      const productsToChange = await listed_products.findAll({
+        where: {
+          distributor: req.body.distributorCompanyName,
+        },
+      });
+
+      const ordersToChange = await orders_table.findAll({
+        where: { distributorCompanyName: req.body.distributorCompanyName },
+      });
+
+      for (const product of productsToChange) {
+        product.distributor = companyname;
+        product.save();
+      }
+
+      for (const order of ordersToChange) {
+        order.distributorCompanyName = companyname;
+        order.distributorCompanyAddress = companyAddress;
+        order.save();
+      }
 
       await userToEdit.save();
 
       res.json({
         title: "success",
         message: "Të dhënat u ndryshuan me sukses",
+        companyname: companyname,
+        companyAddress: companyAddress,
+        namesurname: namesurname,
+        phoneNumber: phoneNumber,
+        emailAddress: emailAddress,
       });
     }
   } catch (error) {
