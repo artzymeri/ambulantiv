@@ -87,7 +87,14 @@ const Register = () => {
   const handleRegister = () => {
     const isEmpty = (value) => value === null || value === "";
 
-    if (Object.values(regsiterInfo).some((value) => isEmpty(value))) {
+    if (
+      isEmpty(regsiterInfo.namesurname) ||
+      isEmpty(regsiterInfo.companyname) ||
+      isEmpty(regsiterInfo.phoneNumber) ||
+      isEmpty(regsiterInfo.password) ||
+      isEmpty(regsiterInfo.address) ||
+      isEmpty(regsiterInfo.companyType)
+    ) {
       setSnackbarData({
         title: "error",
         message: "Ju lutem mbushni të dhënat",
@@ -104,11 +111,6 @@ const Register = () => {
         regsiterInfo.phoneNumber.length > 12
       ) {
         setTextFieldProps({ ...textFieldProps, phoneNumberError: true });
-      } else if (
-        !regsiterInfo.emailAddress.includes("@") ||
-        !regsiterInfo.emailAddress.includes(".")
-      ) {
-        setTextFieldProps({ ...textFieldProps, emailAddressError: true });
       } else if (regsiterInfo.password.length < 8) {
         setTextFieldProps({ ...textFieldProps, passwordError: true });
       } else if (regsiterInfo.address.length < 3) {
