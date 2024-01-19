@@ -20,6 +20,7 @@ import MuiAlert from "@mui/material/Alert";
 import Head from "next/head";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
+import { FileUploader } from "react-drag-drop-files";
 
 const ProfileViewDistributor = (props) => {
   const [isClient, setIsClient] = useState(false);
@@ -191,6 +192,17 @@ const ProfileViewDistributor = (props) => {
   };
 
   const [dialogPasswordOpen, setDialogPasswordOpen] = useState(false);
+
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (file) => {
+    const fileReader = new FileReader();
+    setFile(file);
+    fileReader.readAsDataURL(file);
+    fileReader.onload = (e) => {
+      setRegisterInfo({ ...regsiterInfo, companyLogo: e.target.result });
+    };
+  };
 
   return (
     isClient && (
@@ -448,6 +460,27 @@ const ProfileViewDistributor = (props) => {
                   }
                   onKeyPress={handleKeyPress}
                 />
+                <div className="file-uploader-container-edit">
+                  <FileUploader
+                    multiple={false}
+                    handleChange={handleFileChange}
+                    name="file"
+                    required={true}
+                    hoverTitle="Vendose këtu"
+                    label="Ngarko fotografinë ose zvarrite këtu"
+                  />
+                  <p
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "12px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {file
+                      ? `Emri i fotografisë: ${file.name}`
+                      : "Asnjë fotografi nuk është ngarkuar akoma"}
+                  </p>
+                </div>
               </Stack>
               <Button
                 className="shadow-one"
