@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "@/styling/Pranues/cartview.css";
 import {
+  Add,
+  Delete,
   LocalShipping,
   Refresh,
   RemoveCircle,
@@ -182,6 +184,10 @@ const OrdersView = () => {
 
   const groupedOrders = groupOrdersByDate(filteredOrders);
 
+  const [addProductDialogOpen, setAddProductDialogOpen] = useState(false);
+
+  const [companyProducts, setCompanyProducts] = useState([]);
+
   return (
     isClient && (
       <div className="orders-view-parent">
@@ -202,6 +208,7 @@ const OrdersView = () => {
               display: "flex",
               flexDirection: "column",
               overflowY: "auto",
+              background: "whitesmoke",
             }}
           >
             {editedOrder.products.map((product) => {
@@ -211,11 +218,11 @@ const OrdersView = () => {
                   style={{
                     display: "flex",
                     width: "100%",
-                    height: "45px",
+                    height: "60px",
                     justifyContent: "space-between",
                     gap: "20px",
                     alignItems: "center",
-                    background: "whitesmoke",
+                    background: "white",
                     border: "1px solid lightgray",
                     padding: "0px 10px",
                     borderRadius: "5px",
@@ -228,6 +235,7 @@ const OrdersView = () => {
                       display: "flex",
                       justifyContent: "space-between",
                       gap: "5px",
+                      alignItems: "center",
                     }}
                   >
                     <p>{product.price}€</p>
@@ -245,10 +253,51 @@ const OrdersView = () => {
                     />
                     <p>=</p>
                     <p>{product.totalPrice}€</p>
+                    <Tooltip title="Klikoni për të fshirë porosinë">
+                      <Button
+                        onClick={() => {
+                          const newArray = editedOrder.products.filter(
+                            (oldProducts) => {
+                              return oldProducts.id !== product.id;
+                            }
+                          );
+                          setEditedOrder({
+                            ...editedOrder,
+                            products: newArray,
+                          });
+                        }}
+                        color="error"
+                        variant="contained"
+                        style={{
+                          padding: "3px",
+                          minWidth: "40px",
+                          marginLeft: "10px",
+                        }}
+                      >
+                        <Delete />
+                      </Button>
+                    </Tooltip>
                   </div>
                 </div>
               );
             })}
+            <Button
+              variant="contained"
+              onClick={() => {
+                setAddProductDialogOpen(true);
+                axios
+                  .get(
+                    `http://localhost:8080/getcompanyproducts/${localStorage.getItem(
+                      "companyname"
+                    )}`
+                  )
+                  .then((res) => {
+                    setCompanyProducts(res.data);
+                  });
+              }}
+            >
+              Shto Produkt
+            </Button>
           </DialogContent>
           <DialogActions
             style={{
@@ -262,6 +311,7 @@ const OrdersView = () => {
           >
             <Button
               variant="outlined"
+              color="error"
               onClick={() => {
                 setEditOrderDialogOpen(false);
               }}
@@ -298,6 +348,138 @@ const OrdersView = () => {
             >
               Edito
             </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={addProductDialogOpen}
+          onClose={() => {
+            setAddProductDialogOpen(false);
+          }}
+        >
+          <DialogTitle borderBottom={"1px solid gray"}>
+            Selekto Produktin
+          </DialogTitle>
+          <DialogContent
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              padding: "10px",
+              gap: "10px",
+            }}
+          >
+            {companyProducts && companyProducts.length > 0 ? (
+              companyProducts.map((product) => {
+                return (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      background: "whitesmoke",
+                      alignItems: "center",
+                      borderRadius: "13px",
+                      border: "1px solid lightgray",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        height: "80px",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        width: "100%",
+                        gap: "50px",
+                        paddingRight: "15px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "100%",
+                          alignItems: "center",
+                        }}
+                      >
+                        <img
+                          src={product.photo}
+                          style={{
+                            height: "75%",
+                            aspectRatio: "1 / 1",
+                            marginLeft: "3px",
+                            objectFit: "contain",
+                          }}
+                        />
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            height: "100%",
+                            justifyContent: "center",
+                            gap: "10px",
+                            color: "darkslategray",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          <h4>{product.name}</h4>
+                          <h4>{product.weight}</h4>
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "15px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "4px",
+                            alignItems: "center",
+                          }}
+                        >
+                          <h5>{product.price}€</h5>
+                          <h6>x</h6>
+                          <input type="number" style={{ width: "70px" }} />
+                        </div>
+                        <h3>=</h3>
+                        <h3>100.00€</h3> {/* this is formally put here */}
+                        <Tooltip title="Klikoni për të shtuar produktin">
+                          <Button
+                            variant="contained"
+                            style={{ minWidth: "30px" }}
+                          >
+                            <Add />
+                          </Button>
+                        </Tooltip>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <p>Nuk ka produkte kompania juaj!</p>
+            )}
+          </DialogContent>
+          <DialogActions
+            style={{
+              border: "1px solid gray",
+              borderBottom: "0px",
+              borderLeft: "0px",
+              borderRight: "0px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => {
+                setAddProductDialogOpen(false);
+              }}
+            >
+              Mbyll
+            </Button>
+            <Button variant="contained">Shto Produktin</Button>
           </DialogActions>
         </Dialog>
         <div className="orders-view-navbar">

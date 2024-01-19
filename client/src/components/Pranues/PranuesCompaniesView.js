@@ -60,7 +60,12 @@ const PranuesCompaniesView = () => {
                         });
                       }}
                     >
-                      <img src={distributor.companyLogo} />
+                      {distributor.companyLogo &&
+                      distributor.companyLogo.length > 1 ? (
+                        <img src={distributor.companyLogo} />
+                      ) : (
+                        <h3>{distributor.companyname}</h3>
+                      )}
                     </div>
                   );
                 })

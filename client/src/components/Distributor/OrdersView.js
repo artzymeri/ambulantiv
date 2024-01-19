@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/cartview.css";
-import { LocalShipping, RemoveCircle, ShoppingBag } from "@mui/icons-material";
+import {
+  Delete,
+  LocalShipping,
+  RemoveCircle,
+  ShoppingBag,
+} from "@mui/icons-material";
 import axios from "axios";
 import OrderActiveItem from "./OrdersActiveItem";
 import "@/styling/Pranues/ordersview.css";
@@ -10,6 +15,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Tooltip,
 } from "@mui/material";
 
 const OrdersView = ({ updateStateInSideBar }) => {
@@ -166,8 +172,9 @@ const OrdersView = ({ updateStateInSideBar }) => {
                   style={{
                     display: "flex",
                     width: "100%",
-                    gap: "10px",
                     height: "45px",
+                    justifyContent: "space-between",
+                    gap: "20px",
                     alignItems: "center",
                     background: "whitesmoke",
                     border: "1px solid lightgray",
@@ -176,22 +183,44 @@ const OrdersView = ({ updateStateInSideBar }) => {
                     flexShrink: "0",
                   }}
                 >
-                  <p>{product.name}</p>
-                  <p>{product.price}€</p>
-                  <p>x</p>
-                  <input
-                    type="number"
-                    style={{ width: "50px", textAlign: "center" }}
-                    value={product.quantity}
-                    onChange={(e) =>
-                      handleQuantityChange(
-                        product.id,
-                        parseInt(e.target.value, 10)
-                      )
-                    }
-                  />
-                  <p>=</p>
-                  <p>{product.totalPrice}€</p>
+                  <p style={{ fontWeight: "bold" }}>{product.name}</p>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: "5px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <p>{product.price}€</p>
+                    <p>x</p>
+                    <input
+                      type="number"
+                      style={{ width: "50px", textAlign: "center" }}
+                      value={product.quantity}
+                      onChange={(e) =>
+                        handleQuantityChange(
+                          product.id,
+                          parseInt(e.target.value, 10)
+                        )
+                      }
+                    />
+                    <p>=</p>
+                    <p>{product.totalPrice}€</p>
+                    <Tooltip title="Klikoni për të fshirë porosinë">
+                      <Button
+                        color="error"
+                        variant="outlined"
+                        style={{
+                          padding: "3px",
+                          minWidth: "40px",
+                          marginLeft: "10px",
+                        }}
+                      >
+                        <Delete />
+                      </Button>
+                    </Tooltip>
+                  </div>
                 </div>
               );
             })}
