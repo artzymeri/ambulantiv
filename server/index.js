@@ -520,6 +520,7 @@ app.post("/changeprofiledetailsdistributor/:userId", async (req, res) => {
     phoneNumber,
     emailAddress,
     companyAddress,
+    companyLogo
   } = req.body.profileInfo;
 
   try {
@@ -548,6 +549,7 @@ app.post("/changeprofiledetailsdistributor/:userId", async (req, res) => {
       userToEdit.phoneNumber = phoneNumber;
       userToEdit.emailAddress = emailAddress;
       userToEdit.address = companyAddress;
+      userToEdit.companyLogo = companyLogo;
 
       const productsToChange = await listed_products.findAll({
         where: {

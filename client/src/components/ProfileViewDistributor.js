@@ -63,6 +63,7 @@ const ProfileViewDistributor = (props) => {
     phoneNumber: localStorage.getItem("phonenumber"),
     emailAddress: localStorage.getItem("emailaddress"),
     companyAddress: localStorage.getItem("companyAddress"),
+    companyLogo: localStorage.getItem("companylogo"),
   });
 
   const [newPasswordTester, setNewPasswordTester] = useState("");
@@ -126,7 +127,14 @@ const ProfileViewDistributor = (props) => {
   const handleConfirmDetails = () => {
     const isEmpty = (value) => value === null || value === "";
 
-    if (Object.values(profileInfo).some((value) => isEmpty(value))) {
+    const profileInfoWithoutEmailAndLogo = {
+      namesurname: profileInfo.namesurname,
+      companyname: profileInfo.companyname,
+      phoneNumber: profileInfo.phoneNumber,
+      companyAddress: profileInfo.companyAddress,
+    };
+
+    if (Object.values(profileInfoWithoutEmailAndLogo).some((value) => isEmpty(value))) {
       setSnackbarData({
         title: "error",
         message: "Ju lutem mbushni të dhënat",
@@ -136,9 +144,7 @@ const ProfileViewDistributor = (props) => {
       profileInfo.namesurname.length < 3 ||
       profileInfo.companyname.length < 3 ||
       profileInfo.phoneNumber.length !== 12 ||
-      !profileInfo.phoneNumber.includes("+383") ||
-      !profileInfo.emailAddress.includes("@") ||
-      !profileInfo.emailAddress.includes(".")
+      !profileInfo.phoneNumber.includes("+383") 
     ) {
       setTextFieldProps({
         namesurnameError: profileInfo.namesurname.length < 3,
@@ -146,9 +152,6 @@ const ProfileViewDistributor = (props) => {
         phoneNumberError:
           profileInfo.phoneNumber.length !== 12 ||
           !profileInfo.phoneNumber.includes("+383"),
-        emailAddressError:
-          !profileInfo.emailAddress.includes("@") ||
-          !profileInfo.emailAddress.includes("."),
       });
     } else {
       axios
@@ -200,7 +203,7 @@ const ProfileViewDistributor = (props) => {
     setFile(file);
     fileReader.readAsDataURL(file);
     fileReader.onload = (e) => {
-      setRegisterInfo({ ...regsiterInfo, companyLogo: e.target.result });
+      setProfileInfo({ ...profileInfo, companyLogo: e.target.result });
     };
   };
 

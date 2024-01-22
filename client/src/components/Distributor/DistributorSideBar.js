@@ -62,6 +62,7 @@ const DistributorSideBar = (props) => {
     localStorage.removeItem("companyname");
     localStorage.removeItem("companyAddress");
     localStorage.removeItem("namesurname");
+    localStorage.removeItem("companylogo")
 
     router.push("/auth/login");
   };

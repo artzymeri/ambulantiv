@@ -37,7 +37,6 @@ const Login = () => {
 
   useEffect(() => {
     setIsClient(true);
-    // localStorage.clear();
   }, []);
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -135,6 +134,7 @@ const Login = () => {
               localStorage.setItem("emailaddress", emailAddressOfUser);
               localStorage.setItem("companyAddress", companyAddress);
               localStorage.setItem("userId", userId);
+              localStorage.setItem("companylogo", companyLogo)
 
               router.push("/");
             } else if (pranuesToken) {
