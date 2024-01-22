@@ -859,6 +859,9 @@ app.post("/changeorder/:orderId", async (req, res) => {
   const { orderId } = req.params;
   const { editedOrder } = req.body;
   const changedOrder = await orders_table.findByPk(orderId);
+  if (typeof editedOrder.products === "string") {
+    editedOrder.products = JSON.parse(editedOrder.products)
+  }
 
   try {
     changedOrder.products = JSON.stringify(editedOrder.products);

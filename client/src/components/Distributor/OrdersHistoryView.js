@@ -32,6 +32,8 @@ const OrdersView = () => {
   const [endDate, setEndDate] = useState(null);
   const [pranuesCompanyName, setPranuesCompanyName] = useState(null);
 
+  const [tempQuantities, setTempQuantities] = useState({});
+
   const filteredOrders = useMemo(() => {
     if (startDate === null && endDate === null && pranuesCompanyName === null) {
       return ordersList;
@@ -72,6 +74,7 @@ const OrdersView = () => {
       )
       .then((res) => {
         setOrdersList(res.data);
+        console.log(res.data);
       });
   }, [listener]);
 
@@ -439,14 +442,53 @@ const OrdersView = () => {
                         >
                           <h5>{product.price}€</h5>
                           <h6>x</h6>
-                          <input type="number" style={{ width: "70px" }} />
+                          <input
+                            type="number"
+                            style={{ width: "70px" }}
+                            value={tempQuantities[product.id] || ""}
+                            onChange={(e) => {
+                              setTempQuantities((prevQuantities) => ({
+                                ...prevQuantities,
+                                [product.id]: parseInt(e.target.value, 10),
+                              }));
+                            }}
+                          />
                         </div>
                         <h3>=</h3>
-                        <h3>100.00€</h3> {/* this is formally put here */}
+                        <h3>{}€</h3> {/* this is formally put here */}
                         <Tooltip title="Klikoni për të shtuar produktin">
                           <Button
                             variant="contained"
                             style={{ minWidth: "30px" }}
+                            onClick={() => {
+                              const newQuantity =
+                                tempQuantities[product.id] || 1;
+                              const newTotalPrice = (
+                                newQuantity * product.price
+                              ).toFixed(2);
+
+                              const newProduct = {
+                                id: product.id,
+                                name: product.name,
+                                price: product.price,
+                                weight: product.weight,
+                                quantity: newQuantity,
+                                discounted: product.discounted,
+                                discountedPercentage:
+                                  product.discountedPercentage,
+                                totalPrice: newTotalPrice,
+                              };
+                              const oldOrder = ordersList.find((order)=>{
+                                return order.id == editedOrder.id
+                              });
+                              const parsedProducts = JSON.parse(oldOrder.products);
+                              parsedProducts.push(newProduct)
+                              oldOrder.products = JSON.stringify(parsedProducts);
+                              setTempQuantities({});
+                              setAddProductDialogOpen(false);
+                              setEditOrderDialogOpen(false);
+                              axios.post(`http://localhost:8080/changeorder/${oldOrder.id}`, {editedOrder: oldOrder});
+                            }}
                           >
                             <Add />
                           </Button>
