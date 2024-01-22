@@ -871,6 +871,24 @@ app.post("/changeorder/:orderId", async (req, res) => {
   }
 });
 
+app.post("/deleteorder/:orderId", async (req, res) => {
+  try {
+    const { orderId } = req.params;
+
+    const deletedRequest = await orders_table.destroy({
+      where: { id: orderId },
+    });
+
+    if (!deletedRequest) {
+      res.json({ title: "error", message: "Produkti nuk u fshi me sukses" });
+    }
+
+    res.json({ title: "success", message: "Produkti u fshi me sukses" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 db.sequelize.sync().then((req) => {
   app.listen(port, () => {
     console.log(`Server is running in http://localhost:${port}`);

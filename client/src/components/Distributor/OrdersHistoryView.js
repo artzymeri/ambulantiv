@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import "@/styling/Pranues/cartview.css";
 import {
   Add,
+  Cancel,
   Delete,
   LocalShipping,
   Refresh,
@@ -201,8 +202,12 @@ const OrdersView = () => {
             setEditedOrder({ ...editedOrder, id: null, products: [] });
           }}
         >
-          <DialogTitle borderBottom={"1px solid gray"}>
-            Edito Porosinë
+          <DialogTitle borderBottom={"1px solid gray"} style={{display: 'flex', justifyContent: 'space-between'}}>
+            <h4>Edito Porosinë</h4>
+            <Cancel style={{cursor: 'pointer'}} onClick={()=>{
+              setEditOrderDialogOpen(false);
+              setEditedOrder({ ...editedOrder, id: null, products: [] });
+            }}/>
           </DialogTitle>
           <DialogContent
             style={{
@@ -316,10 +321,12 @@ const OrdersView = () => {
               variant="outlined"
               color="error"
               onClick={() => {
-                setEditOrderDialogOpen(false);
+                axios.post(`http://localhost:8080/deleteorder/${editedOrder.id}`)
+                setEditOrderDialogOpen(false)
+                triggerUseEffect(listener + 1)
               }}
             >
-              Mbyll
+              Fshi Porosinë
             </Button>
             <div
               style={{

@@ -154,7 +154,7 @@ function createInvoice(orderId, theOrder, res) {
       y += 50;
       y1 += 50;
       y3 += 50;
-      totalSum = parseInt(product.totalPrice) + totalSum;
+      totalSum = parseFloat(product.totalPrice) + totalSum;
     }
     generateTableTotalPrice(doc, totalSum, y3)
     generateFooterDisclaimer(doc);
