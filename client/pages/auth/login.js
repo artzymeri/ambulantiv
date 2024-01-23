@@ -191,7 +191,6 @@ const Login = () => {
                 px: 3,
                 py: "100px",
                 width: "100%",
-                background: 'black'
               }}
             >
               <div>
