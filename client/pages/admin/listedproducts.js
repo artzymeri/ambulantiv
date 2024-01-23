@@ -37,6 +37,7 @@ const EditProductDialog = dynamic(
 );
 
 const ListedProducts = () => {
+  const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const [listedProductsData, setListedProductsData] = useState([]);
@@ -58,14 +59,15 @@ const ListedProducts = () => {
   };
 
   useEffect(() => {
+    setLoading(false)
     axios.get("https://ecommerce-kosova-server.onrender.com/getlistedproducts").then((res) => {
       setListedProductsData(res.data);
-      setLoading(false);
       setIsClient(true);
-    });
+    }).finally(()=>{
+      setLoading(false);
+    })
   }, [refreshRate]);
 
-  const [isClient, setIsClient] = useState(false);
 
   const columns = [
     {
@@ -189,18 +191,19 @@ const ListedProducts = () => {
               </MuiAlert>
             </Snackbar>
             <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
-              <EditProductDialog
-                openDialog={openDialog}
-                editedProductData={editedProduct}
-                handleCloseDialog={handleCloseDialog}
-                refreshListedProductsTable={refreshListedProductsTable}
-              />
               <AdminSideBar display={display} closeSidebar={closeSidebar} />
               {loading ? (
                 <div className="loader-parent">
                   <span class="loader"></span>
                 </div>
               ) : (
+                <>
+                <EditProductDialog
+                openDialog={openDialog}
+                editedProductData={editedProduct}
+                handleCloseDialog={handleCloseDialog}
+                refreshListedProductsTable={refreshListedProductsTable}
+              />
                 <div
                   style={{
                     display: "flex",
@@ -242,6 +245,7 @@ const ListedProducts = () => {
                     <Menu style={{ color: "white" }} />
                   </button>
                 </div>
+              </>
               )}
             </div>
           </AdminChecker>

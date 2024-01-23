@@ -46,6 +46,7 @@ const UsersRequests = () => {
   }, []);
 
   const approveRequest = (user) => {
+    setLoading(true)
     axios.post("https://ecommerce-kosova-server.onrender.com/register", {
       namesurname: user.namesurname,
       companyname: user.companyname,
@@ -63,14 +64,16 @@ const UsersRequests = () => {
         axios.get("https://ecommerce-kosova-server.onrender.com/getrequests").then((res) => {
           setUserRequestsData(res.data);
         });
-      });
+      }).finally(()=>{
+        setLoading(false)
+      })
   };
 
   const deleteRequest = (user) => {
+    setLoading(true);
     axios
       .delete(`https://ecommerce-kosova-server.onrender.com/deleteregisterrequest/${user.id}`)
       .then(() => {
-        setLoading(true);
         axios.get("https://ecommerce-kosova-server.onrender.com/getrequests").then((res) => {
           setUserRequestsData(res.data);
         });
