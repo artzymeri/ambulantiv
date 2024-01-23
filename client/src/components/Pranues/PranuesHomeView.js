@@ -103,9 +103,10 @@ const PranuesHomeView = () => {
                   productsData
                     .slice()
                     .reverse()
-                    .map((product) => {
+                    .map((product, index) => {
                       return (
                         <ProductCard
+                          key={index}
                           product={product}
                           updateLocalStorage={updateLocalStorage}
                           activateSnackbar={activateSnackbar}
@@ -142,9 +143,10 @@ const PranuesHomeView = () => {
                   discountedProducts
                     .slice()
                     .reverse()
-                    .map((product) => {
+                    .map((product, index) => {
                       return (
                         <ProductCard
+                          key={index}
                           product={product}
                           updateLocalStorage={updateLocalStorage}
                           activateSnackbar={activateSnackbar}

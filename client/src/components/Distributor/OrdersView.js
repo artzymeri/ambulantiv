@@ -339,9 +339,10 @@ const OrdersView = ({ updateStateInSideBar }) => {
             }}
           >
             {companyProducts && companyProducts.length > 0 ? (
-              companyProducts.map((product) => {
+              companyProducts.map((product, index) => {
                 return (
                   <div
+                    key={index}
                     style={{
                       display: "flex",
                       justifyContent: "space-between",

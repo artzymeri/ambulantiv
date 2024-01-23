@@ -19,7 +19,7 @@ const ProductsView = dynamic(() => import("@/components/ProductsView"), {
   ssr: false,
 });
 
-const companyPage = () => {
+const CompanyPage = () => {
   const router = useRouter();
 
   const query = router.query;
@@ -49,4 +49,4 @@ const companyPage = () => {
   );
 };
 
-export default companyPage;
+export default CompanyPage;

@@ -47,9 +47,10 @@ const PranuesCompaniesView = () => {
           </div>
           <div className="pranues-companies-parent">
             {distributorsList && distributorsList.length > 0
-              ? distributorsList.map((distributor) => {
+              ? distributorsList.map((distributor, index) => {
                   return (
                     <div
+                      key={index}
                       className="pranues-companies-item"
                       onClick={() => {
                         router.push({

@@ -102,8 +102,9 @@ const PranuesSideBar = (props) => {
             </h3>
             <div className="horizontal-line"></div>
             <div className="sidebar-pranues-wide-navbuttons">
-              {sidebarOptions.map((option) => (
+              {sidebarOptions.map((option, index) => (
                 <h5
+                  key={index}
                   onClick={handleClick(option.pathOnClick)}
                   className={isActive(option.pathOnClick)}
                 >
@@ -185,8 +186,9 @@ const PranuesSideBar = (props) => {
           </h3>
           <div className="horizontal-line"></div>
           <div className="sidebar-pranues-fullscreen-navbuttons">
-            {sidebarOptions.map((option) => (
+            {sidebarOptions.map((option, index) => (
               <h5
+                key={index}
                 onClick={handleClick(option.pathOnClick)}
                 className={isActive(option.pathOnClick)}
               >

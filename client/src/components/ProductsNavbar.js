@@ -97,9 +97,9 @@ const ProductsNavbar = (props) => {
         </div>
         {!companyname && (
           <div className="products-navbar-down">
-            {productOptions.map((option) => {
+            {productOptions.map((option, index) => {
               return (
-                <Tooltip title={option.name}>
+                <Tooltip key={index} title={option.name}>
                   <div
                     onClick={() => {
                       router.push(option.pathOnClick);

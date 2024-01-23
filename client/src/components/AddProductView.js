@@ -187,9 +187,9 @@ const AddProductView = () => {
                   setNewProduct({ ...newProduct, distributor: e.target.value })
                 }
               >
-                {distributorsData.map((distributor) => {
+                {distributorsData.map((distributor, index) => {
                   return (
-                    <MenuItem value={distributor.companyname}>
+                    <MenuItem key={index} value={distributor.companyname}>
                       {distributor.companyname}
                     </MenuItem>
                   );

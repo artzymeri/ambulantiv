@@ -64,8 +64,8 @@ const TableComponent = (props) => {
   return (
     <div className="table-parent shadow-one">
       <div className="table-header">
-        {columns.map((column) => {
-          return <div id={column.id}>{column.name}</div>;
+        {columns.map((column, index) => {
+          return <div key={index} id={column.id}>{column.name}</div>;
         })}
       </div>
       <div className="table-content">
