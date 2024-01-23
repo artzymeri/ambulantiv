@@ -69,7 +69,7 @@ const CompanyListedProducts = () => {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:8080/getlistedproducts/${localStorage.getItem(
+        `https://ecommerce-kosova-server.onrender.com/getlistedproducts/${localStorage.getItem(
           "companyname"
         )}`
       )

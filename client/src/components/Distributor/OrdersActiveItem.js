@@ -38,7 +38,7 @@ const OrderActiveItem = (props) => {
     const formattedDate = dateObject.toLocaleString();
     try {
       const response = await axios.post(
-        `http://localhost:8080/completeorder/${order.id}`,
+        `https://ecommerce-kosova-server.onrender.com/completeorder/${order.id}`,
         { order },
         { responseType: "blob" }
       );

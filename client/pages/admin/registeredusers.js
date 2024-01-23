@@ -36,7 +36,7 @@ const RegisteredUsers = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/getusers").then((res) => {
+    axios.get("https://ecommerce-kosova-server.onrender.com/getusers").then((res) => {
       setUsersData(res.data);
       setLoading(false);
     });
@@ -72,10 +72,10 @@ const RegisteredUsers = () => {
 
   const deleteUser = (user) => {
     axios
-      .delete(`http://localhost:8080/deleteuser/${user.id}`)
+      .delete(`https://ecommerce-kosova-server.onrender.com/deleteuser/${user.id}`)
       .then(() => {
         setLoading(true);
-        axios.get("http://localhost:8080/getusers").then((res) => {
+        axios.get("https://ecommerce-kosova-server.onrender.com/getusers").then((res) => {
           setUsersData(res.data);
         });
       })

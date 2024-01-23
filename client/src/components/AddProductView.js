@@ -15,7 +15,7 @@ const AddProductView = () => {
 
   useEffect(() => {
     setIsClient(true);
-    axios.get("http://localhost:8080/getdistributors").then((res) => {
+    axios.get("https://ecommerce-kosova-server.onrender.com/getdistributors").then((res) => {
       setDistributorsData(res.data);
     });
   }, []);
@@ -76,7 +76,7 @@ const AddProductView = () => {
 
   const addProductFunction = () => {
     axios
-      .post("http://localhost:8080/addnewproduct", { newProduct })
+      .post("https://ecommerce-kosova-server.onrender.com/addnewproduct", { newProduct })
       .then((res) => {
         const { title, message } = res.data;
         setNewProduct({

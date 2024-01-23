@@ -28,7 +28,7 @@ const DistributorSideBar = (props) => {
     try {
       axios
         .get(
-          `http://localhost:8080/getactiveordersfromdistributor/${localStorage.getItem(
+          `https://ecommerce-kosova-server.onrender.com/getactiveordersfromdistributor/${localStorage.getItem(
             "companyname"
           )}`
         )

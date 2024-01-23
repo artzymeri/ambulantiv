@@ -91,7 +91,7 @@ const ProfileViewDistributor = (props) => {
     } else {
       axios
         .post(
-          `http://localhost:8080/changepassword/${localStorage.getItem(
+          `https://ecommerce-kosova-server.onrender.com/changepassword/${localStorage.getItem(
             "userId"
           )}`,
           { newPassword }
@@ -156,7 +156,7 @@ const ProfileViewDistributor = (props) => {
     } else {
       axios
         .post(
-          `http://localhost:8080/changeprofiledetailsdistributor/${localStorage.getItem(
+          `https://ecommerce-kosova-server.onrender.com/changeprofiledetailsdistributor/${localStorage.getItem(
             "userId"
           )}`,
           {

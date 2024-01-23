@@ -58,7 +58,7 @@ const ListedProducts = () => {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:8080/getlistedproducts").then((res) => {
+    axios.get("https://ecommerce-kosova-server.onrender.com/getlistedproducts").then((res) => {
       setListedProductsData(res.data);
       setLoading(false);
       setIsClient(true);
@@ -114,7 +114,7 @@ const ListedProducts = () => {
 
   const deleteProduct = (product) => {
     axios
-      .post(`http://localhost:8080/deleteproduct/${product.id}`)
+      .post(`https://ecommerce-kosova-server.onrender.com/deleteproduct/${product.id}`)
       .then((res) => {
         const { title, message } = res.data;
         setSnackbarData({
@@ -123,7 +123,7 @@ const ListedProducts = () => {
         });
         setSnackbarOpen(true);
         setLoading(true);
-        axios.get("http://localhost:8080/getlistedproducts").then((res) => {
+        axios.get("https://ecommerce-kosova-server.onrender.com/getlistedproducts").then((res) => {
           setListedProductsData(res.data);
         });
       })

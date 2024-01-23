@@ -16,7 +16,7 @@ const CartView = () => {
 
   useEffect(() => {
     setIsClient(true);
-    axios.get("http://localhost:8080/getlistedproducts").then((res) => {
+    axios.get("https://ecommerce-kosova-server.onrender.com/getlistedproducts").then((res) => {
       setListedProducts(res.data);
     });
   }, []);
@@ -120,13 +120,13 @@ const CartView = () => {
       try {
         axios
           .get(
-            `http://localhost:8080/getdistributorcompanyaddress/${order.distributor}`
+            `https://ecommerce-kosova-server.onrender.com/getdistributorcompanyaddress/${order.distributor}`
           )
           .then((res) => {
             const distributorCompanyAddress = res.data[0].address;
             const distributorEmailAddress = res.data[0].emailAddress;
             axios
-              .post("http://localhost:8080/sendorder", {
+              .post("https://ecommerce-kosova-server.onrender.com/sendorder", {
                 order,
                 distributorCompanyAddress,
                 distributorEmailAddress,

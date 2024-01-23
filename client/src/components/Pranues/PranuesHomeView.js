@@ -15,10 +15,10 @@ const PranuesHomeView = () => {
 
   useEffect(() => {
     setIsClient(true);
-    axios.get("http://localhost:8080/getlistedproducts").then((res) => {
+    axios.get("https://ecommerce-kosova-server.onrender.com/getlistedproducts").then((res) => {
       setProductsData(res.data);
     });
-    axios.get("http://localhost:8080/getdiscountedproducts").then((res) => {
+    axios.get("https://ecommerce-kosova-server.onrender.com/getdiscountedproducts").then((res) => {
       setDiscountedProducts(res.data);
     });
   }, []);

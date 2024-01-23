@@ -65,7 +65,7 @@ const EditProductDialog = (props) => {
       discounted: editedProductData.discounted,
       discountedPercentage: editedProductData.discountedPercentage,
     });
-    axios.get("http://localhost:8080/getdistributors").then((res) => {
+    axios.get("https://ecommerce-kosova-server.onrender.com/getdistributors").then((res) => {
       setDistributorsData(res.data);
     });
     setLocalOpenDialog(openDialog);
@@ -121,7 +121,7 @@ const EditProductDialog = (props) => {
       return;
     }
     axios
-      .post(`http://localhost:8080/editproduct/${editedProduct.id}`, {
+      .post(`https://ecommerce-kosova-server.onrender.com/editproduct/${editedProduct.id}`, {
         editedProduct,
       })
       .then((res) => {

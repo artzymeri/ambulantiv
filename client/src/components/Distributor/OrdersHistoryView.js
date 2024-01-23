@@ -71,7 +71,7 @@ const OrdersView = () => {
     setIsClient(true);
     axios
       .get(
-        `http://localhost:8080/getinactiveordersfromdistributor/${distributorCompanyName}`
+        `https://ecommerce-kosova-server.onrender.com/getinactiveordersfromdistributor/${distributorCompanyName}`
       )
       .then((res) => {
         setOrdersList(res.data);
@@ -85,7 +85,7 @@ const OrdersView = () => {
       const formattedDate = dateObject.toLocaleString();
       try {
         const response = await axios.post(
-          `http://localhost:8080/generatepdfonly/${order.id}`,
+          `https://ecommerce-kosova-server.onrender.com/generatepdfonly/${order.id}`,
           { order },
           { responseType: "blob" }
         );
@@ -157,7 +157,7 @@ const OrdersView = () => {
       return;
     }
 
-    axios.post(`http://localhost:8080/changeorder/${editedOrder.id}`, {
+    axios.post(`https://ecommerce-kosova-server.onrender.com/changeorder/${editedOrder.id}`, {
       editedOrder,
     });
     setEditOrderDialogOpen(false);
@@ -295,7 +295,7 @@ const OrdersView = () => {
                 setAddProductDialogOpen(true);
                 axios
                   .get(
-                    `http://localhost:8080/getcompanyproducts/${localStorage.getItem(
+                    `https://ecommerce-kosova-server.onrender.com/getcompanyproducts/${localStorage.getItem(
                       "companyname"
                     )}`
                   )
@@ -321,7 +321,7 @@ const OrdersView = () => {
               variant="outlined"
               color="error"
               onClick={() => {
-                axios.post(`http://localhost:8080/deleteorder/${editedOrder.id}`)
+                axios.post(`https://ecommerce-kosova-server.onrender.com/deleteorder/${editedOrder.id}`)
                 setEditOrderDialogOpen(false)
                 triggerUseEffect(listener + 1)
               }}
@@ -349,7 +349,7 @@ const OrdersView = () => {
                 changeOrderFunction();
                 axios
                   .get(
-                    `http://localhost:8080/getinactiveordersfromdistributor/${distributorCompanyName}`
+                    `https://ecommerce-kosova-server.onrender.com/getinactiveordersfromdistributor/${distributorCompanyName}`
                   )
                   .then((res) => {
                     setOrdersList(res.data);
@@ -495,7 +495,7 @@ const OrdersView = () => {
                               setTempQuantities({});
                               setAddProductDialogOpen(false);
                               setEditOrderDialogOpen(false);
-                              axios.post(`http://localhost:8080/changeorder/${oldOrder.id}`, {editedOrder: oldOrder});
+                              axios.post(`https://ecommerce-kosova-server.onrender.com/changeorder/${oldOrder.id}`, {editedOrder: oldOrder});
                             }}
                           >
                             <Add />

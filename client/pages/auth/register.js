@@ -117,7 +117,7 @@ const Register = () => {
         setTextFieldProps({ ...textFieldProps, addressError: true });
       } else {
         axios
-          .post("http://localhost:8080/requestregister", regsiterInfo)
+          .post("https://ecommerce-kosova-server.onrender.com/requestregister", regsiterInfo)
           .then((res) => {
             const { title, message } = res.data;
             setSnackbarData({

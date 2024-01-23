@@ -35,7 +35,7 @@ const OrderItem = (props) => {
   const generatePDF = async (order) => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/generatepdfonly/${order.id}`,
+        `https://ecommerce-kosova-server.onrender.com/generatepdfonly/${order.id}`,
         { order },
         { responseType: "blob" }
       );

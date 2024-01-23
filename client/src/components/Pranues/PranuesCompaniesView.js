@@ -13,7 +13,7 @@ const PranuesCompaniesView = () => {
 
   useEffect(() => {
     setIsClient(true);
-    axios.get("http://localhost:8080/getdistributors").then((res) => {
+    axios.get("https://ecommerce-kosova-server.onrender.com/getdistributors").then((res) => {
       setDistributorsList(res.data);
     });
   }, []);

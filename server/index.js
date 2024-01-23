@@ -893,6 +893,6 @@ app.post("/deleteorder/:orderId", async (req, res) => {
 
 db.sequelize.sync().then((req) => {
   app.listen(port, () => {
-    console.log(`Server is running in http://localhost:${port}`);
+    console.log(`Server is running successfully`);
   });
 });

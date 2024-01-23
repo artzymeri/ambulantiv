@@ -96,7 +96,7 @@ const Login = () => {
         setTextFieldProps({ ...textFieldProps, passwordError: true });
       } else {
         axios
-          .post("http://localhost:8080/login", {
+          .post("https://ecommerce-kosova-server.onrender.com/login", {
             phoneNumber: loginInfo.phoneNumber,
             password: loginInfo.password,
           })

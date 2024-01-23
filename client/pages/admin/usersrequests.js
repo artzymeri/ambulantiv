@@ -38,7 +38,7 @@ const UsersRequests = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/getrequests").then((res) => {
+    axios.get("https://ecommerce-kosova-server.onrender.com/getrequests").then((res) => {
       setUserRequestsData(res.data);
       setLoading(false);
     });
@@ -46,7 +46,7 @@ const UsersRequests = () => {
   }, []);
 
   const approveRequest = (user) => {
-    axios.post("http://localhost:8080/register", {
+    axios.post("https://ecommerce-kosova-server.onrender.com/register", {
       namesurname: user.namesurname,
       companyname: user.companyname,
       address: user.address,
@@ -58,9 +58,9 @@ const UsersRequests = () => {
     });
 
     axios
-      .delete(`http://localhost:8080/deleteregisterrequest/${user.id}`)
+      .delete(`https://ecommerce-kosova-server.onrender.com/deleteregisterrequest/${user.id}`)
       .then(() => {
-        axios.get("http://localhost:8080/getrequests").then((res) => {
+        axios.get("https://ecommerce-kosova-server.onrender.com/getrequests").then((res) => {
           setUserRequestsData(res.data);
         });
       });
@@ -68,10 +68,10 @@ const UsersRequests = () => {
 
   const deleteRequest = (user) => {
     axios
-      .delete(`http://localhost:8080/deleteregisterrequest/${user.id}`)
+      .delete(`https://ecommerce-kosova-server.onrender.com/deleteregisterrequest/${user.id}`)
       .then(() => {
         setLoading(true);
-        axios.get("http://localhost:8080/getrequests").then((res) => {
+        axios.get("https://ecommerce-kosova-server.onrender.com/getrequests").then((res) => {
           setUserRequestsData(res.data);
         });
       })

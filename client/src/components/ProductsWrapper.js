@@ -60,34 +60,34 @@ const ProductsWrapper = (props) => {
   useEffect(() => {
     setIsClient(true);
     if (allProducts) {
-      axios.get("http://localhost:8080/getlistedproducts").then((res) => {
+      axios.get("https://ecommerce-kosova-server.onrender.com/getlistedproducts").then((res) => {
         setProductsData(res.data);
       });
     } else if (drinksProducts) {
-      axios.get("http://localhost:8080/getdrinksproducts").then((res) => {
+      axios.get("https://ecommerce-kosova-server.onrender.com/getdrinksproducts").then((res) => {
         setProductsData(res.data);
       });
     } else if (fruitsandvegetablesProducts) {
       axios
-        .get("http://localhost:8080/getfruitsandvegetablesproducts")
+        .get("https://ecommerce-kosova-server.onrender.com/getfruitsandvegetablesproducts")
         .then((res) => {
           setProductsData(res.data);
         });
     } else if (foodProducts) {
-      axios.get("http://localhost:8080/getfoodproducts").then((res) => {
+      axios.get("https://ecommerce-kosova-server.onrender.com/getfoodproducts").then((res) => {
         setProductsData(res.data);
       });
     } else if (housekeepProducts) {
-      axios.get("http://localhost:8080/gethousekeepproducts").then((res) => {
+      axios.get("https://ecommerce-kosova-server.onrender.com/gethousekeepproducts").then((res) => {
         setProductsData(res.data);
       });
     } else if (hygeneProducts) {
-      axios.get("http://localhost:8080/gethygeneproducts").then((res) => {
+      axios.get("https://ecommerce-kosova-server.onrender.com/gethygeneproducts").then((res) => {
         setProductsData(res.data);
       });
     } else if (companyname) {
       axios
-        .get(`http://localhost:8080/getcompanyproducts/${companynameForServer}`)
+        .get(`https://ecommerce-kosova-server.onrender.com/getcompanyproducts/${companynameForServer}`)
         .then((res) => {
           setProductsData(res.data);
         });

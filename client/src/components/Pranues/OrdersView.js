@@ -69,10 +69,10 @@ const OrdersView = () => {
 
   useEffect(() => {
     setIsClient(true);
-    axios.get(`http://localhost:8080/getorders/${pranuesId}`).then((res) => {
+    axios.get(`https://ecommerce-kosova-server.onrender.com/getorders/${pranuesId}`).then((res) => {
       setOrdersList(res.data);
     });
-    axios.get("http://localhost:8080/getdistributors").then((res) => {
+    axios.get("https://ecommerce-kosova-server.onrender.com/getdistributors").then((res) => {
       setDistributorsList(res.data);
     });
   }, [startDate, endDate]);
@@ -83,7 +83,7 @@ const OrdersView = () => {
       const formattedDate = dateObject.toLocaleString();
       try {
         const response = await axios.post(
-          `http://localhost:8080/generatepdfonly/${order.id}`,
+          `https://ecommerce-kosova-server.onrender.com/generatepdfonly/${order.id}`,
           { order },
           { responseType: "blob" }
         );
@@ -102,7 +102,7 @@ const OrdersView = () => {
         console.error(error);
       }
     }
-    axios.get(`http://localhost:8080/getorders/${pranuesId}`).then((res) => {
+    axios.get(`https://ecommerce-kosova-server.onrender.com/getorders/${pranuesId}`).then((res) => {
       setOrdersList(res.data);
     });
   };

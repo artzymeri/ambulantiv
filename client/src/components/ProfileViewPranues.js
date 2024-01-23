@@ -89,7 +89,7 @@ const ProfileViewPranues = (props) => {
     } else {
       axios
         .post(
-          `http://localhost:8080/changepassword/${localStorage.getItem(
+          `https://ecommerce-kosova-server.onrender.com/changepassword/${localStorage.getItem(
             "userId"
           )}`,
           { newPassword }
@@ -152,7 +152,7 @@ const ProfileViewPranues = (props) => {
     } else {
       axios
         .post(
-          `http://localhost:8080/changeprofiledetailspranues/${localStorage.getItem(
+          `https://ecommerce-kosova-server.onrender.com/changeprofiledetailspranues/${localStorage.getItem(
             "userId"
           )}`,
           {
