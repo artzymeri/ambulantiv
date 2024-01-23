@@ -34,6 +34,7 @@ const Login = () => {
   const router = useRouter();
 
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -95,6 +96,7 @@ const Login = () => {
       } else if (loginInfo.password.length < 8) {
         setTextFieldProps({ ...textFieldProps, passwordError: true });
       } else {
+        setLoading(true);
         axios
           .post("https://ecommerce-kosova-server.onrender.com/login", {
             phoneNumber: loginInfo.phoneNumber,
@@ -134,7 +136,7 @@ const Login = () => {
               localStorage.setItem("emailaddress", emailAddressOfUser);
               localStorage.setItem("companyAddress", companyAddress);
               localStorage.setItem("userId", userId);
-              localStorage.setItem("companylogo", companyLogo)
+              localStorage.setItem("companylogo", companyLogo);
 
               router.push("/");
             } else if (pranuesToken) {
@@ -148,6 +150,9 @@ const Login = () => {
               router.push("/");
             }
             setSnackbarOpen(true);
+          })
+          .finally(() => {
+            setLoading(false);
           });
       }
     }
@@ -298,17 +303,31 @@ const Login = () => {
                     />
                   </FormControl>
                 </Stack>
-                <Button
-                  className="shadow-one"
-                  fullWidth
-                  size="large"
-                  sx={{ mt: 3 }}
-                  type="submit"
-                  variant="contained"
-                  onClick={login}
-                >
-                  Kyçu
-                </Button>
+                {loading ? (
+                  <Button
+                    className="shadow-one"
+                    fullWidth
+                    size="large"
+                    sx={{ mt: 3 }}
+                    type="submit"
+                    variant="contained"
+                    onClick={login}
+                  >
+                    <span class="button-loader"></span>
+                  </Button>
+                ) : (
+                  <Button
+                    className="shadow-one"
+                    fullWidth
+                    size="large"
+                    sx={{ mt: 3 }}
+                    type="submit"
+                    variant="contained"
+                    onClick={login}
+                  >
+                    Kyçu
+                  </Button>
+                )}
               </div>
             </Box>
           </Box>

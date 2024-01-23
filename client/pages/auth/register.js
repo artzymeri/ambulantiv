@@ -36,6 +36,7 @@ const LoginChecker = dynamic(
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -116,8 +117,12 @@ const Register = () => {
       } else if (regsiterInfo.address.length < 3) {
         setTextFieldProps({ ...textFieldProps, addressError: true });
       } else {
+        setLoading(true);
         axios
-          .post("https://ecommerce-kosova-server.onrender.com/requestregister", regsiterInfo)
+          .post(
+            "https://ecommerce-kosova-server.onrender.com/requestregister",
+            regsiterInfo
+          )
           .then((res) => {
             const { title, message } = res.data;
             setSnackbarData({
@@ -137,17 +142,20 @@ const Register = () => {
                 companyLogo: null,
               });
             }
+          })
+          .finally(() => {
+            setTextFieldProps({
+              ...textFieldProps,
+              namesurnameError: false,
+              companynameError: false,
+              phoneNumberError: false,
+              emailAddressError: false,
+              passwordError: false,
+              addressError: false,
+              companyTypeError: false,
+            });
+            setLoading(false);
           });
-        setTextFieldProps({
-          ...textFieldProps,
-          namesurnameError: false,
-          companynameError: false,
-          phoneNumberError: false,
-          emailAddressError: false,
-          passwordError: false,
-          addressError: false,
-          companyTypeError: false,
-        });
       }
     }
   };
@@ -464,17 +472,31 @@ const Register = () => {
                     </p>
                   </div>
                 </Stack>
-                <Button
-                  className="shadow-one"
-                  fullWidth
-                  size="large"
-                  sx={{ mt: 3 }}
-                  type="submit"
-                  variant="contained"
-                  onClick={handleRegister}
-                >
-                  Regjistrohu
-                </Button>
+                {loading ? (
+                  <Button
+                    className="shadow-one"
+                    fullWidth
+                    size="large"
+                    sx={{ mt: 3 }}
+                    type="submit"
+                    variant="contained"
+                    onClick={handleRegister}
+                  >
+                    <span class="button-loader"></span>
+                  </Button>
+                ) : (
+                  <Button
+                    className="shadow-one"
+                    fullWidth
+                    size="large"
+                    sx={{ mt: 3 }}
+                    type="submit"
+                    variant="contained"
+                    onClick={handleRegister}
+                  >
+                    Regjistrohu
+                  </Button>
+                )}
               </div>
             </Box>
           </Box>
