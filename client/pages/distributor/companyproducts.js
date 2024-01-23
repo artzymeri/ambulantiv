@@ -67,6 +67,7 @@ const CompanyListedProducts = () => {
   );
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(
         `https://ecommerce-kosova-server.onrender.com/getlistedproducts/${localStorage.getItem(
@@ -75,8 +76,10 @@ const CompanyListedProducts = () => {
       )
       .then((res) => {
         setListedCompanyProductsData(res.data);
-        setLoading(false);
         setIsClient(true);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [refreshRate]);
 
@@ -118,7 +121,7 @@ const CompanyListedProducts = () => {
       photo: product.photo,
       outOfStock: product.outOfStock,
       discounted: product.discounted,
-      discountedPercentage: product.discountedPercentage
+      discountedPercentage: product.discountedPercentage,
     });
   };
 
@@ -182,56 +185,62 @@ const CompanyListedProducts = () => {
                 background: "whitesmoke",
               }}
             >
-              <EditProductDialog
-                openDialog={openDialog}
-                editedProductData={editedProduct}
-                handleCloseDialog={handleCloseDialog}
-                refreshListedProductsTable={refreshListedProductsTable}
-              />
               <DistributorSideBar
                 display={display}
                 closeSidebar={closeSidebar}
               />
-              <div
-                style={{
-                  display: "flex",
-                  padding: "15px 30px",
-                  flexDirection: "column",
-                  gap: "15px",
-                  flexGrow: 1,
-                  overflowX: "clip",
-                }}
-              >
-                <input
-                  type="text"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  placeholder="Kërko llogaritë"
+              {loading ? (
+                <div className="loader-parent">
+                  <span className="loader"></span>
+                </div>
+              ) : (
+                <div
                   style={{
-                    width: "100%",
-                    height: "50px",
-                    borderRadius: "25px",
-                    border: "1px solid black",
-                    paddingLeft: "15px",
+                    display: "flex",
+                    padding: "15px 30px",
+                    flexDirection: "column",
+                    gap: "15px",
+                    flexGrow: 1,
+                    overflowX: "clip",
                   }}
-                  className="shadow-one"
-                />
-                <TableComponent
-                  columns={columns}
-                  rows={rows}
-                  searchInput={searchInput}
-                  companyProductButtons={true}
-                  handleOpenDialog={handleOpenDialog}
-                  refreshRate={refreshRate}
-                  companyProductsList={true}
-                />
-                <button
-                  className="sidebar-distributor-trigger-button shadow-one"
-                  onClick={openSidebar}
                 >
-                  <Menu style={{ color: "white" }} />
-                </button>
-              </div>
+                  <EditProductDialog
+                    openDialog={openDialog}
+                    editedProductData={editedProduct}
+                    handleCloseDialog={handleCloseDialog}
+                    refreshListedProductsTable={refreshListedProductsTable}
+                  />
+                  <input
+                    type="text"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    placeholder="Kërko llogaritë"
+                    style={{
+                      width: "100%",
+                      height: "50px",
+                      borderRadius: "25px",
+                      border: "1px solid black",
+                      paddingLeft: "15px",
+                    }}
+                    className="shadow-one"
+                  />
+                  <TableComponent
+                    columns={columns}
+                    rows={rows}
+                    searchInput={searchInput}
+                    companyProductButtons={true}
+                    handleOpenDialog={handleOpenDialog}
+                    refreshRate={refreshRate}
+                    companyProductsList={true}
+                  />
+                  <button
+                    className="sidebar-distributor-trigger-button shadow-one"
+                    onClick={openSidebar}
+                  >
+                    <Menu style={{ color: "white" }} />
+                  </button>
+                </div>
+              )}
             </div>
           </DistributorChecker>
         </AuthenticatorChecker>

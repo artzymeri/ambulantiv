@@ -4,6 +4,7 @@ import { Button, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
 import { Clear, Done, Download, Edit } from "@mui/icons-material";
 import axios from "axios";
+import { set } from "mobx";
 
 const OrderActiveItem = (props) => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const OrderActiveItem = (props) => {
   const { triggerUseEffect, updateStateInSideBar, editOrderDialog } = props;
 
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [formattedCreatedAt, setFormattedCreatedAt] = useState(null);
 
@@ -37,22 +39,28 @@ const OrderActiveItem = (props) => {
     const dateObject = new Date(order.createdAt);
     const formattedDate = dateObject.toLocaleString();
     try {
-      const response = await axios.post(
-        `https://ecommerce-kosova-server.onrender.com/completeorder/${order.id}`,
-        { order },
-        { responseType: "blob" }
-      );
+      setLoading(true);
+      axios
+        .post(
+          `https://ecommerce-kosova-server.onrender.com/completeorder/${order.id}`,
+          { order },
+          { responseType: "blob" }
+        )
+        .then((response) => {
+          const downloadLink = document.createElement("a");
+          const blob = new Blob([response.data], { type: "application/pdf" });
+          const url = URL.createObjectURL(blob);
 
-      const downloadLink = document.createElement("a");
-      const blob = new Blob([response.data], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
-
-      downloadLink.href = url;
-      downloadLink.setAttribute(
-        "download",
-        `Fatura ${order.clientCompanyname} ${order.distributorCompanyName} ${formattedDate}.pdf`
-      );
-      downloadLink.click();
+          downloadLink.href = url;
+          downloadLink.setAttribute(
+            "download",
+            `Fatura ${order.clientCompanyname} ${order.distributorCompanyName} ${formattedDate}.pdf`
+          );
+          downloadLink.click();
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } catch (error) {
       console.error(error);
     }
@@ -102,17 +110,23 @@ const OrderActiveItem = (props) => {
               </Button>
             </Tooltip>
             <Tooltip title="Përfundo porosinë">
-              <Button
-                onClick={() => {
-                  completeOrder(props.order);
-                  triggerUseEffect();
-                  updateStateInSideBar(1);
-                }}
-                variant="contained"
-                color="warning"
-              >
-                <Done />
-              </Button>
+              {loading ? (
+                <div className="loader-parent">
+                  <span className="loader"></span>
+                </div>
+              ) : (
+                <Button
+                  onClick={() => {
+                    completeOrder(props.order);
+                    triggerUseEffect();
+                    updateStateInSideBar(1);
+                  }}
+                  variant="contained"
+                  color="warning"
+                >
+                  <Done />
+                </Button>
+              )}
             </Tooltip>
           </div>
         </div>

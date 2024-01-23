@@ -137,7 +137,7 @@ const UsersRequests = () => {
               <AdminSideBar display={display} closeSidebar={closeSidebar} />
               {loading ? (
                 <div className="loader-parent">
-                  <span class="loader"></span>
+                  <span className="loader"></span>
                 </div>
               ) : (
                 <div

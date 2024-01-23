@@ -38,7 +38,7 @@ const EditProductDialog = dynamic(
 
 const ListedProducts = () => {
   const [isClient, setIsClient] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [listedProductsData, setListedProductsData] = useState([]);
 
@@ -59,15 +59,17 @@ const ListedProducts = () => {
   };
 
   useEffect(() => {
-    setLoading(false)
-    axios.get("https://ecommerce-kosova-server.onrender.com/getlistedproducts").then((res) => {
-      setListedProductsData(res.data);
-      setIsClient(true);
-    }).finally(()=>{
-      setLoading(false);
-    })
+    setLoading(true);
+    axios
+      .get("https://ecommerce-kosova-server.onrender.com/getlistedproducts")
+      .then((res) => {
+        setListedProductsData(res.data);
+        setIsClient(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [refreshRate]);
-
 
   const columns = [
     {
@@ -116,7 +118,9 @@ const ListedProducts = () => {
 
   const deleteProduct = (product) => {
     axios
-      .post(`https://ecommerce-kosova-server.onrender.com/deleteproduct/${product.id}`)
+      .post(
+        `https://ecommerce-kosova-server.onrender.com/deleteproduct/${product.id}`
+      )
       .then((res) => {
         const { title, message } = res.data;
         setSnackbarData({
@@ -125,9 +129,11 @@ const ListedProducts = () => {
         });
         setSnackbarOpen(true);
         setLoading(true);
-        axios.get("https://ecommerce-kosova-server.onrender.com/getlistedproducts").then((res) => {
-          setListedProductsData(res.data);
-        });
+        axios
+          .get("https://ecommerce-kosova-server.onrender.com/getlistedproducts")
+          .then((res) => {
+            setListedProductsData(res.data);
+          });
       })
       .finally(() => {
         setLoading(false);
@@ -194,58 +200,58 @@ const ListedProducts = () => {
               <AdminSideBar display={display} closeSidebar={closeSidebar} />
               {loading ? (
                 <div className="loader-parent">
-                  <span class="loader"></span>
+                  <span className="loader"></span>
                 </div>
               ) : (
                 <>
-                <EditProductDialog
-                openDialog={openDialog}
-                editedProductData={editedProduct}
-                handleCloseDialog={handleCloseDialog}
-                refreshListedProductsTable={refreshListedProductsTable}
-              />
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "30px",
-                    flexDirection: "column",
-                    gap: "15px",
-                    flexGrow: 1,
-                    overflowX: "clip",
-                  }}
-                >
-                  <input
-                    type="text"
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                    placeholder="Kërko llogaritë"
+                  <EditProductDialog
+                    openDialog={openDialog}
+                    editedProductData={editedProduct}
+                    handleCloseDialog={handleCloseDialog}
+                    refreshListedProductsTable={refreshListedProductsTable}
+                  />
+                  <div
                     style={{
-                      width: "100%",
-                      height: "50px",
-                      borderRadius: "25px",
-                      border: "1px solid black",
-                      paddingLeft: "15px",
+                      display: "flex",
+                      padding: "30px",
+                      flexDirection: "column",
+                      gap: "15px",
+                      flexGrow: 1,
+                      overflowX: "clip",
                     }}
-                    className="shadow-one"
-                  />
-                  <TableComponent
-                    columns={columns}
-                    rows={rows}
-                    searchInput={searchInput}
-                    productButtons={true}
-                    deleteProduct={deleteProduct}
-                    handleOpenDialog={handleOpenDialog}
-                    productsList={true}
-                    refreshRate={refreshRate}
-                  />
-                  <button
-                    className="sidebar-trigger-button shadow-one"
-                    onClick={openSidebar}
                   >
-                    <Menu style={{ color: "white" }} />
-                  </button>
-                </div>
-              </>
+                    <input
+                      type="text"
+                      value={searchInput}
+                      onChange={(e) => setSearchInput(e.target.value)}
+                      placeholder="Kërko llogaritë"
+                      style={{
+                        width: "100%",
+                        height: "50px",
+                        borderRadius: "25px",
+                        border: "1px solid black",
+                        paddingLeft: "15px",
+                      }}
+                      className="shadow-one"
+                    />
+                    <TableComponent
+                      columns={columns}
+                      rows={rows}
+                      searchInput={searchInput}
+                      productButtons={true}
+                      deleteProduct={deleteProduct}
+                      handleOpenDialog={handleOpenDialog}
+                      productsList={true}
+                      refreshRate={refreshRate}
+                    />
+                    <button
+                      className="sidebar-trigger-button shadow-one"
+                      onClick={openSidebar}
+                    >
+                      <Menu style={{ color: "white" }} />
+                    </button>
+                  </div>
+                </>
               )}
             </div>
           </AdminChecker>

@@ -313,7 +313,7 @@ const Login = () => {
                     variant="contained"
                     onClick={login}
                   >
-                    <span class="button-loader"></span>
+                    <span className="button-loader"></span>
                   </Button>
                 ) : (
                   <Button

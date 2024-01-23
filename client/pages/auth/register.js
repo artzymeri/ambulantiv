@@ -482,7 +482,7 @@ const Register = () => {
                     variant="contained"
                     onClick={handleRegister}
                   >
-                    <span class="button-loader"></span>
+                    <span className="button-loader"></span>
                   </Button>
                 ) : (
                   <Button
