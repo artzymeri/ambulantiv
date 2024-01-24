@@ -5,15 +5,16 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import stateStorage from "@/store";
 
-const DistributorHomeView = () => {
+const DistributorHomeView = (props) => {
   const router = useRouter();
 
   const [homeData, setHomeData] = useState([]);
 
+  const { setLoading } = props;
+
   const [discountedProducts, setDiscountedProducts] = useState([]);
 
   const [isClient, setIsClient] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const [distributorActiveOrders, setDistributorActiveOrders] = useState([]);
 
@@ -50,12 +51,7 @@ const DistributorHomeView = () => {
   }, []);
 
   return (
-    isClient &&
-    (loading ? (
-      <div className="loader-parent">
-        <span className="loader"></span>
-      </div>
-    ) : (
+    isClient && (
       <>
         <div className="distributor-home-parent">
           <div
@@ -133,7 +129,7 @@ const DistributorHomeView = () => {
           </div>
         </div>
       </>
-    ))
+    )
   );
 };
 
