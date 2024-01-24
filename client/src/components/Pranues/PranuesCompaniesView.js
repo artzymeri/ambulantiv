@@ -62,7 +62,7 @@ const PranuesCompaniesView = () => {
                       }}
                     >
                       {distributor.companyLogo &&
-                      distributor.companyLogo.length > 1 ? (
+                      distributor.companyLogo.length > 4 ? (
                         <img src={distributor.companyLogo} />
                       ) : (
                         <h3>{distributor.companyname}</h3>

@@ -230,7 +230,7 @@ const ProductCard = (props) => {
         <img src={photo} />
         <div className="product-card-text-container">
           <div className="product-card-text-up">
-            <h3 style={{ width: "180px" }}>{name}</h3>
+            <h4 style={{ width: "180px" }}>{name}</h4>
             <p style={{ fontSize: "13px" }}>
               {weight},{" "}
               <Tooltip title="Kliko për të shikuar produktet e kompanisë">
