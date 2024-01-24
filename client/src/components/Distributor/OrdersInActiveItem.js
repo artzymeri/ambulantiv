@@ -78,7 +78,7 @@ const OrderInActiveItem = (props) => {
     isClient && (
       <div className="orders-row">
         <div className="orders-row-left">
-          <h5>Klienti: {clientCompanyname}</h5>
+          <h5>{clientCompanyname}</h5>
           <h5>{clientCompanyAddress}</h5>
         </div>
         <div className="orders-row-right">

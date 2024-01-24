@@ -83,7 +83,7 @@ function generateTableTotalPrice(doc, totalSum, y) {
     .text("Totali i Faturës është:", 400, (y + 310))
     .fontSize(15)
     .font("Helvetica-Bold")
-    .text(`${totalSum}€`, 500, (y + 307))
+    .text(`${totalSum.toFixed(2)}€`, 500, (y + 307))
     .font("Helvetica")
     .fontSize(10)
     .text("Vlera e TVSH (në përqindje):", 367, (y + 335))
