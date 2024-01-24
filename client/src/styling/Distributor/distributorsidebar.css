@@ -1,5 +1,5 @@
 .sidebar-distributor-wide {
-  height: 100vh;
+  height: 100dvh;
   width: 300px;
   background-color: rgb(80, 80, 80);
   display: flex;
@@ -146,7 +146,7 @@
   background-color: rgb(80, 80, 80);
   backdrop-filter: blur(7px);
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   position: absolute;
   z-index: 999;
   padding: 10px;

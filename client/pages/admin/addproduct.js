@@ -41,7 +41,7 @@ const AddProduct = () => {
       </Head>
       <AuthenticatorChecker>
         <AdminChecker>
-          <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+          <div style={{ display: "flex", width: "100vw", height: "100dvh" }}>
             <AdminSideBar display={display} closeSidebar={closeSidebar} />
             <div
               style={{

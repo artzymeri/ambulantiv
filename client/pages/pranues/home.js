@@ -48,7 +48,7 @@ const PranuesHome = () => {
             style={{
               display: "flex",
               width: "100vw",
-              height: "100vh",
+              height: "100dvh",
               overflow: "clip",
             }}
           >
@@ -58,7 +58,7 @@ const PranuesHome = () => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                height: "100vh",
+                height: "100dvh",
                 width: "100%",
                 overflowX: "clip",
                 background: "whitesmoke",

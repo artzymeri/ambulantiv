@@ -133,7 +133,7 @@ const UsersRequests = () => {
         </Head>
         <AuthenticatorChecker>
           <AdminChecker>
-            <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+            <div style={{ display: "flex", width: "100vw", height: "100dvh" }}>
               <AdminSideBar display={display} closeSidebar={closeSidebar} />
               {loading ? (
                 <div className="loader-parent">

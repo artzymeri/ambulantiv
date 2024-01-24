@@ -50,7 +50,7 @@ const DistributorHome = () => {
       </Head>
       <AuthenticatorChecker>
         <DistributorChecker>
-          <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+          <div style={{ display: "flex", width: "100vw", height: "100dvh" }}>
             <DistributorSideBar display={display} closeSidebar={closeSidebar} />
             <div
               style={{
