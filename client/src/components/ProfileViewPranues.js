@@ -125,7 +125,15 @@ const ProfileViewPranues = (props) => {
   const handleConfirmDetails = () => {
     const isEmpty = (value) => value === null || value === "";
 
-    if (Object.values(profileInfo).some((value) => isEmpty(value))) {
+
+    const profileInfoWithoutEmail = {
+      namesurname: profileInfo.namesurname,
+      companyname: profileInfo.companyname,
+      phoneNumber: profileInfo.phoneNumber,
+      companyAddress: profileInfo.companyAddress,
+    };
+
+    if (Object.values(profileInfoWithoutEmail).some((value) => isEmpty(value))) {
       setSnackbarData({
         title: "error",
         message: "Ju lutem mbushni të dhënat",
@@ -135,9 +143,7 @@ const ProfileViewPranues = (props) => {
       profileInfo.namesurname.length < 3 ||
       profileInfo.companyname.length < 3 ||
       profileInfo.phoneNumber.length !== 12 ||
-      !profileInfo.phoneNumber.includes("+383") ||
-      !profileInfo.emailAddress.includes("@") ||
-      !profileInfo.emailAddress.includes(".")
+      !profileInfo.phoneNumber.includes("+383") 
     ) {
       setTextFieldProps({
         namesurnameError: profileInfo.namesurname.length < 3,
@@ -145,9 +151,6 @@ const ProfileViewPranues = (props) => {
         phoneNumberError:
           profileInfo.phoneNumber.length !== 12 ||
           !profileInfo.phoneNumber.includes("+383"),
-        emailAddressError:
-          !profileInfo.emailAddress.includes("@") ||
-          !profileInfo.emailAddress.includes("."),
       });
     } else {
       axios
