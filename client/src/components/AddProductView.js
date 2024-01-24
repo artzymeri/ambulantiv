@@ -12,12 +12,15 @@ import axios from "axios";
 const AddProductView = () => {
   const [isClient, setIsClient] = useState(false);
   const [distributorsData, setDistributorsData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-    axios.get("https://ecommerce-kosova-server.onrender.com/getdistributors").then((res) => {
-      setDistributorsData(res.data);
-    });
+    axios
+      .get("https://ecommerce-kosova-server.onrender.com/getdistributors")
+      .then((res) => {
+        setDistributorsData(res.data);
+      });
   }, []);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -75,8 +78,11 @@ const AddProductView = () => {
   };
 
   const addProductFunction = () => {
+    setLoading(true);
     axios
-      .post("https://ecommerce-kosova-server.onrender.com/addnewproduct", { newProduct })
+      .post("https://ecommerce-kosova-server.onrender.com/addnewproduct", {
+        newProduct,
+      })
       .then((res) => {
         const { title, message } = res.data;
         setNewProduct({
@@ -93,6 +99,9 @@ const AddProductView = () => {
           message: message,
         });
         setSnackbarOpen(true);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -211,13 +220,25 @@ const AddProductView = () => {
                     : "Asnjë fotografi nuk është ngarkuar akoma"}
                 </p>
               </div>
-              <Button
-                onClick={addProductFunction}
-                className="add-product_button"
-                variant="contained"
-              >
-                <AddBox /> Shto Produktin
-              </Button>
+              {loading ? (
+                <Button
+                  onClick={addProductFunction}
+                  className="add-product_button"
+                  variant="contained"
+                >
+                  <div className="loader-parent">
+                    <span className="loader"></span>
+                  </div>
+                </Button>
+              ) : (
+                <Button
+                  onClick={addProductFunction}
+                  className="add-product_button"
+                  variant="contained"
+                >
+                  <AddBox /> Shto Produktin
+                </Button>
+              )}
             </div>
           </div>
         </AdminChecker>

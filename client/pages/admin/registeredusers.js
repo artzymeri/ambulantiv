@@ -36,10 +36,12 @@ const RegisteredUsers = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("https://ecommerce-kosova-server.onrender.com/getusers").then((res) => {
-      setUsersData(res.data);
-      setLoading(false);
-    });
+    axios
+      .get("https://ecommerce-kosova-server.onrender.com/getusers")
+      .then((res) => {
+        setUsersData(res.data);
+        setLoading(false);
+      });
     setIsClient(true);
   }, []);
 
@@ -72,12 +74,16 @@ const RegisteredUsers = () => {
 
   const deleteUser = (user) => {
     axios
-      .delete(`https://ecommerce-kosova-server.onrender.com/deleteuser/${user.id}`)
+      .delete(
+        `https://ecommerce-kosova-server.onrender.com/deleteuser/${user.id}`
+      )
       .then(() => {
         setLoading(true);
-        axios.get("https://ecommerce-kosova-server.onrender.com/getusers").then((res) => {
-          setUsersData(res.data);
-        });
+        axios
+          .get("https://ecommerce-kosova-server.onrender.com/getusers")
+          .then((res) => {
+            setUsersData(res.data);
+          });
       })
       .finally(() => {
         setLoading(false);
@@ -111,7 +117,7 @@ const RegisteredUsers = () => {
               <AdminSideBar display={display} closeSidebar={closeSidebar} />
               {loading ? (
                 <div className="loader-parent">
-                  <span class="loader"></span>
+                  <span className="loader"></span>
                 </div>
               ) : (
                 <div
