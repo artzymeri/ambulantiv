@@ -22,16 +22,14 @@ import {
 
 const OrdersView = ({ updateStateInSideBar }) => {
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [ordersList, setOrdersList] = useState([]);
 
   const [addProductDialogOpen, setAddProductDialogOpen] = useState(false);
   const [tempQuantities, setTempQuantities] = useState({});
 
-
   const [companyProducts, setCompanyProducts] = useState([]);
-
-
 
   const [listener, Trigger] = useState(1);
 
@@ -39,12 +37,16 @@ const OrdersView = ({ updateStateInSideBar }) => {
 
   useEffect(() => {
     setIsClient(true);
+    setLoading(true);
     axios
       .get(
         `https://ecommerce-kosova-server.onrender.com/getactiveordersfromdistributor/${distributorCompanyName}`
       )
       .then((res) => {
         setOrdersList(res.data);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [listener]);
 
@@ -53,6 +55,7 @@ const OrdersView = ({ updateStateInSideBar }) => {
   };
 
   const completeAllOrders = () => {
+    setLoading(true);
     for (const order of ordersList) {
       try {
         axios.post(
@@ -81,9 +84,12 @@ const OrdersView = ({ updateStateInSideBar }) => {
       )
       .then((res) => {
         setOrdersList(res.data);
+      })
+      .finally(() => {
+        setLoading(false);
+        Trigger(listener + 1);
+        updateStateInSideBar(1);
       });
-    Trigger(listener + 1);
-    updateStateInSideBar(1);
   };
 
   const [editedOrder, setEditedOrder] = useState({
@@ -136,9 +142,12 @@ const OrdersView = ({ updateStateInSideBar }) => {
       );
       return;
     }
-    axios.post(`https://ecommerce-kosova-server.onrender.com/changeorder/${editedOrder.id}`, {
-      editedOrder,
-    });
+    axios.post(
+      `https://ecommerce-kosova-server.onrender.com/changeorder/${editedOrder.id}`,
+      {
+        editedOrder,
+      }
+    );
     setEditOrderDialogOpen(false);
     triggerUseEffect();
   };
@@ -154,7 +163,8 @@ const OrdersView = ({ updateStateInSideBar }) => {
   }, [editedOrder]);
 
   return (
-    isClient && (
+    isClient &&
+    (!loading ? (
       <div className="orders-view-parent">
         <Dialog
           open={editOrderDialogOpen}
@@ -163,12 +173,18 @@ const OrdersView = ({ updateStateInSideBar }) => {
             setEditedOrder({ ...editedOrder, id: null, products: [] });
           }}
         >
-          <DialogTitle borderBottom={"1px solid gray"} style={{display: 'flex', justifyContent: 'space-between'}}>
+          <DialogTitle
+            borderBottom={"1px solid gray"}
+            style={{ display: "flex", justifyContent: "space-between" }}
+          >
             <h4>Edito Porosinë</h4>
-            <Cancel style={{cursor: 'pointer'}} onClick={()=>{
-              setEditOrderDialogOpen(false);
-              setEditedOrder({ ...editedOrder, id: null, products: [] });
-            }}/>
+            <Cancel
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setEditOrderDialogOpen(false);
+                setEditedOrder({ ...editedOrder, id: null, products: [] });
+              }}
+            />
           </DialogTitle>
           <DialogContent
             style={{
@@ -282,9 +298,11 @@ const OrdersView = ({ updateStateInSideBar }) => {
               variant="outlined"
               color="error"
               onClick={() => {
-                axios.post(`https://ecommerce-kosova-server.onrender.com/deleteorder/${editedOrder.id}`)
-                setEditOrderDialogOpen(false)
-                triggerUseEffect(listener + 1)
+                axios.post(
+                  `https://ecommerce-kosova-server.onrender.com/deleteorder/${editedOrder.id}`
+                );
+                setEditOrderDialogOpen(false);
+                triggerUseEffect(listener + 1);
               }}
             >
               Fshi Porosinë
@@ -447,16 +465,22 @@ const OrdersView = ({ updateStateInSideBar }) => {
                                   product.discountedPercentage,
                                 totalPrice: newTotalPrice,
                               };
-                              const oldOrder = ordersList.find((order)=>{
-                                return order.id == editedOrder.id
+                              const oldOrder = ordersList.find((order) => {
+                                return order.id == editedOrder.id;
                               });
-                              const parsedProducts = JSON.parse(oldOrder.products);
-                              parsedProducts.push(newProduct)
-                              oldOrder.products = JSON.stringify(parsedProducts);
+                              const parsedProducts = JSON.parse(
+                                oldOrder.products
+                              );
+                              parsedProducts.push(newProduct);
+                              oldOrder.products =
+                                JSON.stringify(parsedProducts);
                               setTempQuantities({});
                               setAddProductDialogOpen(false);
                               setEditOrderDialogOpen(false);
-                              axios.post(`https://ecommerce-kosova-server.onrender.com/changeorder/${oldOrder.id}`, {editedOrder: oldOrder});
+                              axios.post(
+                                `https://ecommerce-kosova-server.onrender.com/changeorder/${oldOrder.id}`,
+                                { editedOrder: oldOrder }
+                              );
                             }}
                           >
                             <Add />
@@ -537,7 +561,11 @@ const OrdersView = ({ updateStateInSideBar }) => {
           </Button>
         ) : null}
       </div>
-    )
+    ) : (
+      <div className="loader-parent">
+        <span className="loader"></span>
+      </div>
+    ))
   );
 };
 

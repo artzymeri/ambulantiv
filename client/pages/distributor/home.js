@@ -56,8 +56,6 @@ const DistributorHome = () => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                // padding: "30px",
-                gap: "15px",
                 background: "whitesmoke",
                 width: "100%",
               }}
