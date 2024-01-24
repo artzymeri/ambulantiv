@@ -10,7 +10,7 @@ const DistributorHomeView = (props) => {
 
   const [homeData, setHomeData] = useState([]);
 
-  const { setLoading } = props;
+  const { activateLoader, deactivateLoader } = props;
 
   const [discountedProducts, setDiscountedProducts] = useState([]);
 
@@ -20,7 +20,7 @@ const DistributorHomeView = (props) => {
 
   useEffect(() => {
     setIsClient(true);
-    setLoading(true);
+    activateLoader();
     axios
       .get(
         `https://ecommerce-kosova-server.onrender.com/getlistedproducts/${localStorage.getItem(
@@ -46,7 +46,7 @@ const DistributorHomeView = (props) => {
           });
       })
       .finally(() => {
-        setLoading(false);
+        deactivateLoader();
       });
   }, []);
 

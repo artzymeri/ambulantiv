@@ -44,6 +44,14 @@ const DistributorHome = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const activateLoader = () => {
+    setLoading(true);
+  };
+
+  const deactivateLoader = () => {
+    setLoading(false);
+  };
+
   return (
     <>
       <Head>
@@ -91,7 +99,10 @@ const DistributorHome = () => {
                     <Home sx={{ marginBottom: "2px" }} />
                     Ballina
                   </div>
-                  <DistributorHomeView setLoading={setLoading} />
+                  <DistributorHomeView
+                    activateLoader={activateLoader}
+                    deactivateLoader={deactivateLoader}
+                  />
                   <div className="sidebar-distributor-trigger-wrapper">
                     <button
                       className="sidebar-distributor-trigger-button shadow-one"
