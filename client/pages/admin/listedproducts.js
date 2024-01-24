@@ -190,7 +190,7 @@ const ListedProducts = () => {
                 {snackbarData.message}
               </MuiAlert>
             </Snackbar>
-            <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+            <div style={{ display: "flex", width: "100vw", height: "100dvh" }}>
               <AdminSideBar display={display} closeSidebar={closeSidebar} />
               {loading ? (
                 <div className="loader-parent">
