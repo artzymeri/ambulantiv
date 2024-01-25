@@ -408,7 +408,7 @@ app.post("/register", async (req, res) => {
       {
         from: "ecommerce.kosova.info@gmail.com",
         to: `${emailAddress}`,
-        subject: "Keni porosi të re!",
+        subject: "Mirësevini në E-Commerce Kosova!",
         text: `
           Kërkesa juaj për regjistrim është aprovuar!
 Kyçuni në platëformë përmes këtij linku : https://www.ecommerce-kosova.vercel.app/login
