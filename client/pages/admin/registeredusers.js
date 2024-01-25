@@ -73,6 +73,7 @@ const RegisteredUsers = () => {
   ];
 
   const deleteUser = (user) => {
+    setLoading(true);
     axios
       .delete(
         `https://ecommerce-kosova-server.onrender.com/deleteuser/${user.id}`
