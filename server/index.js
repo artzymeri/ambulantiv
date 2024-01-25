@@ -404,6 +404,25 @@ app.post("/register", async (req, res) => {
       companyLogo,
     });
 
+    transporter.sendMail(
+      {
+        from: "ecommerce.kosova.info@gmail.com",
+        to: `${emailAddress}`,
+        subject: "Keni porosi të re!",
+        text: `
+          Kërkesa juaj për regjistrim është aprovuar!
+Kyçuni në platëformë përmes këtij linku : https://www.ecommerce-kosova.vercel.app/login
+        `,
+      },
+      (error, info) => {
+        if (error) {
+          console.error("Error sending email:", error);
+        } else {
+          console.log("Email sent successfully:", info.response);
+        }
+      }
+    );
+
     res.json({
       title: "success",
       message: "Registration successful!",
@@ -520,7 +539,7 @@ app.post("/changeprofiledetailsdistributor/:userId", async (req, res) => {
     phoneNumber,
     emailAddress,
     companyAddress,
-    companyLogo
+    companyLogo,
   } = req.body.profileInfo;
 
   try {
@@ -716,7 +735,7 @@ app.post("/sendorder", async (req, res) => {
         to: `${distributorEmailAddress}`,
         subject: "Keni porosi të re!",
         text: `Keni porosi nga ${clientName}.
-Kliko këtu për të shikuar porositë e juaja aktive : http://localhost:3000/distributor/orders
+Kliko këtu për të shikuar porositë e juaja aktive : https://www.ecommerce-kosova.vercel.app//distributor/orders
         `,
       },
       (error, info) => {
@@ -734,7 +753,7 @@ Kliko këtu për të shikuar porositë e juaja aktive : http://localhost:3000/di
         to: `${clientEmailAddress}`,
         subject: "Porosia juaj u dërgua me sukses!",
         text: `Porosia juaj drejt ${order.distributor} u realizua me sukses.
-Kliko këtu për të shikuar historikun e porosive tuaja : http://localhost:3000/pranues/orders
+Kliko këtu për të shikuar historikun e porosive tuaja : https://www.ecommerce-kosova.vercel.app//pranues/orders
         `,
       },
       (error, info) => {
@@ -862,7 +881,7 @@ app.post("/changeorder/:orderId", async (req, res) => {
   const { editedOrder } = req.body;
   const changedOrder = await orders_table.findByPk(orderId);
   if (typeof editedOrder.products === "string") {
-    editedOrder.products = JSON.parse(editedOrder.products)
+    editedOrder.products = JSON.parse(editedOrder.products);
   }
 
   try {
