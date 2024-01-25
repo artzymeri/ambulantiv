@@ -1,29 +1,43 @@
+import { Menu } from "@mui/icons-material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
+import "@/styling/Pranues/pranuessidebar.css";
 
 const AuthenticatorChecker = dynamic(
   () => import("@/components/Checkers/AuthenticatorChecker"),
   { ssr: false }
 );
+
 const PranuesChecker = dynamic(
   () => import("@/components/Checkers/PranuesChecker"),
   { ssr: false }
 );
+
 const PranuesSideBar = dynamic(
   () => import("@/components/Pranues/PranuesSideBar"),
   { ssr: false }
 );
+
 const ProductsView = dynamic(() => import("@/components/ProductsView"), {
   ssr: false,
 });
 
-const Hygene = () => {
+const Products = () => {
+  const [display, setDisplay] = useState("none");
+
+  const openSidebar = () => {
+    setDisplay("flex");
+  };
+
+  const closeSidebar = () => {
+    setDisplay("none");
+  };
   return (
     <>
       <Head>
         <link rel="icon" href="/e-commerceKosovaLogo.png" />
-        <title>Higjenë</title>
+        <title>Produktet Higjenike</title>
       </Head>
       <AuthenticatorChecker>
         <PranuesChecker>
@@ -32,11 +46,31 @@ const Hygene = () => {
               display: "flex",
               width: "100vw",
               height: "100dvh",
-              overflow: "clip",
+              overflowX: "clip",
             }}
           >
-            <PranuesSideBar />
-            <ProductsView hygeneProducts={true} />
+            <PranuesSideBar display={display} closeSidebar={closeSidebar} />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "100dvh",
+                width: "100%",
+                overflowX: "clip",
+                background: "whitesmoke",
+              }}
+            >
+              <ProductsView hygeneProducts={true} />
+              <div className="sidebar-pranues-trigger-wrapper">
+                <button
+                  className="sidebar-pranues-trigger-button shadow-one"
+                  onClick={openSidebar}
+                >
+                  <Menu style={{ color: "white" }} />
+                </button>
+              </div>
+            </div>
           </div>
         </PranuesChecker>
       </AuthenticatorChecker>
@@ -44,4 +78,4 @@ const Hygene = () => {
   );
 };
 
-export default Hygene;
+export default Products;

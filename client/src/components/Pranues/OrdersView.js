@@ -24,6 +24,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const OrdersView = () => {
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [ordersList, setOrdersList] = useState([]);
   const [distributorsList, setDistributorsList] = useState([]);
@@ -69,12 +70,22 @@ const OrdersView = () => {
 
   useEffect(() => {
     setIsClient(true);
-    axios.get(`https://ecommerce-kosova-server.onrender.com/getorders/${pranuesId}`).then((res) => {
-      setOrdersList(res.data);
-    });
-    axios.get("https://ecommerce-kosova-server.onrender.com/getdistributors").then((res) => {
-      setDistributorsList(res.data);
-    });
+    setLoading(true);
+    axios
+      .get(
+        `https://ecommerce-kosova-server.onrender.com/getorders/${pranuesId}`
+      )
+      .then((res) => {
+        setOrdersList(res.data);
+        axios
+          .get("https://ecommerce-kosova-server.onrender.com/getdistributors")
+          .then((res) => {
+            setDistributorsList(res.data);
+          });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [startDate, endDate]);
 
   const generatePDFs = async () => {
@@ -102,9 +113,13 @@ const OrdersView = () => {
         console.error(error);
       }
     }
-    axios.get(`https://ecommerce-kosova-server.onrender.com/getorders/${pranuesId}`).then((res) => {
-      setOrdersList(res.data);
-    });
+    axios
+      .get(
+        `https://ecommerce-kosova-server.onrender.com/getorders/${pranuesId}`
+      )
+      .then((res) => {
+        setOrdersList(res.data);
+      });
   };
 
   const groupOrdersByDate = (orders) => {
@@ -122,7 +137,12 @@ const OrdersView = () => {
   const groupedOrders = groupOrdersByDate(filteredOrders);
 
   return (
-    isClient && (
+    isClient &&
+    (loading ? (
+      <div className="loader-parent">
+        <span className="loader"></span>
+      </div>
+    ) : (
       <div className="orders-view-parent">
         <Dialog
           open={yearlyBonusDialogOpen}
@@ -306,7 +326,7 @@ const OrdersView = () => {
           </Button>
         ) : null}
       </div>
-    )
+    ))
   );
 };
 

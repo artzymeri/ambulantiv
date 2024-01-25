@@ -34,6 +34,8 @@ const ProductsWrapper = (props) => {
 
   const [isClient, setIsClient] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   const [cartProducts, setCartProducts] = useState(
     JSON.parse(
       localStorage.getItem(
@@ -59,37 +61,75 @@ const ProductsWrapper = (props) => {
 
   useEffect(() => {
     setIsClient(true);
+    setLoading(true);
     if (allProducts) {
-      axios.get("https://ecommerce-kosova-server.onrender.com/getlistedproducts").then((res) => {
-        setProductsData(res.data);
-      });
+      axios
+        .get("https://ecommerce-kosova-server.onrender.com/getlistedproducts")
+        .then((res) => {
+          setProductsData(res.data);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } else if (drinksProducts) {
-      axios.get("https://ecommerce-kosova-server.onrender.com/getdrinksproducts").then((res) => {
-        setProductsData(res.data);
-      });
+      axios
+        .get("https://ecommerce-kosova-server.onrender.com/getdrinksproducts")
+        .then((res) => {
+          setProductsData(res.data);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } else if (fruitsandvegetablesProducts) {
       axios
-        .get("https://ecommerce-kosova-server.onrender.com/getfruitsandvegetablesproducts")
+        .get(
+          "https://ecommerce-kosova-server.onrender.com/getfruitsandvegetablesproducts"
+        )
         .then((res) => {
           setProductsData(res.data);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     } else if (foodProducts) {
-      axios.get("https://ecommerce-kosova-server.onrender.com/getfoodproducts").then((res) => {
-        setProductsData(res.data);
-      });
-    } else if (housekeepProducts) {
-      axios.get("https://ecommerce-kosova-server.onrender.com/gethousekeepproducts").then((res) => {
-        setProductsData(res.data);
-      });
-    } else if (hygeneProducts) {
-      axios.get("https://ecommerce-kosova-server.onrender.com/gethygeneproducts").then((res) => {
-        setProductsData(res.data);
-      });
-    } else if (companyname) {
       axios
-        .get(`https://ecommerce-kosova-server.onrender.com/getcompanyproducts/${companynameForServer}`)
+        .get("https://ecommerce-kosova-server.onrender.com/getfoodproducts")
         .then((res) => {
           setProductsData(res.data);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else if (housekeepProducts) {
+      axios
+        .get(
+          "https://ecommerce-kosova-server.onrender.com/gethousekeepproducts"
+        )
+        .then((res) => {
+          setProductsData(res.data);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else if (hygeneProducts) {
+      axios
+        .get("https://ecommerce-kosova-server.onrender.com/gethygeneproducts")
+        .then((res) => {
+          setProductsData(res.data);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else if (companyname) {
+      axios
+        .get(
+          `https://ecommerce-kosova-server.onrender.com/getcompanyproducts/${companynameForServer}`
+        )
+        .then((res) => {
+          setProductsData(res.data);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   }, []);
@@ -112,7 +152,12 @@ const ProductsWrapper = (props) => {
   }, [searchQuery, productsData]);
 
   return (
-    isClient && (
+    isClient &&
+    (loading ? (
+      <div className="loader-parent" style={{ marginTop: "100px" }}>
+        <span className="loader"></span>
+      </div>
+    ) : (
       <>
         <Snackbar
           open={snackbarOpen}
@@ -150,7 +195,7 @@ const ProductsWrapper = (props) => {
           )}
         </div>
       </>
-    )
+    ))
   );
 };
 

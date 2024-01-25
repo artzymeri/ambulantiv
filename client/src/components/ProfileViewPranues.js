@@ -23,6 +23,7 @@ import axios from "axios";
 
 const ProfileViewPranues = (props) => {
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -87,6 +88,7 @@ const ProfileViewPranues = (props) => {
       });
       setSnackbarOpen(true);
     } else {
+      setLoading(true);
       axios
         .post(
           `https://ecommerce-kosova-server.onrender.com/changepassword/${localStorage.getItem(
@@ -111,6 +113,9 @@ const ProfileViewPranues = (props) => {
             title: "error",
             message: "Procesi nuk mund të ekzekutohet",
           });
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
@@ -125,7 +130,6 @@ const ProfileViewPranues = (props) => {
   const handleConfirmDetails = () => {
     const isEmpty = (value) => value === null || value === "";
 
-
     const profileInfoWithoutEmail = {
       namesurname: profileInfo.namesurname,
       companyname: profileInfo.companyname,
@@ -133,7 +137,9 @@ const ProfileViewPranues = (props) => {
       companyAddress: profileInfo.companyAddress,
     };
 
-    if (Object.values(profileInfoWithoutEmail).some((value) => isEmpty(value))) {
+    if (
+      Object.values(profileInfoWithoutEmail).some((value) => isEmpty(value))
+    ) {
       setSnackbarData({
         title: "error",
         message: "Ju lutem mbushni të dhënat",
@@ -143,7 +149,7 @@ const ProfileViewPranues = (props) => {
       profileInfo.namesurname.length < 3 ||
       profileInfo.companyname.length < 3 ||
       profileInfo.phoneNumber.length !== 12 ||
-      !profileInfo.phoneNumber.includes("+383") 
+      !profileInfo.phoneNumber.includes("+383")
     ) {
       setTextFieldProps({
         namesurnameError: profileInfo.namesurname.length < 3,
@@ -153,6 +159,7 @@ const ProfileViewPranues = (props) => {
           !profileInfo.phoneNumber.includes("+383"),
       });
     } else {
+      setLoading(true);
       axios
         .post(
           `https://ecommerce-kosova-server.onrender.com/changeprofiledetailspranues/${localStorage.getItem(
@@ -183,20 +190,28 @@ const ProfileViewPranues = (props) => {
             message: message,
           });
           setSnackbarOpen(true);
+        })
+        .finally(() => {
+          setTextFieldProps({
+            namesurnameError: false,
+            companynameError: false,
+            phoneNumberError: false,
+            emailAddressError: false,
+          });
+          setLoading(false);
         });
-      setTextFieldProps({
-        namesurnameError: false,
-        companynameError: false,
-        phoneNumberError: false,
-        emailAddressError: false,
-      });
     }
   };
 
   const [dialogPasswordOpen, setDialogPasswordOpen] = useState(false);
 
   return (
-    isClient && (
+    isClient &&
+    (loading ? (
+      <div className="loader-parent">
+        <span className="loader"></span>
+      </div>
+    ) : (
       <>
         <Dialog
           open={dialogPasswordOpen}
@@ -481,7 +496,7 @@ const ProfileViewPranues = (props) => {
           </Box>
         </Box>
       </>
-    )
+    ))
   );
 };
 

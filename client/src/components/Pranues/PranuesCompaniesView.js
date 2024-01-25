@@ -7,19 +7,32 @@ import { useRouter } from "next/router";
 
 const PranuesCompaniesView = () => {
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [distributorsList, setDistributorsList] = useState([]);
 
   const router = useRouter();
 
   useEffect(() => {
+    setLoading(true);
     setIsClient(true);
-    axios.get("https://ecommerce-kosova-server.onrender.com/getdistributors").then((res) => {
-      setDistributorsList(res.data);
-    });
+    axios
+      .get("https://ecommerce-kosova-server.onrender.com/getdistributors")
+      .then((res) => {
+        setDistributorsList(res.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   return (
-    isClient && (
+    isClient &&
+    (loading ? (
+      <div className="loader-parent">
+        <span className="loader"></span>
+      </div>
+    ) : (
       <>
         <div style={{ overflowY: "auto" }}>
           <div
@@ -65,7 +78,9 @@ const PranuesCompaniesView = () => {
                       distributor.companyLogo.length > 4 ? (
                         <img src={distributor.companyLogo} />
                       ) : (
-                        <h3>{distributor.companyname}</h3>
+                        <h3 style={{ color: "darkslategray" }}>
+                          {distributor.companyname}
+                        </h3>
                       )}
                     </div>
                   );
@@ -74,7 +89,7 @@ const PranuesCompaniesView = () => {
           </div>
         </div>
       </>
-    )
+    ))
   );
 };
 

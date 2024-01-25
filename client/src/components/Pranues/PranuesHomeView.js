@@ -9,18 +9,29 @@ import { Discount, Grade, Home } from "@mui/icons-material";
 
 const PranuesHomeView = () => {
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [productsData, setProductsData] = useState([]);
   const [discountedProducts, setDiscountedProducts] = useState([]);
 
   useEffect(() => {
     setIsClient(true);
-    axios.get("https://ecommerce-kosova-server.onrender.com/getlistedproducts").then((res) => {
-      setProductsData(res.data);
-    });
-    axios.get("https://ecommerce-kosova-server.onrender.com/getdiscountedproducts").then((res) => {
-      setDiscountedProducts(res.data);
-    });
+    setLoading(true);
+    axios
+      .get("https://ecommerce-kosova-server.onrender.com/getlistedproducts")
+      .then((res) => {
+        setProductsData(res.data);
+        axios
+          .get(
+            "https://ecommerce-kosova-server.onrender.com/getdiscountedproducts"
+          )
+          .then((res) => {
+            setDiscountedProducts(res.data);
+          });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const updateLocalStorage = (newArray) => {
@@ -49,7 +60,12 @@ const PranuesHomeView = () => {
   };
 
   return (
-    isClient && (
+    isClient &&
+    (loading ? (
+      <div className="loader-parent">
+        <span className="loader"></span>
+      </div>
+    ) : (
       <>
         <Snackbar
           open={snackbarOpen}
@@ -172,7 +188,7 @@ const PranuesHomeView = () => {
           </div>
         </div>
       </>
-    )
+    ))
   );
 };
 

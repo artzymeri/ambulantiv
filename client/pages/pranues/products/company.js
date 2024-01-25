@@ -1,34 +1,48 @@
-import React from "react";
-import { useRouter } from "next/router";
+import { Menu } from "@mui/icons-material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import React, { useState } from "react";
+import "@/styling/Pranues/pranuessidebar.css";
+import { useRouter } from "next/router";
 
 const AuthenticatorChecker = dynamic(
   () => import("@/components/Checkers/AuthenticatorChecker"),
   { ssr: false }
 );
+
 const PranuesChecker = dynamic(
   () => import("@/components/Checkers/PranuesChecker"),
   { ssr: false }
 );
+
 const PranuesSideBar = dynamic(
   () => import("@/components/Pranues/PranuesSideBar"),
   { ssr: false }
 );
+
 const ProductsView = dynamic(() => import("@/components/ProductsView"), {
   ssr: false,
 });
 
-const CompanyPage = () => {
+const Products = () => {
+  const [display, setDisplay] = useState("none");
+
   const router = useRouter();
 
   const query = router.query;
 
+  const openSidebar = () => {
+    setDisplay("flex");
+  };
+
+  const closeSidebar = () => {
+    setDisplay("none");
+  };
   return (
     <>
       <Head>
         <link rel="icon" href="/e-commerceKosovaLogo.png" />
-        <title>Produktet e kompanisë</title>
+        <title>Produktet e Kompanisë</title>
       </Head>
       <AuthenticatorChecker>
         <PranuesChecker>
@@ -37,11 +51,31 @@ const CompanyPage = () => {
               display: "flex",
               width: "100vw",
               height: "100dvh",
-              overflow: "clip",
+              overflowX: "clip",
             }}
           >
-            <PranuesSideBar />
-            <ProductsView companyname={query} />
+            <PranuesSideBar display={display} closeSidebar={closeSidebar} />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "100dvh",
+                width: "100%",
+                overflowX: "clip",
+                background: "whitesmoke",
+              }}
+            >
+              <ProductsView companyname={query} />
+              <div className="sidebar-pranues-trigger-wrapper">
+                <button
+                  className="sidebar-pranues-trigger-button shadow-one"
+                  onClick={openSidebar}
+                >
+                  <Menu style={{ color: "white" }} />
+                </button>
+              </div>
+            </div>
           </div>
         </PranuesChecker>
       </AuthenticatorChecker>
@@ -49,4 +83,4 @@ const CompanyPage = () => {
   );
 };
 
-export default CompanyPage;
+export default Products;
