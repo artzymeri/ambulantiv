@@ -58,7 +58,7 @@ const AddProduct = () => {
                 className="sidebar-trigger-button shadow-one"
                 onClick={openSidebar}
               >
-                <Menu style={{ color: "white" }} /> a
+                <Menu style={{ color: "white" }} />
               </button>
             </div>
           </div>

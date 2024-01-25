@@ -18,11 +18,16 @@ import {
   DialogContent,
   DialogTitle,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material";
+import { useTheme } from "@emotion/react";
 
 const OrdersView = ({ updateStateInSideBar }) => {
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const [ordersList, setOrdersList] = useState([]);
 
@@ -167,6 +172,7 @@ const OrdersView = ({ updateStateInSideBar }) => {
     (!loading ? (
       <div className="orders-view-parent">
         <Dialog
+          fullScreen={fullScreen}
           open={editOrderDialogOpen}
           onClose={() => {
             setEditOrderDialogOpen(false);
@@ -340,6 +346,7 @@ const OrdersView = ({ updateStateInSideBar }) => {
           </DialogActions>
         </Dialog>
         <Dialog
+          fullScreen={fullScreen}
           open={addProductDialogOpen}
           onClose={() => {
             setAddProductDialogOpen(false);

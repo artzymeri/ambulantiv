@@ -20,13 +20,18 @@ import {
   DialogTitle,
   TextField,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useTheme } from "@emotion/react";
 
 const OrdersView = () => {
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const [ordersList, setOrdersList] = useState([]);
 
@@ -77,7 +82,6 @@ const OrdersView = () => {
       )
       .then((res) => {
         setOrdersList(res.data);
-        console.log(res.data);
       })
       .finally(() => {
         setLoading(false);
@@ -213,6 +217,7 @@ const OrdersView = () => {
     ) : (
       <div className="orders-view-parent">
         <Dialog
+          fullScreen={fullScreen}
           open={editOrderDialogOpen}
           onClose={() => {
             setEditOrderDialogOpen(false);
@@ -386,6 +391,7 @@ const OrdersView = () => {
           </DialogActions>
         </Dialog>
         <Dialog
+          fullScreen={fullScreen}
           open={addProductDialogOpen}
           onClose={() => {
             setAddProductDialogOpen(false);
