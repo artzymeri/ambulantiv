@@ -4,15 +4,16 @@ import "@/styling/Distributor/distributorhomeview.css";
 import axios from "axios";
 import { useRouter } from "next/router";
 import stateStorage from "@/store";
+import { Home } from "@mui/icons-material";
 
-const DistributorHomeView = (props) => {
+const DistributorHomeView = () => {
   const router = useRouter();
 
   const [homeData, setHomeData] = useState([]);
 
-  const { activateLoader, deactivateLoader } = props;
-
   const [discountedProducts, setDiscountedProducts] = useState([]);
+
+  const [loading, setLoading] = useState(false);
 
   const [isClient, setIsClient] = useState(false);
 
@@ -20,7 +21,7 @@ const DistributorHomeView = (props) => {
 
   useEffect(() => {
     setIsClient(true);
-    activateLoader();
+    setLoading(true);
     axios
       .get(
         `https://ecommerce-kosova-server.onrender.com/getlistedproducts/${localStorage.getItem(
@@ -46,13 +47,41 @@ const DistributorHomeView = (props) => {
           });
       })
       .finally(() => {
-        deactivateLoader();
+        setLoading(false);
       });
   }, []);
 
   return (
-    isClient && (
+    isClient &&
+    (loading ? (
+      <div className="loader-parent">
+        <span className="loader"></span>
+      </div>
+    ) : (
       <>
+        <div
+          style={{
+            width: "100%",
+            background: "white",
+            display: "flex",
+            gap: "10px",
+            border: "1px solid lightgray",
+            borderTop: "0px",
+            borderLeft: "0px",
+            borderRight: "0px",
+            flexShrink: "0",
+            zIndex: "999",
+            height: "70px",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "1.17em",
+            fontWeight: "800",
+            color: "rgb(130, 30, 30)",
+          }}
+        >
+          <Home sx={{ marginBottom: "2px" }} />
+          Ballina
+        </div>
         <div className="distributor-home-parent">
           <div
             className="shadow-one b-25 home-children home-children-products-number"
@@ -129,7 +158,7 @@ const DistributorHomeView = (props) => {
           </div>
         </div>
       </>
-    )
+    ))
   );
 };
 

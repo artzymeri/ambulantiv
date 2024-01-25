@@ -65,7 +65,11 @@ const TableComponent = (props) => {
     <div className="table-parent shadow-one">
       <div className="table-header">
         {columns.map((column, index) => {
-          return <div key={index} id={column.id}>{column.name}</div>;
+          return (
+            <div key={index} id={column.id}>
+              {column.name}
+            </div>
+          );
         })}
       </div>
       <div className="table-content">
@@ -87,12 +91,19 @@ const TableComponent = (props) => {
                         <img
                           src={row.photo}
                           style={{ height: "250px", width: "auto" }}
+                          loading="lazy"
+                          alt={row.name}
                         />
                       </React.Fragment>
                     }
                   >
                     <div>
-                      <img src={row.photo} style={{ height: "30px" }} />
+                      <img
+                        src={row.photo}
+                        style={{ height: "30px" }}
+                        loading="lazy"
+                        alt={row.name}
+                      />
                     </div>
                   </HtmlTooltip>
                   <div>{row.distributor}</div>
@@ -129,12 +140,19 @@ const TableComponent = (props) => {
                         <img
                           src={row.photo}
                           style={{ height: "250px", width: "auto" }}
+                          loading="lazy"
+                          alt={row.name}
                         />
                       </React.Fragment>
                     }
                   >
                     <div>
-                      <img src={row.photo} style={{ height: "30px" }} />
+                      <img
+                        src={row.photo}
+                        style={{ height: "30px" }}
+                        loading="lazy"
+                        alt={row.name}
+                      />
                     </div>
                   </HtmlTooltip>
                   {props.companyProductButtons && (

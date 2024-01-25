@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import "@/styling/global.css";
 import axios from "axios";
 import { Menu } from "@mui/icons-material";
@@ -234,16 +234,16 @@ const ListedProducts = () => {
                       }}
                       className="shadow-one"
                     />
-                    <TableComponent
-                      columns={columns}
-                      rows={rows}
-                      searchInput={searchInput}
-                      productButtons={true}
-                      deleteProduct={deleteProduct}
-                      handleOpenDialog={handleOpenDialog}
-                      productsList={true}
-                      refreshRate={refreshRate}
-                    />
+                      <TableComponent
+                        columns={columns}
+                        rows={rows}
+                        searchInput={searchInput}
+                        productButtons={true}
+                        deleteProduct={deleteProduct}
+                        handleOpenDialog={handleOpenDialog}
+                        productsList={true}
+                        refreshRate={refreshRate}
+                      />
                     <button
                       className="sidebar-trigger-button shadow-one"
                       onClick={openSidebar}

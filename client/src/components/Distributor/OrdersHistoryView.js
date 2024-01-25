@@ -26,6 +26,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const OrdersView = () => {
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [ordersList, setOrdersList] = useState([]);
 
@@ -69,6 +70,7 @@ const OrdersView = () => {
 
   useEffect(() => {
     setIsClient(true);
+    setLoading(true);
     axios
       .get(
         `https://ecommerce-kosova-server.onrender.com/getinactiveordersfromdistributor/${distributorCompanyName}`
@@ -76,6 +78,9 @@ const OrdersView = () => {
       .then((res) => {
         setOrdersList(res.data);
         console.log(res.data);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [listener]);
 
@@ -156,10 +161,17 @@ const OrdersView = () => {
       );
       return;
     }
-
-    axios.post(`https://ecommerce-kosova-server.onrender.com/changeorder/${editedOrder.id}`, {
-      editedOrder,
-    });
+    setLoading(true);
+    axios
+      .post(
+        `https://ecommerce-kosova-server.onrender.com/changeorder/${editedOrder.id}`,
+        {
+          editedOrder,
+        }
+      )
+      .then(() => {
+        setLoading(false);
+      });
     setEditOrderDialogOpen(false);
     triggerUseEffect(listener + 1);
   };
@@ -193,7 +205,12 @@ const OrdersView = () => {
   const [companyProducts, setCompanyProducts] = useState([]);
 
   return (
-    isClient && (
+    isClient &&
+    (loading ? (
+      <div className="loader-parent">
+        <span className="loader"></span>
+      </div>
+    ) : (
       <div className="orders-view-parent">
         <Dialog
           open={editOrderDialogOpen}
@@ -202,12 +219,18 @@ const OrdersView = () => {
             setEditedOrder({ ...editedOrder, id: null, products: [] });
           }}
         >
-          <DialogTitle borderBottom={"1px solid gray"} style={{display: 'flex', justifyContent: 'space-between'}}>
+          <DialogTitle
+            borderBottom={"1px solid gray"}
+            style={{ display: "flex", justifyContent: "space-between" }}
+          >
             <h4>Edito Porosinë</h4>
-            <Cancel style={{cursor: 'pointer'}} onClick={()=>{
-              setEditOrderDialogOpen(false);
-              setEditedOrder({ ...editedOrder, id: null, products: [] });
-            }}/>
+            <Cancel
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setEditOrderDialogOpen(false);
+                setEditedOrder({ ...editedOrder, id: null, products: [] });
+              }}
+            />
           </DialogTitle>
           <DialogContent
             style={{
@@ -321,9 +344,11 @@ const OrdersView = () => {
               variant="outlined"
               color="error"
               onClick={() => {
-                axios.post(`https://ecommerce-kosova-server.onrender.com/deleteorder/${editedOrder.id}`)
-                setEditOrderDialogOpen(false)
-                triggerUseEffect(listener + 1)
+                axios.post(
+                  `https://ecommerce-kosova-server.onrender.com/deleteorder/${editedOrder.id}`
+                );
+                setEditOrderDialogOpen(false);
+                triggerUseEffect(listener + 1);
               }}
             >
               Fshi Porosinë
@@ -486,16 +511,22 @@ const OrdersView = () => {
                                   product.discountedPercentage,
                                 totalPrice: newTotalPrice,
                               };
-                              const oldOrder = ordersList.find((order)=>{
-                                return order.id == editedOrder.id
+                              const oldOrder = ordersList.find((order) => {
+                                return order.id == editedOrder.id;
                               });
-                              const parsedProducts = JSON.parse(oldOrder.products);
-                              parsedProducts.push(newProduct)
-                              oldOrder.products = JSON.stringify(parsedProducts);
+                              const parsedProducts = JSON.parse(
+                                oldOrder.products
+                              );
+                              parsedProducts.push(newProduct);
+                              oldOrder.products =
+                                JSON.stringify(parsedProducts);
                               setTempQuantities({});
                               setAddProductDialogOpen(false);
                               setEditOrderDialogOpen(false);
-                              axios.post(`https://ecommerce-kosova-server.onrender.com/changeorder/${oldOrder.id}`, {editedOrder: oldOrder});
+                              axios.post(
+                                `https://ecommerce-kosova-server.onrender.com/changeorder/${oldOrder.id}`,
+                                { editedOrder: oldOrder }
+                              );
                             }}
                           >
                             <Add />
@@ -649,7 +680,7 @@ const OrdersView = () => {
           </Button>
         ) : null}
       </div>
-    )
+    ))
   );
 };
 
