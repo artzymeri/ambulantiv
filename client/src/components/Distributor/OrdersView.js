@@ -20,7 +20,7 @@ import {
   Tooltip,
   useMediaQuery,
 } from "@mui/material";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material/styles";
 
 const OrdersView = ({ updateStateInSideBar }) => {
   const [isClient, setIsClient] = useState(false);

@@ -1,14 +1,11 @@
 import { useTheme } from "@mui/material/styles";
-
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   FormControlLabel,
-  FormLabel,
   MenuItem,
   Radio,
   RadioGroup,
@@ -65,9 +62,11 @@ const EditProductDialog = (props) => {
       discounted: editedProductData.discounted,
       discountedPercentage: editedProductData.discountedPercentage,
     });
-    axios.get("https://ecommerce-kosova-server.onrender.com/getdistributors").then((res) => {
-      setDistributorsData(res.data);
-    });
+    axios
+      .get("https://ecommerce-kosova-server.onrender.com/getdistributors")
+      .then((res) => {
+        setDistributorsData(res.data);
+      });
     setLocalOpenDialog(openDialog);
   }, [editedProductData, openDialog]);
 
@@ -121,9 +120,12 @@ const EditProductDialog = (props) => {
       return;
     }
     axios
-      .post(`https://ecommerce-kosova-server.onrender.com/editproduct/${editedProduct.id}`, {
-        editedProduct,
-      })
+      .post(
+        `https://ecommerce-kosova-server.onrender.com/editproduct/${editedProduct.id}`,
+        {
+          editedProduct,
+        }
+      )
       .then((res) => {
         const { title, message } = res.data;
         setSnackbarData({

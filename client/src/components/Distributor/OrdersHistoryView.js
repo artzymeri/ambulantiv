@@ -6,8 +6,6 @@ import {
   Delete,
   LocalShipping,
   Refresh,
-  RemoveCircle,
-  ShoppingBag,
 } from "@mui/icons-material";
 import axios from "axios";
 import OrderInActiveItem from "./OrdersInActiveItem";
@@ -24,14 +22,14 @@ import {
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material/styles";
 
 const OrdersView = () => {
-  const [isClient, setIsClient] = useState(false);
-  const [loading, setLoading] = useState(false);
-
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [ordersList, setOrdersList] = useState([]);
 
