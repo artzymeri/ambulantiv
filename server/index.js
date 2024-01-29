@@ -411,7 +411,7 @@ app.post("/register", async (req, res) => {
         subject: "Mirësevini në E-Commerce Kosova!",
         text: `
           Kërkesa juaj për regjistrim është aprovuar!
-Kyçuni në platëformë përmes këtij linku : https://www.ecommerce-kosova.vercel.app/login
+Kyçuni në platëformë përmes këtij linku : https://ecommerce-kosova.vercel.app/auth/login
         `,
       },
       (error, info) => {
@@ -735,7 +735,7 @@ app.post("/sendorder", async (req, res) => {
         to: `${distributorEmailAddress}`,
         subject: "Keni porosi të re!",
         text: `Keni porosi nga ${clientName}.
-Kliko këtu për të shikuar porositë e juaja aktive : https://www.ecommerce-kosova.vercel.app//distributor/orders
+Kliko këtu për të shikuar porositë e juaja aktive : https://ecommerce-kosova.vercel.app/distributor/orders
         `,
       },
       (error, info) => {
@@ -753,7 +753,7 @@ Kliko këtu për të shikuar porositë e juaja aktive : https://www.ecommerce-ko
         to: `${clientEmailAddress}`,
         subject: "Porosia juaj u dërgua me sukses!",
         text: `Porosia juaj drejt ${order.distributor} u realizua me sukses.
-Kliko këtu për të shikuar historikun e porosive tuaja : https://www.ecommerce-kosova.vercel.app//pranues/orders
+Kliko këtu për të shikuar historikun e porosive tuaja : https://ecommerce-kosova.vercel.app/distributor/orders
         `,
       },
       (error, info) => {
