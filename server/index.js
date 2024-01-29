@@ -483,10 +483,7 @@ app.post("/login", async (req, res) => {
     } else if (companyType === "distributor") {
       const distributorToken = jwt.sign(
         { phoneNumber: user.phoneNumber, role: "distributor" },
-        secretKey,
-        {
-          expiresIn: "1h",
-        }
+        secretKey
       );
       res.cookie("distributorToken", distributorToken, { httpOnly: true });
       res.json({
@@ -505,10 +502,7 @@ app.post("/login", async (req, res) => {
     } else if (companyType === "pranues") {
       const pranuesToken = jwt.sign(
         { phoneNumber: user.phoneNumber, role: "pranues" },
-        secretKey,
-        {
-          expiresIn: "1h",
-        }
+        secretKey
       );
       res.cookie("pranuesToken", pranuesToken, { httpOnly: true });
       res.json({
