@@ -13,12 +13,19 @@ const CartItem = dynamic(() => import("@/components/Pranues/CartItem"), {
 
 const CartView = () => {
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-    axios.get("https://ecommerce-kosova-server.onrender.com/getlistedproducts").then((res) => {
-      setListedProducts(res.data);
-    });
+    setLoading(true);
+    axios
+      .get("https://ecommerce-kosova-server.onrender.com/getlistedproducts")
+      .then((res) => {
+        setListedProducts(res.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const [cartProductsList, setCartProductsList] = useState(
@@ -118,6 +125,7 @@ const CartView = () => {
     }
     for (const order of ordersArray) {
       try {
+        setLoading(true);
         axios
           .get(
             `https://ecommerce-kosova-server.onrender.com/getdistributorcompanyaddress/${order.distributor}`
@@ -162,6 +170,9 @@ const CartView = () => {
                 setSnackbarOpen(true);
                 stateStorage.updateCartItems();
               });
+          })
+          .finally(() => {
+            setLoading(false);
           });
       } catch (error) {
         console.log(error);
@@ -170,7 +181,12 @@ const CartView = () => {
   };
 
   return (
-    isClient && (
+    isClient &&
+    (loading ? (
+      <div className="loader-parent">
+        <span className="loader"></span>
+      </div>
+    ) : (
       <>
         <Snackbar
           open={snackbarOpen}
@@ -234,7 +250,7 @@ const CartView = () => {
           ) : null}
         </div>
       </>
-    )
+    ))
   );
 };
 
