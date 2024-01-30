@@ -314,7 +314,7 @@ const ProfileViewPranues = (props) => {
         </Dialog>
         <Snackbar
           open={snackbarOpen}
-          autoHideDuration={2000}
+          autoHideDuration={1500}
           onClose={handleSnackbarClose}
         >
           <MuiAlert

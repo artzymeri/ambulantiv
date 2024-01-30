@@ -276,6 +276,7 @@ const OrdersView = ({ updateStateInSideBar }) => {
             <Button
               variant="contained"
               onClick={() => {
+                setLoading(true);
                 setAddProductDialogOpen(true);
                 axios
                   .get(
@@ -285,7 +286,9 @@ const OrdersView = ({ updateStateInSideBar }) => {
                   )
                   .then((res) => {
                     setCompanyProducts(res.data);
-                  });
+                  }).finally(()=>{
+                    setLoading(false)
+                  })
               }}
             >
               Shto Produkt

@@ -69,7 +69,7 @@ const PranuesHomeView = () => {
       <>
         <Snackbar
           open={snackbarOpen}
-          autoHideDuration={2500}
+          autoHideDuration={1500}
           onClose={handleSnackbarClose}
         >
           <MuiAlert

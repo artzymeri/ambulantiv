@@ -166,7 +166,7 @@ const EditProductDialog = (props) => {
       <>
         <Snackbar
           open={snackbarOpen}
-          autoHideDuration={6000}
+          autoHideDuration={1500}
           onClose={handleSnackbarClose}
         >
           <MuiAlert
