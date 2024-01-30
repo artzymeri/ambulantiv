@@ -6,8 +6,11 @@ import axios from "axios";
 import { Menu } from "@mui/icons-material";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, TextField } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, TextField, useMediaQuery } from "@mui/material";
 import { FileUploader } from "react-drag-drop-files";
+import { useTheme } from "@mui/material/styles";
+
+
 
 const AuthenticatorChecker = dynamic(
   () => import("@/components/Checkers/AuthenticatorChecker"),
@@ -37,6 +40,9 @@ const RegisteredUsers = () => {
   const [isClient, setIsClient] = useState(false);
 
   const [loading, setLoading] = useState(true);
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     axios
@@ -98,17 +104,22 @@ const RegisteredUsers = () => {
     console.log(user)
     setEditUserData(user);
     setEditUserDialog(true);
-  }
+  };
 
   const [editUserDialog, setEditUserDialog] = useState(false);
   const [editUserData, setEditUserData] = useState(
     {
       namesurname: null,
+      companyname: null,
       address: null,
       phoneNumber: null,
-      companyType: null
+      companyType: null,
     }
-  )
+  );
+
+  const submitEditUser = () => {
+    // function will be here
+  }
 
   const rows = usersData;
 
@@ -161,15 +172,19 @@ const RegisteredUsers = () => {
                     overflowX: "clip",
                   }}
                 >
-                  <Dialog open={editUserDialog} onClose={()=>{
+                  <Dialog
+                    fullScreen={fullScreen}
+                    open={editUserDialog}
+                    onClose={()=>{
                     setEditUserData({
                       namesurname: null,
+                      companyname: null,
                       address: null,
                       phoneNumber: null,
                       emailAddress: null,
                       companyType: null
                     })
-                    setEditUserDialog(false)
+                    setEditUserDialog(false);
                   }}>
                     <DialogTitle>
                       Edito Userin
@@ -180,6 +195,12 @@ const RegisteredUsers = () => {
                         label="Emri"
                         value={editUserData.namesurname}
                         onChange={(e)=>{setEditUserData({...editUserData, namesurname: e.target.value})}}
+                      />
+                      <TextField
+                        className="shadow-one"
+                        label="Emri Kompanisë"
+                        value={editUserData.companyname}
+                        onChange={(e)=>{setEditUserData({...editUserData, companyname: e.target.value})}}
                       />
                       <TextField
                         className="shadow-one"
@@ -242,10 +263,22 @@ const RegisteredUsers = () => {
                       </div>
                     </DialogContent>
                     <DialogActions>
-                      <Button>
+                      <Button
+                      onClick={()=>{
+                        setEditUserData({
+                          namesurname: null,
+                          companyname: null,
+                          address: null,
+                          phoneNumber: null,
+                          emailAddress: null,
+                          companyType: null
+                        });
+                        setEditUserDialog(false);
+                      }}
+                      >
                         Mbyll
                       </Button>
-                      <Button>
+                      <Button onClick={submitEditUser}>
                         Edito
                       </Button>
                     </DialogActions>
