@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, TextField, useMediaQuery } from "@mui/material";
 import { FileUploader } from "react-drag-drop-files";
 import { useTheme } from "@mui/material/styles";
+import { Snackbar } from "@mui/material";
 
 
 
@@ -44,7 +45,18 @@ const RegisteredUsers = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarData, setSnackbarData] = useState({ title: "", message: "" });
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
   useEffect(() => {
+    setLoading(true);
     axios
       .get("https://ecommerce-kosova-server.onrender.com/getusers")
       .then((res) => {
@@ -101,24 +113,134 @@ const RegisteredUsers = () => {
   };
 
   const editUser = (user) => {
-    console.log(user)
-    setEditUserData(user);
+    setEditUserData({
+      id: user.id,
+      namesurname: user.namesurname,
+      companyname: user.companyname,
+      companyAddress: user.address,
+      phoneNumber: user.phoneNumber,
+      emailAddress: user.emailAddress,
+      companyType: user.companyType
+    });
     setEditUserDialog(true);
+    setPreviousUserData({
+      clientCompanyname: user.companyname,
+      distributorCompanyName: user.companyname,
+    })
   };
 
   const [editUserDialog, setEditUserDialog] = useState(false);
+
+  const [previousUserData, setPreviousUserData] = useState({
+    clientCompanyname: null,
+    distributorCompanyName: null,
+  })
+
   const [editUserData, setEditUserData] = useState(
     {
+      id: null,
       namesurname: null,
       companyname: null,
-      address: null,
+      companyAddress: null,
       phoneNumber: null,
+      emailAddress: null,
       companyType: null,
     }
   );
 
   const submitEditUser = () => {
-    // function will be here
+    if (editUserData?.companyType == 'pranues') {
+      setLoading(true);
+      axios
+        .post(
+          `https://ecommerce-kosova-server.onrender.com/changeprofiledetailspranues/${editUserData?.id}`,
+          {
+            profileInfo: editUserData,
+            clientCompanyname: previousUserData.clientCompanyname,
+          }
+        )
+        .then((res) => {
+          const {
+            title,
+            message,
+          } = res.data;
+          setSnackbarData({
+            title: title,
+            message: message,
+          });
+          setSnackbarOpen(true);
+        })
+        .finally(() => {
+          setLoading(false);
+          setEditUserData({
+            id: null,
+            namesurname: null,
+            companyname: null,
+            companyAddress: null,
+            phoneNumber: null,
+            emailAddress: null,
+            companyType: null,
+          });
+          setEditUserDialog(false);
+          setPreviousUserData({
+            clientCompanyname: null,
+            distributorCompanyName: null,
+          });
+          axios
+              .get("https://ecommerce-kosova-server.onrender.com/getusers")
+              .then((res) => {
+                setUsersData(res.data);
+                setLoading(false);
+              });
+        });
+    } else if (editUserData?.companyType == 'distributor') {
+      setLoading(true);
+      axios
+        .post(
+          `https://ecommerce-kosova-server.onrender.com/changeprofiledetailsdistributor/${editUserData?.id}`,
+          {
+            profileInfo: editUserData,
+            distributorCompanyName: previousUserData.distributorCompanyName,
+          }
+        )
+        .then((res) => {
+          const {
+            title,
+            message,
+            companyname,
+            namesurname,
+            emailAddress,
+            companyAddress,
+            phoneNumber,
+          } = res.data;
+          setSnackbarData({
+            title: title,
+            message: message,
+          });
+          setSnackbarOpen(true);
+        })
+        .finally(() => {
+          setLoading(false);
+          setEditUserData({
+            id: null,
+            namesurname: null,
+            companyname: null,
+            companyAddress: null,
+            phoneNumber: null,
+            emailAddress: null,
+            companyType: null,
+          });
+          setEditUserDialog(false);
+          axios
+              .get("https://ecommerce-kosova-server.onrender.com/getusers")
+              .then((res) => {
+                setUsersData(res.data);
+                setLoading(false);
+              });
+        });
+    } else {
+      return;
+    }
   }
 
   const rows = usersData;
@@ -177,13 +299,18 @@ const RegisteredUsers = () => {
                     open={editUserDialog}
                     onClose={()=>{
                     setEditUserData({
+                      id: null,
                       namesurname: null,
                       companyname: null,
                       address: null,
                       phoneNumber: null,
                       emailAddress: null,
                       companyType: null
-                    })
+                    });
+                    setPreviousUserData({
+                      clientCompanyname: null,
+                      distributorCompanyName: null,
+                    });
                     setEditUserDialog(false);
                   }}>
                     <DialogTitle>
@@ -205,8 +332,8 @@ const RegisteredUsers = () => {
                       <TextField
                         className="shadow-one"
                         label="Adresa"
-                        value={editUserData.address}
-                        onChange={(e)=>{setEditUserData({...editUserData, address: e.target.value})}}
+                        value={editUserData.companyAddress}
+                        onChange={(e)=>{setEditUserData({...editUserData, companyAddress: e.target.value})}}
                       />
                       <TextField
                         className="shadow-one"
@@ -266,12 +393,17 @@ const RegisteredUsers = () => {
                       <Button
                       onClick={()=>{
                         setEditUserData({
+                          id: null,
                           namesurname: null,
                           companyname: null,
                           address: null,
                           phoneNumber: null,
                           emailAddress: null,
                           companyType: null
+                        });
+                        setPreviousUserData({
+                          clientCompanyname: null,
+                          distributorCompanyName: null,
                         });
                         setEditUserDialog(false);
                       }}

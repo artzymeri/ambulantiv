@@ -539,7 +539,6 @@ app.post("/changeprofiledetailsdistributor/:userId", async (req, res) => {
   try {
     const userToEdit = await users_table.findByPk(userId);
 
-    // Check if the phone number is used by another user
     const alreadyUserPhoneNumber = await users_table.findAll({
       where: {
         phoneNumber: phoneNumber,
@@ -556,7 +555,6 @@ app.post("/changeprofiledetailsdistributor/:userId", async (req, res) => {
           "Numri i vendosur është i përdorur më parë nga një përdorues tjetër",
       });
     } else {
-      // Update user details
       userToEdit.namesurname = namesurname;
       userToEdit.companyname = companyname;
       userToEdit.phoneNumber = phoneNumber;
