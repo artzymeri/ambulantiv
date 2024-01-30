@@ -21,7 +21,7 @@ const OrderActiveItem = (props) => {
     createdAt,
   } = props.order;
 
-  const { triggerUseEffect, updateStateInSideBar, editOrderDialog } = props;
+  const { triggerUseEffect, updateStateInSideBar, editOrderDialog, activateDisplayOrder } = props;
 
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(false);

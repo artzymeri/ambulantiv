@@ -136,6 +136,29 @@ const OrdersView = () => {
 
   const groupedOrders = groupOrdersByDate(filteredOrders);
 
+
+  const [displayOrder, setDisplayOrder] = useState(null);
+  const [displayOrderDialog, setDisplayOrderDialog] = useState(false);
+
+  const activateDisplayOrder = (order) => {
+    console.log(order)
+    setDisplayOrder(order);
+    setDisplayOrderDialog(true);
+  }
+
+  const totalPriceOfOrder = () => {
+    if (displayOrder == null) {
+      return;
+    }
+    let totalPrice = 0;
+    for (const product of JSON.parse(displayOrder.products)) {
+       totalPrice = totalPrice + parseFloat(product.totalPrice);
+    }
+    return (
+      totalPrice.toFixed(2)
+    )
+  }
+
   return (
     isClient &&
     (loading ? (
@@ -207,6 +230,49 @@ const OrdersView = () => {
               }}
             >
               Kalkulo
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={displayOrderDialog} onClose={()=>{
+          setDisplayOrder(null);
+          setDisplayOrderDialog(false);
+        }}>
+          <DialogTitle borderBottom={"1px solid lightgray"}>
+            Përmbajtja e Porosisë
+          </DialogTitle>
+          <DialogContent style={{paddingTop: '20px', background: 'whitesmoke', display: 'flex', flexDirection: 'column', gap: '20px'}}>
+            {displayOrder && displayOrder !== null ? JSON.parse(displayOrder.products).map((product, index)=>{
+              return (
+                <div key={index} style={{background: "white", padding: '10px 20px', display: 'flex', border: '1px solid lightgray', borderRadius: '4px', justifyContent: 'space-between', gap: '15px'}}>
+                  <h6>{product.name}</h6>
+                  <div style={{display: 'flex', gap: '8px'}}>
+                    <h6>{product.quantity}</h6>
+                    <h6>x</h6>
+                    <h6>{product.price}€</h6>
+                    <h6>=</h6>
+                    <h6>{product.totalPrice}€</h6>
+                  </div>
+                </div>
+              )
+            }) : null}
+          <div style={{display: 'flex', width: '100%', padding: '10px 20px', justifyContent: 'center', alignItems: 'center', background: 'white'}}>
+            Totali i Porosisë:
+            <span style={{fontWeight: 'bold', marginLeft: '5px'}}>
+              {totalPriceOfOrder()}
+              {' '}€
+            </span>
+          </div>
+          </DialogContent>
+          <DialogActions
+            style={{ borderTop: "1px solid lightgray", padding: "20px" }}
+          >
+            <Button
+              variant="outlined"
+              color="error"
+              fullWidth
+              onClick={()=>{setDisplayOrderDialog(false)}}
+            >
+              Mbyll
             </Button>
           </DialogActions>
         </Dialog>
@@ -310,7 +376,10 @@ const OrdersView = () => {
                 </h6>
               </div>
               {orders.map((order) => (
-                <OrderItem key={order.id} order={order} />
+                <OrderItem
+                  key={order.id} order={order}
+                  activateDisplayOrder={activateDisplayOrder}
+                />
               ))}
             </div>
           ))}

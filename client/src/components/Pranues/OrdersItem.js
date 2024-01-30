@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "@/styling/Pranues/ordersitem.css";
 import { Button, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
-import { Download } from "@mui/icons-material";
+import { Download, Info } from "@mui/icons-material";
 import axios from "axios";
 
 const OrderItem = (props) => {
@@ -19,6 +19,8 @@ const OrderItem = (props) => {
     products,
     createdAt,
   } = props.order;
+
+  const { activateDisplayOrder } = props;
 
   const [isClient, setIsClient] = useState(false);
 
@@ -84,6 +86,17 @@ const OrderItem = (props) => {
             <h5>{formattedCreatedAt}</h5>
           </div>
           <div className="orders-row-right-r">
+            <Tooltip title="Shiko detajet e porosisë">
+              <Button
+                onClick={()=>{
+                  activateDisplayOrder(props.order)
+                }}
+                variant="contained"
+                color="warning"
+              >
+                <Info />
+              </Button>
+            </Tooltip>
             <Tooltip title="Sharko faturën e porosisë">
               <Button
                 onClick={() => {

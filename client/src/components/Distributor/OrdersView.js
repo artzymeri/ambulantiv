@@ -167,6 +167,7 @@ const OrdersView = ({ updateStateInSideBar }) => {
     setTotalSumOfOrder(totalSum);
   }, [editedOrder]);
 
+
   return (
     isClient &&
     (!loading ? (
