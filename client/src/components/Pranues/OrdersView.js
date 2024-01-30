@@ -239,11 +239,11 @@ const OrdersView = () => {
           </DialogActions>
         </Dialog>
         <Dialog
+          fullScreen={fullScreen}
           open={displayOrderDialog}
           onClose={()=>{
           setDisplayOrder(null);
           setDisplayOrderDialog(false);
-          fullScreen={fullScreen}
         }}>
           <DialogTitle borderBottom={"1px solid lightgray"}>
             Përmbajtja e Porosisë
