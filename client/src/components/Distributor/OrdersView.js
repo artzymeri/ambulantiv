@@ -167,7 +167,6 @@ const OrdersView = ({ updateStateInSideBar }) => {
     setTotalSumOfOrder(totalSum);
   }, [editedOrder]);
 
-
   return (
     isClient &&
     (!loading ? (
@@ -286,9 +285,10 @@ const OrdersView = ({ updateStateInSideBar }) => {
                   )
                   .then((res) => {
                     setCompanyProducts(res.data);
-                  }).finally(()=>{
-                    setLoading(false)
                   })
+                  .finally(() => {
+                    setLoading(false);
+                  });
               }}
             >
               Shto Produkt
@@ -368,140 +368,146 @@ const OrdersView = ({ updateStateInSideBar }) => {
             }}
           >
             {companyProducts && companyProducts.length > 0 ? (
-              companyProducts.map((product, index) => {
-                return (
-                  <div
-                    key={index}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      background: "whitesmoke",
-                      alignItems: "center",
-                      borderRadius: "13px",
-                      border: "1px solid lightgray",
-                    }}
-                  >
+              companyProducts
+                .filter((product) => {
+                  return !editedOrder.products
+                    .map((currentProduct) => currentProduct.id)
+                    .includes(product.id);
+                })
+                .map((product, index) => {
+                  return (
                     <div
+                      key={index}
                       style={{
                         display: "flex",
-                        height: "80px",
-                        alignItems: "center",
                         justifyContent: "space-between",
-                        width: "100%",
-                        gap: "50px",
-                        paddingRight: "15px",
+                        background: "whitesmoke",
+                        alignItems: "center",
+                        borderRadius: "13px",
+                        border: "1px solid lightgray",
                       }}
                     >
                       <div
                         style={{
                           display: "flex",
-                          height: "100%",
+                          height: "80px",
                           alignItems: "center",
+                          justifyContent: "space-between",
+                          width: "100%",
+                          gap: "50px",
+                          paddingRight: "15px",
                         }}
                       >
-                        <img
-                          src={product.photo}
-                          style={{
-                            height: "75%",
-                            aspectRatio: "1 / 1",
-                            marginLeft: "3px",
-                            objectFit: "contain",
-                          }}
-                        />
                         <div
                           style={{
                             display: "flex",
-                            flexDirection: "column",
                             height: "100%",
-                            justifyContent: "center",
-                            gap: "10px",
-                            color: "darkslategray",
-                            marginLeft: "10px",
-                          }}
-                        >
-                          <h4>{product.name}</h4>
-                          <h4>{product.weight}</h4>
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "15px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "4px",
                             alignItems: "center",
                           }}
                         >
-                          <h5>{product.price}€</h5>
-                          <h6>x</h6>
-                          <input
-                            type="number"
-                            style={{ width: "70px" }}
-                            value={tempQuantities[product.id] || ""}
-                            onChange={(e) => {
-                              setTempQuantities((prevQuantities) => ({
-                                ...prevQuantities,
-                                [product.id]: parseInt(e.target.value, 10),
-                              }));
+                          <img
+                            src={product.photo}
+                            style={{
+                              height: "75%",
+                              aspectRatio: "1 / 1",
+                              marginLeft: "3px",
+                              objectFit: "contain",
                             }}
                           />
-                        </div>
-                        <h3>=</h3>
-                        <h3>{}€</h3> {/* this is formally put here */}
-                        <Tooltip title="Klikoni për të shtuar produktin">
-                          <Button
-                            variant="contained"
-                            style={{ minWidth: "30px" }}
-                            onClick={() => {
-                              const newQuantity =
-                                tempQuantities[product.id] || 1;
-                              const newTotalPrice = (
-                                newQuantity * product.price
-                              ).toFixed(2);
-
-                              const newProduct = {
-                                id: product.id,
-                                name: product.name,
-                                price: product.price,
-                                weight: product.weight,
-                                quantity: newQuantity,
-                                discounted: product.discounted,
-                                discountedPercentage:
-                                  product.discountedPercentage,
-                                totalPrice: newTotalPrice,
-                              };
-                              const oldOrder = ordersList.find((order) => {
-                                return order.id == editedOrder.id;
-                              });
-                              const parsedProducts = JSON.parse(
-                                oldOrder.products
-                              );
-                              parsedProducts.push(newProduct);
-                              oldOrder.products =
-                                JSON.stringify(parsedProducts);
-                              setTempQuantities({});
-                              setAddProductDialogOpen(false);
-                              setEditOrderDialogOpen(false);
-                              axios.post(
-                                `https://ecommerce-kosova-server.onrender.com/changeorder/${oldOrder.id}`,
-                                { editedOrder: oldOrder }
-                              );
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              height: "100%",
+                              justifyContent: "center",
+                              gap: "10px",
+                              color: "darkslategray",
+                              marginLeft: "10px",
                             }}
                           >
-                            <Add />
-                          </Button>
-                        </Tooltip>
+                            <h4>{product.name}</h4>
+                            <h4>{product.weight}</h4>
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "15px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "4px",
+                              alignItems: "center",
+                            }}
+                          >
+                            <h5>{product.price}€</h5>
+                            <h6>x</h6>
+                            <input
+                              type="number"
+                              style={{ width: "70px" }}
+                              value={tempQuantities[product.id] || ""}
+                              onChange={(e) => {
+                                setTempQuantities((prevQuantities) => ({
+                                  ...prevQuantities,
+                                  [product.id]: parseInt(e.target.value, 10),
+                                }));
+                              }}
+                            />
+                          </div>
+                          <h3>=</h3>
+                          <h3>{}€</h3> {/* this is formally put here */}
+                          <Tooltip title="Klikoni për të shtuar produktin">
+                            <Button
+                              variant="contained"
+                              style={{ minWidth: "30px" }}
+                              onClick={() => {
+                                const newQuantity =
+                                  tempQuantities[product.id] || 1;
+                                const newTotalPrice = (
+                                  newQuantity * product.price
+                                ).toFixed(2);
+
+                                const newProduct = {
+                                  id: product.id,
+                                  name: product.name,
+                                  price: product.price,
+                                  weight: product.weight,
+                                  quantity: newQuantity,
+                                  discounted: product.discounted,
+                                  discountedPercentage:
+                                    product.discountedPercentage,
+                                  totalPrice: newTotalPrice,
+                                };
+                                const oldOrder = ordersList.find((order) => {
+                                  return order.id == editedOrder.id;
+                                });
+                                const parsedProducts = JSON.parse(
+                                  oldOrder.products
+                                );
+                                parsedProducts.push(newProduct);
+                                oldOrder.products =
+                                  JSON.stringify(parsedProducts);
+                                setTempQuantities({});
+                                setAddProductDialogOpen(false);
+                                setEditOrderDialogOpen(false);
+                                axios.post(
+                                  `https://ecommerce-kosova-server.onrender.com/changeorder/${oldOrder.id}`,
+                                  { editedOrder: oldOrder }
+                                );
+                              }}
+                            >
+                              <Add />
+                            </Button>
+                          </Tooltip>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })
+                  );
+                })
             ) : (
               <p>Nuk ka produkte kompania juaj!</p>
             )}
