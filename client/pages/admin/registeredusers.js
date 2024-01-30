@@ -120,7 +120,8 @@ const RegisteredUsers = () => {
       companyAddress: user.address,
       phoneNumber: user.phoneNumber,
       emailAddress: user.emailAddress,
-      companyType: user.companyType
+      companyType: user.companyType,
+      companyLogo: user.companyLogo
     });
     setEditUserDialog(true);
     setPreviousUserData({
@@ -145,6 +146,7 @@ const RegisteredUsers = () => {
       phoneNumber: null,
       emailAddress: null,
       companyType: null,
+      companyLogo: null,
     }
   );
 
@@ -180,6 +182,7 @@ const RegisteredUsers = () => {
             phoneNumber: null,
             emailAddress: null,
             companyType: null,
+            companyLogo: null,
           });
           setEditUserDialog(false);
           setPreviousUserData({
@@ -229,6 +232,7 @@ const RegisteredUsers = () => {
             phoneNumber: null,
             emailAddress: null,
             companyType: null,
+            companyLogo: null,
           });
           setEditUserDialog(false);
           axios
@@ -264,7 +268,7 @@ const RegisteredUsers = () => {
     setFile(file);
     fileReader.readAsDataURL(file);
     fileReader.onload = (e) => {
-      setRegisterInfo({ ...regsiterInfo, companyLogo: e.target.result });
+      setEditUserData({ ...editUserData, companyLogo: e.target.result });
     };
   };
 
@@ -305,7 +309,8 @@ const RegisteredUsers = () => {
                       address: null,
                       phoneNumber: null,
                       emailAddress: null,
-                      companyType: null
+                      companyType: null,
+                      companyLogo: null
                     });
                     setPreviousUserData({
                       clientCompanyname: null,
@@ -316,7 +321,7 @@ const RegisteredUsers = () => {
                     <DialogTitle>
                       Edito Userin
                     </DialogTitle>
-                    <DialogContent>
+                    <DialogContent style={{display: 'flex', flexDirection: 'column', paddingTop: '20px', gap: '20px'}}>
                       <TextField
                         className="shadow-one"
                         label="Emri"
@@ -399,7 +404,8 @@ const RegisteredUsers = () => {
                           address: null,
                           phoneNumber: null,
                           emailAddress: null,
-                          companyType: null
+                          companyType: null,
+                          companyLogo: null
                         });
                         setPreviousUserData({
                           clientCompanyname: null,
