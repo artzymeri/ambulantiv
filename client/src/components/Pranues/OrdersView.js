@@ -21,10 +21,15 @@ import {
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useTheme } from "@mui/material/styles";
+
 
 const OrdersView = () => {
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const [ordersList, setOrdersList] = useState([]);
   const [distributorsList, setDistributorsList] = useState([]);
@@ -233,9 +238,12 @@ const OrdersView = () => {
             </Button>
           </DialogActions>
         </Dialog>
-        <Dialog open={displayOrderDialog} onClose={()=>{
+        <Dialog
+          open={displayOrderDialog}
+          onClose={()=>{
           setDisplayOrder(null);
           setDisplayOrderDialog(false);
+          fullScreen={fullScreen}
         }}>
           <DialogTitle borderBottom={"1px solid lightgray"}>
             Përmbajtja e Porosisë

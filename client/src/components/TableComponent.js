@@ -12,6 +12,7 @@ const TableComponent = (props) => {
     approveRequest,
     deleteRequest,
     deleteUser,
+    editUser,
     searchInput,
     deleteProduct,
     handleOpenDialog,
@@ -180,6 +181,12 @@ const TableComponent = (props) => {
                   )}
                   {props.registeredButtons && (
                     <div className="table-row-buttons">
+                      <Button
+                        variant="contained"
+                        onClick={() => editUser(row)}
+                      >
+                        Edito
+                      </Button>
                       <Button
                         variant="outlined"
                         color="error"
