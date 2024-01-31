@@ -192,9 +192,10 @@ const Register = () => {
               {snackbarData.message}
             </MuiAlert>
           </Snackbar>
+          <div className="login-and-register-background"></div>
           <Box
             sx={{
-              backgroundColor: "background.paper",
+              backgroundColor: "transparent",
               flex: "1 1 auto",
               alignItems: "center",
               display: "flex",
@@ -207,6 +208,7 @@ const Register = () => {
                 px: 3,
                 py: "100px",
                 width: "100%",
+                zIndex: "999",
               }}
             >
               <div>
@@ -243,7 +245,7 @@ const Register = () => {
                     <Link
                       href="/auth/login"
                       variant="subtitle2"
-                      className="register-login-button-link"
+                      className="register-login-button-link shadow-two"
                     >
                       Kyçu
                     </Link>
@@ -251,6 +253,7 @@ const Register = () => {
                 </Stack>
                 <Stack spacing={3}>
                   <TextField
+                    style={{ background: "white" }}
                     className="shadow-one b-5"
                     fullWidth
                     error={textFieldProps.namesurnameError}
@@ -274,6 +277,7 @@ const Register = () => {
                     }
                   />
                   <TextField
+                    style={{ background: "white" }}
                     className="shadow-one b-5"
                     fullWidth
                     error={textFieldProps.companynameError}
@@ -297,6 +301,7 @@ const Register = () => {
                     onKeyPress={handleKeyPress}
                   />
                   <TextField
+                    style={{ background: "white" }}
                     className="shadow-one b-5"
                     fullWidth
                     error={textFieldProps.addressError}
@@ -320,6 +325,7 @@ const Register = () => {
                     onKeyPress={handleKeyPress}
                   />
                   <TextField
+                    style={{ background: "white" }}
                     className="shadow-one b-5"
                     fullWidth
                     error={textFieldProps.phoneNumberError}
@@ -346,6 +352,7 @@ const Register = () => {
                     onKeyPress={handleKeyPress}
                   />
                   <TextField
+                    style={{ background: "white" }}
                     className="shadow-one b-5"
                     fullWidth
                     error={textFieldProps.emailAddressError}
@@ -376,6 +383,7 @@ const Register = () => {
                       Fjalëkalimi
                     </InputLabel>
                     <OutlinedInput
+                      style={{ background: "white" }}
                       className="shadow-one b-5"
                       id="outlined-adornment-password"
                       size="small"
@@ -414,6 +422,7 @@ const Register = () => {
                     style={{
                       padding: "10px",
                       border: "1px solid rgba(0, 0, 0, 0.25)",
+                      background: "white",
                     }}
                   >
                     <FormLabel id="demo-row-radio-buttons-group-label">
@@ -474,7 +483,7 @@ const Register = () => {
                 </Stack>
                 {loading ? (
                   <Button
-                    className="shadow-one"
+                    className="shadow-two"
                     fullWidth
                     size="large"
                     sx={{ mt: 3 }}
@@ -486,7 +495,7 @@ const Register = () => {
                   </Button>
                 ) : (
                   <Button
-                    className="shadow-one"
+                    className="shadow-two"
                     fullWidth
                     size="large"
                     sx={{ mt: 3 }}
