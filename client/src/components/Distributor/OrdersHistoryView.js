@@ -626,47 +626,49 @@ const OrdersView = () => {
         </div>
         <div className="orders-view-items-wrapper">
           {filteredOrders && filteredOrders.length > 0 ? (
-            Object.entries(groupedOrders).map(([date, orders]) => (
-              <div
-                key={date}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                }}
-              >
+            Object.entries(groupedOrders)
+              .sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA))
+              .map(([date, orders]) => (
                 <div
+                  key={date}
                   style={{
                     display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%",
+                    flexDirection: "column",
+                    gap: "10px",
                   }}
                 >
-                  <h6
+                  <div
                     style={{
-                      marginBottom: "0px",
-                      marginTop: "3px",
-                      width: "80px",
-                      textAlign: "center",
-                      background: "white",
-                      padding: "10px",
-                      border: "1px solid lightgray",
-                      borderRadius: "20px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "100%",
                     }}
                   >
-                    {date}
-                  </h6>
+                    <h6
+                      style={{
+                        marginBottom: "0px",
+                        marginTop: "3px",
+                        width: "80px",
+                        textAlign: "center",
+                        background: "white",
+                        padding: "10px",
+                        border: "1px solid lightgray",
+                        borderRadius: "20px",
+                      }}
+                    >
+                      {date}
+                    </h6>
+                  </div>
+                  {orders.map((order) => (
+                    <OrderInActiveItem
+                      key={order.id}
+                      order={order}
+                      editOrderDialog={editOrderDialog}
+                    />
+                  ))}
                 </div>
-                {orders.map((order) => (
-                  <OrderInActiveItem
-                    key={order.id}
-                    order={order}
-                    editOrderDialog={editOrderDialog}
-                  />
-                ))}
-              </div>
-            ))
+              ))
           ) : (
             <div
               style={{

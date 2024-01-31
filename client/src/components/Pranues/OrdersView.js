@@ -24,7 +24,6 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useTheme } from "@mui/material/styles";
 
-
 const OrdersView = () => {
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -142,15 +141,14 @@ const OrdersView = () => {
 
   const groupedOrders = groupOrdersByDate(filteredOrders);
 
-
   const [displayOrder, setDisplayOrder] = useState(null);
   const [displayOrderDialog, setDisplayOrderDialog] = useState(false);
 
   const activateDisplayOrder = (order) => {
-    console.log(order)
+    console.log(order);
     setDisplayOrder(order);
     setDisplayOrderDialog(true);
-  }
+  };
 
   const totalPriceOfOrder = () => {
     if (displayOrder == null) {
@@ -158,12 +156,10 @@ const OrdersView = () => {
     }
     let totalPrice = 0;
     for (const product of JSON.parse(displayOrder.products)) {
-       totalPrice = totalPrice + parseFloat(product.totalPrice);
+      totalPrice = totalPrice + parseFloat(product.totalPrice);
     }
-    return (
-      totalPrice.toFixed(2)
-    )
-  }
+    return totalPrice.toFixed(2);
+  };
 
   return (
     isClient &&
@@ -242,35 +238,65 @@ const OrdersView = () => {
         <Dialog
           fullScreen={fullScreen}
           open={displayOrderDialog}
-          onClose={()=>{
-          setDisplayOrder(null);
-          setDisplayOrderDialog(false);
-        }}>
+          onClose={() => {
+            setDisplayOrder(null);
+            setDisplayOrderDialog(false);
+          }}
+        >
           <DialogTitle borderBottom={"1px solid lightgray"}>
             Përmbajtja e Porosisë
           </DialogTitle>
-          <DialogContent style={{paddingTop: '20px', background: 'whitesmoke', display: 'flex', flexDirection: 'column', gap: '20px'}}>
-            {displayOrder && displayOrder !== null ? JSON.parse(displayOrder.products).map((product, index)=>{
-              return (
-                <div key={index} style={{background: "white", padding: '10px 20px', display: 'flex', border: '1px solid lightgray', borderRadius: '4px', justifyContent: 'space-between', gap: '15px'}}>
-                  <h6>{product.name}</h6>
-                  <div style={{display: 'flex', gap: '8px'}}>
-                    <h6>{product.quantity}</h6>
-                    <h6>x</h6>
-                    <h6>{product.price}€</h6>
-                    <h6>=</h6>
-                    <h6>{product.totalPrice}€</h6>
-                  </div>
-                </div>
-              )
-            }) : null}
-          <div style={{display: 'flex', width: '100%', padding: '10px 20px', justifyContent: 'center', alignItems: 'center', background: 'white'}}>
-            Totali i Porosisë:
-            <span style={{fontWeight: 'bold', marginLeft: '5px'}}>
-              {totalPriceOfOrder()}
-              {' '}€
-            </span>
-          </div>
+          <DialogContent
+            style={{
+              paddingTop: "20px",
+              background: "whitesmoke",
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+            }}
+          >
+            {displayOrder && displayOrder !== null
+              ? JSON.parse(displayOrder.products).map((product, index) => {
+                  return (
+                    <div
+                      key={index}
+                      style={{
+                        background: "white",
+                        padding: "10px 20px",
+                        display: "flex",
+                        border: "1px solid lightgray",
+                        borderRadius: "4px",
+                        justifyContent: "space-between",
+                        gap: "15px",
+                      }}
+                    >
+                      <h6>{product.name}</h6>
+                      <div style={{ display: "flex", gap: "8px" }}>
+                        <h6>{product.quantity}</h6>
+                        <h6>x</h6>
+                        <h6>{product.price}€</h6>
+                        <h6>=</h6>
+                        <h6>{product.totalPrice}€</h6>
+                      </div>
+                    </div>
+                  );
+                })
+              : null}
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                padding: "10px 20px",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "white",
+              }}
+            >
+              Totali i Porosisë:
+              <span style={{ fontWeight: "bold", marginLeft: "5px" }}>
+                {totalPriceOfOrder()} €
+              </span>
+            </div>
           </DialogContent>
           <DialogActions
             style={{ borderTop: "1px solid lightgray", padding: "20px" }}
@@ -279,7 +305,9 @@ const OrdersView = () => {
               variant="outlined"
               color="error"
               fullWidth
-              onClick={()=>{setDisplayOrderDialog(false)}}
+              onClick={() => {
+                setDisplayOrderDialog(false);
+              }}
             >
               Mbyll
             </Button>
@@ -356,42 +384,49 @@ const OrdersView = () => {
           )}
         </div>
         <div className="orders-view-items-wrapper">
-          {Object.entries(groupedOrders).map(([date, orders]) => (
-            <div
-              key={date}
-              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-            >
+          {Object.entries(groupedOrders)
+            .sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA))
+            .map(([date, orders]) => (
               <div
+                key={date}
                 style={{
                   display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "100%",
+                  flexDirection: "column",
+                  gap: "10px",
                 }}
               >
-                <h6
+                <div
                   style={{
-                    marginBottom: "0px",
-                    marginTop: "3px",
-                    width: "80px",
-                    textAlign: "center",
-                    background: "white",
-                    padding: "10px",
-                    border: "1px solid lightgray",
-                    borderRadius: "20px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
                   }}
                 >
-                  {date}
-                </h6>
+                  <h6
+                    style={{
+                      marginBottom: "0px",
+                      marginTop: "3px",
+                      width: "80px",
+                      textAlign: "center",
+                      background: "white",
+                      padding: "10px",
+                      border: "1px solid lightgray",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    {date}
+                  </h6>
+                </div>
+                {orders.map((order) => (
+                  <OrderItem
+                    key={order.id}
+                    order={order}
+                    activateDisplayOrder={activateDisplayOrder}
+                  />
+                ))}
               </div>
-              {orders.map((order) => (
-                <OrderItem
-                  key={order.id} order={order}
-                  activateDisplayOrder={activateDisplayOrder}
-                />
-              ))}
-            </div>
-          ))}
+            ))}
         </div>
         {filteredOrders && filteredOrders.length > 0 ? (
           <Button
