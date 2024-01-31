@@ -739,7 +739,7 @@ app.post("/sendorder", async (req, res) => {
         <p>Kliko këtu për të shikuar porositë e juaja aktive : 
           <a href="https://ecommerce-kosova.vercel.app/distributor/orders">Porositë</a>
         </p>
-        <img src="${base64Data}" alt="Company Logo">
+        <img src="data:image/png;base64,${base64Data}" alt="Company Logo">
       `,
       },
       (error, info) => {
@@ -761,7 +761,7 @@ app.post("/sendorder", async (req, res) => {
         <p>Kliko këtu për të shikuar porositë e juaja aktive : 
           <a href="https://ecommerce-kosova.vercel.app/distributor/orders">Historiku i Porosive</a>
         </p>
-        <img src="${base64Data}" alt="Company Logo">
+        <img src="data:image/png;base64,${base64Data}" alt="Company Logo">
       `,
       },
       (error, info) => {
