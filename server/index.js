@@ -10,7 +10,8 @@ const fs = require("fs");
 const PDFDocument = require("pdfkit");
 const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
-import ecommercekosovaLogo from './e-commerceKosovaLogo.png'
+const ecommercekosovaLogo = require('./e-commerceKosovaLogo.png');
+
 
 const {
   users_table,
