@@ -10,7 +10,7 @@ const fs = require("fs");
 const PDFDocument = require("pdfkit");
 const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
-const ecommercekosovaLogo = require('./e-commerceKosovaLogo.png');
+const image = './e-commerceKosovaLogo.png';
 
 
 const {
@@ -723,6 +723,12 @@ app.post("/sendorder", async (req, res) => {
       products: JSON.stringify(order.products),
     });
 
+    const imageBuffer = fs.readFileSync(image);
+
+    const base64Data = imageBuffer.toString('base64');
+
+
+
     transporter.sendMail(
       {
         from: "ecommerce.kosova.info@gmail.com",
@@ -733,7 +739,7 @@ app.post("/sendorder", async (req, res) => {
         <p>Kliko këtu për të shikuar porositë e juaja aktive : 
           <a href="https://ecommerce-kosova.vercel.app/distributor/orders">Porositë</a>
         </p>
-        <img src=${ecommercekosovaLogo} alt="Company Logo">
+        <img src=${base64Data} alt="Company Logo">
       `,
       },
       (error, info) => {
