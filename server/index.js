@@ -10,6 +10,7 @@ const fs = require("fs");
 const PDFDocument = require("pdfkit");
 const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
+import ecommercekosovaLogo from './e-commerceKosovaLogo.png'
 
 const {
   users_table,
@@ -726,9 +727,13 @@ app.post("/sendorder", async (req, res) => {
         from: "ecommerce.kosova.info@gmail.com",
         to: `${distributorEmailAddress}`,
         subject: "Keni porosi të re!",
-        text: `Keni porosi nga ${clientName}.
-Kliko këtu për të shikuar porositë e juaja aktive : https://ecommerce-kosova.vercel.app/distributor/orders
-        `,
+        html:`
+        <p><b>Keni porosi nga ${clientCompanyname}.</b></p>
+        <p>Kliko këtu për të shikuar porositë e juaja aktive : 
+          <a href="https://ecommerce-kosova.vercel.app/distributor/orders">Porositë</a>
+        </p>
+        <img src=${ecommercekosovaLogo} alt="Company Logo">
+      `,
       },
       (error, info) => {
         if (error) {
