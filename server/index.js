@@ -756,9 +756,13 @@ app.post("/sendorder", async (req, res) => {
         from: "ecommerce.kosova.info@gmail.com",
         to: `${clientEmailAddress}`,
         subject: "Porosia juaj u dërgua me sukses!",
-        text: `Porosia juaj drejt ${order.distributor} u realizua me sukses.
-Kliko këtu për të shikuar historikun e porosive tuaja : https://ecommerce-kosova.vercel.app/distributor/orders
-        `,
+        html:`
+        <p><b>Porosia juaj drejt ${order.distributor} u realizua me sukses.</b></p>
+        <p>Kliko këtu për të shikuar porositë e juaja aktive : 
+          <a href="https://ecommerce-kosova.vercel.app/distributor/orders">Historiku i Porosive</a>
+        </p>
+        <img src=${base64Data} alt="Company Logo">
+      `,
       },
       (error, info) => {
         if (error) {
