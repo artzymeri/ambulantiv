@@ -4,6 +4,7 @@ import {
   Add,
   Cancel,
   Delete,
+  History,
   LocalShipping,
   Refresh,
 } from "@mui/icons-material";
@@ -578,7 +579,7 @@ const OrdersView = () => {
           </DialogActions>
         </Dialog>
         <div className="orders-view-navbar">
-          <LocalShipping sx={{ color: "rgb(130, 30, 30)" }} />
+          <History sx={{ color: "rgb(130, 30, 30)" }} />
           <h3 style={{ color: "rgb(130, 30, 30)" }}>Historiku i Porosive</h3>
         </div>
         <div className="orders-view-navbar" style={{ borderTop: "0px" }}>

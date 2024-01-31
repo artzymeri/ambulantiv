@@ -9,13 +9,10 @@ import {
   List,
   LocalShipping,
   LogoutOutlined,
-  Person,
-  ShoppingBag,
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Cookies from "js-cookie";
-import stateStorage from "@/store";
 
 const DistributorSideBar = (props) => {
   const { display, closeSidebar, someState } = props;
