@@ -761,7 +761,7 @@ app.post("/sendorder", async (req, res) => {
         <p>Kliko këtu për të shikuar porositë e juaja aktive : 
           <a href="https://ecommerce-kosova.vercel.app/distributor/orders">Historiku i Porosive</a>
         </p>
-        <img src=${base64Data} alt="Company Logo">
+        <img src="${base64Data}" alt="Company Logo">
       `,
       },
       (error, info) => {
