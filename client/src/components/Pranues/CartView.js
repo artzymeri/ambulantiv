@@ -69,114 +69,117 @@ const CartView = () => {
     setCartProductsList(updatedCartItems);
   };
 
-  const orderAll = () => {
-    const productsToOrder = cartProductsList.filter((product) =>
-      listedProducts.some(
-        (listedProduct) =>
-          !listedProduct.outOfStock && listedProduct.name === product.name
-      )
-    );
+  const orderAll = async () => {
+    setLoading(true);
+    try {
+      const productsToOrder = cartProductsList.filter((product) =>
+        listedProducts.some(
+          (listedProduct) =>
+            !listedProduct.outOfStock && listedProduct.name === product.name
+        )
+      );
 
-    if (productsToOrder.length === 0) {
-      // Handle the case where all products are disabled
-      setSnackbarData({
-        title: "warning",
-        message: "Nuk ka produkte të disponueshme për të porositur",
-      });
-      setSnackbarOpen(true);
-      return;
-    }
-
-    const ordersArray = [];
-
-    for (const cartProduct of productsToOrder) {
-      const existingOrder = ordersArray.find((order) => {
-        return order.distributor === cartProduct.distributor;
-      });
-      if (existingOrder) {
-        existingOrder.products.push({
-          id: cartProduct.id,
-          name: cartProduct.name,
-          price: cartProduct.price,
-          weight: cartProduct.weight,
-          quantity: cartProduct.quantity,
-          discounted: cartProduct.discounted,
-          discountedPercentage: cartProduct.discountedPercentage,
-          totalPrice: cartProduct.totalPrice,
+      if (productsToOrder.length === 0) {
+        // Handle the case where all products are disabled
+        setSnackbarData({
+          title: "warning",
+          message: "Nuk ka produkte të disponueshme për të porositur",
         });
-      } else {
-        ordersArray.push({
-          client: cartProduct.client,
-          distributor: cartProduct.distributor,
-          products: [
-            {
-              id: cartProduct.id,
-              name: cartProduct.name,
-              price: cartProduct.price,
-              weight: cartProduct.weight,
-              quantity: cartProduct.quantity,
-              discounted: cartProduct.discounted,
-              discountedPercentage: cartProduct.discountedPercentage,
-              totalPrice: cartProduct.totalPrice,
-            },
-          ],
-        });
+        setSnackbarOpen(true);
+        return;
       }
-    }
-    for (const order of ordersArray) {
-      try {
-        setLoading(true);
-        axios
-          .get(
-            `https://ecommerce-kosova-server.onrender.com/getdistributorcompanyaddress/${order.distributor}`
-          )
-          .then((res) => {
-            const distributorCompanyAddress = res.data[0].address;
-            const distributorEmailAddress = res.data[0].emailAddress;
-            axios
-              .post("https://ecommerce-kosova-server.onrender.com/sendorder", {
-                order,
-                distributorCompanyAddress,
-                distributorEmailAddress,
-                clientId: localStorage.getItem("userId"),
-                clientName: localStorage.getItem("namesurname"),
-                clientCompanyname: localStorage.getItem("companyname"),
-                clientCompanyAddress: localStorage.getItem("companyAddress"),
-                clientEmailAddress: localStorage.getItem("emailaddress"),
-              })
-              .then((res) => {
-                const { title, message } = res.data;
-                for (const product of order.products) {
-                  setCartProductsList((prevCartProductsList) => {
-                    const newArray = prevCartProductsList.filter(
-                      (p) => p.id !== product.id
-                    );
-                    localStorage.setItem(
-                      `clientId:${localStorage.getItem("userId")}/cartProducts`,
-                      JSON.stringify(newArray)
-                    );
-                    localStorage.removeItem(
-                      `clientId:${localStorage.getItem("userId")}/productId:${
-                        product.id
-                      }`
-                    );
-                    return newArray;
-                  });
-                }
-                setSnackbarData({
-                  title: title,
-                  message: message,
-                });
-                setSnackbarOpen(true);
-                stateStorage.updateCartItems();
-              });
-          })
-          .finally(() => {
-            setLoading(false);
+
+      const ordersArray = [];
+
+      for (const cartProduct of productsToOrder) {
+        const existingOrder = ordersArray.find((order) => {
+          return order.distributor === cartProduct.distributor;
+        });
+        if (existingOrder) {
+          existingOrder.products.push({
+            id: cartProduct.id,
+            name: cartProduct.name,
+            price: cartProduct.price,
+            weight: cartProduct.weight,
+            quantity: cartProduct.quantity,
+            discounted: cartProduct.discounted,
+            discountedPercentage: cartProduct.discountedPercentage,
+            totalPrice: cartProduct.totalPrice,
           });
-      } catch (error) {
-        console.log(error);
+        } else {
+          ordersArray.push({
+            client: cartProduct.client,
+            distributor: cartProduct.distributor,
+            products: [
+              {
+                id: cartProduct.id,
+                name: cartProduct.name,
+                price: cartProduct.price,
+                weight: cartProduct.weight,
+                quantity: cartProduct.quantity,
+                discounted: cartProduct.discounted,
+                discountedPercentage: cartProduct.discountedPercentage,
+                totalPrice: cartProduct.totalPrice,
+              },
+            ],
+          });
+        }
       }
+
+      await Promise.all(
+        ordersArray.map(async (order) => {
+          const res = await axios.get(
+            `https://ecommerce-kosova-server.onrender.com/getdistributorcompanyaddress/${order.distributor}`
+          );
+          const distributorCompanyAddress = res.data[0].address;
+          const distributorEmailAddress = res.data[0].emailAddress;
+
+          const response = await axios.post(
+            "https://ecommerce-kosova-server.onrender.com/sendorder",
+            {
+              order,
+              distributorCompanyAddress,
+              distributorEmailAddress,
+              clientId: localStorage.getItem("userId"),
+              clientName: localStorage.getItem("namesurname"),
+              clientCompanyname: localStorage.getItem("companyname"),
+              clientCompanyAddress: localStorage.getItem("companyAddress"),
+              clientEmailAddress: localStorage.getItem("emailaddress"),
+            }
+          );
+
+          const { title, message } = response.data;
+
+          for (const product of order.products) {
+            setCartProductsList((prevCartProductsList) => {
+              const newArray = prevCartProductsList.filter(
+                (p) => p.id !== product.id
+              );
+              localStorage.setItem(
+                `clientId:${localStorage.getItem("userId")}/cartProducts`,
+                JSON.stringify(newArray)
+              );
+              localStorage.removeItem(
+                `clientId:${localStorage.getItem("userId")}/productId:${
+                  product.id
+                }`
+              );
+              return newArray;
+            });
+          }
+
+          setSnackbarData({
+            title: title,
+            message: message,
+          });
+          setSnackbarOpen(true);
+          stateStorage.updateCartItems();
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
