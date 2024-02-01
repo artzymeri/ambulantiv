@@ -31,12 +31,15 @@ const PranuesCompaniesView = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredCompanies = useMemo(() => {
+    if (!searchQuery || searchQuery.length === 0) {
+      return distributorsList;
+    }
     return distributorsList.filter((distributor) =>
       distributor?.companyname
         ?.toLowerCase()
         .includes(searchQuery.toString().toLowerCase())
     );
-  }, [searchQuery]);
+  }, [searchQuery, distributorsList]);
 
   return (
     isClient &&

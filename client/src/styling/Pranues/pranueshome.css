@@ -38,8 +38,8 @@
 
 .pranues-home-latestproducts {
   width: 100%;
-  min-height: 330px;
-  max-height: 330px;
+  /* min-height: 330px;
+  max-height: 330px; */
   content: "";
   padding: 10px;
   background-color: whitesmoke;
