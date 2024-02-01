@@ -40,14 +40,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Define the email content
-const mailOptions = {
-  from: "ecommerce.kosova.info@gmail.com",
-  to: "artzymeri2001@gmail.com",
-  subject: "Test Subject",
-  text: "Hello, this is a test email!",
-};
-
 app.get("/getlistedproducts", async (req, res) => {
   try {
     const listedProducts = await listed_products.findAll();
