@@ -49,7 +49,7 @@
   .orders-row-right-r h5,
   .orders-row-right-l h5,
   .orders-row-right-l h5 span {
-    font-size: 10px !important;
+    display: none;
   }
   .orders-row {
     padding: 0px 10px !important;

@@ -93,13 +93,17 @@ const PranuesCompaniesView = () => {
               color: "rgb(130, 30, 30)",
             }}
           >
-            <div className="products-navbar-search-container">
+            <div
+              className="products-navbar-search-container"
+              style={{ width: "280px" }}
+            >
               <Search sx={{ color: "gray" }} />
               <input
                 onChange={(e) => setSearchQuery(e.target.value)}
                 type="text"
-                placeholder="Kërko produktet"
+                placeholder="Kërko kompanitë"
                 value={searchQuery}
+                style={{ width: "200px !important" }}
               />
             </div>
           </div>

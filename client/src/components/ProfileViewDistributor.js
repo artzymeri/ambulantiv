@@ -15,16 +15,21 @@ const {
   Dialog,
   DialogTitle,
   DialogActions,
+  useMediaQuery,
 } = require("@mui/material");
 import MuiAlert from "@mui/material/Alert";
 import Head from "next/head";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
 import { FileUploader } from "react-drag-drop-files";
+import { useTheme } from "@mui/material/styles";
 
 const ProfileViewDistributor = (props) => {
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     setIsClient(true);
@@ -233,6 +238,7 @@ const ProfileViewDistributor = (props) => {
           onClose={() => {
             setDialogPasswordOpen(false);
           }}
+          fullScreen={fullScreen}
         >
           <DialogTitle
             style={{
@@ -311,7 +317,14 @@ const ProfileViewDistributor = (props) => {
                 label="Password"
               />
             </FormControl>
-            <DialogActions>
+            <DialogActions
+              style={{
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
               <Button
                 variant="outlined"
                 color="error"
@@ -322,7 +335,7 @@ const ProfileViewDistributor = (props) => {
                 Mbyll
               </Button>
               <Button variant="contained" onClick={confirmNewPassword}>
-                Ndrysho Fjalëkalimin
+                Ndrysho
               </Button>
             </DialogActions>
           </div>

@@ -93,9 +93,21 @@
 
 @media (max-width: 1000px) {
   .products-navbar-search-container input {
-    width: 100px;
+    width: 110px;
   }
   .products-navbar-up h4 {
     font-size: 20px;
+  }
+}
+
+@media (max-width: 450px) {
+  .products-navbar-up h4 {
+    display: none;
+  }
+  .products-navbar-search-container {
+    width: 100%;
+  }
+  .products-navbar-search-container input {
+    width: 100% !important;
   }
 }

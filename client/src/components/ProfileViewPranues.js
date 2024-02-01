@@ -15,15 +15,20 @@ const {
   Dialog,
   DialogTitle,
   DialogActions,
+  useMediaQuery,
 } = require("@mui/material");
 import MuiAlert from "@mui/material/Alert";
 import Head from "next/head";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
+import { useTheme } from "@mui/material/styles";
 
 const ProfileViewPranues = (props) => {
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     setIsClient(true);
@@ -218,6 +223,7 @@ const ProfileViewPranues = (props) => {
           onClose={() => {
             setDialogPasswordOpen(false);
           }}
+          fullScreen={fullScreen}
         >
           <DialogTitle
             style={{
@@ -296,7 +302,14 @@ const ProfileViewPranues = (props) => {
                 label="Password"
               />
             </FormControl>
-            <DialogActions>
+            <DialogActions
+              style={{
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
               <Button
                 variant="outlined"
                 color="error"
@@ -307,7 +320,7 @@ const ProfileViewPranues = (props) => {
                 Mbyll
               </Button>
               <Button variant="contained" onClick={confirmNewPassword}>
-                Ndrysho Fjalëkalimin
+                Ndrysho
               </Button>
             </DialogActions>
           </div>
