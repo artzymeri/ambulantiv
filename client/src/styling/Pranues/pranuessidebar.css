@@ -130,7 +130,7 @@
   width: 100vw;
   height: 100dvh;
   position: absolute;
-  z-index: 999;
+  z-index: 9999;
   padding: 10px;
   transition: 0.2s ease-in-out;
 }
