@@ -313,3 +313,9 @@
     display: flex;
   }
 }
+
+@media (min-width: 1000px) {
+  .sidebar-distributor-fullscreen {
+    opacity: 0 !important;
+  }
+}

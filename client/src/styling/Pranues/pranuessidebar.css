@@ -121,6 +121,8 @@
   transform: translate(-50%, -50%);
 }
 
+
+
 .sidebar-pranues-fullscreen {
   display: none;
   flex-direction: column;
@@ -282,5 +284,10 @@
   }
   .sidebar-pranues-trigger-wrapper {
     display: flex;
+  }
+}
+@media (min-width: 1000px) {
+  .sidebar-pranues-fullscreen {
+    opacity: 0 !important;
   }
 }
